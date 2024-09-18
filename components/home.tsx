@@ -23,48 +23,8 @@ export function Home() {
       <header className="container mx-auto px-4 py-8">
         <nav className="flex justify-between items-center">
           <Link href="/" className="text-3xl font-bold text-gray-800 flex items-center">
-            <BookOpen className="w-8 h-8 mr-2 text-purple-600" />
-            <svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="gradient-c" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#3b82f6" />
-                  <stop offset="100%" stopColor="#8b5cf6" />
-                </linearGradient>
-                <linearGradient id="gradient-u" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#8b5cf6" />
-                  <stop offset="100%" stopColor="#ec4899" />
-                </linearGradient>
-                <linearGradient id="gradient-e" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#ec4899" />
-                  <stop offset="100%" stopColor="#ef4444" />
-                </linearGradient>
-                <linearGradient id="gradient-n" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#ef4444" />
-                  <stop offset="100%" stopColor="#f97316" />
-                </linearGradient>
-                <linearGradient id="gradient-t" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#f97316" />
-                  <stop offset="100%" stopColor="#eab308" />
-                </linearGradient>
-                <linearGradient id="gradient-i" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#eab308" />
-                  <stop offset="100%" stopColor="#22c55e" />
-                </linearGradient>
-                <linearGradient id="gradient-a" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#22c55e" />
-                  <stop offset="100%" stopColor="#3b82f6" />
-                </linearGradient>
-              </defs>
-              <text x="0" y="30" fontSize="30" fontWeight="bold" fontFamily="Arial, sans-serif">
-                <tspan fill="url(#gradient-c)">C</tspan>
-                <tspan fill="url(#gradient-u)">u</tspan>
-                <tspan fill="url(#gradient-e)">e</tspan>
-                <tspan fill="url(#gradient-n)">n</tspan>
-                <tspan fill="url(#gradient-t)">t</tspan>
-                <tspan fill="url(#gradient-i)">I</tspan>
-                <tspan fill="url(#gradient-a)">A</tspan>
-              </text>
-            </svg>
+            <BookOpen className="w-10 h-10 mr-2 text-sky-400" />
+            <p className={'bg-gradient-to-r from-sky-500 via-purple-800 to-red-600 bg-clip-text text-4xl font-bold text-transparent'}>CuentIA</p>
           </Link>
           <div className="space-x-4">
             <Link href="/login" className="text-gray-600 hover:text-purple-600">Iniciar sesión</Link>
@@ -78,7 +38,7 @@ export function Home() {
       <main>
         {/* Hero Section */}
         <section className="container mx-auto px-4 py-20 text-center">
-          <motion.h1 
+          <motion.h1
             className="text-5xl md:text-6xl font-bold text-gray-800 mb-6"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -86,7 +46,7 @@ export function Home() {
           >
             Crea cuentos mágicos con IA
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-xl text-gray-600 mb-8"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -94,9 +54,11 @@ export function Home() {
           >
             Personaliza historias únicas para tus hijos con la magia de la inteligencia artificial
           </motion.p>
-          <Button size="lg" className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 hover:from-red-600 hover:via-purple-600 hover:to-blue-600 text-white border-none transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
-            Comienza tu aventura
-          </Button>
+          <Link href="/register">
+            <Button size="lg" className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 hover:from-red-600 hover:via-purple-600 hover:to-blue-600 text-white border-none transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
+              Comienza tu aventura
+            </Button>
+          </Link>
         </section>
 
         {/* Features Section */}
@@ -109,7 +71,7 @@ export function Home() {
                 { icon: Sparkles, title: "Generación instantánea", description: "Obtén tu cuento en segundos gracias a nuestra IA" },
                 { icon: MessageCircle, title: "Narración por voz", description: "Escucha el cuento narrado con la voz que elijas" }
               ].map((feature, index) => (
-                <motion.div 
+                <motion.div
                   key={index}
                   className="bg-gradient-to-br from-white to-purple-50 p-6 rounded-lg shadow-md"
                   whileHover={{ scale: 1.05 }}
@@ -129,7 +91,7 @@ export function Home() {
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Cómo funciona</h2>
             <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
-              <motion.div 
+              <motion.div
                 className="bg-white p-6 rounded-lg shadow-lg max-w-sm"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
@@ -138,7 +100,7 @@ export function Home() {
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">1. Elige tus preferencias</h3>
                 <p className="text-gray-600">Selecciona el tema, los personajes y el estilo de tu cuento.</p>
               </motion.div>
-              <motion.div 
+              <motion.div
                 className="bg-white p-6 rounded-lg shadow-lg max-w-sm"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
@@ -147,7 +109,7 @@ export function Home() {
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">2. Genera tu cuento</h3>
                 <p className="text-gray-600">Nuestra IA crea una historia única basada en tus elecciones.</p>
               </motion.div>
-              <motion.div 
+              <motion.div
                 className="bg-white p-6 rounded-lg shadow-lg max-w-sm"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
@@ -170,7 +132,7 @@ export function Home() {
                 { name: "Carlos R.", comment: "Increíble herramienta para padres. Los cuentos son creativos y educativos. ¡Totalmente recomendado!" },
                 { name: "Laura S.", comment: "La posibilidad de personalizar los personajes hace que cada historia sea especial. ¡Una experiencia mágica!" }
               ].map((testimonial, index) => (
-                <motion.div 
+                <motion.div
                   key={index}
                   className="bg-purple-50 p-6 rounded-lg shadow-md"
                   whileHover={{ scale: 1.05 }}
