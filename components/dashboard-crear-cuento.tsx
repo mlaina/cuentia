@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
@@ -8,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { BookOpen, Home, PlusCircle, Settings, User, LogOut, Mic, Sliders, Wand2 } from "lucide-react"
+import { BookOpen, Home, Settings, User, LogOut, Mic, Sliders, Wand2 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -29,9 +30,21 @@ const protagonistas = [
   { id: 5, nombre: "Mascota" },
 ]
 
-export function DashboardCrearCuentoComponent() {
+const rangoEdad = [
+  { id: 1, rango: "3-5 años" },
+  { id: 2, rango: "6-8 años" },
+  { id: 3, rango: "9-12 años" },
+]
+
+export default function CrearCuentoPage() {
   const [descripcion, setDescripcion] = useState("")
   const [estiloSeleccionado, setEstiloSeleccionado] = useState(null)
+  const [protagonistaSeleccionado, setProtagonistaSeleccionado] = useState("")
+  const [edadSeleccionada, setEdadSeleccionada] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState({ text: '', type: '' })
+  const [story, setStory] = useState("")
+  const router = useRouter()
 
   const generarDescripcionAleatoria = () => {
     const descripciones = [
@@ -44,147 +57,221 @@ export function DashboardCrearCuentoComponent() {
     setDescripcion(descripciones[Math.floor(Math.random() * descripciones.length)])
   }
 
+  const handleCrearCuento = async () => {
+    if (!descripcion || !estiloSeleccionado || !protagonistaSeleccionado || !edadSeleccionada) {
+      setMessage({
+        text: "Por favor, completa todos los campos requeridos.",
+        type: "error",
+      })
+      return
+    }
+
+    setIsLoading(true)
+    setMessage({ text: '', type: '' }) // Limpiar mensajes previos
+
+    try {
+      const response = await fetch('/api/stories', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: descripcion,
+          style: estilos.find(e => e.id === estiloSeleccionado)?.nombre,
+          protagonists: protagonistas.find(p => p.id === parseInt(protagonistaSeleccionado))?.nombre,
+          ageRange: rangoEdad.find(r => r.id === parseInt(edadSeleccionada))?.rango,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Error al crear el cuento')
+      }
+
+      const data = await response.json()
+      setMessage({
+        text: "Tu cuento ha sido creado con éxito.",
+        type: "success",
+      })
+      console.log(data)
+      setStory(data.story.content)
+    } catch (error) {
+      setMessage({
+        text: "Hubo un problema al crear el cuento. Por favor, intenta de nuevo.",
+        type: "error",
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+
   return (
-    <div className="flex h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 text-black">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md">
-        <div className="p-4 flex items-center">
-          <BookOpen className="w-10 h-10 mr-2 text-sky-400" />
-          <p className={'bg-gradient-to-r from-sky-500 via-purple-800 to-red-600 bg-clip-text text-4xl font-bold text-transparent'}>CuentIA</p>
-        </div>
-        <nav className="mt-6">
-          <Link href="#" className="block px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600">
-            <Home className="inline-block w-5 h-5 mr-2" />
-            Inicio
-          </Link>
-          <Link href="#" className="block px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600">
-            <BookOpen className="inline-block w-5 h-5 mr-2" />
-            Mis Cuentos
-          </Link>
-          <Link href="#" className="block px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600">
-            <Mic className="inline-block w-5 h-5 mr-2" />
-            Mis Voces
-          </Link>
-          <Link href="#" className="block px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600">
-            <Sliders className="inline-block w-5 h-5 mr-2" />
-            Mis Parámetros
-          </Link>
-        </nav>
-      </aside>
-
-      {/* Main content */}
-      <main className="flex-1 overflow-y-auto">
-        {/* Header */}
-        <header className="bg-white shadow-sm">
-          <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <h1 className="text-2xl font-semibold text-gray-900">Crear Cuento</h1>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="ghost" className="w-10 h-10 rounded-full p-0">
-                  <Avatar>
-                    <AvatarImage src="/placeholder-avatar.jpg" alt="@username" />
-                    <AvatarFallback>UN</AvatarFallback>
-                  </Avatar>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-56">
-                <div className="grid gap-4">
-                  <div className="font-medium">@username</div>
-                  <Button variant="outline" className="w-full justify-start">
-                    <User className="mr-2 h-4 w-4" />
-                    Perfil
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Configuración
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Cerrar sesión
-                  </Button>
-                </div>
-              </PopoverContent>
-            </Popover>
+      <div className="flex h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 text-black">
+        {/* Sidebar */}
+        <aside className="w-64 bg-white shadow-md">
+          <div className="p-4 flex items-center">
+            <BookOpen className="w-10 h-10 mr-2 text-sky-400" />
+            <p className={'bg-gradient-to-r from-sky-500 via-purple-800 to-red-600 bg-clip-text text-4xl font-bold text-transparent'}>CuentIA</p>
           </div>
-        </header>
+          <nav className="mt-6">
+            <Link href="/dashboard" className="block px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600">
+              <Home className="inline-block w-5 h-5 mr-2" />
+              Inicio
+            </Link>
+            <Link href="/story" className="block px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600">
+              <BookOpen className="inline-block w-5 h-5 mr-2" />
+              Mis Cuentos
+            </Link>
+            <Link href="/voices" className="block px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600">
+              <Mic className="inline-block w-5 h-5 mr-2" />
+              Mis Voces
+            </Link>
+            <Link href="/params" className="block px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600">
+              <Sliders className="inline-block w-5 h-5 mr-2" />
+              Mis Parámetros
+            </Link>
+          </nav>
+        </aside>
 
-        {/* Content */}
-        <div className="max-w-4xl mx-auto p-6 space-y-8">
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold">Protagonistas</h2>
-            <Select>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Selecciona los protagonistas" />
-              </SelectTrigger>
-              <SelectContent>
-                {protagonistas.map((protagonista) => (
-                    <SelectItem key={protagonista.id} value={protagonista.id.toString()}>
-                      {protagonista.nombre}
-                    </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">Descripción de la Idea</h2>
-              <Button
-                onClick={generarDescripcionAleatoria}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
-              >
-                <Wand2 className="w-4 h-4 mr-2" />
-                Sorpréndeme
-              </Button>
+        {/* Main content */}
+        <main className="flex-1 overflow-y-auto">
+          {/* Header */}
+          <header className="bg-white shadow-sm">
+            <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+              <h1 className="text-2xl font-semibold text-gray-900">Crear Cuento</h1>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="ghost" className="w-10 h-10 rounded-full p-0">
+                    <Avatar>
+                      <AvatarImage src="/placeholder-avatar.jpg" alt="@username" />
+                      <AvatarFallback>UN</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-56">
+                  <div className="grid gap-4">
+                    <div className="font-medium">@username</div>
+                    <Button variant="outline" className="w-full justify-start">
+                      <User className="mr-2 h-4 w-4" />
+                      Perfil
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      <Settings className="mr-2 h-4 w-4" />
+                      Configuración
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Cerrar sesión
+                    </Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
-            <Textarea
-              placeholder="Escribe una breve descripción de tu idea para el cuento..."
-              value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
-              className="min-h-[100px]"
-            />
-          </div>
+          </header>
 
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold">Estilo del Cuento</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {estilos.map((estilo) => (
-                <Card
-                  key={estilo.id}
-                  className={`cursor-pointer transition-all ${estiloSeleccionado === estilo.id ? 'ring-2 ring-purple-500' : ''}`}
-                  onClick={() => setEstiloSeleccionado(estilo.id)}
+          {/* Content */}
+          <div className="max-w-4xl mx-auto p-6 space-y-8">
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">Protagonistas</h2>
+              <Select onValueChange={setProtagonistaSeleccionado} value={protagonistaSeleccionado}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Selecciona los protagonistas" />
+                </SelectTrigger>
+                <SelectContent>
+                  {protagonistas.map((protagonista) => (
+                      <SelectItem key={protagonista.id} value={protagonista.id.toString()}>
+                        {protagonista.nombre}
+                      </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">Rango de Edad</h2>
+              <Select onValueChange={setEdadSeleccionada} value={edadSeleccionada}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Selecciona el rango de edad" />
+                </SelectTrigger>
+                <SelectContent>
+                  {rangoEdad.map((rango) => (
+                      <SelectItem key={rango.id} value={rango.id.toString()}>
+                        {rango.rango}
+                      </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold">Descripción de la Idea</h2>
+                <Button
+                    onClick={generarDescripcionAleatoria}
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
                 >
-                  <CardContent className="p-4 flex flex-col items-center">
-                    <Image
-                      src={estilo.imagen}
-                      alt={estilo.nombre}
-                      width={100}
-                      height={100}
-                      className="rounded-md mb-2"
-                    />
-                    <span className="text-sm font-medium">{estilo.nombre}</span>
-                  </CardContent>
-                </Card>
-              ))}
+                  <Wand2 className="w-4 h-4 mr-2" />
+                  Sorpréndeme
+                </Button>
+              </div>
+              <Textarea
+                  placeholder="Escribe una breve descripción de tu idea para el cuento..."
+                  value={descripcion}
+                  onChange={(e) => setDescripcion(e.target.value)}
+                  className="min-h-[100px]"
+              />
             </div>
+
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">Estilo del Cuento</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {estilos.map((estilo) => (
+                    <Card
+                        key={estilo.id}
+                        className={`cursor-pointer transition-all ${estiloSeleccionado === estilo.id ? 'ring-2 ring-purple-500' : ''}`}
+                        onClick={() => setEstiloSeleccionado(estilo.id)}
+                    >
+                      <CardContent className="p-4 flex flex-col items-center">
+                        <Image
+                            src={estilo.imagen}
+                            alt={estilo.nombre}
+                            width={100}
+                            height={100}
+                            className="rounded-md mb-2"
+                        />
+                        <span className="text-sm font-medium">{estilo.nombre}</span>
+                      </CardContent>
+                    </Card>
+                ))}
+              </div>
+            </div>
+
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="opciones-avanzadas">
+                <AccordionTrigger>Opciones Avanzadas</AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-4 pt-4">
+                    {/* Aquí puedes añadir más opciones avanzadas según sea necesario */}
+                    <p>Opciones avanzadas para la creación del cuento...</p>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+
+            <Button
+                className="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white"
+                onClick={handleCrearCuento}
+                disabled={isLoading}
+            >
+              {isLoading ? "Creando Cuento..." : "Crear Cuento"}
+            </Button>
           </div>
-
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="opciones-avanzadas">
-              <AccordionTrigger>Opciones Avanzadas</AccordionTrigger>
-              <AccordionContent>
-                <div className="space-y-4 pt-4">
-                  {/* Aquí puedes añadir más opciones avanzadas según sea necesario */}
-                  <p>Opciones avanzadas para la creación del cuento...</p>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-
-          <Button className="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white">
-            Crear Cuento
-          </Button>
-        </div>
-      </main>
-    </div>
+          <div className="max-w-4xl mx-auto p-6 space-y-4">
+            {story &&
+                <p>{story}</p>
+            }
+          </div>
+        </main>
+      </div>
   )
 }

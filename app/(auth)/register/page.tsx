@@ -5,22 +5,61 @@ import { motion } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { BookOpen, Lock, Mail, Play } from "lucide-react"
+import { BookOpen, Lock, Mail, Play, User } from "lucide-react"
 import Link from 'next/link'
+import { supabase } from '@/lib/supabase/supabaseClient'
+import { useRouter } from 'next/navigation'
 
-export default function Login() {
+export default function Page() {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState({ text: '', type: '' })
+  const router = useRouter()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Aquí iría la lógica de autenticación
-    console.log('Login attempt', { email, password })
+    setIsLoading(true)
+    setMessage({ text: '', type: '' })
+
+    if (password !== confirmPassword) {
+      setMessage({ text: 'Las contraseñas no coinciden', type: 'error' })
+      setIsLoading(false)
+      return
+    }
+
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name,
+          },
+        },
+      })
+
+      if (error) {
+        throw error
+      } else {
+        setMessage({ text: 'Registro exitoso. ¡Revisa tu correo para confirmar tu cuenta!', type: 'success' })
+        setTimeout(() => router.push('/login'), 500)
+      }
+    } catch (error) {
+      setMessage({
+        text: error instanceof Error ? error.message : 'Ocurrió un error durante el registro',
+        type: 'error',
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex flex-col lg:flex-row">
+    <div className="min-h-screen text-black bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex flex-col lg:flex-row">
       {/* Video Section */}
       <div className="lg:w-2/3 relative overflow-hidden">
         <video
@@ -43,12 +82,12 @@ export default function Login() {
           </motion.button>
         </div>
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
-          <h2 className="text-white text-2xl font-bold">Descubre la magia de CuentIA</h2>
-          <p className="text-white">Crea historias únicas para tus hijos con inteligencia artificial</p>
+          <h2 className="text-white text-2xl font-bold">Únete a la magia de CuentIA</h2>
+          <p className="text-white">Regístrate para comenzar a crear historias únicas para tus hijos</p>
         </div>
       </div>
 
-      {/* Login Form Section */}
+      {/* Register Form Section */}
       <div className="lg:w-1/3 flex items-center justify-center p-8 bg-white bg-opacity-90">
         <motion.div
           initial={{ opacity: 0, x: 20 }}
@@ -59,10 +98,25 @@ export default function Login() {
           <div className="text-center mb-8">
             <BookOpen className="w-12 h-12 text-purple-600 mx-auto mb-2" />
             <h1 className="text-3xl font-bold text-gray-800">CuentIA</h1>
-            <p className="text-gray-600">Inicia sesión para crear magia</p>
+            <p className="text-gray-600">Regístrate para comenzar la aventura</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Label htmlFor="name" className="text-gray-700 mb-2 block">Nombre</Label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <Input
+                  type="text"
+                  id="name"
+                  placeholder="Tu nombre"
+                  className="pl-10 w-full"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
             <div>
               <Label htmlFor="email" className="text-gray-700 mb-2 block">Correo electrónico</Label>
               <div className="relative">
@@ -93,22 +147,34 @@ export default function Login() {
                 />
               </div>
             </div>
+            <div>
+              <Label htmlFor="confirmPassword" className="text-gray-700 mb-2 block">Confirmar contraseña</Label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <Input
+                  type="password"
+                  id="confirmPassword"
+                  placeholder="••••••••"
+                  className="pl-10 w-full"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
             <Button
               type="submit"
               className="w-full bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 hover:from-red-600 hover:via-purple-600 hover:to-blue-600 text-white border-none transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
             >
-              Iniciar sesión
+              Registrarse
             </Button>
           </form>
 
           <div className="mt-6 text-center">
-            <Link href="/forgot-password" className="text-sm text-purple-600 hover:underline block mb-2">
-              ¿Olvidaste tu contraseña?
-            </Link>
             <p className="text-sm text-gray-600">
-              ¿No tienes una cuenta?{' '}
-              <Link href="/register" className="text-purple-600 hover:underline">
-                Regístrate aquí
+              ¿Ya tienes una cuenta?{' '}
+              <Link href="/login" className="text-purple-600 hover:underline">
+                Inicia sesión aquí
               </Link>
             </p>
           </div>
