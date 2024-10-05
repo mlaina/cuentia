@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { BookOpen, Lock, Mail, Play, User } from "lucide-react"
 import Link from 'next/link'
-import { supabase } from '@/lib/supabase/supabaseClient'
+import { supabase } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
 export default function Page() {

@@ -51,10 +51,12 @@ export async function POST(req: Request) {
             max_tokens: 1000,
         });
 
-        const generatedText = completion.choices[0].message.content;
+        let generatedText = ''
+
+        generatedText = completion.choices[0].message.content as string
 
         // Extraer el título y el contenido del texto generado
-        const [titleLine, ...contentLines] = generatedText.split('\n');
+        const [titleLine, ...contentLines] = generatedText?.split('\n');
         const title = titleLine.replace('Título:', '').trim();
         const content = contentLines.join('\n').replace('Contenido:', '').trim();
 
