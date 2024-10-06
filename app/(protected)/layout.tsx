@@ -1,5 +1,6 @@
-// import Header from '@/components/Header'
-// import Sidebar from '@/components/Sidebar'
+
+import Sidebar from "@/components/ui/sidebar";
+import Header from "@/components/ui/header";
 
 export default function ProtectedLayout({
                                             children,
@@ -8,16 +9,11 @@ export default function ProtectedLayout({
 }) {
     return (
         <div className="flex h-screen">
-            <main className="flex-1 overflow-y-auto">
+            <Sidebar />
+            <main className="flex-1 overflow-y-auto  bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 text-black">
+                <Header />
                 {children}
             </main>
-            {/*<Sidebar />*/}
-            {/*<div className="flex flex-col flex-1">*/}
-            {/*    <Header />*/}
-            {/*    <main className="flex-1 overflow-y-auto p-4">*/}
-            {/*        {children}*/}
-            {/*    </main>*/}
-            {/*</div>*/}
         </div>
     )
 }
