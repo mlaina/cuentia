@@ -39,6 +39,7 @@ export default function Page() {
           data: {
             name,
           },
+          emailRedirectTo: window.location.origin + '/login',
         },
       })
 
@@ -46,7 +47,7 @@ export default function Page() {
         throw error
       } else {
         setMessage({ text: 'Registro exitoso. ¡Revisa tu correo para confirmar tu cuenta!', type: 'success' })
-        setTimeout(() => router.push('/login'), 500)
+        router.push('/login')
       }
     } catch (error) {
       setMessage({
