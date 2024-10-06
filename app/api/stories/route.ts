@@ -2,7 +2,11 @@ import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
+import Replicate from "replicate"
+import template from '@/types/prompt-gpt4o.json'
 
+
+const replicate = new Replicate()
 
 // Inicializa el cliente de OpenAI
 const openai = new OpenAI({
@@ -30,30 +34,37 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Faltan parámetros requeridos' }, { status: 400 });
         }
 
-        // Construye el prompt para GPT-4
-        const gptPrompt = `Genera un cuento corto para niños con las siguientes características:
-            - Idea principal: ${prompt}
-            - Estilo: ${style}
-            - Protagonistas: ${protagonists}
-            - Rango de edad: ${ageRange}
-            
-            El cuento debe ser apropiado para niños, educativo y entretenido. Incluye un título atractivo.
-            
-            Formato de respuesta:
-            Título: [Título del cuento]
-            Contenido:
-            [Contenido del cuento]`;
+        const gptPrompt = `Genera un cuento corto en castellano, para niños con las siguientes características:
+          - Idea principal: ${prompt}
+          - Estilo: ${style}
+          - Protagonistas: ${protagonists}
+          - Rango de edad: ${ageRange}
+          
+          El cuento debe ser apropiado para niños, educativo y entretenido. Además, proporciona una descripción detallada en inglés de una imagen que tenga sentido para el cuento.`;
 
-        // Realiza la llamada a la API de OpenAI
+
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o",
-            messages: [{ role: "user", content: gptPrompt }],
-            max_tokens: 1000,
+            ...template,
+            messages: [
+                ...template.messages,
+                {
+                    role: 'user',
+                    content: gptPrompt
+                }
+            ]
         });
 
         let generatedText = ''
 
-        generatedText = completion.choices[0].message.content as string
+        const response = JSON.parse(completion.choices[0].message.content);
+
+        generatedText = response.story as string;
+
+        const input = {
+            prompt: response.image_description
+        }
+
+        const output = await replicate.run("black-forest-labs/flux-schnell", { input });
 
         // Extraer el título y el contenido del texto generado
         const [titleLine, ...contentLines] = generatedText?.split('\n');
@@ -69,6 +80,7 @@ export async function POST(req: Request) {
                 style,
                 protagonists: [protagonists],
                 age_range: ageRange,
+                images: output
             },
         ]).select(); // .select() para obtener el registro insertado
 
@@ -80,7 +92,7 @@ export async function POST(req: Request) {
         // Puedes acceder a data[0] para obtener la historia guardada
         const savedStory = data[0];
 
-        return NextResponse.json({ story: savedStory });
+        return NextResponse.json({ story: savedStory, image: output[0] });
     } catch (error) {
         console.error('Error al generar la historia:', error);
         return NextResponse.json({ error: 'Error al generar la historia' }, { status: 500 });
