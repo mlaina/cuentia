@@ -39,7 +39,7 @@ export default function Page() {
           data: {
             name,
           },
-          emailRedirectTo: window.location.origin + '/login',
+          emailRedirectTo: 'https://cuentia.vercel.app/login',
         },
       })
 
