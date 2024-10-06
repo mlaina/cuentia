@@ -17,7 +17,13 @@ export default function Header() {
     const [isPopoverOpen, setPopoverOpen] = useState(false)
 
     const handleLogout = async () => {
+        if (!user) {
+            console.error('No hay sesión activa para cerrar.');
+            return;
+        }
+
         const { error } = await supabase.auth.signOut()
+
         if (error) {
             console.error('Error al cerrar sesión:', error)
         } else {
