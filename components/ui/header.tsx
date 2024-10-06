@@ -31,7 +31,7 @@ export default function Header() {
     }
 
     return (
-        <header className="bg-white shadow-sm">
+        <header className="bg-white shadow-md sticky top-0 z-50">
             <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-end items-center">
                 {user ? (
                     <Popover open={isPopoverOpen} onOpenChange={setPopoverOpen}>

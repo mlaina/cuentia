@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export default function Sidebar() {
     return (
-        <aside className="w-64 bg-white shadow-md">
+        <aside className="w-64 bg-white border-r border-gray-50">
             <div >
                 <Link href="/dashboard" className="p-4 flex items-center">
                     <BookOpen className="w-10 h-10 mr-2 text-sky-400" />
