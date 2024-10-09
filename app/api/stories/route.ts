@@ -80,7 +80,6 @@ export async function POST(req: Request) {
                 author_id: session.user.id,
                 style,
                 protagonists: [protagonists],
-                age_range: ageRange,
                 images: output
             },
         ]).select()
