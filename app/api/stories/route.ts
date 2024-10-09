@@ -67,8 +67,7 @@ export async function POST(req: Request) {
             prompt: response.image_description + ' Style: ' + stylePrompt
         }
 
-        console.log(input)
-        // const output = await replicate.run("black-forest-labs/flux-schnell", { input });
+        const output = await replicate.run("black-forest-labs/flux-schnell", { input });
 
         const [titleLine, ...contentLines] = generatedText?.split('\n');
         const title = titleLine.replace('Título:', '').trim();
@@ -80,7 +79,8 @@ export async function POST(req: Request) {
                 content,
                 author_id: session.user.id,
                 style,
-                protagonists: [protagonists]
+                protagonists: [protagonists],
+                images: output
             },
         ]).select()
 
@@ -91,7 +91,7 @@ export async function POST(req: Request) {
 
         const savedStory = data[0];
 
-        return NextResponse.json({ story: savedStory, image: '' });
+        return NextResponse.json({ story: savedStory, image: output[0] });
     } catch (error) {
         console.error('Error al generar la historia:', error);
         return NextResponse.json({ error: 'Error al generar la historia' }, { status: 500 });
