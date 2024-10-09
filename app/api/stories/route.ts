@@ -4,11 +4,15 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import Replicate from "replicate"
 import template from '@/types/prompt-gpt4o.json'
+import styles from '@/types/styles.json'
+// import path from "path";
+// import * as fs from "fs";
+// import axios from "axios";
+// import sharp from "sharp";
 
 
 const replicate = new Replicate()
 
-// Inicializa el cliente de OpenAI
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
@@ -16,7 +20,7 @@ const openai = new OpenAI({
 
 export async function POST(req: Request) {
     try {
-        // Verifica la autenticación
+
         const supabase = createRouteHandlerClient({ cookies })
         const {
             data: { session },
@@ -26,21 +30,18 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
         }
 
-        // Obtiene los parámetros del cuerpo de la solicitud
-        const { prompt, style, protagonists, ageRange } = await req.json();
+        const { prompt, style, gender, protagonists } = await req.json();
 
-        // Valida los parámetros
-        if (!prompt || !style || !protagonists || !ageRange) {
+        if (!prompt || !style || !gender || !protagonists) {
             return NextResponse.json({ error: 'Faltan parámetros requeridos' }, { status: 400 });
         }
 
         const gptPrompt = `Genera un cuento corto en castellano, para niños con las siguientes características:
           - Idea principal: ${prompt}
-          - Estilo: ${style}
+          - Género: ${gender}
           - Protagonistas: ${protagonists}
-          - Rango de edad: ${ageRange}
           
-          El cuento debe ser apropiado para niños, educativo y entretenido. Además, proporciona una descripción detallada en inglés de una imagen que tenga sentido para el cuento.`;
+          Debes respetar el género pedido. Además, proporciona una descripción detallada en inglés de una imagen que tenga sentido para el cuento.`;
 
 
         const completion = await openai.chat.completions.create({
@@ -60,18 +61,18 @@ export async function POST(req: Request) {
 
         generatedText = response.story as string;
 
+        const stylePrompt = styles.find(s => s.name === style)?.prompt;
+
         const input = {
-            prompt: response.image_description
+            prompt: response.image_description + ' Style: ' + stylePrompt
         }
 
         const output = await replicate.run("black-forest-labs/flux-schnell", { input });
 
-        // Extraer el título y el contenido del texto generado
         const [titleLine, ...contentLines] = generatedText?.split('\n');
         const title = titleLine.replace('Título:', '').trim();
         const content = contentLines.join('\n').replace('Contenido:', '').trim();
 
-        // Guarda la historia en la base de datos de Supabase
         const { data, error } = await supabase.from('stories').insert([
             {
                 title,
@@ -82,14 +83,13 @@ export async function POST(req: Request) {
                 age_range: ageRange,
                 images: output
             },
-        ]).select(); // .select() para obtener el registro insertado
+        ]).select()
 
         if (error) {
             console.error('Error al guardar la historia en Supabase:', error)
             return NextResponse.json({ error: 'Error al guardar la historia' }, { status: 500 });
         }
 
-        // Puedes acceder a data[0] para obtener la historia guardada
         const savedStory = data[0];
 
         return NextResponse.json({ story: savedStory, image: output[0] });
@@ -98,3 +98,70 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: 'Error al generar la historia' }, { status: 500 });
     }
 }
+
+//
+// export async function PUT() {
+//
+//     const concepts = [
+//         {
+//             prompt: "A majestic dragon flying over a medieval castle, with wings spread wide and clear details",
+//             folderName: "dragon"
+//         },
+//         {
+//             prompt: "A graceful princess standing in a magical forest, surrounded by glowing plants and animals",
+//             folderName: "princess"
+//         },
+//         {
+//             prompt: "A brave knight in shining armor battling a giant, with clear focus on both characters",
+//             folderName: "knight"
+//         },
+//         {
+//             prompt: "An enchanted garden with talking flowers, vibrant colors, and distinct plant features",
+//             folderName: "garden"
+//         },
+//         {
+//             prompt: "A pirate ship sailing under the moonlight on calm seas, with detailed sails and ship structure",
+//             folderName: "pirate_ship"
+//         }
+//     ];
+//
+//
+//     for (const concept of concepts) {
+//         const conceptDirName = concept.folderName;
+//         const conceptDirPath = path.join('./public/styles', conceptDirName);
+//
+//         if (!fs.existsSync(conceptDirPath)) {
+//             fs.mkdirSync(conceptDirPath, { recursive: true });
+//         }
+//
+//         for (const style of styles) {
+//             const input = {
+//                 prompt: `${concept.prompt} Style: ${style.prompt}`
+//             };
+//
+//             try {
+//                 const output = await replicate.run("black-forest-labs/flux-schnell", { input });
+//
+//                 const imageUrl = output[0];
+//
+//                 console.log(imageUrl)
+//                 const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+//                 const imageBuffer = Buffer.from(response.data);
+//
+//                 const styleFileName = style.fileName + '.webp';
+//                 const imagePath = path.join(conceptDirPath, styleFileName);
+//
+//                 await sharp(imageBuffer)
+//                     .webp()
+//                     .toFile(imagePath);
+//
+//                 console.log(`Imagen guardada: ${imagePath}`);
+//             } catch (error) {
+//                 console.error(`Error al generar la imagen para el concepto "${concept.prompt}" y estilo "${style.name}":`, error);
+//             }
+//         }
+//     }
+//
+//     return NextResponse.json({ message: 'Imágenes generadas exitosamente' });
+//
+// }

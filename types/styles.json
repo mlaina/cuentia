@@ -1,0 +1,111 @@
+[
+  {
+    "name": "Ilustraciones Tradicionales",
+    "prompt": "High-quality hand-drawn illustration using pencil, ink, or watercolor, detailed and realistic, with consistent proportions and clear lines",
+    "fav": true,
+    "fileName": "ilustraciones_tradicionales"
+  },
+  {
+    "name": "Arte Digital",
+    "prompt": "High-resolution digital art with modern visuals, sharp details, vibrant colors, and realistic textures, ensuring clear and coherent subjects",
+    "fav": true,
+    "fileName": "arte_digital"
+  },
+  {
+    "name": "Estilo de Cómic o Manga",
+    "prompt": "Clean illustration in comic or manga style, with consistent proportions, expressive characters, and defined outlines",
+    "fav": true,
+    "fileName": "comic_manga"
+  },
+  {
+    "name": "Estilo Acuarela",
+    "prompt": "Soft watercolor effect image, with delicate details, harmonious colors, and well-defined subjects",
+    "fav": true,
+    "fileName": "estilo_acuarela"
+  },
+  {
+    "name": "Estilo Cartoon",
+    "prompt": "Colorful cartoon-style drawing with exaggerated features, clear lines, consistent anatomy, and vibrant colors",
+    "fav": true,
+    "fileName": "estilo_cartoon"
+  },
+  {
+    "name": "Estilo Infantil",
+    "prompt": "Simple, colorful drawing appealing to children, with friendly characters, clear shapes, and proportionate features",
+    "fav": true,
+    "fileName": "estilo_infantil"
+  },
+  {
+    "name": "Fotografías",
+    "prompt": "High-quality edited photograph matching the story's tone, with clear subjects and natural lighting",
+    "fav": false,
+    "fileName": "fotografias"
+  },
+  {
+    "name": "Collage",
+    "prompt": "Unique composition combining various images, with clear elements and harmonious arrangement",
+    "fav": false,
+    "fileName": "collage"
+  },
+  {
+    "name": "Estilo Retro o Vintage",
+    "prompt": "Illustration with a nostalgic, vintage feel, using muted colors and classic design elements, ensuring clear and well-defined subjects",
+    "fav": false,
+    "fileName": "retro_vintage"
+  },
+  {
+    "name": "Minimalista",
+    "prompt": "Simple and clean image with minimal details, focusing on essential elements with clear lines",
+    "fav": false,
+    "fileName": "minimalista"
+  },
+  {
+    "name": "Estilo Realista",
+    "prompt": "Detailed illustration representing reality faithfully, with accurate proportions and lifelike textures",
+    "fav": false,
+    "fileName": "estilo_realista"
+  },
+  {
+    "name": "Arte Conceptual",
+    "prompt": "Image conveying abstract ideas or concepts, with clear symbolism and thoughtful composition",
+    "fav": false,
+    "fileName": "arte_conceptual"
+  },
+  {
+    "name": "Surrealismo",
+    "prompt": "Illustration combining real and fantastical elements, with imaginative scenes and coherent blending of subjects",
+    "fav": false,
+    "fileName": "surrealismo"
+  },
+  {
+    "name": "Estilo 3D",
+    "prompt": "High-quality three-dimensional rendered image, with realistic lighting and textures, and consistent proportions",
+    "fav": false,
+    "fileName": "estilo_3d"
+  },
+  {
+    "name": "Arte Naíf",
+    "prompt": "Naive-style illustration with bright colors, simple forms, and childlike perspective, ensuring clear subjects",
+    "fav": false,
+    "fileName": "arte_naif"
+  },
+  {
+    "name": "Pixel Art",
+    "prompt": "Pixelated image evoking retro video games, with clear sprites and consistent pixel size",
+    "fav": false,
+    "fileName": "pixel_art"
+  },
+
+  {
+    "name": "Estilo Pop Art",
+    "prompt": "Image with vivid colors and pop culture themes, bold lines, and clear, well-defined subjects",
+    "fav": false,
+    "fileName": "estilo_pop_art"
+  },
+  {
+    "name": "Arte Abstracto",
+    "prompt": "Abstract illustration using shapes and colors to convey emotions, with harmonious composition and clear visual impact",
+    "fav": false,
+    "fileName": "arte_abstracto"
+  }
+]

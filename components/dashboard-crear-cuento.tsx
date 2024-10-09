@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,17 +18,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Wand2 } from "lucide-react";
+import { Wand2, RefreshCw } from "lucide-react";
 import Image from "next/image";
+import styles from "@/types/styles.json"
 
-const estilos = [
-  { id: 1, nombre: "Fantasía", imagen: "/placeholder.svg?height=100&width=100" },
-  { id: 2, nombre: "Aventura", imagen: "/placeholder.svg?height=100&width=100" },
-  { id: 3, nombre: "Misterio", imagen: "/placeholder.svg?height=100&width=100" },
-  { id: 4, nombre: "Ciencia Ficción", imagen: "/placeholder.svg?height=100&width=100" },
-  { id: 5, nombre: "Fábula", imagen: "/placeholder.svg?height=100&width=100" },
-  { id: 6, nombre: "Educativo", imagen: "/placeholder.svg?height=100&width=100" },
-];
 
 const protagonistas = [
   { id: 1, nombre: "Niño" },
@@ -38,33 +31,68 @@ const protagonistas = [
   { id: 5, nombre: "Mascota" },
 ];
 
+const generos = [
+  { id: 1, nombre: "Misterio" },
+  { id: 2, nombre: "Fantasía" },
+  { id: 3, nombre: "Ciencia ficción" },
+  { id: 4, nombre: "Fábula" },
+  { id: 5, nombre: "Mascota" },
+  { id: 6, nombre: "Cuento de Hadas" },
+  { id: 7, nombre: "Aventura" },
+  { id: 8, nombre: "Animales" },
+  { id: 9, nombre: "Humorístico" },
+  { id: 10, nombre: "Educativo" },
+  { id: 11, nombre: "Mitos y Leyendas" }
+];
+
+
 const rangoEdad = [
   { id: 1, rango: "3-5 años" },
   { id: 2, rango: "6-8 años" },
   { id: 3, rango: "9-12 años" },
 ];
 
+const descripciones = [
+  "Un viaje mágico a través de un bosque encantado",
+  "Una aventura submarina con criaturas marinas parlantes",
+  "El misterio de la casa abandonada al final de la calle",
+  "Un viaje en el tiempo a la época de los dinosaurios",
+  "La amistad entre un niño y un dragón bebé",
+];
+
+const concepts = ["dragon", "princess", "knight", "garden", "pirate_ship"]
+
 export default function CrearCuentoPage() {
   const [descripcion, setDescripcion] = useState("");
   const [estiloSeleccionado, setEstiloSeleccionado] = useState(null);
+  const [concepto, setConcepto] = useState("");
   const [protagonistaSeleccionado, setProtagonistaSeleccionado] = useState("");
+  const [generoSeleccionado, setGeneroSeleccionado] = useState("");
   const [edadSeleccionada, setEdadSeleccionada] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
+  const [currentConceptIndex, setCurrentConceptIndex] = useState(0)
   const [story, setStory] = useState("");
   const [imageUrl, setImageUrl] = useState(""); // Añadimos estado para la imagen
   const router = useRouter();
+  const [openItem, setOpenItem] = useState('');
 
   const generarDescripcionAleatoria = () => {
-    const descripciones = [
-      "Un viaje mágico a través de un bosque encantado",
-      "Una aventura submarina con criaturas marinas parlantes",
-      "El misterio de la casa abandonada al final de la calle",
-      "Un viaje en el tiempo a la época de los dinosaurios",
-      "La amistad entre un niño y un dragón bebé",
-    ];
     setDescripcion(descripciones[Math.floor(Math.random() * descripciones.length)]);
   };
+
+
+  const generarConceptoSecuencial = () => {
+    setConcepto(concepts[currentConceptIndex]);
+    setCurrentConceptIndex((currentConceptIndex + 1) % concepts.length);
+  };
+
+
+  useEffect(() => {
+    setDescripcion(descripciones[Math.floor(Math.random() * descripciones.length)]);
+    setConcepto(concepts[Math.floor(Math.random() * concepts.length)]);
+  }, []);
+
 
   const handleCrearCuento = async () => {
     if (!descripcion || !estiloSeleccionado || !protagonistaSeleccionado || !edadSeleccionada) {
@@ -76,7 +104,7 @@ export default function CrearCuentoPage() {
     }
 
     setIsLoading(true);
-    setMessage({ text: "", type: "" }); // Limpiar mensajes previos
+    setMessage({ text: "", type: "" })
 
     try {
       const response = await fetch("/api/stories", {
@@ -86,7 +114,8 @@ export default function CrearCuentoPage() {
         },
         body: JSON.stringify({
           prompt: descripcion,
-          style: estilos.find((e) => e.id === estiloSeleccionado)?.nombre,
+          style: estiloSeleccionado,
+          gender: generoSeleccionado,
           protagonists: protagonistas.find((p) => p.id === parseInt(protagonistaSeleccionado))
               ?.nombre,
           ageRange: rangoEdad.find((r) => r.id === parseInt(edadSeleccionada))?.rango,
@@ -143,21 +172,20 @@ export default function CrearCuentoPage() {
                 </Select>
               </div>
               <div className="space-y-4">
-                <h2 className="text-xl font-semibold">Rango de Edad</h2>
-                <Select onValueChange={setEdadSeleccionada} value={edadSeleccionada}>
+                <h2 className="text-xl font-semibold">Género</h2>
+                <Select onValueChange={setGeneroSeleccionado} value={generoSeleccionado}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Selecciona el rango de edad" />
+                    <SelectValue placeholder="Selecciona el género" />
                   </SelectTrigger>
                   <SelectContent>
-                    {rangoEdad.map((rango) => (
-                        <SelectItem key={rango.id} value={rango.id.toString()}>
-                          {rango.rango}
+                    {generos.map((protagonista) => (
+                        <SelectItem key={protagonista.id} value={protagonista.id.toString()}>
+                          {protagonista.nombre}
                         </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
-
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-semibold">Descripción de la Idea</h2>
@@ -178,32 +206,70 @@ export default function CrearCuentoPage() {
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-xl font-semibold">Estilo del Cuento</h2>
+                <div className="flex justify-between items-center">
+                  <h2 className="text-xl font-semibold">Estilo de imágenes</h2>
+                  <Button
+                      onClick={generarConceptoSecuencial}
+                      className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+                  >
+                    <RefreshCw/>
+                  </Button>
+                </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {estilos.map((estilo) => (
+                  {styles.filter(s => s.fav).map((estilo) => (
                       <Card
-                          key={estilo.id}
+                          key={estilo.name}
                           className={`cursor-pointer transition-all ${
-                              estiloSeleccionado === estilo.id ? "ring-2 ring-purple-500" : ""
+                              estiloSeleccionado === estilo.name ? "ring-2 ring-purple-500" : ""
                           }`}
-                          onClick={() => setEstiloSeleccionado(estilo.id)}
+                          onClick={() => setEstiloSeleccionado(estilo.name)}
                       >
                         <CardContent className="p-4 flex flex-col items-center">
                           <Image
-                              src={estilo.imagen}
-                              alt={estilo.nombre}
-                              width={100}
-                              height={100}
+                              src={'/styles/' + concepto +'/' + estilo.fileName + '.webp'}
+                              alt={estilo.name}
+                              width={200}
+                              height={200}
                               className="rounded-md mb-2"
                           />
-                          <span className="text-sm font-medium">{estilo.nombre}</span>
+                          <span className="text-sm font-medium">{estilo.name}</span>
                         </CardContent>
                       </Card>
                   ))}
                 </div>
+                <Accordion type="single" collapsible value={openItem} onValueChange={setOpenItem}>
+                  <AccordionItem value="styles">
+                    <AccordionTrigger className="text-sm text-gray-500 cursor-pointer">
+                      {openItem === 'styles' ? 'Ocultar' : 'Ver más estilos'}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 px-2">
+                        {styles.filter((s) => !s.fav).map((estilo) => (
+                            <Card
+                                key={estilo.name}
+                                className={`cursor-pointer transition-all ${
+                                    estiloSeleccionado === estilo.name ? "ring-2 ring-purple-500" : ""
+                                }`}
+                                onClick={() => setEstiloSeleccionado(estilo.name)}
+                            >
+                              <CardContent className="p-4 flex flex-col items-center">
+                                <Image
+                                    src={`/styles/${concepto}/${estilo.fileName}.webp`}
+                                    alt={estilo.name}
+                                    width={200}
+                                    height={200}
+                                    className="rounded-md mb-2"
+                                />
+                                <span className="text-sm font-medium">{estilo.name}</span>
+                              </CardContent>
+                            </Card>
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </div>
 
-              {/* Botón para crear el cuento */}
               <Button
                   className="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white"
                   onClick={handleCrearCuento}
