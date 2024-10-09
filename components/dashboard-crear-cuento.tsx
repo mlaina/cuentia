@@ -68,7 +68,6 @@ export default function CrearCuentoPage() {
   const [concepto, setConcepto] = useState("");
   const [protagonistaSeleccionado, setProtagonistaSeleccionado] = useState("");
   const [generoSeleccionado, setGeneroSeleccionado] = useState("");
-  const [edadSeleccionada, setEdadSeleccionada] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
   const [currentConceptIndex, setCurrentConceptIndex] = useState(0)
@@ -95,7 +94,7 @@ export default function CrearCuentoPage() {
 
 
   const handleCrearCuento = async () => {
-    if (!descripcion || !estiloSeleccionado || !protagonistaSeleccionado || !edadSeleccionada) {
+    if (!descripcion || !estiloSeleccionado || !protagonistaSeleccionado) {
       setMessage({
         text: "Por favor, completa todos los campos requeridos.",
         type: "error",
@@ -115,10 +114,10 @@ export default function CrearCuentoPage() {
         body: JSON.stringify({
           prompt: descripcion,
           style: estiloSeleccionado,
-          gender: generoSeleccionado,
+          gender: generos.find((p) => p.id === parseInt(generoSeleccionado))
+              ?.nombre,
           protagonists: protagonistas.find((p) => p.id === parseInt(protagonistaSeleccionado))
               ?.nombre,
-          ageRange: rangoEdad.find((r) => r.id === parseInt(edadSeleccionada))?.rango,
         }),
       });
 
