@@ -57,7 +57,7 @@ export function DashboardComponent() {
                   <Card key={story.id} className="overflow-hidden shadow-md">
                     {/* Mostrar la primera imagen del array de imágenes */}
                     <Image
-                        src={story.images[0]} // Mostramos la primera imagen en el array
+                        src={story.images} // Mostramos la primera imagen en el array
                         alt={`Portada del cuento ${story.title}`}
                         width={400}
                         height={200}

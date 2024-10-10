@@ -22,14 +22,14 @@
           "title": {
             "type": "string"
           },
-          "story": {
+          "image_description": {
             "type": "string"
           },
-          "image_description": {
+          "story": {
             "type": "string"
           }
         },
-        "required": ["title", "story", "image_description"],
+        "required": ["title", "image_description", "story"],
         "additionalProperties": false
       }
     }
