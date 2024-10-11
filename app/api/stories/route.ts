@@ -24,11 +24,9 @@ export const runtime = 'edge';
 export async function POST(req) {
     try {
         const supabase = createRouteHandlerClient({ cookies });
-        const {
-            data: { session },
-        } = await supabase.auth.getSession();
+        const { data: { user } } = await supabase.auth.getUser();
 
-        if (!session || !session.user) {
+        if (!user) {
             return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
         }
 
@@ -64,14 +62,10 @@ export async function POST(req) {
 
 export async function PUT(req: Request) {
     try {
+        const supabase = createRouteHandlerClient({ cookies });
+        const { data: { user } } = await supabase.auth.getUser();
 
-        console.log("aaaaaaaaaaaaaaaaaa")
-        const supabase = createRouteHandlerClient({ cookies })
-        const {
-            data: { session },
-        } = await supabase.auth.getSession()
-
-        if (!session || !session.user) {
+        if (!user) {
             return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
         }
 
@@ -92,7 +86,7 @@ export async function PUT(req: Request) {
         const { error } = await supabase.from('stories').insert([
             {
                 title,
-                author_id: session.user.id,
+                author_id: user.id,
                 style,
                 protagonists: [protagonists],
                 images: output[0]

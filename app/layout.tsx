@@ -36,16 +36,13 @@ export default async function RootLayout({
         cookies,
     })
 
-    const {
-        data: { session },
-    } = await supabase.auth.getSession()
-
+    const { data: { user } } = await supabase.auth.getUser()
     return (
         <html lang="es">
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased text-black`}
             >
-                <SupabaseProvider session={session}>
+                <SupabaseProvider session={{user}}>
                     {children}
                 </SupabaseProvider>
             </body>

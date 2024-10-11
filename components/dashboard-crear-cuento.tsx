@@ -64,7 +64,7 @@ export default function CrearCuentoPage() {
   const [openItem, setOpenItem] = useState('')
   const [imageUrl, setImageUrl] = useState("")
 
-  const { messages, input, handleInputChange, append, isLoading } = useChat({
+  const { messages, append, isLoading } = useChat({
     api: '/api/stories',
   })
 
@@ -133,8 +133,6 @@ export default function CrearCuentoPage() {
 
   useEffect(() => {
     const updateStory = async () => {
-
-      console.log("aaaaaaaaaaaaaaaaaa")
         try {
           const response = await fetch("/api/stories", {
             method: "PUT",
@@ -155,7 +153,6 @@ export default function CrearCuentoPage() {
 
           const data = await response.json();
           setImageUrl(data.image);
-          console.log(data);
         } catch (error) {
           console.error(error.message);
         }
@@ -260,26 +257,28 @@ export default function CrearCuentoPage() {
                               </AccordionTrigger>
                               <AccordionContent>
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 px-2">
-                                  {styles.filter((s) => !s.fav).map((estilo) => (
-                                      <Card
-                                          key={estilo.name}
-                                          className={`cursor-pointer transition-all ${
-                                              estiloSeleccionado === estilo.name ? "ring-2 ring-purple-500" : ""
-                                          }`}
-                                          onClick={() => setEstiloSeleccionado(estilo.name)}
-                                      >
-                                        <CardContent className="p-4 flex flex-col items-center">
-                                          <Image
-                                              src={`/styles/${concepto}/${estilo.fileName}.webp`}
-                                              alt={estilo.name}
-                                              width={200}
-                                              height={200}
-                                              className="rounded-md mb-2"
-                                          />
-                                          <span className="text-sm font-medium">{estilo.name}</span>
-                                        </CardContent>
-                                      </Card>
-                                  ))}
+                                  {styles.filter((s) => !s.fav).map((estilo) => {
+                                    return (
+                                        <Card
+                                            key={estilo.name}
+                                            className={`cursor-pointer transition-all ${
+                                                estiloSeleccionado === estilo.name ? "ring-2 ring-purple-500" : ""
+                                            }`}
+                                            onClick={() => setEstiloSeleccionado(estilo.name)}
+                                        >
+                                          <CardContent className="p-4 flex flex-col items-center">
+                                            <Image
+                                                src={`/styles/${concepto}/${estilo.fileName}.webp`}
+                                                alt={estilo.name}
+                                                width={200}
+                                                height={200}
+                                                className="rounded-md mb-2"
+                                            />
+                                            <span className="text-sm font-medium">{estilo.name}</span>
+                                          </CardContent>
+                                        </Card>
+                                    )
+                                  })}
                                 </div>
                               </AccordionContent>
                             </AccordionItem>

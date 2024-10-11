@@ -8,19 +8,17 @@ export async function middleware(req: NextRequest) {
     const res = NextResponse.next()
     const supabase = createMiddlewareClient({ req, res })
 
-    const {
-        data: { session },
-    } = await supabase.auth.getSession()
+    const { data: { user } } = await supabase.auth.getUser();
 
     const isPublicRoute = publicRoutes.includes(req.nextUrl.pathname)
 
     // Si el usuario no está autenticado y está tratando de acceder a una ruta protegida
-    if (!session && !isPublicRoute) {
+    if (!user && !isPublicRoute) {
         return NextResponse.redirect(new URL('/login', req.url))
     }
 
     // Si el usuario está autenticado y está tratando de acceder a una página de autenticación
-    if (session && ['/login', '/register', '/forgot-password'].includes(req.nextUrl.pathname)) {
+    if (user && ['/login', '/register', '/forgot-password'].includes(req.nextUrl.pathname)) {
         return NextResponse.redirect(new URL('/dashboard', req.url))
     }
 

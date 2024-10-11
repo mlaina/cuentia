@@ -53,34 +53,36 @@ export function DashboardComponent() {
 
             {/* Story cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {stories.map((story) => (
-                  <Card key={story.id} className="overflow-hidden shadow-md">
-                    {/* Mostrar la primera imagen del array de imágenes */}
-                    <Image
-                        src={story.images} // Mostramos la primera imagen en el array
-                        alt={`Portada del cuento ${story.title}`}
-                        width={400}
-                        height={200}
-                        className="w-full h-48 object-cover"
-                    />
-                    <CardHeader >
+              {stories.map((story) => {
+                return (
+                    <Card key={story.id} className="overflow-hidden shadow-md">
+                      <Image
+                          src={story.images || '/styles/dragon/estilo_3d.webp'}
+                          alt={`Portada del cuento ${story.title}`}
+                          width={400}
+                          height={200}
+                          className="w-full h-48 object-cover"
+                          onError={(e) => e.target.src = '/styles/dragon/estilo_3d.webp'}
+                      />
+                      <CardHeader >
                         <CardTitle className={'flex gap-2 items-end'}>
                           <p>{story.style}</p>
                           <p className="text-orange-600 text-sm italic font-normal">
                             {story.age_range}
                           </p>
                         </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="line-clamp-4">
-                        {story.title}
-                      </p>
-                    </CardContent>
-                    <CardFooter>
-                      <Button variant="outline">Leer</Button>
-                    </CardFooter>
-                  </Card>
-              ))}
+                      </CardHeader>
+                      <CardContent>
+                        <p className="line-clamp-4">
+                          {story.title}
+                        </p>
+                      </CardContent>
+                      <CardFooter>
+                        <Button variant="outline">Leer</Button>
+                      </CardFooter>
+                    </Card>
+                )
+              })}
             </div>
           </div>
         </main>
