@@ -40,9 +40,7 @@ export default function DashboardComponent() {
           <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
             <div className="mb-6">
               <Link href="/story">
-                <Button
-                    className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 hover:from-red-600 hover:via-purple-600 hover:to-blue-600 text-white border-none transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
-                >
+                <Button className="bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 hover:from-red-600 hover:via-purple-600 hover:to-blue-600 text-white border-none transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
                   <PlusCircle className="w-5 h-5 mr-2" />
                   Crea un nuevo cuento
                 </Button>
@@ -64,8 +62,9 @@ export default function DashboardComponent() {
                       />
                       <CardHeader >
                         <CardTitle className={'flex gap-2 items-end line-clamp-2 pb-2'}>
-                          <p>{story.title}</p>
+                          <p className={'h-12'}>{story.title}</p>
                         </CardTitle>
+                        <hr className={'border-t border-gray-100'}/>
                       </CardHeader>
                       <CardContent>
                         <p className="text-orange-600 text-sm italic font-normal ">
@@ -75,9 +74,6 @@ export default function DashboardComponent() {
                           {story.protagonists}
                         </p>
                       </CardContent>
-                      <CardFooter>
-                        <Button variant="outline">Leer</Button>
-                      </CardFooter>
                     </Card>
                     </Link>
                 )
