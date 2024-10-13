@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface StoryPage {
-  text: string
+  content: string
   imageUrl: string
 }
 
@@ -13,7 +13,7 @@ interface StoryViewerProps {
   pages: StoryPage[]
 }
 
-export default function StoryViewer({ pages }: StoryViewerProps) {
+export default function StoryViewer({ pages = [] }: StoryViewerProps) {
   const [currentPage, setCurrentPage] = useState(0)
 
   const goToPage = (pageIndex: number) => {
@@ -27,8 +27,8 @@ export default function StoryViewer({ pages }: StoryViewerProps) {
     <div className="mx-auto">
       <div className="bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="flex p-8 gap-8 min-h-[60vh]">
-          <div className="w-1/2 flex items-center ">
-            <p className="text-md">{pages[currentPage].text ? pages[currentPage].text : <i className={'text-gray-400'}>Generando texto...</i>}</p>
+          <div className="w-1/2 flex ">
+            <p className="text-md">{pages[currentPage].content ? pages[currentPage].content : <i className={'text-gray-400'}>Generando texto...</i>}</p>
           </div>
           <div className="w-1/2">
             {pages[currentPage].imageUrl ?
@@ -41,9 +41,7 @@ export default function StoryViewer({ pages }: StoryViewerProps) {
                     priority
                 />
                 :
-                <div className="animate-pulse bg-gray-300 w-[400px] h-[300px] rounded-lg flex items-center justify-center">
-                  <div className="w-[100px] h-[100px] bg-gray-400 rounded-full animate-heartbeat"></div>
-                </div>
+                <div className="animate-pulse bg-gray-300 w-[500px] h-[500px] rounded-lg flex items-center justify-center animate-heartbeat" />
             }
           </div>
         </div>
@@ -77,8 +75,12 @@ export default function StoryViewer({ pages }: StoryViewerProps) {
                       index === currentPage ? 'border-primary' : 'border-transparent'
                   }`}
               >
-                <img src={page.imageUrl} alt={`${index + 1}`} className="w-full h-full object-cover opacity-80" />
-                <div class="flex items-center  justify-center w-full h-full text-white text-lg font-semibold">{index + 1}</div>
+                {page.imageUrl ?
+                    <img src={page.imageUrl} alt={`${index + 1}`} className="w-full h-full object-cover opacity-80"/>
+                    :
+                    <div
+                        className="flex items-center  justify-center w-full h-full text-white text-lg font-semibold">{index + 1}</div>
+                }
               </button>
           ))}
         </div>

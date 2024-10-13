@@ -1,6 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import StoryViewer from '@/components/StoryViewer'
+import {redirect} from "next/navigation";
 
 export default async function StoryPage({ params }: { params: { slug: string } }) {
     const supabase = createServerComponentClient({ cookies })
@@ -20,7 +21,6 @@ export default async function StoryPage({ params }: { params: { slug: string } }
         .eq('id', Number(params.slug))
         .single()
 
-    console.log('Story:', story)
     if (error) {
         console.error('Error fetching story:', error)
         return <div>Error loading story</div>
@@ -30,15 +30,10 @@ export default async function StoryPage({ params }: { params: { slug: string } }
         return <div>Story not found</div>
     }
 
-    const storyPages = [{
-        text: story.content,
-        imageUrl: story.images
-    }]
-
     return (
-        <div className="container mx-auto py-8">
-            <h1 className="text-2xl text-gray-600 font-bold text-center">{story.title}</h1>
-            <StoryViewer pages={storyPages} />
+        <div className="max-w-6xl mx-auto py-6 space-y-4">
+            <h1 className="bg-gradient-to-r from-sky-500 via-purple-800 to-red-600 bg-clip-text text-4xl font-bold text-transparent">{story.title}</h1>
+            <StoryViewer pages={story.content} />
         </div>
     )
 }

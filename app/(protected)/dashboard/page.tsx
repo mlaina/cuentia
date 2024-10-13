@@ -19,9 +19,10 @@ export default function DashboardComponent() {
 
       const { data, error } = await supabase
           .from('stories')
-          .select('id, title, style, age_range, images')
+          .select('id, title, style, images, protagonists')
           .eq('author_id', user.id)
 
+      console.log(data)
       if (error) {
         console.error("Error fetching stories:", error)
       } else {
@@ -62,9 +63,8 @@ export default function DashboardComponent() {
                           onError={(e) => e.target.src = '/styles/dragon/estilo_3d.webp'}
                       />
                       <CardHeader >
-                        <CardTitle className={'flex gap-2 items-end line-clamp-2'}>
+                        <CardTitle className={'flex gap-2 items-end line-clamp-2 pb-2'}>
                           <p>{story.title}</p>
-
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -72,7 +72,7 @@ export default function DashboardComponent() {
                           {story.style}
                         </p>
                         <p className="line-clamp-4">
-                          {story.title}
+                          {story.protagonists}
                         </p>
                       </CardContent>
                       <CardFooter>

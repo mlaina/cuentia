@@ -142,23 +142,26 @@ export default function CrearCuentoPage() {
   }, [user, supabase])
 
   useEffect(() => {
-    if(!isLoadingPage && !isLoadingIndex && indice.length > 0 && indice.every((p) => p.status === 'image_generated')) {
-      supabase.from('stories').insert([
-        {
-          title,
-          content: indice,
-          author_id: user.id,
-          protagonists: proSelected.map((p) => p.value.name).join(', '),
-          style: estiloSeleccionado,
-          images: indice[0].imageUrl
-        },
-      ]).then(({ error }) => {
-        if (error) {
-          console.error("Error inserting story:", error)
-        }
-      })
+    const insertStory = async () => {
+      if (!isLoadingPage && !isLoadingIndex && indice.length > 0 && indice.every((p) => p.status === 'image_generated')) {
+        await supabase.from('stories').insert([
+          {
+            title,
+            content: indice,
+            author_id: user.id,
+            protagonists: proSelected.map((p) => p.value.name).join(', '),
+            style: estiloSeleccionado,
+            images: indice[0].imageUrl
+          },
+        ]).then(({error}) => {
+          if (error) {
+            console.error("Error inserting story:", error)
+          }
+        })
+      }
     }
 
+    insertStory()
   }, [isLoadingPage, isLoadingIndex, indice])
 
 
@@ -307,7 +310,7 @@ export default function CrearCuentoPage() {
   return (
       <div className="flex h-screen">
         <main className="flex-1">
-          {pageMessages.length === 0 ? (
+          {pageMessages.length === 0 && !isLoadingPage && !isLoadingIndex ? (
               <div className="max-w-4xl mx-auto p-6 space-y-8">
                 <div className="space-y-4">
                   <h2 className="text-xl font-semibold">Protagonistas</h2>
@@ -446,7 +449,9 @@ export default function CrearCuentoPage() {
                 ) : (
                     <h1 className="bg-gradient-to-r from-sky-500 via-purple-800 to-red-600 bg-clip-text text-4xl font-bold text-transparent">Generando título...</h1>
                 )}
-                <StoryViewer pages={indice}/>
+                {indice.length > 0 &&
+                  <StoryViewer pages={indice}/>
+                }
                 <Button
                     onClick={() => {
                       window.location.reload()
