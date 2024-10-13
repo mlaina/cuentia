@@ -3,33 +3,28 @@
   "messages": [
     {
       "role": "system",
-      "content": "Eres un asistente que genera cuentos para niños y descripciones de imágenes correspondientes."
-    },
-
-    {
-      "role": "user",
-      "content": "Generate a children's story and provide a detailed description for an image that fits the story."
+      "content": "Eres un asistente que desarrolla páginas de cuentos para niños y descripciones de imágenes correspondientes."
     }
   ],
   "response_format": {
     "type": "json_schema",
     "json_schema": {
-      "name": "story_with_image_description",
+      "name": "story_pages",
       "strict": true,
       "schema": {
         "type": "object",
         "properties": {
-          "title": {
-            "type": "string"
+          "page": {
+            "type": "number"
           },
           "image_description": {
             "type": "string"
           },
-          "story": {
+          "text": {
             "type": "string"
           }
         },
-        "required": ["title", "image_description", "story"],
+        "required": ["page", "image_description", "text"],
         "additionalProperties": false
       }
     }

@@ -1,0 +1,45 @@
+{
+  "model": "gpt-4o-2024-08-06",
+  "messages": [
+    {
+      "role": "system",
+      "content": "Eres un asistente que genera índices de cuentos para niños y descripciones de portada."
+    }
+  ],
+  "response_format": {
+    "type": "json_schema",
+    "json_schema": {
+      "name": "story_index",
+      "strict": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "index": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "page": {
+                  "type": "integer"
+                },
+                "summary": {
+                  "type": "string"
+                }
+              },
+              "required": ["page", "summary"],
+              "additionalProperties": false
+            }
+          },
+          "frontpage_description": {
+            "type": "string"
+          }
+        },
+        "required": ["title", "index", "frontpage_description"],
+        "additionalProperties": false
+      }
+    }
+  }
+}
