@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button"
 import { BookOpen, Star, Wand2, Sparkles, MessageCircle, ChevronDown, ChevronUp } from "lucide-react"
 import Link from 'next/link'
 import Image from 'next/image'
+import createImage from '../public/images/landing-create.png'
+import storyImage from '../public/images/landing-story.png'
+import shareImage from '../public/images/landing-share.png'
 
 export default function Home() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
@@ -35,7 +38,6 @@ export default function Home() {
         </header>
 
         <main>
-          {/* Hero Section */}
           <section className="container mx-auto px-4 py-20 text-center">
             <motion.h1
                 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6"
@@ -91,31 +93,33 @@ export default function Home() {
               <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Cómo funciona</h2>
               <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
                 <motion.div
-                    className="bg-white p-6 rounded-lg shadow-lg max-w-sm"
+                    className="bg-white p-6 rounded-lg shadow-lg max-w-md bg-[#fcf4fb]"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
                 >
-                  <Image src="/images/landing-create.png" alt="Paso 1: Elige tus preferencias" className="object-cover rounded-md mb-4" width={200} height={200} />
+                  <div className={'flex justify-center items-center'}>
+                    <Image src={createImage} alt="Paso 1: Elige tus preferencias" className="object-cover rounded-md mb-4" width={300} height={300} />
+                  </div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">1. Elige tus preferencias</h3>
                   <p className="text-gray-600">Selecciona el tema, los personajes y el estilo de tu cuento.</p>
                 </motion.div>
                 <motion.div
-                    className="bg-white p-6 rounded-lg shadow-lg max-w-sm"
+                    className="bg-white p-6 rounded-lg shadow-lg max-w-md bg-[#fcf4fb]"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
                 >
-                  <Image src="/images/landing-story.png" alt="Paso 2: Genera tu cuento" className=" object-cover rounded-md mb-4" width={200} height={200} />
+                  <Image src={storyImage} alt="Paso 2: Genera tu cuento" className=" object-cover rounded-md mb-4" width={450} height={450} />
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">2. Genera tu cuento</h3>
                   <p className="text-gray-600">Nuestra IA crea una historia única basada en tus elecciones.</p>
                 </motion.div>
                 <motion.div
-                    className="bg-white p-6 rounded-lg shadow-lg max-w-sm"
+                    className="bg-white p-6 rounded-lg shadow-lg max-w-md bg-[#fcf4fb]"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
                 >
-                  <Image src="/images/landing-share.png" alt="Paso 3: Disfruta y comparte" className="object-cover rounded-md mb-4" width={200} height={200} />
+                  <Image src={shareImage} alt="Paso 3: Disfruta y comparte" className="object-cover rounded-md mb-4" width={600} height={600} />
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">3. Disfruta y comparte</h3>
-                  <p className="text-gray-600">Lee, escucha y comparte tu cuento personalizado con tus seres queridos.</p>
+                  <p className="text-gray-600 mb-1.5">Lee, escucha y comparte tu cuento personalizado con tus seres queridos.</p>
                 </motion.div>
               </div>
             </div>
