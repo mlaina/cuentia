@@ -22,8 +22,8 @@ export const metadata: Metadata = {
     title: 'CuentIA - Cuentos personalizados con IA',
     description: 'Crea historias únicas para tus hijos con inteligencia artificial',
     icons: {
-        icon: '/favicon.ico',
-        apple: '/apple-icon.png',
+        icon: '/favicon.svg',
+        apple: '/favicon.svg',
     },
 }
 

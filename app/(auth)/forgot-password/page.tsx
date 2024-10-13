@@ -57,9 +57,13 @@ export default function Page() {
           transition={{ duration: 0.5 }}
           className="w-full max-w-md"
         >
-          <div className="text-center mb-8">
-            <BookOpen className="w-12 h-12 text-purple-600 mx-auto mb-2" />
-            <h1 className="text-3xl font-bold text-gray-800">CuentIA</h1>
+          <div className="flex flex-col text-center justify-center items-center mb-8">
+            <Link href="/">
+              <div className={'w-fit flex gap-2 items-center'}>
+                <BookOpen className="w-12 h-12 text-sky-500 mx-auto mb-2" />
+                <h1 className="bg-gradient-to-r from-sky-500 via-purple-800 to-red-600 bg-clip-text text-4xl font-bold text-transparent text-3xl">CuentIA</h1>
+              </div>
+            </Link>
             <p className="text-gray-600">Recupera tu contraseña</p>
           </div>
 
