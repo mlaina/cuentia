@@ -104,7 +104,7 @@ export default function Home() {
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
                 >
-                  <Image src="/images/landing-story.png" alt="Paso 2: Genera tu cuento" className=" object-cover rounded-md mb-4" width={200} height={200}/>
+                  <Image src="/images/landing-story.png" alt="Paso 2: Genera tu cuento" className=" object-cover rounded-md mb-4" width={200} height={200} />
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">2. Genera tu cuento</h3>
                   <p className="text-gray-600">Nuestra IA crea una historia única basada en tus elecciones.</p>
                 </motion.div>
@@ -113,7 +113,7 @@ export default function Home() {
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
                 >
-                  <Image src="/images/landing-share.png" alt="Paso 3: Disfruta y comparte" className="object-cover rounded-md mb-4" width={200} height={200}/>
+                  <Image src="/images/landing-share.png" alt="Paso 3: Disfruta y comparte" className="object-cover rounded-md mb-4" width={200} height={200} />
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">3. Disfruta y comparte</h3>
                   <p className="text-gray-600">Lee, escucha y comparte tu cuento personalizado con tus seres queridos.</p>
                 </motion.div>
