@@ -93,7 +93,7 @@ export default function Home() {
               <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Cómo funciona</h2>
               <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
                 <motion.div
-                    className="bg-white p-6 rounded-lg shadow-lg max-w-md bg-[#fcf4fb]"
+                    className="bg-white p-6 rounded-lg shadow-lg max-w-md bg-pink-50"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
                 >
@@ -104,7 +104,7 @@ export default function Home() {
                   <p className="text-gray-600">Selecciona el tema, los personajes y el estilo de tu cuento.</p>
                 </motion.div>
                 <motion.div
-                    className="bg-white p-6 rounded-lg shadow-lg max-w-md bg-[#fcf4fb]"
+                    className="bg-white p-6 rounded-lg shadow-lg max-w-md bg-pink-50"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
                 >
@@ -113,7 +113,7 @@ export default function Home() {
                   <p className="text-gray-600">Nuestra IA crea una historia única basada en tus elecciones.</p>
                 </motion.div>
                 <motion.div
-                    className="bg-white p-6 rounded-lg shadow-lg max-w-md bg-[#fcf4fb]"
+                    className="bg-white p-6 rounded-lg shadow-lg max-w-md bg-pink-50"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
                 >
