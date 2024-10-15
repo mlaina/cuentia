@@ -10,7 +10,7 @@ import createImage from '../public/images/landing-create.png'
 import storyImage from '../public/images/landing-story.png'
 import shareImage from '../public/images/landing-share.png'
 import dragondigital from '../public/styles/dragon/arte_digital.webp'
-import collage from '../public/styles/garden/collage.webp'
+import collage from '../public/styles/garden/arte_abstracto.webp'
 import Knightnaif from '../public/styles/knight/arte_naif.webp'
 import princesa from '../public/styles/princess/estilo_3d.webp'
 import pirate from '../public/styles/pirate_ship/pixel_art.webp'
@@ -65,12 +65,12 @@ export default function Home() {
                 Comienza tu aventura
               </Button>
             </Link>
-            <div className='flex w-[900px] h-[400px] mx-auto mt-12 shadow-xl'>
-              <Image className="grow w-0 object-cover transition-all rounded-md opacity-80 hover:w-[300px] hover:contrast-125 hover:opacity-100" width={800} height={800} alt="dragondigital" src={dragondigital}/>
-              <Image className="grow w-0 object-cover transition-all rounded-md opacity-80 hover:w-[300px] hover:contrast-125 hover:opacity-100" width={800} height={800} alt="collage" src={collage}/>
-              <Image className="grow w-0 object-cover transition-all rounded-md opacity-80 hover:w-[300px] hover:contrast-125 hover:opacity-100" width={800} height={800} alt="Knightnaif" src={Knightnaif}/>
-              <Image className="grow w-0 object-cover transition-all rounded-md opacity-80 hover:w-[300px] hover:contrast-125 hover:opacity-100" width={800} height={800} alt="princesa" src={princesa}/>
-              <Image className="grow w-0 object-cover transition-all rounded-md opacity-80 hover:w-[300px] hover:contrast-125 hover:opacity-100" width={800} height={800} alt="pirate" src={pirate}/>
+            <div className='flex w-[900px] h-[400px] mx-auto mt-12'>
+              <Image className="grow w-0 object-cover transition-all duration-500 drop-shadow-md rounded-xl opacity-90 hover:w-[300px] hover:contrast-125 hover:opacity-100" width={800} height={800} alt="dragondigital" src={dragondigital}/>
+              <Image className="grow w-0 object-cover transition-all duration-500 drop-shadow-md rounded-xl opacity-90 hover:w-[300px] hover:contrast-125 hover:opacity-100" width={800} height={800} alt="collage" src={collage}/>
+              <Image className="grow w-0 object-cover transition-all duration-500 drop-shadow-md rounded-xl opacity-90 hover:w-[300px] hover:contrast-125 hover:opacity-100" width={800} height={800} alt="Knightnaif" src={Knightnaif}/>
+              <Image className="grow w-0 object-cover transition-all duration-500 drop-shadow-md rounded-xl opacity-90 hover:w-[300px] hover:contrast-125 hover:opacity-100" width={800} height={800} alt="princesa" src={princesa}/>
+              <Image className="grow w-0 object-cover transition-all duration-500 drop-shadow-md rounded-xl opacity-90 hover:w-[300px] hover:contrast-125 hover:opacity-100" width={800} height={800} alt="pirate" src={pirate}/>
             </div>
           </section>
 
