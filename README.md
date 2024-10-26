@@ -3,18 +3,19 @@
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+Para instalar las dependencias (librerías de terceros). Esto descargará en la carpeta node_modules todos los archivos necesarios para que funcione.
+```bash
+npm install
+```
+
+
 ## Getting Started
 
 First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -38,3 +39,28 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
+--- 
+# git
+
+Descargar cambios
+
+```bash
+git pull
+
+```
+Añadir trabajo realizado
+
+```bash
+git add .
+
+```
+Guardar trabajo (en local)
+```bash
+git commit -m "mensaje"
+
+```
+Subir cambios
+```bash
+git push
+
+```
