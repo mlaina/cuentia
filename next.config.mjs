@@ -7,7 +7,7 @@ const nextConfig = {
     runtime: 'edge',
   },
   images: {
-    domains: ['replicate.delivery', 'localhost', 'cuentia.vercel.app']
+    domains: ['replicate.delivery', 'localhost', 'cuentia.vercel.app', 'imagedelivery.net']
   },
 };
 

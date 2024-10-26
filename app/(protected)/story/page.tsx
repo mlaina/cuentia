@@ -51,7 +51,6 @@ export default function CrearCuentoPage() {
   const [longitud, setLongitud] = useState(5)
   const [imageDescription, setImageDescription] = useState('')
   const [indice, setIndice] = useState([]);
-  const [isGenerating, setIsGenerating] = useState(false)
   const supabase = useSupabaseClient()
   const user = useUser()
 
@@ -166,8 +165,14 @@ export default function CrearCuentoPage() {
 
 
   const desarrollarPagina = async (pagina) => {
+    const previousPagesContent = indice
+        .filter((p) => p.number < pagina.number && p.content)
+        .map((p) => `Page ${p.number}: ${p.content}`)
+        .join('\n');
 
-    const prompt = `Desarrolla la página ${pagina.number} de "${title}". Debes desarrollar: "${pagina.summary}".`;
+    const prompt = `Continúa la historia para la página ${pagina.number} de "${title}". 
+      ${previousPagesContent ? 'Contenido previo:\n' + previousPagesContent + '\n' : ''}
+      Ahora, desarrolla: "${pagina.summary}".`;
 
     await appendPage(
         { role: 'user', content: prompt },
@@ -176,24 +181,32 @@ export default function CrearCuentoPage() {
             body: {
               schema: 'story_pages',
             },
-          }
+          },
         }
     );
   };
 
+
   useEffect(() => {
-    const paginaSinDesarrollar = indice.find((p) => p.content === '' && p.status === 'pending')
-    if (paginaSinDesarrollar && !isLoadingPage) {
+    if (isLoadingPage) return; // Prevent multiple triggers
+
+    const paginaSinDesarrollar = indice.find(
+        (p) => p.content === '' && p.status === 'pending'
+    );
+
+    if (paginaSinDesarrollar) {
       setIndice((prevIndice) =>
           prevIndice.map((p) =>
-              p.number === paginaSinDesarrollar.number ? { ...p, status: 'processing' } : p
+              p.number === paginaSinDesarrollar.number
+                  ? { ...p, status: 'processing' }
+                  : p
           )
-      )
+      );
       desarrollarPagina(paginaSinDesarrollar);
-    } else if (!paginaSinDesarrollar) {
-      setIsGenerating(false);
     }
   }, [indice, isLoadingPage]);
+
+
 
 
   useEffect(() => {
@@ -221,26 +234,29 @@ export default function CrearCuentoPage() {
 
   useEffect(() => {
     const assistantMessages = pageMessages.filter((msg) => msg.role === 'assistant');
-    const fullContent = assistantMessages.map((msg) => msg.content).join('')
+    const lastAssistantMessage = assistantMessages[assistantMessages.length - 1]?.content;
 
-    if (fullContent) {
+    if (lastAssistantMessage) {
       try {
+        const data = JSON.parse(lastAssistantMessage);
 
-        const matchPage = fullContent.match(/"page"\s*:\s*(\d+)/)
-        const matchContent = fullContent.match(/"text"\s*:\s*"((?:[^"\\]|\\.)*)"/)
-        const matchImage = fullContent.match(/"image_description"\s*:\s*"((?:[^"\\]|\\.)*)"/)
-
-        const page = matchPage && matchPage[1] ? Number(matchPage[1]) : null;
-        const content = matchContent && matchContent[1] ?  matchContent[1]?.replace(/\\n/g, '\n').replace(/\\"/g, '"') : null;
-        const image = matchImage && matchImage[1] ? matchImage[1].replace(/\\n/g, '\n').replace(/\\"/g, '"') : null
+        const page = data.page;
+        const content = data.text;
+        const image = data.image_description;
 
         if (page && content && image) {
           setIndice((prevIndice) => {
-            const newIndice = [...prevIndice];
-            newIndice[page-1].content = content
-            newIndice[page-1].imageDescription = image
-            newIndice[page-1].status = 'text_generated'
-
+            const newIndice = prevIndice.map((p) => {
+              if (p.number === page) {
+                return {
+                  ...p,
+                  content,
+                  imageDescription: image,
+                  status: 'text_generated',
+                };
+              }
+              return p;
+            });
             return newIndice;
           });
         }
@@ -248,7 +264,7 @@ export default function CrearCuentoPage() {
         console.log('Error parsing page response');
       }
     }
-  }, [pageMessages])
+  }, [pageMessages]);
 
 
   useEffect(() => {
