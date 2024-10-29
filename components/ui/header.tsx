@@ -45,7 +45,6 @@ export default function Header() {
                             <Button variant="ghost" className="w-10 h-10 rounded-full p-0">
                                 <Avatar>
                                     <AvatarImage
-                                        src="/placeholder-avatar.jpg"
                                         alt={user.user_metadata?.name || user.email || 'Usuario'}
                                     />
                                     <AvatarFallback>

@@ -14,6 +14,7 @@ import collage from '../public/styles/garden/arte_abstracto.webp'
 import Knightnaif from '../public/styles/knight/arte_naif.webp'
 import princesa from '../public/styles/princess/estilo_3d.webp'
 import pirate from '../public/styles/pirate_ship/pixel_art.webp'
+import PricingTable from "@/components/PricingTable";
 
 export default function Home() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
@@ -137,6 +138,12 @@ export default function Home() {
             </div>
           </section>
 
+          <section className="py-20">
+            <div className="container mx-auto px-4">
+              <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Planes y Precios</h2>
+              <PricingTable />
+            </div>
+          </section>
           {/* Testimonials Section */}
           <section className="bg-white py-20">
             <div className="container mx-auto px-4">

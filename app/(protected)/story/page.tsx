@@ -45,11 +45,9 @@ export default function CrearCuentoPage() {
   const [openItem, setOpenItem] = useState('')
   const [protagonists, setProtagonists] = useState([])
   const [proSelected, setProSelected] = useState([])
-  const [imageUrl, setImageUrl] = useState('')
   const [title, setTitle] = useState('')
-  const [story, setStory] = useState('')
+  const [content, setContent] = useState('')
   const [longitud, setLongitud] = useState(5)
-  const [imageDescription, setImageDescription] = useState('')
   const [indice, setIndice] = useState([]);
   const supabase = useSupabaseClient()
   const user = useUser()
@@ -174,6 +172,7 @@ export default function CrearCuentoPage() {
       ${previousPagesContent ? 'Contenido previo:\n' + previousPagesContent + '\n' : ''}
       Ahora, desarrolla: "${pagina.summary}".`;
 
+    console.log(prompt);
     await appendPage(
         { role: 'user', content: prompt },
         {
@@ -204,14 +203,12 @@ export default function CrearCuentoPage() {
       );
       desarrollarPagina(paginaSinDesarrollar);
     }
-  }, [indice, isLoadingPage]);
-
-
-
+  }, [indice, isLoadingPage])
 
   useEffect(() => {
     const assistantMessages = indexMessages.filter((msg) => msg.role === 'assistant');
     const lastAssistantMessage = assistantMessages[assistantMessages.length - 1]?.content;
+    if(!lastAssistantMessage) return;
     try {
       const data = JSON.parse(lastAssistantMessage);
       if(data.title && data.index) {
@@ -235,6 +232,13 @@ export default function CrearCuentoPage() {
   useEffect(() => {
     const assistantMessages = pageMessages.filter((msg) => msg.role === 'assistant');
     const lastAssistantMessage = assistantMessages[assistantMessages.length - 1]?.content;
+
+    const fullContent = assistantMessages.map((msg) => msg.content).join('')
+    const matchContent = fullContent.match(/"text"\s*:\s*"((?:[^"\\]|\\.)*)$/)
+    const page = fullContent.match(/"page"\s*:\s*(\d+)/)
+    if (matchContent && page && Number(page) === 1) {
+      setContent(matchContent[1])
+    }
 
     if (lastAssistantMessage) {
       try {
@@ -466,7 +470,7 @@ export default function CrearCuentoPage() {
                     <h1 className="bg-gradient-to-r from-sky-500 via-purple-800 to-red-600 bg-clip-text text-4xl font-bold text-transparent">Generando título...</h1>
                 )}
                 {indice.length > 0 &&
-                  <StoryViewer pages={indice}/>
+                  <StoryViewer pages={indice} stream={content}/>
                 }
                 <Button
                     onClick={() => {

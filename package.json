@@ -17,6 +17,7 @@
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slider": "^1.2.1",
     "@radix-ui/react-slot": "^1.1.0",
+    "@stripe/stripe-js": "^4.9.0",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/auth-helpers-react": "^0.5.0",
     "@supabase/ssr": "^0.5.1",
@@ -39,6 +40,7 @@
     "react-select": "^5.8.1",
     "replicate": "^0.34.1",
     "sharp": "^0.33.5",
+    "stripe": "^17.2.1",
     "tailwind-merge": "^2.5.3",
     "tailwindcss-animate": "^1.0.7"
   },

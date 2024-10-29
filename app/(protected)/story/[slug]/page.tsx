@@ -6,18 +6,16 @@ import {redirect} from "next/navigation";
 export default async function StoryPage({ params }: { params: { slug: string } }) {
     const supabase = createServerComponentClient({ cookies })
 
-    const { data: { session } } = await supabase.auth.getSession()
+    const { data: { user } } = await supabase.auth.getUser()
 
-    if (!session) {
+    if (!user) {
         return redirect('/login')
     }
 
-    console.log('User session:', params.slug)
-    // Fetch the story data
     const { data: story, error } = await supabase
         .from('stories')
         .select('*')
-        .eq('author_id', session.user.id)
+        .eq('author_id', user.id)
         .eq('id', Number(params.slug))
         .single()
 
