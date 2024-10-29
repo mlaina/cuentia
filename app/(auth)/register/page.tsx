@@ -23,10 +23,7 @@ export default function Page() {
   const handleOAuthSignIn = async (provider: 'google' | 'facebook') => {
     setIsLoading(true)
     const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: 'http://localhost:3000/auth/callback', // Cambia esto en producción
-      },
+      provider
     })
     if (error) {
       setMessage({ text: error.message, type: 'error' })
@@ -188,19 +185,20 @@ export default function Page() {
               Registrarse
             </Button>
             <Button
+                className={'w-full'}
                 variant="outline"
                 onClick={() => handleOAuthSignIn('google')}
                 disabled={isLoading}
             >
               Regístrate con Google
             </Button>
-            <Button
-                variant="outline"
-                onClick={() => handleOAuthSignIn('facebook')}
-                disabled={isLoading}
-            >
-              Regístrate con Facebook
-            </Button>
+            {/*<Button*/}
+            {/*    variant="outline"*/}
+            {/*    onClick={() => handleOAuthSignIn('facebook')}*/}
+            {/*    disabled={isLoading}*/}
+            {/*>*/}
+            {/*  Regístrate con Facebook*/}
+            {/*</Button>*/}
           </form>
 
           <div className="mt-6 text-center">

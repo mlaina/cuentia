@@ -5,10 +5,12 @@ import { motion } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { BookOpen, Lock, Mail, Play } from "lucide-react"
+import { BookOpen, Lock, Mail, Play  } from "lucide-react"
+import Google from "@/components/google"
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import {supabase} from "@/lib/supabase/client";
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -46,6 +48,18 @@ export default function Login() {
       setIsLoading(false)
     }
   }
+
+  const handleOAuthSignIn = async (provider: 'google' | 'facebook') => {
+    setIsLoading(true)
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider
+    })
+    if (error) {
+      setMessage({ text: error.message, type: 'error' })
+    }
+    setIsLoading(false)
+  }
+
 
   return (
       <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex flex-col lg:flex-row">
@@ -137,6 +151,15 @@ export default function Login() {
                   disabled={isLoading}
               >
                 {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
+              </Button>
+              <Button
+                  className={'w-full'}
+                  variant="outline"
+                  onClick={() => handleOAuthSignIn('google')}
+                  disabled={isLoading}
+              >
+                <Google className="w-6 h-6 mr-2" />
+                Inicia Sesión con Google
               </Button>
             </form>
 
