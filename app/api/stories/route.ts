@@ -95,6 +95,7 @@ export async function PUT(req: Request) {
         }
 
         const stylePrompt = styles.find(s => s.name === style)?.prompt;
+        console.log( `${prompt} Style: ${stylePrompt}`);
         const input = {
             prompt: `${prompt} Style: ${stylePrompt}`
         };
