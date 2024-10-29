@@ -20,6 +20,20 @@ export default function Page() {
   const [message, setMessage] = useState({ text: '', type: '' })
   const router = useRouter()
 
+  const handleOAuthSignIn = async (provider: 'google' | 'facebook') => {
+    setIsLoading(true)
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: 'http://localhost:3000/auth/callback', // Cambia esto en producción
+      },
+    })
+    if (error) {
+      setMessage({ text: error.message, type: 'error' })
+    }
+    setIsLoading(false)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -172,6 +186,20 @@ export default function Page() {
               className="w-full bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 hover:from-red-600 hover:via-purple-600 hover:to-blue-600 text-white border-none transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
             >
               Registrarse
+            </Button>
+            <Button
+                variant="outline"
+                onClick={() => handleOAuthSignIn('google')}
+                disabled={isLoading}
+            >
+              Regístrate con Google
+            </Button>
+            <Button
+                variant="outline"
+                onClick={() => handleOAuthSignIn('facebook')}
+                disabled={isLoading}
+            >
+              Regístrate con Facebook
             </Button>
           </form>
 
