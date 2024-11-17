@@ -20,6 +20,7 @@ import Select from 'react-select'
 import {Slider} from "@/components/ui/slider";
 import StoryViewer from "@/components/StoryViewer";
 
+<<<<<<< Updated upstream
 const genders = [
   { id: 1, name: "Misterio" },
   { id: 2, name: "Fantasía" },
@@ -33,6 +34,11 @@ const genders = [
   { id: 10, name: "Educativo" },
   { id: 11, name: "Mitos y Leyendas" }
 ]
+=======
+const openai = new OpenAI({
+  dangerouslyAllowBrowser: true,
+});
+>>>>>>> Stashed changes
 
 const concepts = ["dragon", "princess", "knight", "garden", "pirate_ship"]
 
