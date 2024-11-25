@@ -3,7 +3,7 @@
   "messages": [
     {
       "role": "system",
-      "content": "Eres un asistente que genera índices de cuentos para niños y descripciones de portada."
+      "content": "Eres un asistente que genera índices de cuentos para niños y descripciones de portada.  El título debe ser CORTO (no más de TRES palabras).  La descripción de la imagen de portada tiene que ser en inglés y descriptiva, épica y espectacular. La historia debe tener una introducción, un nudo y un desenlace. Profundiza en el tema planteado y asegúrate que se sienta un avance significativo en cada página. La descripción de backpage_description tiene que ser un prompt en inglés de un paisaje tranquilo sin elementos impresionantes."
     }
   ],
   "response_format": {
@@ -35,9 +35,12 @@
           },
           "frontpage_description": {
             "type": "string"
+          },
+          "backpage_description": {
+            "type": "string"
           }
         },
-        "required": ["title", "index", "frontpage_description"],
+        "required": ["title", "index", "frontpage_description", "backpage_description"],
         "additionalProperties": false
       }
     }

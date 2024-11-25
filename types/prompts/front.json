@@ -1,0 +1,29 @@
+{
+  "model": "gpt-4o-2024-08-06",
+  "messages": [
+    {
+      "role": "system",
+      "content": "Eres un asistente que dada una imagen y un título decides la posición y color del título en la imagen. Debes escoger si el título será en color negro (black) o blanco (white), debes elegir en función de la legibilidad. Para ello debes seleccionar la posición del título en la imagen. Las posiciones posibles son: top-center, bottom-center, top-left, top-right, bottom-left, bottom-right, prioriza la elección de top-center o bottom-center si se lee bien"
+    }
+  ],
+  "response_format": {
+    "type": "json_schema",
+    "json_schema": {
+      "name": "front_page",
+      "strict": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          }
+        },
+        "required": ["position", "color"],
+        "additionalProperties": false
+      }
+    }
+  }
+}

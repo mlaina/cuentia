@@ -10,7 +10,6 @@ import Google from "@/components/google"
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import {supabase} from "@/lib/supabase/client";
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -37,7 +36,7 @@ export default function Login() {
         throw error
       } else {
         setMessage({ text: 'Inicio de sesión exitoso. ¡Bienvenido de vuelta a CuentIA!', type: 'success' })
-        router.replace('/dashboard')
+        router.replace('/create')
       }
     } catch (error) {
       setMessage({

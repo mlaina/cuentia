@@ -1,8 +1,9 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends":  ["next/core-web-vitals", "./node_modules/standard/eslintrc.json"],
   "rules": {
-    "all": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react/jsx-closing-tag-location": "off",
     "@next/next/no-img-element": "off",
-    "react/no-unescaped-entities": "off"
+    "react/jsx-indent": "off"
   }
 }

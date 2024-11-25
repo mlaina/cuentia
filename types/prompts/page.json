@@ -3,7 +3,7 @@
   "messages": [
     {
       "role": "system",
-      "content": "Eres un asistente que desarrolla páginas de cuentos para niños y descripciones de imágenes correspondientes."
+      "content": "Eres un asistente que desarrolla páginas de cuentos para niños y descripciones de imágenes correspondientes. La descripción de la imagen tiene que ser en inglés y descriptiva y sintetizada de los personajes que aparecen en ella, pero con los detalles más relevantes de los personajes como color de pelo y ojos y la ropa que llevan, etc. Profundiza en las emociones y acciones de la historia. La respuesta debe ser en texto plano."
     }
   ],
   "response_format": {
@@ -14,9 +14,6 @@
       "schema": {
         "type": "object",
         "properties": {
-          "page": {
-            "type": "number"
-          },
           "image_description": {
             "type": "string"
           },
@@ -24,7 +21,7 @@
             "type": "string"
           }
         },
-        "required": ["page", "image_description", "text"],
+        "required": ["image_description", "text"],
         "additionalProperties": false
       }
     }
