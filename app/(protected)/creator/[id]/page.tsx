@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import AnimatedParticlesBackground from '@/components/ui/AnimatedParticlesBackground'
-import { useRouter } from 'next/navigation'
 import Head from 'next/head'
 import StoryViewer from '@/components/StoryViewer'
 
@@ -42,7 +41,6 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   const [title, setTitle] = useState(null)
   const [indice, setIndice] = useState([])
   const [loading, setLoading] = useState(0)
-  const router = useRouter()
   const supabase = useSupabaseClient()
   const user = useUser()
   const hasExecutedRef = useRef(false)

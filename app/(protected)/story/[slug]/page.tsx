@@ -58,7 +58,7 @@ const MyDocument = ({ story, user }) => {
   return (
     <Document>
       <Page size='A4' style={styles.page}>
-          <Image src={coverImage} style={styles.coverImage} />
+          <Image alt='cover' src={coverImage} style={styles.coverImage} />
       </Page>
 
       {content.map((page, index) => {
@@ -75,7 +75,7 @@ const MyDocument = ({ story, user }) => {
               )}
             </Page>
             <Page size='A4' style={styles.page}>
-              {page.imageUrl && <Image src={page.imageUrl} style={styles.pageImage} />}
+              {page.imageUrl && <Image alt='a4' src={page.imageUrl} style={styles.pageImage} />}
             </Page>
           </>
         )

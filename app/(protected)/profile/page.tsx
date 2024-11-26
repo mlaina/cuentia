@@ -31,6 +31,7 @@ export default function ProfilePage () {
   const [protagonists, setProtagonists] = useState<Protagonist[]>([])
   const [error, setError] = useState<string | null>(null)
 
+  console.log('error', error)
   useEffect(() => {
     if (user) {
       setEmail(user.email || '')

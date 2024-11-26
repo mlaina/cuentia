@@ -4,53 +4,52 @@ import { headers } from 'next/headers'
 import { createRouteHandlerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2022-11-15',
+  apiVersion: '2022-11-15'
 })
 
-export async function POST(request: Request) {
-    const buf = await request.text()
-    const sig = headers().get('stripe-signature')
+export async function POST (request: Request) {
+  const buf = await request.text()
+  const sig = headers().get('stripe-signature')
 
-    let event: Stripe.Event
+  let event: Stripe.Event
 
-    try {
-        if (!sig || !process.env.STRIPE_WEBHOOK_SECRET) {
-            throw new Error('Falta la firma del webhook o el secreto')
+  try {
+    if (!sig || !process.env.STRIPE_WEBHOOK_SECRET) {
+      throw new Error('Falta la firma del webhook o el secreto')
+    }
+
+    event = stripe.webhooks.constructEvent(buf, sig, process.env.STRIPE_WEBHOOK_SECRET)
+  } catch (err: any) {
+    console.error(`Error verificando la firma del webhook: ${err.message}`)
+    return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 })
+  }
+
+  // Manejar el evento
+  switch (event.type) {
+    case 'checkout.session.completed':
+      // eslint-disable-next-line no-case-declarations
+      const session = event.data.object as Stripe.Checkout.Session
+
+      // eslint-disable-next-line no-case-declarations
+      const supabase = createRouteHandlerSupabaseClient({
+        headers
+      })
+
+      // eslint-disable-next-line no-case-declarations
+      const { error } = await supabase.auth.updateUser({
+        data: {
+          plan: session.display_items[0].custom.name
         }
+      })
 
-        event = stripe.webhooks.constructEvent(buf, sig, process.env.STRIPE_WEBHOOK_SECRET)
-    } catch (err: any) {
-        console.error(`Error verificando la firma del webhook: ${err.message}`)
-        return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 })
-    }
+      if (error) {
+        console.error('Error actualizando el perfil del usuario:', error.message)
+      }
 
-    // Manejar el evento
-    switch (event.type) {
-        case 'checkout.session.completed':
-            const session = event.data.object as Stripe.Checkout.Session
+      break
+    default:
+      console.log(`Evento no manejado: ${event.type}`)
+  }
 
-            // Obtener el cliente de Stripe
-            const customer = await stripe.customers.retrieve(session.customer as string)
-
-            // Actualizar el perfil del usuario en Supabase
-            const supabase = createRouteHandlerSupabaseClient({
-                headers,
-            })
-
-            const { error } = await supabase.auth.updateUser({
-                data: {
-                    plan: session.display_items[0].custom.name,
-                },
-            })
-
-            if (error) {
-                console.error('Error actualizando el perfil del usuario:', error.message)
-            }
-
-            break
-        default:
-            console.log(`Evento no manejado: ${event.type}`)
-    }
-
-    return NextResponse.json({ received: true })
+  return NextResponse.json({ received: true })
 }

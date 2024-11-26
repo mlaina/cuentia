@@ -162,7 +162,7 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
                   )
                 : (
                   <div className='relative border-glow-container rounded-sm max-w-full max-h-full overflow-hidden shadow-inner shadow-md'>
-                    <img src='/placeholder-covers.svg' className='w-full h-full object-cover ' />
+                    <img alt='cover' src='/placeholder-covers.svg' className='w-full h-full object-cover ' />
                     <div className='border-glow absolute inset-0 rounded-sm pointer-events-none' />
                   </div>
                   )}
@@ -206,7 +206,7 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
                       )
                     : (
                       <div className='relative border-glow-container rounded-md max-w-full max-h-full overflow-hidden shadow-inner shadow-md'>
-                        <img src='/placeholder.svg' className='w-full h-full object-cover ' />
+                        <img alt='loading' src='/placeholder.svg' className='w-full h-full object-cover ' />
                         <div className='border-glow absolute inset-0 rounded-md pointer-events-none transition-opacity' />
                       </div>
                       )}
@@ -232,7 +232,7 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
                   )
                 : (
                   <div className='relative border-glow-container rounded-sm max-w-full max-h-full overflow-hidden shadow-inner shadow-md'>
-                    <img src='/placeholder-covers.svg' className='w-full h-full object-cover ' />
+                    <img alt='loading' src='/placeholder-covers.svg' className='w-full h-full object-cover ' />
                     <div className='border-glow absolute inset-0 rounded-sm pointer-events-none' />
                   </div>
                   )}

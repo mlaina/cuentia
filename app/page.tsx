@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { BookOpen, Star, Wand2, Sparkles, MessageCircle, ChevronDown, ChevronUp, Mail } from 'lucide-react'
+import { BookOpen, Star, Wand2, Sparkles, MessageCircle, ChevronDown, ChevronUp } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import createImage from '../public/images/landing-create.png'
@@ -15,84 +15,9 @@ import Knightnaif from '../public/styles/knight/arte_naif.webp'
 import princesa from '../public/styles/princess/estilo_3d.webp'
 import pirate from '../public/styles/pirate_ship/pixel_art.webp'
 import PricingTable from '@/components/PricingTable'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import Google from '@/components/google'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { useRouter } from 'next/navigation'
-import LibroDeCuentos from '@/components/pages'
 
 export default function Home () {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [message, setMessage] = useState({ text: '', type: '' })
-  const supabase = useSupabaseClient()
-  const router = useRouter()
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [videoLoaded, setVideoLoaded] = useState(false)
-
-  useEffect(() => {
-    const video = videoRef.current
-    if (video) {
-      video.addEventListener('loadeddata', () => setVideoLoaded(true))
-      video.addEventListener('error', (e) => {
-        console.error('Error loading video:', e)
-        setVideoLoaded(false)
-      })
-
-      // Attempt to play the video
-      video.play().catch(error => {
-        console.error('Error attempting to play video:', error)
-      })
-
-      return () => {
-        video.removeEventListener('loadeddata', () => setVideoLoaded(true))
-        video.removeEventListener('error', () => setVideoLoaded(false))
-      }
-    }
-  }, [])
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setMessage({ text: '', type: '' })
-
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      })
-
-      console.log(data.session)
-      if (error) {
-        throw error
-      } else {
-        setMessage({ text: 'Inicio de sesión exitoso. ¡Bienvenido de vuelta a CuentIA!', type: 'success' })
-        router.replace('/dashboard')
-      }
-    } catch (error) {
-      setMessage({
-        text: error instanceof Error ? error.message : 'Ocurrió un error durante el inicio de sesión',
-        type: 'error'
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const handleOAuthSignIn = async (provider: 'google' | 'facebook') => {
-    setIsLoading(true)
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider
-    })
-    if (error) {
-      setMessage({ text: error.message, type: 'error' })
-    }
-    setIsLoading(false)
-  }
 
   const faqs = [
     { question: '¿Cómo funciona CuentIA?', answer: 'CuentIA utiliza inteligencia artificial avanzada para generar cuentos personalizados basados en tus preferencias y las características de tu hijo.' },
