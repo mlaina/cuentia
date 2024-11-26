@@ -1,9 +1,7 @@
 {
   "functions": {
     "app/api/**": {
-      "includeFiles": [
-        "fonts/Helvetica.ttf"
-      ]
+      "includeFiles": "fonts/Arial.ttf"
     }
   }
 }
