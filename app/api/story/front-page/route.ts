@@ -16,6 +16,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 })
 
+process.env.FONTCONFIG_PATH = path.join(process.cwd(), 'public', 'fonts')
+
 async function titleGenerator (image, title, user) {
   const response = await axios.get(image, { responseType: 'arraybuffer' })
   const buffer = Buffer.from(response.data, 'binary')
