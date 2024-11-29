@@ -59,11 +59,11 @@ const images = [
 
 export default function Home () {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [, setCurrentPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
-  const [message, setMessage] = useState({ text: '', type: '' })
+  const [, setMessage] = useState({ text: '', type: '' })
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [password] = useState('')
   const supabase = useSupabaseClient()
   const bookRef = useRef<any>(null)
   const router = useRouter()
@@ -74,35 +74,6 @@ export default function Home () {
     { question: '¿Cuánto tiempo tarda en generarse un cuento?', answer: 'La mayoría de los cuentos se generan en menos de un minuto, dependiendo de la complejidad y longitud solicitada.' },
     { question: '¿Puedo editar el cuento una vez generado?', answer: 'Absolutamente. Ofrecemos herramientas de edición para que puedas ajustar el cuento a tu gusto después de la generación inicial.' }
   ]
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setMessage({ text: '', type: '' })
-
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      })
-
-      console.log(data.session)
-      if (error) {
-        throw error
-      } else {
-        setMessage({ text: 'Inicio de sesión exitoso. ¡Bienvenido de vuelta a CuentIA!', type: 'success' })
-        router.replace('/create')
-      }
-    } catch (error) {
-      setMessage({
-        text: error instanceof Error ? error.message : 'Ocurrió un error durante el inicio de sesión',
-        type: 'error'
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   const handleOAuthSignIn = async (provider: 'google' | 'facebook') => {
     setIsLoading(true)
     const { error } = await supabase.auth.signInWithOAuth({
