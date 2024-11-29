@@ -14,7 +14,6 @@ import HTMLFlipBook from 'react-pageflip'
 import { Input } from '@/components/ui/input'
 import Google from '@/components/google'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { useRouter } from 'next/navigation'
 
 const frontpages = [
   'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/b3aa2cfe-bf27-4e60-03bc-039a7707b500/public',
@@ -63,10 +62,8 @@ export default function Home () {
   const [isLoading, setIsLoading] = useState(false)
   const [, setMessage] = useState({ text: '', type: '' })
   const [email, setEmail] = useState('')
-  const [password] = useState('')
   const supabase = useSupabaseClient()
   const bookRef = useRef<any>(null)
-  const router = useRouter()
 
   const faqs = [
     { question: '¿Cómo funciona CuentIA?', answer: 'CuentIA utiliza inteligencia artificial avanzada para generar cuentos personalizados basados en tus preferencias y las características de tu hijo.' },
