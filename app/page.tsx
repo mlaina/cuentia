@@ -14,47 +14,9 @@ import HTMLFlipBook from 'react-pageflip'
 import { Input } from '@/components/ui/input'
 import Google from '@/components/google'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
-
-const frontpages = [
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/b3aa2cfe-bf27-4e60-03bc-039a7707b500/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/5d164f0e-75b4-45fe-4159-93093f85bd00/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/9172f4b6-e8c4-4480-ba64-7812f3298c00/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/eebb84a4-b9c2-4d39-08f3-49250b1fe900/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/511ba210-a262-4646-ac5c-918730e10000/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/0697f64f-84e9-4620-50c4-6df7c963a200/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/7dc91d91-dd31-4f2e-c9c3-43d2f1e23800/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/17afc59c-8e0c-46de-8826-f9bdc8ad5000/public'
-]
-
-const images = [
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/de079655-2d7a-4ecb-3f04-83b28e19cd00/public',
-  // 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/e6179ea1-2eb4-4afb-001c-5c77e1fd3a00/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/9a5a3b3b-5394-4438-0cac-0bd984802200/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/18c08125-0ae3-4d70-56d1-0e05232fa500/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/37042f47-6bb2-4873-8901-eeb5e1ea2d00/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/c57d08dc-bd06-454f-acc2-331269270600/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/51b08b54-5c81-49d7-db38-f2dc092ca900/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/3de3e5ba-4b17-4c69-d314-4f02f2be9100/public',
-  // 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/6822a2db-da1f-4403-256a-541a05268200/public',
-  // 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/4c58558a-f859-4d85-98be-378f64352500/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/aae5c423-fb37-448f-0c35-33c7f9dd5700/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/a6d24f06-4c70-4e61-56d4-61180b796c00/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/17a72ce4-07f1-49a5-693d-d1d612e36a00/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/3dc725ed-3d5e-41ab-d4e3-f8c93dd28b00/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/a8c5949b-e20b-4a6d-21ec-33c927bb7800/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/f9686985-bbd8-4ee0-fa60-fa0a5b81bb00/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/663f2f9c-68fb-423b-e500-3df160c65500/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/d45df62d-29b5-4c82-0348-99bdea3d9200/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/1a8140a2-ab2d-4d9c-a877-925a0c449500/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/77fccff0-6ef7-4193-9b4d-de84aa60e400/public',
-  // fronts
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/5f944a51-cb8a-4460-bd4b-5b4922c49b00/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/8a2b52cc-b6dc-4ad2-c9fa-7b3a9fc23f00/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/6a4b1a68-8855-455d-66d2-401f41c2fe00/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/ed234cf3-ec15-4a71-a5d0-1970bc939100/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/07ec60cf-a91d-45d0-bd66-bf7bb2574500/public',
-  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/2a2a4328-295e-42ab-5fa2-dcdbd4a52200/public'
-]
+import frontpages from '@/types/landing/frontpages.json'
+import images from '@/types/landing/images.json'
+import features from '@/types/landing/features.json'
 
 export default function Home () {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
@@ -122,8 +84,8 @@ export default function Home () {
                       </div>
                     </div>,
                     <div key={index + 1} className='page-content h-full flex justify-center items-center p-8 bg-white border border-gray-200 shadow-md '>
-                      <h1 className='bg-gradient-to-r font-bold text-center from-sky-500 via-purple-800 to-red-600 bg-clip-text text-3xl text-transparent mt-10'>Crea tus cuentos con una frase</h1>
-                      <div className='border-glow-container rounded-md p-4 mt-3'>
+                      <h1 className='bg-gradient-to-r font-bold text-center from-sky-500 via-purple-800 to-red-600 bg-clip-text text-2xl text-transparent mt-3'>🚀 Crea ✨ Personaliza 🎨 Imagina 🌟</h1>
+                      <div className='border-glow-container rounded-md p-4 mt-4'>
                         <div className='border-glow absolute inset-0 rounded-lg pointer-events-none' />
                         <div className='relative flex flex-col gap-3'>
                           <div className='flex'>
@@ -136,15 +98,20 @@ export default function Home () {
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
                             />
-                            </div>
+                          </div>
                           <Button
-                            className=' rounded-lg text-md w-full transition transition-all ease-in-out b-glow to-sky-500 drop-shadow-lg transition-all  text-white font-bold'
+                            className='rounded-lg text-md w-full transition-all ease-in-out b-glow to-sky-500 drop-shadow-lg text-white font-bold'
                             disabled={isLoading}
                           >
                             Iniciar sesión
                           </Button>
                         </div>
-                        <hr className='my-6 border-gray-200' />
+                        <div className='flex items-center my-3'>
+                          <div className='flex-grow border-t border-gray-200' />
+                          <span className='mx-4 text-gray-400'>ó</span>
+                          <div className='flex-grow border-t border-gray-200' />
+                        </div>
+
                         <Button
                           className='w-full'
                           variant='outline'
@@ -154,6 +121,22 @@ export default function Home () {
                           <Google className='w-6 h-6 mr-2' />
                           Inicia Sesión con Google
                         </Button>
+                      </div>
+                      <div className='p-6 mt-4 flex flex-col gap-4'>
+                        <div key={index}>
+                          <h3 className='text-xl font-semibold text-gray-800 mb-2'>{features[index].title}</h3>
+                          <p className='text-gray-600'>{features[index].description || features[index].features.map(f =>
+                            <li key={f}>{f}</li>
+                          )}</p>
+                        </div>
+                        {features[index + 1] && (
+                          <div key={index + 1}>
+                            <h3 className='text-xl font-semibold text-gray-800 mb-2'>{features[index + 1].title}</h3>
+                            <p className='text-gray-600'>{features[index + 1].description || features[index + 1].features.map(f =>
+                                <li key={f}>{f}</li>
+                            )}</p>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ])}
