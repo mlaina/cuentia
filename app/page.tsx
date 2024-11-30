@@ -84,7 +84,9 @@ export default function Home () {
                       </div>
                     </div>,
                     <div key={index + 1} className='page-content h-full flex justify-center items-center p-8 bg-white border border-gray-200 shadow-md '>
-                      <h1 className='bg-gradient-to-r font-bold text-center from-sky-500 via-purple-800 to-red-600 bg-clip-text text-2xl text-transparent mt-3'>🚀 Crea ✨ Personaliza 🎨 Imagina 🌟</h1>
+                      <h1 className='bg-gradient-to-r font-bold text-center from-sky-500 via-purple-800 to-red-600 bg-clip-text text-2xl text-transparent mt-3 text-glow'>
+                        🚀 Crea ✨ Personaliza 🎨 Imagina 🌟
+                      </h1>
                       <div className='border-glow-container rounded-md p-4 mt-4'>
                         <div className='border-glow absolute inset-0 rounded-lg pointer-events-none' />
                         <div className='relative flex flex-col gap-3'>

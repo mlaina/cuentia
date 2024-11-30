@@ -134,5 +134,27 @@ body {
       background-position: 0% 50%;
     }
   }
+
+  @keyframes text-glow-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .text-glow {
+    background: linear-gradient(90deg, rgba(0, 240, 255, 1), rgba(106, 13, 173, 1), rgba(0, 240, 255, 1));
+    background-size: 300% 300%;
+    animation: text-glow-animation 6s ease-in-out infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+
 }
 
