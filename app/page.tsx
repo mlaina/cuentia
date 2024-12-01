@@ -1,14 +1,10 @@
 'use client'
 
 import React, { useRef, useState } from 'react'
-import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { BookOpen, Star, Wand2, Sparkles, MessageCircle, ChevronDown, ChevronUp, Mail } from 'lucide-react'
+import { BookOpen, Wand2, Sparkles, MessageCircle, ChevronDown, ChevronUp, Mail } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import createImage from '../public/images/landing-create.png'
-import storyImage from '../public/images/landing-story.png'
-import shareImage from '../public/images/landing-share.png'
 import PricingTable from '@/components/PricingTable'
 import HTMLFlipBook from 'react-pageflip'
 import { Input } from '@/components/ui/input'
@@ -46,26 +42,30 @@ export default function Home () {
 
   return (
       <div className='relative min-h-screen overflow-hidden bg-white'>
-        <header className='container mx-auto px-4 py-8'>
+        <header className='container mx-auto px-16 py-4 pt-6 '>
           <nav className='flex justify-between items-center'>
             <Link href='/' className='text-3xl font-bold text-gray-800 flex items-center'>
               <BookOpen className='w-10 h-10 mr-2 text-sky-400' />
-              <p className='bg-gradient-to-r from-sky-500 via-purple-800 to-red-600 bg-clip-text text-4xl font-bold text-transparent'>Imagins</p>
+              <p className='bg-gradient-to-r from-sky-500 to-teal-600 bg-clip-text text-4xl font-bold text-transparent'>Imagins</p>
             </Link>
+            <div className='space-x-4'>
+              <a href='#library' className='text-teal-600 hover:text-gray-600'>Librería</a>
+              <a href='#pricing' className='text-teal-600 hover:text-gray-600'>Precios</a>
+            </div>
           </nav>
         </header>
-        <main>
-          <section className='bg-white pt-5'>
-            <div className='mx-auto max-w-7xl'>
+        <main className='bg-cover bg-center'>
+          <section>
+            <div className='mx-auto  my-8'>
               <div className='relative'>
                 <HTMLFlipBook
-                  width={550}
-                  height={700}
+                  width={600}
+                  height={800}
                   size='stretch'
-                  minWidth={550}
-                  maxWidth={550}
-                  minHeight={700}
-                  maxHeight={700}
+                  minWidth={600}
+                  maxWidth={600}
+                  minHeight={800}
+                  maxHeight={800}
                   maxShadowOpacity={0.2}
                   mobileScrollSupport
                   onFlip={(e: any) => {
@@ -84,7 +84,7 @@ export default function Home () {
                       </div>
                     </div>,
                     <div key={index + 1} className='page-content h-full flex justify-center items-center p-8 bg-white border border-gray-200 shadow-md '>
-                      <h1 className='bg-gradient-to-r font-bold text-center from-sky-500 via-purple-800 to-red-600 bg-clip-text text-2xl text-transparent mt-3 text-glow'>
+                      <h1 className='bg-gradient-to-r font-bold text-center bg-clip-text text-2xl text-transparent mt-3 text-glow'>
                         🚀 Crea ✨ Personaliza 🎨 Imagina 🌟
                       </h1>
                       <div className='border-glow-container rounded-md p-4 mt-4'>
@@ -126,14 +126,14 @@ export default function Home () {
                       </div>
                       <div className='p-6 mt-4 flex flex-col gap-4'>
                         <div key={index}>
-                          <h3 className='text-xl font-semibold text-gray-800 mb-2'>{features[index].title}</h3>
+                          <h3 className='text-xl font-semibold text-teal-600 mb-2'>{features[index].title}</h3>
                           <p className='text-gray-600'>{features[index].description || features[index].features.map(f =>
                             <li key={f}>{f}</li>
                           )}</p>
                         </div>
                         {features[index + 1] && (
                           <div key={index + 1}>
-                            <h3 className='text-xl font-semibold text-gray-800 mb-2'>{features[index + 1].title}</h3>
+                            <h3 className='text-xl font-semibold text-teal-600 mb-2'>{features[index + 1].title}</h3>
                             <p className='text-gray-600'>{features[index + 1].description || features[index + 1].features.map(f =>
                                 <li key={f}>{f}</li>
                             )}</p>
@@ -147,112 +147,84 @@ export default function Home () {
             </div>
           </section>
 
-          {/* Features Section */}
-          <section className='bg-white py-20'>
-            <div className='container mx-auto px-4'>
-              <h2 className='text-3xl font-bold text-center text-gray-800 mb-12'>Características mágicas</h2>
+          <section className='py-20'>
+            <div className='container mx-auto px-18'>
               <div className='grid md:grid-cols-3 gap-8'>
                 {[
-                  { icon: Wand2, title: 'Personalización total', description: 'Adapta los personajes y la trama a tus preferencias' },
-                  { icon: Sparkles, title: 'Generación instantánea', description: 'Obtén tu cuento en segundos gracias a nuestra IA' },
-                  { icon: MessageCircle, title: 'Narración por voz', description: 'Escucha el cuento narrado con la voz que elijas' }
+                  { icon: Wand2, title: 'Personalización total', description: 'Adapta los personajes y la trama a tus preferencias', color: 'gray' },
+                  { icon: Sparkles, title: 'Generación instantánea', description: 'Obtén tu cuento en segundos gracias a nuestra IA', color: 'teal' },
+                  { icon: MessageCircle, title: 'Narración por voz', description: 'Escucha el cuento narrado con la voz que elijas', color: 'yellow' }
                 ].map((feature, index) => (
-                    <motion.div
-                      key={index}
-                      className='bg-gradient-to-br from-white to-purple-50 p-6 rounded-lg shadow-md'
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <feature.icon className='w-12 h-12 text-purple-600 mb-4' />
-                      <h3 className='text-xl font-semibold text-gray-800 mb-2'>{feature.title}</h3>
+                    <div key={index} className='p-6 rounded-lg shadow-md flex flex-col gap-2'>
+                      <feature.icon className={`w-8 h-8 text-${feature.color}-500 mb-4`} />
+                      <h3 className={`text-xl font-bold text-${feature.color}-500 mb-2`}>{feature.title}</h3>
                       <p className='text-gray-600'>{feature.description}</p>
-                    </motion.div>
+                    </div>
                 ))}
-              </div>
-            </div>
-          </section>
-          <div className='grid grid-cols-4 gap-4'>
-            {images.map((src, index) => (
-                <div key={index} className='relative h-[500px]'>
-                  <Image src={src} alt={`Image ${index + 1}`} fill className='object-cover rounded-md' />
-                  <div
-                    className=' transition-opacity ease-in duration-1000 absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent'
-                  />
-                </div>
-            ))}
-          </div>
-          {/* Demo Section */}
-          <section className='py-20'>
-            <div className='container mx-auto px-4'>
-              <h2 className='text-3xl font-bold text-center text-gray-800 mb-12'>Cómo funciona</h2>
-              <div className='flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8'>
-                <motion.div
-                  className='bg-white p-6 rounded-lg shadow-lg max-w-md bg-pink-50'
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className='flex justify-center items-center'>
-                    <Image src={createImage} alt='Paso 1: Elige tus preferencias' className='object-cover rounded-md mb-4' width={300} height={300} />
-                  </div>
-                  <h3 className='text-xl font-semibold text-gray-800 mb-2'>1. Elige tus preferencias</h3>
-                  <p className='text-gray-600'>Selecciona el tema, los personajes y el estilo de tu cuento.</p>
-                </motion.div>
-                <motion.div
-                  className='bg-white p-6 rounded-lg shadow-lg max-w-md bg-pink-50'
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Image src={storyImage} alt='Paso 2: Genera tu cuento' className=' object-cover rounded-md mb-4' width={450} height={450} />
-                  <h3 className='text-xl font-semibold text-gray-800 mb-2'>2. Genera tu cuento</h3>
-                  <p className='text-gray-600'>Nuestra IA crea una historia única basada en tus elecciones.</p>
-                </motion.div>
-                <motion.div
-                  className='bg-white p-6 rounded-lg shadow-lg max-w-md bg-pink-50'
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Image src={shareImage} alt='Paso 3: Disfruta y comparte' className='object-cover rounded-md mb-4' width={600} height={600} />
-                  <h3 className='text-xl font-semibold text-gray-800 mb-2'>3. Disfruta y comparte</h3>
-                  <p className='text-gray-600 mb-1.5'>Lee, escucha y comparte tu cuento personalizado con tus seres queridos.</p>
-                </motion.div>
               </div>
             </div>
           </section>
 
-          <section className='py-20'>
-            <div className='container mx-auto px-4'>
-              <h2 className='text-3xl font-bold text-center text-gray-800 mb-12'>Planes y Precios</h2>
-              <PricingTable />
+          <section className='py-24 flex flex-col justify-center'>
+            <div className='mx-auto px-6'>
+              <div className='flex flex-col space-y-12'>
+                <div className='flex flex-col md:flex-row items-start md:space-x-6 space-y-4 md:space-y-0'>
+                  <div className='flex items-center gap-12'>
+                  <div className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-teal-600 text-teal-600 text-3xl font-bold'>
+                    1
+                  </div>
+                  <div className='flex flex-col gap-3'>
+                    <h3 className='text-2xl md:text-2xl font-bold text-teal-600'>Personaliza la historia</h3>
+                    <p className='text-lg md:text-base text-gray-600 w-96'>
+                      Selecciona el género, define los personajes y el estilo que quieres que tengan las ilustraciones.
+                    </p>
+                  </div>
+                  </div>
+                </div>
+                <div className='flex flex-col md:flex-row items-start md:space-x-6 space-y-4 md:space-y-0'>
+                  <div className='flex items-center gap-12'>
+                    <div className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-teal-600 text-teal-600 text-3xl font-bold'>
+                      2
+                    </div>
+                    <div className='flex flex-col gap-3'>
+                      <h3 className='text-2xl md:text-2xl font-bold text-teal-600'>Genera tu cuento</h3>
+                      <p className='text-lg md:text-base text-gray-600 w-96'>
+                        Nuestra IA empezará a crear una historia totalmente personalizada según tus parámetros en cuestión de segundos.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className='flex flex-col md:flex-row items-start md:space-x-6 space-y-4 md:space-y-0'>
+                  <div className='flex items-center gap-12'>
+                    <div className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-teal-600 text-teal-600 text-3xl font-bold'>
+                      3
+                    </div>
+                    <div className='flex flex-col gap-3'>
+                      <h3 className='text-2xl md:text-2xl font-bold text-teal-600'>¡Disfruta y comparte!</h3>
+                      <p className='text-lg md:text-base text-gray-600 w-96'>
+                        Ponte cómodo y prepárate para la aventura.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
-          {/* Testimonials Section */}
-          <section className='bg-white py-20'>
+
+          <section id='library' className='py-24 grid grid-cols-4 gap-8 px-32'>
+            {images.map((src, index) => (
+                <div key={index} className='relative h-[500px]'>
+                  <Image src={src} alt={`Image ${index + 1}`} fill className='object-cover rounded-md' />
+                  <div
+                    className='transition-opacity ease-in duration-1000 absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent'
+                  />
+                </div>
+            ))}
+          </section>
+
+          <section className='py-20' id='pricing'>
             <div className='container mx-auto px-4'>
-              <h2 className='text-3xl font-bold text-center text-gray-800 mb-12'>Lo que dicen nuestros usuarios</h2>
-              <div className='grid md:grid-cols-3 gap-8'>
-                {[
-                  { name: 'María G.', comment: 'CuentIA ha revolucionado nuestras noches de lectura. ¡A mis hijos les encantan sus historias personalizadas!' },
-                  { name: 'Carlos R.', comment: 'Increíble herramienta para padres. Los cuentos son creativos y educativos. ¡Totalmente recomendado!' },
-                  { name: 'Laura S.', comment: 'La posibilidad de personalizar los personajes hace que cada historia sea especial. ¡Una experiencia mágica!' }
-                ].map((testimonial, index) => (
-                    <motion.div
-                      key={index}
-                      className='bg-purple-50 p-6 rounded-lg shadow-md'
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <p className='text-gray-600 mb-4'>"{testimonial.comment}"</p>
-                      <div className='flex items-center'>
-                        <Star className='w-5 h-5 text-yellow-400 mr-1' />
-                        <Star className='w-5 h-5 text-yellow-400 mr-1' />
-                        <Star className='w-5 h-5 text-yellow-400 mr-1' />
-                        <Star className='w-5 h-5 text-yellow-400 mr-1' />
-                        <Star className='w-5 h-5 text-yellow-400 mr-1' />
-                      </div>
-                      <p className='text-gray-800 font-semibold mt-2'>{testimonial.name}</p>
-                    </motion.div>
-                ))}
-              </div>
+              <PricingTable />
             </div>
           </section>
 
@@ -282,10 +254,10 @@ export default function Home () {
           </section>
 
           {/* CTA Section */}
-          <section className='bg-gradient-to-r from-purple-600 to-blue-600 py-20'>
+          <section className='py-20'>
             <div className='container mx-auto px-4 text-center'>
-              <h2 className='text-3xl font-bold text-white mb-6'>¿Listo para crear magia?</h2>
-              <p className='text-xl text-white mb-8'>Únete a miles de padres que ya están creando recuerdos inolvidables con CuentIA</p>
+              <h2 className='text-3xl font-bold mb-6'>¿Listo para crear magia?</h2>
+              <p className='text-xl mb-8'>Únete a miles de padres que ya están creando recuerdos inolvidables con CuentIA</p>
               <Button size='lg' variant='secondary' asChild>
                 <Link href='/register'>Comienza gratis</Link>
               </Button>

@@ -99,7 +99,7 @@ body {
 
   .border-glow {
     border: 2px solid transparent; /* Borde inicial transparente */
-    background: linear-gradient(90deg, rgba(0, 240, 255, 1), rgba(106, 13, 173, 1), rgba(0, 240, 255, 1));
+    background: linear-gradient(90deg, rgba(0, 240, 255, 1),  rgb(13, 148, 136), rgba(0, 240, 255, 1));
     background-size: 300% 300%;
     animation: border-glow-animation 6s ease-in-out infinite;
     mask:
@@ -115,7 +115,7 @@ body {
 
   .b-glow {
     border: 2px solid transparent; /* Borde inicial transparente */
-    background: linear-gradient(90deg, rgba(0, 240, 255, 1), rgba(106, 13, 173, 1), rgba(0, 240, 255, 1));
+    background: linear-gradient(90deg, rgba(0, 240, 255, 1), rgb(13, 148, 136), rgba(0, 240, 255, 1));
     background-size: 300% 300%;
     animation: border-glow-animation 6s ease-in-out infinite;
     width: 100%;
@@ -148,7 +148,7 @@ body {
   }
 
   .text-glow {
-    background: linear-gradient(90deg, rgba(0, 240, 255, 1), rgba(106, 13, 173, 1), rgba(0, 240, 255, 1));
+    background: linear-gradient(90deg, rgba(0, 240, 255, 1),  rgb(13, 148, 136), rgba(0, 240, 255, 1));
     background-size: 300% 300%;
     animation: text-glow-animation 6s ease-in-out infinite;
     -webkit-background-clip: text;
@@ -158,3 +158,13 @@ body {
 
 }
 
+
+.custom-bg {
+  background-image: url('/images/bg-book.svg');
+  background-size: cover;
+  background-position: center;
+}
+
+html {
+  scroll-behavior: smooth;
+}

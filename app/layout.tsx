@@ -20,8 +20,8 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'CuentIA - Cuentos personalizados con IA',
-  description: 'Crea historias únicas para tus hijos con inteligencia artificial',
+  title: 'Imagins - Cuentos personalizados con IA',
+  description: 'Crea historias únicas para tus hijos',
   icons: {
     icon: '/favicon.ico',
     apple: '/favicon.ico'
