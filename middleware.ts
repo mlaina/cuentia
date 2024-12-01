@@ -6,7 +6,6 @@ const publicRoutes = ['/', '/login', '/register', '/forgot-password', '/about', 
 
 export async function middleware (req: NextRequest) {
   const res = NextResponse.next()
-  /*
   const supabase = createMiddlewareClient({ req, res })
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -20,7 +19,6 @@ export async function middleware (req: NextRequest) {
   if (user && ['/login', '/register', '/forgot-password'].includes(req.nextUrl.pathname)) {
     return NextResponse.redirect(new URL('/create', req.url))
   }
-  */
 
   return res
 }
