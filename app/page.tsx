@@ -151,11 +151,14 @@ export default function Home () {
                       </div>
                       <Turnstile
                         options={{
-                          size: 'flexible'
+                          size: 'invisible'
                         }}
                         className='mt-2 w-full h-8'
                         siteKey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE}
-                        onSuccess={(token) => setTurnstileToken(token)}
+                        onSuccess={(token) => {
+                          console.log('token', token)
+                          setTurnstileToken(token)
+                        }}
                       />
                       <Button
                         type='submit'
