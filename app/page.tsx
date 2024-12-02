@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { BookOpen, Wand2, Sparkles, MessageCircle, ChevronDown, ChevronUp, Mail } from 'lucide-react'
+import { BookOpen, Wand2, Sparkles, MessageCircle, Mail } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import PricingTable from '@/components/PricingTable'
@@ -13,42 +13,66 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import frontpages from '@/types/landing/frontpages.json'
 import images from '@/types/landing/images.json'
 import features from '@/types/landing/features.json'
+import Accordion from '@/components/Accordion'
+import { verifyTurnstileToken } from '@/app/actions'
+import { Turnstile } from '@marsidev/react-turnstile'
 
 export default function Home () {
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
   const [, setCurrentPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const [, setMessage] = useState({ text: '', type: '' })
   const [email, setEmail] = useState('')
   const supabase = useSupabaseClient()
+  const [turnstileToken, setTurnstileToken] = useState('')
   const bookRef = useRef<any>(null)
 
   const faqs = [
-    { question: '¿Cómo funciona CuentIA?', answer: 'CuentIA utiliza inteligencia artificial avanzada para generar cuentos personalizados basados en tus preferencias y las características de tu hijo.' },
+    { question: '¿Cómo funciona Imagins?', answer: 'Imagins utiliza inteligencia artificial avanzada para generar cuentos personalizados basados en tus preferencias y las características de tu hijo.' },
     { question: '¿Puedo personalizar los personajes?', answer: '¡Sí! Puedes personalizar el aspecto, nombre y características de los personajes principales para que se parezcan a tu hijo o sus personajes favoritos.' },
     { question: '¿Cuánto tiempo tarda en generarse un cuento?', answer: 'La mayoría de los cuentos se generan en menos de un minuto, dependiendo de la complejidad y longitud solicitada.' },
     { question: '¿Puedo editar el cuento una vez generado?', answer: 'Absolutamente. Ofrecemos herramientas de edición para que puedas ajustar el cuento a tu gusto después de la generación inicial.' }
   ]
-  const handleOAuthSignIn = async (provider: 'google' | 'facebook') => {
+  const handleOAuthSignIn = async (provider: 'google' | 'custom') => {
+    if (!email || !turnstileToken) {
+      alert('Por favor completa todos los campos')
+      return
+    }
     setIsLoading(true)
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider
-    })
-    if (error) {
-      setMessage({ text: error.message, type: 'error' })
+    const verifyResult = await verifyTurnstileToken(turnstileToken)
+
+    console.log('verifyResult', verifyResult)
+    if (!verifyResult.success) {
+      setMessage({ text: 'Falló la verificación de seguridad', type: 'error' })
+      setIsLoading(false)
+      return
+    }
+    if (provider === 'custom') {
+      const { error } = await supabase.auth.signIn({
+        email
+      })
+      if (error) {
+        setMessage({ text: error.message, type: 'error' })
+      }
+    } else {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider
+      })
+      if (error) {
+        setMessage({ text: error.message, type: 'error' })
+      }
     }
     setIsLoading(false)
   }
 
   return (
       <div className='relative min-h-screen overflow-hidden bg-white'>
-        <header className='container mx-auto px-16 py-4 pt-6 '>
+        <header id='top' className='container mx-auto px-16 py-4 pt-6 '>
           <nav className='flex justify-between items-center'>
             <Link href='/' className='text-3xl font-bold text-gray-800 flex items-center'>
-              <BookOpen className='w-10 h-10 mr-2 text-sky-400' />
-              <p className='bg-gradient-to-r from-sky-500 to-teal-600 bg-clip-text text-4xl font-bold text-transparent'>Imagins</p>
+              <BookOpen className='w-10 h-10 mr-2 text-teal-600' />
+              <p className='text-teal-600 text-4xl font-bold'>Imagins</p>
             </Link>
-            <div className='space-x-4'>
+            <div className='space-x-4 text-lg'>
               <a href='#library' className='text-teal-600 hover:text-gray-600'>Librería</a>
               <a href='#pricing' className='text-teal-600 hover:text-gray-600'>Precios</a>
             </div>
@@ -59,13 +83,13 @@ export default function Home () {
             <div className='mx-auto  my-8'>
               <div className='relative'>
                 <HTMLFlipBook
-                  width={600}
-                  height={800}
+                  width={550}
+                  height={700}
                   size='stretch'
-                  minWidth={600}
-                  maxWidth={600}
-                  minHeight={800}
-                  maxHeight={800}
+                  minWidth={550}
+                  maxWidth={550}
+                  minHeight={700}
+                  maxHeight={700}
                   maxShadowOpacity={0.2}
                   mobileScrollSupport
                   onFlip={(e: any) => {
@@ -83,88 +107,105 @@ export default function Home () {
                         <img src={imageUrl} alt={`Image for page ${index}`} className='absolute inset-0 w-full h-full object-cover rounded-l-sm' />
                       </div>
                     </div>,
-                    <div key={index + 1} className='page-content h-full flex justify-center items-center p-8 bg-white border border-gray-200 shadow-md '>
-                      <h1 className='bg-gradient-to-r font-bold text-center bg-clip-text text-2xl text-transparent mt-3 text-glow'>
-                        🚀 Crea ✨ Personaliza 🎨 Imagina 🌟
-                      </h1>
-                      <div className='border-glow-container rounded-md p-4 mt-4'>
-                        <div className='border-glow absolute inset-0 rounded-lg pointer-events-none' />
-                        <div className='relative flex flex-col gap-3'>
-                          <div className='flex'>
-                            <Mail className='absolute left-3 transform mt-2 text-gray-400' />
-                            <Input
-                              type='email'
-                              id='email'
-                              placeholder='tu@email.com'
-                              className='pl-10 w-full'
-                              value={email}
-                              onChange={(e) => setEmail(e.target.value)}
-                            />
-                          </div>
-                          <Button
-                            className='rounded-lg text-md w-full transition-all ease-in-out b-glow to-sky-500 drop-shadow-lg text-white font-bold'
-                            disabled={isLoading}
-                          >
-                            Iniciar sesión
-                          </Button>
-                        </div>
-                        <div className='flex items-center my-3'>
-                          <div className='flex-grow border-t border-gray-200' />
-                          <span className='mx-4 text-gray-400'>ó</span>
-                          <div className='flex-grow border-t border-gray-200' />
-                        </div>
-
-                        <Button
-                          className='w-full'
-                          variant='outline'
-                          onClick={() => handleOAuthSignIn('google')}
-                          disabled={isLoading}
-                        >
-                          <Google className='w-6 h-6 mr-2' />
-                          Inicia Sesión con Google
-                        </Button>
-                      </div>
-                      <div className='p-6 mt-4 flex flex-col gap-4'>
-                        <div key={index}>
-                          <h3 className='text-xl font-semibold text-teal-600 mb-2'>{features[index].title}</h3>
-                          <p className='text-gray-600'>{features[index].description || features[index].features.map(f =>
-                            <li key={f}>{f}</li>
-                          )}</p>
-                        </div>
-                        {features[index + 1] && (
-                          <div key={index + 1}>
-                            <h3 className='text-xl font-semibold text-teal-600 mb-2'>{features[index + 1].title}</h3>
-                            <p className='text-gray-600'>{features[index + 1].description || features[index + 1].features.map(f =>
+                    <div key={index + 1} className='page-content h-full flex p-8 bg-white border border-gray-200 shadow-md'>
+                      <div className='flex h-full w-full items-center justify-center mt-36'>
+                        <div className=''>
+                          <div className='p-6 mt-4 flex flex-col gap-4'>
+                            <div key={index}>
+                              <h3 className='text-xl font-semibold text-teal-600 mb-2'>{features[index].title}</h3>
+                              <p className='text-gray-600'>{features[index].description || features[index].features.map(f =>
                                 <li key={f}>{f}</li>
-                            )}</p>
+                              )}</p>
+                            </div>
+                            {features[index + 1] && (
+                              <div key={index + 1}>
+                                <h3 className='text-xl font-semibold text-teal-600 mb-2'>{features[index + 1].title}</h3>
+                                <p className='text-gray-600'>{features[index + 1].description || features[index + 1].features.map(f =>
+                                    <li key={f}>{f}</li>
+                                )}</p>
+                              </div>
+                            )}
                           </div>
-                        )}
+                        </div>
                       </div>
                     </div>
                   ])}
                 </HTMLFlipBook>
+                <div className='absolute left-1/2 top-0 min-w-80 z-50 backdrop-blur-sm rounded-lg mt-6 ml-12 shadow-lg'>
+                  <div className='border-glow-container rounded-lg p-4 bg-white/80 backdrop-blur-sm'>
+                    <h1 className='bg-gradient-to-r font-bold text-center bg-clip-text text-xl text-transparent mb-3 text-glow'>
+                      🚀 Crea ✨ Personaliza 🎨 Imagina 🌟
+                    </h1>
+                    <div className='border-glow absolute inset-0 rounded-lg pointer-events-none' />
+                      <div className='flex'>
+                        <Mail className='absolute m-2 text-gray-400' />
+                        <Input
+                          type='email'
+                          id='email'
+                          placeholder='tu@email.com'
+                          className='pl-10 w-full'
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          aria-label='Email address'
+                        />
+                      </div>
+                      <Turnstile
+                        options={{
+                          size: 'flexible'
+                        }}
+                        className='mt-2 w-full h-8'
+                        siteKey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE}
+                        onSuccess={(token) => setTurnstileToken(token)}
+                      />
+                      <Button
+                        type='submit'
+                        onClick={() => handleOAuthSignIn('custom')}
+                        className='rounded-lg text-md mt-2 w-full transition-all ease-in-out b-glow to-sky-500 drop-shadow-lg text-white font-bold'
+                        disabled={isLoading}
+                      >
+                        Accede a Imagins
+                      </Button>
+                    <div className='flex items-center my-3'>
+                      <div className='flex-grow border-t border-gray-200' />
+                      <span className='mx-4 text-gray-400'>o</span>
+                      <div className='flex-grow border-t border-gray-200' />
+                    </div>
+                    <Button
+                      className='w-full'
+                      variant='outline'
+                      onClick={() => handleOAuthSignIn('google')}
+                      disabled={isLoading}
+                    >
+                      <Google className='w-6 h-6 mr-2' />
+                      Continúa con Google
+                    </Button>
+                    <p className='text-xs text-gray-600 text-center mt-2'>Si ya tienes cuenta, iniciaremos sesión con ella.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
-
           <section className='py-20'>
             <div className='container mx-auto px-18'>
               <div className='grid md:grid-cols-3 gap-8'>
-                {[
-                  { icon: Wand2, title: 'Personalización total', description: 'Adapta los personajes y la trama a tus preferencias', color: 'gray' },
-                  { icon: Sparkles, title: 'Generación instantánea', description: 'Obtén tu cuento en segundos gracias a nuestra IA', color: 'teal' },
-                  { icon: MessageCircle, title: 'Narración por voz', description: 'Escucha el cuento narrado con la voz que elijas', color: 'yellow' }
-                ].map((feature, index) => (
-                    <div key={index} className='p-6 rounded-lg shadow-md flex flex-col gap-2'>
-                      <feature.icon className={`w-8 h-8 text-${feature.color}-500 mb-4`} />
-                      <h3 className={`text-xl font-bold text-${feature.color}-500 mb-2`}>{feature.title}</h3>
-                      <p className='text-gray-600'>{feature.description}</p>
-                    </div>
-                ))}
+                <div className='p-6 rounded-lg shadow-md flex flex-col gap-2'>
+                  <Wand2 className='w-8 h-8 text-gray-500 mb-4' />
+                  <h3 className='text-xl font-bold text-gray-500 mb-2'>Personalización total</h3>
+                  <p className='text-gray-600'>Adapta los personajes y la trama a tus preferencias</p>
+                </div>
+                <div className='p-6 rounded-lg shadow-md flex flex-col gap-2'>
+                  <Sparkles className='w-8 h-8 text-teal-500 mb-4' />
+                  <h3 className='text-xl font-bold text-teal-500 mb-2'>Generación instantánea</h3>
+                  <p className='text-gray-600'>Obtén tu cuento en segundos gracias a nuestra IA</p>
+                </div>
+                <div className='p-6 rounded-lg shadow-md flex flex-col gap-2'>
+                  <MessageCircle className='w-8 h-8 text-yellow-500 mb-4' />
+                  <h3 className='text-xl font-bold text-yellow-500 mb-2'>Narración por voz</h3>
+                  <p className='text-gray-600'>Escucha el cuento narrado con la voz que elijas</p>
+                </div>
               </div>
             </div>
           </section>
-
           <section className='py-24 flex flex-col justify-center'>
             <div className='mx-auto px-6'>
               <div className='flex flex-col space-y-12'>
@@ -210,7 +251,6 @@ export default function Home () {
               </div>
             </div>
           </section>
-
           <section id='library' className='py-24 grid grid-cols-4 gap-8 px-32'>
             {images.map((src, index) => (
                 <div key={index} className='relative h-[500px]'>
@@ -221,55 +261,34 @@ export default function Home () {
                 </div>
             ))}
           </section>
-
           <section className='py-20' id='pricing'>
             <div className='container mx-auto px-4'>
               <PricingTable />
             </div>
           </section>
-
-          {/* FAQ Section */}
-          <section className='py-20'>
-            <div className='container mx-auto px-4'>
-              <h2 className='text-3xl font-bold text-center text-gray-800 mb-12'>Preguntas frecuentes</h2>
-              <div className='max-w-3xl mx-auto'>
-                {faqs.map((faq, index) => (
-                    <div key={index} className='mb-4'>
-                      <button
-                        className='flex justify-between items-center w-full text-left p-4 bg-white rounded-lg shadow-md'
-                        onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                      >
-                        <span className='font-semibold text-gray-800'>{faq.question}</span>
-                        {expandedFaq === index ? <ChevronUp className='w-5 h-5 text-gray-600' /> : <ChevronDown className='w-5 h-5 text-gray-600' />}
-                      </button>
-                      {expandedFaq === index && (
-                          <div className='mt-2 p-4 bg-purple-50 rounded-lg'>
-                            <p className='text-gray-600'>{faq.answer}</p>
-                          </div>
-                      )}
-                    </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* CTA Section */}
           <section className='py-20'>
             <div className='container mx-auto px-4 text-center'>
-              <h2 className='text-3xl font-bold mb-6'>¿Listo para crear magia?</h2>
-              <p className='text-xl mb-8'>Únete a miles de padres que ya están creando recuerdos inolvidables con CuentIA</p>
-              <Button size='lg' variant='secondary' asChild>
-                <Link href='/register'>Comienza gratis</Link>
+              <h2 className='text-4xl text-teal-500 font-bold mb-6'>¿Listo para crear magia?</h2>
+              <p className='text-xl mb-8'>Únete a miles de padres que ya están creando recuerdos inolvidables con Imagins</p>
+              <Button size='lg' variant='secondary' asChild className='bg-teal-500 text-white font-bold hover:text-gray-700'>
+                <a href='#top'>¡Comienza ahora!</a>
               </Button>
+            </div>
+          </section>
+          <section className='py-20'>
+            <div className='container mx-auto px-4'>
+              <div className='max-w-5xl mx-auto'>
+                <Accordion data={faqs} />
+              </div>
             </div>
           </section>
         </main>
 
-        <footer className='bg-gray-800 text-white py-12'>
+        <footer className='bg-teal-900 text-white py-12'>
           <div className='container mx-auto px-4'>
             <div className='grid md:grid-cols-4 gap-8'>
               <div>
-                <h3 className='text-lg font-semibold mb-4'>CuentIA</h3>
+                <h3 className='text-lg font-semibold mb-4'>Imagins</h3>
                 <p className='text-sm text-gray-400'>Creando historias mágicas con IA para niños de todo el mundo.</p>
               </div>
               <div>
@@ -298,7 +317,7 @@ export default function Home () {
               </div>
             </div>
             <div className='mt-8 pt-8 border-t border-gray-700 text-center'>
-              <p className='text-sm text-gray-400'>&copy; 2023 CuentIA. Todos los derechos reservados.</p>
+              <p className='text-sm text-gray-400'>&copy; 2024 Imagins. Todos los derechos reservados.</p>
             </div>
           </div>
         </footer>
