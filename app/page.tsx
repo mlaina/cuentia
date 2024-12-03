@@ -40,15 +40,18 @@ export default function Home () {
     setIsLoading(true)
     const verifyResult = await verifyTurnstileToken(turnstileToken)
 
-    console.log('verifyResult', verifyResult)
-    if (!verifyResult.success) {
+    if (verifyResult.success) {
       setMessage({ text: 'Falló la verificación de seguridad', type: 'error' })
       setIsLoading(false)
       return
     }
     if (provider === 'custom') {
-      const { error } = await supabase.auth.signIn({
-        email
+      console.log('email', email)
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`
+        }
       })
       if (error) {
         setMessage({ text: error.message, type: 'error' })
@@ -151,12 +154,11 @@ export default function Home () {
                       </div>
                       <Turnstile
                         options={{
-                          size: 'invisible'
+                          size: 'flexible'
                         }}
                         className='mt-2 w-full h-8'
                         siteKey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE}
                         onSuccess={(token) => {
-                          console.log('token', token)
                           setTurnstileToken(token)
                         }}
                       />
@@ -164,7 +166,7 @@ export default function Home () {
                         type='submit'
                         onClick={() => handleOAuthSignIn('custom')}
                         className='rounded-lg text-md mt-2 w-full transition-all ease-in-out b-glow to-sky-500 drop-shadow-lg text-white font-bold'
-                        disabled={isLoading}
+                        disabled={!email || !turnstileToken || isLoading}
                       >
                         Accede a Imagins
                       </Button>
@@ -266,7 +268,9 @@ export default function Home () {
           </section>
           <section className='py-20' id='pricing'>
             <div className='container mx-auto px-4'>
-              <PricingTable />
+              <a href='#top'>
+                <PricingTable link={false} />
+              </a>
             </div>
           </section>
           <section className='py-20'>

@@ -76,7 +76,6 @@ export default function PricingTable () {
   return (
       <div className='grid md:grid-cols-3 gap-12'>
         {pricingPlans.map((plan) => (
-            <a key={plan.name} onClick={() => handleCheckout(plan.stripePriceId)}>
               <div
                 className={`p-10 rounded-lg py-12 cursor-pointer ${plan.large ? '-translate-y-1 scale-105' : ''}`}
                 style={{
@@ -102,7 +101,6 @@ export default function PricingTable () {
                   {plan.price}€
                 </p>
               </div>
-            </a>
         ))}
       </div>
   )

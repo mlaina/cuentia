@@ -1,55 +1,67 @@
+// app/api/stripe-webhook/route.js
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { headers } from 'next/headers'
-import { createRouteHandlerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2022-11-15'
-})
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
-export async function POST (request: Request) {
-  const buf = await request.text()
-  const sig = headers().get('stripe-signature')
+export async function POST (request) {
+  const sig = request.headers.get('stripe-signature')
+  const buf = await request.arrayBuffer()
+  const body = Buffer.from(buf)
 
-  let event: Stripe.Event
+  let event
 
   try {
-    if (!sig || !process.env.STRIPE_WEBHOOK_SECRET) {
-      throw new Error('Falta la firma del webhook o el secreto')
-    }
-
-    event = stripe.webhooks.constructEvent(buf, sig, process.env.STRIPE_WEBHOOK_SECRET)
-  } catch (err: any) {
-    console.error(`Error verificando la firma del webhook: ${err.message}`)
-    return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 })
+    event = stripe.webhooks.constructEvent(
+      body,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET
+    )
+  } catch (err) {
+    console.error(`Webhook signature verification failed: ${err.message}`)
+    return NextResponse.json(
+      { error: 'Webhook signature verification failed' },
+      { status: 400 }
+    )
   }
 
-  // Manejar el evento
   switch (event.type) {
     case 'checkout.session.completed':
-      // eslint-disable-next-line no-case-declarations
-      const session = event.data.object as Stripe.Checkout.Session
-
-      // eslint-disable-next-line no-case-declarations
-      const supabase = createRouteHandlerSupabaseClient({
-        headers
-      })
-
-      // eslint-disable-next-line no-case-declarations
-      const { error } = await supabase.auth.updateUser({
-        data: {
-          plan: session.display_items[0].custom.name
-        }
-      })
-
-      if (error) {
-        console.error('Error actualizando el perfil del usuario:', error.message)
-      }
-
+      await handleCheckoutSessionCompleted(event.data.object)
+      break
+    case 'invoice.payment_succeeded':
+      await handleInvoicePaymentSucceeded(event.data.object)
+      break
+    case 'invoice.payment_failed':
+      await handleInvoicePaymentFailed(event.data.object)
       break
     default:
-      console.log(`Evento no manejado: ${event.type}`)
+      console.log(`Unhandled event type ${event.type}`)
   }
 
   return NextResponse.json({ received: true })
+}
+
+async function handleCheckoutSessionCompleted (session) {
+  console.log(session)
+}
+
+async function handleInvoicePaymentSucceeded (invoice) {
+  const subscriptionId = invoice.subscription
+
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+  const customer = await stripe.customers.retrieve(subscription.customer)
+  const email = customer.email
+
+  console.log(email)
+}
+
+async function handleInvoicePaymentFailed (invoice) {
+  const subscriptionId = invoice.subscription
+
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+  const customer = await stripe.customers.retrieve(subscription.customer)
+  const email = customer.email
+
+  console.log(email)
 }
