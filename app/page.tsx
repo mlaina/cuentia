@@ -269,7 +269,7 @@ export default function Home () {
           <section className='py-20' id='pricing'>
             <div className='container mx-auto px-4'>
               <a href='#top'>
-                <PricingTable link={false} />
+                <PricingTable />
               </a>
             </div>
           </section>

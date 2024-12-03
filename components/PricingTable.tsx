@@ -52,7 +52,7 @@ const pricingPlans = [
   }
 ]
 
-export default function PricingTable ({ link = false }) {
+export default function PricingTable ({ link = false, email = null }) {
   const handleCheckout = async (priceId) => {
     if (!link) return
     const stripe = await stripePromise
@@ -63,7 +63,7 @@ export default function PricingTable ({ link = false }) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ priceId })
+      body: JSON.stringify({ priceId, email })
     })
     const session = await response.json()
     if (stripe) {

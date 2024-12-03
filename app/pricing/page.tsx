@@ -1,12 +1,14 @@
 'use client'
 
 import React from 'react'
-import { BookOpen } from 'lucide-react'
 import Link from 'next/link'
 import PricingTable from '@/components/PricingTable'
 import Accordion from '@/components/Accordion'
+import { useSearchParams } from 'next/navigation'
 
-export default function Home () {
+export default function Pricing () {
+  const searchParams = useSearchParams()
+  const email = searchParams.get('email')
   const faqs = [
     { question: '¿Cómo funciona Imagins?', answer: 'Imagins utiliza inteligencia artificial avanzada para generar cuentos personalizados basados en tus preferencias y las características de tu hijo.' },
     { question: '¿Puedo personalizar los personajes?', answer: '¡Sí! Puedes personalizar el aspecto, nombre y características de los personajes principales para que se parezcan a tu hijo o sus personajes favoritos.' },
@@ -16,22 +18,10 @@ export default function Home () {
 
   return (
         <div className='relative min-h-screen overflow-hidden bg-white'>
-            <header id='top' className='container mx-auto px-16 py-4 pt-6 '>
-                <nav className='flex justify-between items-center'>
-                    <Link href='/Users/m_lai/Desktop/git/project-nexus/cuentia/public' className='text-3xl font-bold text-gray-800 flex items-center'>
-                        <BookOpen className='w-10 h-10 mr-2 text-teal-600' />
-                        <p className='text-teal-600 text-4xl font-bold'>Imagins</p>
-                    </Link>
-                    <div className='space-x-4 text-lg'>
-                        <a href='@/app/(protected)/pricing/page#library' className='text-teal-600 hover:text-gray-600'>Librería</a>
-                        <a href='@/app/(protected)/pricing/page#pricing' className='text-teal-600 hover:text-gray-600'>Precios</a>
-                    </div>
-                </nav>
-            </header>
             <main className='bg-cover bg-center'>
                 <section className='py-20' id='pricing'>
                     <div className='container mx-auto px-4'>
-                        <PricingTable />
+                        <PricingTable link email={email} />
                     </div>
                 </section>
 
