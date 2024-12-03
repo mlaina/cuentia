@@ -52,8 +52,9 @@ const pricingPlans = [
   }
 ]
 
-export default function PricingTable () {
+export default function PricingTable ({ link = false }) {
   const handleCheckout = async (priceId) => {
+    if (!link) return
     const stripe = await stripePromise
 
     console.log('stripe', stripe)
@@ -65,7 +66,6 @@ export default function PricingTable () {
       body: JSON.stringify({ priceId })
     })
     const session = await response.json()
-    console.log('session', session)
     if (stripe) {
       await stripe.redirectToCheckout({ sessionId: session.id })
     } else {
@@ -77,6 +77,8 @@ export default function PricingTable () {
       <div className='grid md:grid-cols-3 gap-12'>
         {pricingPlans.map((plan) => (
               <div
+                key={plan.stripePriceId}
+                onClick={() => handleCheckout(plan.stripePriceId)}
                 className={`p-10 rounded-lg py-12 cursor-pointer ${plan.large ? '-translate-y-1 scale-105' : ''}`}
                 style={{
                   background: plan.color
