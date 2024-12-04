@@ -1,5 +1,5 @@
 [
-  {
+  [{
     "title": "Personalización total de tus cuentos",
     "features": [
       "Define a tus protagonistas",
@@ -11,7 +11,8 @@
   {
     "title": "Generación instantanea",
     "description": "En menos de un minuto tendrás un cuento completo con las directrices que hayas definido."
-  },
+  }],
+  [
   {
     "title": "Calidad de imágenes",
     "description": "Ilustraciones increíbles que dispararán la imaginación de los más pequeños. ¡Y de los mayores!"
@@ -19,7 +20,8 @@
   {
     "title": "Cuentos únicos",
     "description": "Cada cuento es único y especial, como cada niño. ¡Y como cada adulto!"
-  },
+  }],
+  [
   {
     "title": "Cuentos para todas las ocasiones",
     "features": [
@@ -30,13 +32,62 @@
   {
     "title": "Accesible desde cualquier dispositivo",
     "description": "Desde tu móvil, tablet u ordenador, podrás acceder a tu cuenta y a tus cuentos."
-  },
-  {
-    "title": "Exporta tus cuentos",
-    "description": "Descarga tus cuentos en PDF o EPUB para imprimirlos o compartirlos con quien quieras."
-  },
-  {
-    "title": "Control de creación",
-    "description": "Edita textos, imágenes y portadas. Regenera tus cuentos cuando quieras. ¡Tú tienes el control!"
-  }
+  }],
+  [
+    {
+      "title": "Exporta tus cuentos",
+      "description": "Descarga tus cuentos en PDF o EPUB para imprimirlos o compartirlos con quien quieras."
+    },
+    {
+      "title": "Control de creación",
+      "description": "Edita textos, imágenes y portadas. Regenera tus cuentos cuando quieras. ¡Tú tienes el control!"
+    }
+  ],
+  [
+    {
+      "title": "Edita textos, imágenes y portadas",
+      "description": "Regenera tus cuentos cuando quieras. ¡Tú tienes el control!"
+    },
+    {
+      "title": "Asistente de prompts",
+      "description": "Recibe sugerencias para mejorar tus cuentos y hacerlos más atractivos."
+    }
+  ],
+  [
+    {
+      "title": "Clonación de voces",
+      "comming": true,
+      "description": "Utiliza tu propia voz para poder usarla como narradora para los cuentos de tus hijos."
+    },
+    {
+      "title": "Narración de cuentos",
+      "comming": true,
+      "description": "Escoge entre diferentes voces para que narren los cuentos a tus hijos."
+    }
+  ],
+  [
+    {
+      "title": "Comparte tus cuentos",
+      "comming": true,
+      "description": "Comparte tus cuentos con tus amigos y familiares. ¡Haz que disfruten de tus creaciones!"
+    },
+    {
+      "title": "Encargo de impresión",
+      "comming": true,
+      "description": "Encarga la impresión de tus cuentos en papel de alta calidad. ¡Recíbelos en tu casa!"
+    }
+  ],
+  [
+    {
+      "title": "Recomendaciones",
+      "comming": true,
+      "description": "Sugerencias de cuentos basadas en las preferencias y edad de los niños, adaptadas a cada usuario."
+    },
+    {
+      "title": "Cuentos bilingües",
+      "comming": true,
+      "description": "Genera cuentos en dos idiomas para fomentar el aprendizaje y la diversidad cultural de los niños."
+
+    }
+  ]
 ]

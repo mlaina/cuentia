@@ -1,27 +1,24 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
-import { NextResponse, NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
-const publicRoutes = ['/', '/legal', '/pricing', '/api/stripe', '/api/webhook', '/images']
+const publicRoutes = ['/', '/legal', '/pricing', '/api/stripe', '/api/webhook', '/images', '/validation']
 
-export async function middleware (req: NextRequest) {
+export async function middleware (req) {
   const res = NextResponse.next()
   const supabase = createMiddlewareClient({ req, res })
 
   const { data: { user } } = await supabase.auth.getUser()
-
   const isPublicRoute = publicRoutes.includes(req.nextUrl.pathname)
+  const turnstileVerified = req.cookies.get('turnstile_verified')?.value
 
-  // Redirigir si el usuario no está autenticado y la ruta no es pública
-  if (!user && !isPublicRoute) {
+  if (!user && !isPublicRoute && turnstileVerified !== 'true') {
     return NextResponse.redirect(new URL('/', req.url))
   }
 
-  // Redirigir a /create si el usuario está autenticado y está en páginas restringidas
   if (user && ['/login', '/register', '/forgot-password'].includes(req.nextUrl.pathname)) {
     return NextResponse.redirect(new URL('/create', req.url))
   }
 
-  // Validar que /pricing tenga el parámetro `email`
   if (req.nextUrl.pathname === '/pricing' && !req.nextUrl.searchParams.get('email')) {
     return NextResponse.redirect(new URL('/', req.url))
   }

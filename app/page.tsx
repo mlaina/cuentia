@@ -2,28 +2,18 @@
 
 import React, { useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { BookOpen, Wand2, Sparkles, MessageCircle, Mail } from 'lucide-react'
+import { BookOpen, Wand2, Sparkles, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
 import PricingTable from '@/components/PricingTable'
 import HTMLFlipBook from 'react-pageflip'
-import { Input } from '@/components/ui/input'
-import Google from '@/components/google'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import frontpages from '@/types/landing/frontpages.json'
 import images from '@/types/landing/images.json'
 import features from '@/types/landing/features.json'
 import Accordion from '@/components/Accordion'
-import { verifyTurnstileToken } from '@/app/actions'
-import { Turnstile } from '@marsidev/react-turnstile'
+import Login from '@/components/Login'
 
 export default function Home () {
   const [, setCurrentPage] = useState(1)
-  const [isLoading, setIsLoading] = useState(false)
-  const [, setMessage] = useState({ text: '', type: '' })
-  const [email, setEmail] = useState('')
-  const supabase = useSupabaseClient()
-  const [turnstileToken, setTurnstileToken] = useState('')
   const bookRef = useRef<any>(null)
 
   const faqs = [
@@ -32,40 +22,6 @@ export default function Home () {
     { question: '¿Cuánto tiempo tarda en generarse un cuento?', answer: 'La mayoría de los cuentos se generan en menos de un minuto, dependiendo de la complejidad y longitud solicitada.' },
     { question: '¿Puedo editar el cuento una vez generado?', answer: 'Absolutamente. Ofrecemos herramientas de edición para que puedas ajustar el cuento a tu gusto después de la generación inicial.' }
   ]
-  const handleOAuthSignIn = async (provider: 'google' | 'custom') => {
-    if (!email || !turnstileToken) {
-      alert('Por favor completa todos los campos')
-      return
-    }
-    setIsLoading(true)
-    const verifyResult = await verifyTurnstileToken(turnstileToken)
-
-    if (verifyResult.success) {
-      setMessage({ text: 'Falló la verificación de seguridad', type: 'error' })
-      setIsLoading(false)
-      return
-    }
-    if (provider === 'custom') {
-      console.log('email', email)
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`
-        }
-      })
-      if (error) {
-        setMessage({ text: error.message, type: 'error' })
-      }
-    } else {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider
-      })
-      if (error) {
-        setMessage({ text: error.message, type: 'error' })
-      }
-    }
-    setIsLoading(false)
-  }
 
   return (
       <div className='relative min-h-screen overflow-hidden bg-white'>
@@ -110,83 +66,58 @@ export default function Home () {
                         <img src={imageUrl} alt={`Image for page ${index}`} className='absolute inset-0 w-full h-full object-cover rounded-l-sm' />
                       </div>
                     </div>,
-                    <div key={index + 1} className='page-content h-full flex p-8 bg-white border border-gray-200 shadow-md'>
-                      <div className='flex h-full w-full items-center justify-center mt-36'>
+                    <div key={index} className='page-content h-full flex py-6 px-12 bg-white border border-gray-200 shadow-md'>
+                      <div className='min-w-[455px] h-[300px] rounded-md border border-teal-600 border-dashed' />
+                      {features[index] &&
+                      <div className='flex w-full items-center justify-center mt-6'>
                         <div className=''>
-                          <div className='p-6 mt-4 flex flex-col gap-4'>
-                            <div key={index}>
-                              <h3 className='text-xl font-semibold text-teal-600 mb-2'>{features[index].title}</h3>
-                              <p className='text-gray-600'>{features[index].description || features[index].features.map(f =>
-                                <li key={f}>{f}</li>
-                              )}</p>
-                            </div>
-                            {features[index + 1] && (
-                              <div key={index + 1}>
-                                <h3 className='text-xl font-semibold text-teal-600 mb-2'>{features[index + 1].title}</h3>
-                                <p className='text-gray-600'>{features[index + 1].description || features[index + 1].features.map(f =>
-                                    <li key={f}>{f}</li>
-                                )}</p>
-                              </div>
+                          <div className='p-6 flex flex-col gap-4'>
+                            {features[index][0] && (
+                                <div key={index}>
+                                  <div className='flex items-center gap-2'>
+                                    <h3 className='text-xl font-semibold text-teal-600 mb-2'>
+                                      {features[index][0].title}
+                                    </h3>
+                                    {features[index][0].comming && (
+                                        <div className=' inline-block mt-[-6px] px-3 py-0.5 text-xs text-gray-600 bg-gray-200 rounded-full'>
+                                          Próximamente
+                                        </div>
+                                    )}
+                                  </div>
+                                  <p className='text-gray-600'>
+                                    {features[index][0].description || features[index][0].features.map(f => (
+                                        <li key={f}>{f}</li>
+                                    ))}
+                                  </p>
+                                </div>
+                            )}
+                            {features[index][1] && (
+                                <div key={index + 1}>
+                                  <div className='flex items-center gap-2'>
+                                    <h3 className='text-xl font-semibold text-teal-600 mb-2'>
+                                      {features[index][1].title}
+                                    </h3>
+                                    {features[index][1].comming && (
+                                        <div className=' inline-block px-3 mt-[-6px] py-0.5 text-xs text-gray-600 bg-gray-200 rounded-full'>
+                                          Próximamente
+                                        </div>
+                                    )}
+                                  </div>
+                                  <p className='text-gray-600'>
+                                    {features[index][1].description || features[index][1].features.map(f => (
+                                        <li key={f}>{f}</li>
+                                    ))}
+                                  </p>
+                                </div>
                             )}
                           </div>
+
                         </div>
-                      </div>
+                      </div>}
                     </div>
                   ])}
                 </HTMLFlipBook>
-                <div className='absolute left-1/2 top-0 min-w-80 z-50 backdrop-blur-sm rounded-lg mt-6 ml-12 shadow-lg'>
-                  <div className='border-glow-container rounded-lg p-4 bg-white/80 backdrop-blur-sm'>
-                    <h1 className='bg-gradient-to-r font-bold text-center bg-clip-text text-xl text-transparent mb-3 text-glow'>
-                      🚀 Crea ✨ Personaliza 🎨 Imagina 🌟
-                    </h1>
-                    <div className='border-glow absolute inset-0 rounded-lg pointer-events-none' />
-                      <div className='flex'>
-                        <Mail className='absolute m-2 text-gray-400' />
-                        <Input
-                          type='email'
-                          id='email'
-                          placeholder='tu@email.com'
-                          className='pl-10 w-full'
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          aria-label='Email address'
-                        />
-                      </div>
-                      <Turnstile
-                        options={{
-                          size: 'flexible'
-                        }}
-                        className='mt-2 w-full h-8'
-                        siteKey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE}
-                        onSuccess={(token) => {
-                          setTurnstileToken(token)
-                        }}
-                      />
-                      <Button
-                        type='submit'
-                        onClick={() => handleOAuthSignIn('custom')}
-                        className='rounded-lg text-md mt-2 w-full transition-all ease-in-out b-glow to-sky-500 drop-shadow-lg text-white font-bold'
-                        disabled={!email || !turnstileToken || isLoading}
-                      >
-                        Accede a Imagins
-                      </Button>
-                    <div className='flex items-center my-3'>
-                      <div className='flex-grow border-t border-gray-200' />
-                      <span className='mx-4 text-gray-400'>o</span>
-                      <div className='flex-grow border-t border-gray-200' />
-                    </div>
-                    <Button
-                      className='w-full'
-                      variant='outline'
-                      onClick={() => handleOAuthSignIn('google')}
-                      disabled={isLoading}
-                    >
-                      <Google className='w-6 h-6 mr-2' />
-                      Continúa con Google
-                    </Button>
-                    <p className='text-xs text-gray-600 text-center mt-2'>Si ya tienes cuenta, iniciaremos sesión con ella.</p>
-                  </div>
-                </div>
+                <Login />
               </div>
             </div>
           </section>
@@ -256,15 +187,21 @@ export default function Home () {
               </div>
             </div>
           </section>
-          <section id='library' className='py-24 grid grid-cols-4 gap-8 px-32'>
-            {images.map((src, index) => (
-                <div key={index} className='relative h-[500px]'>
-                  <Image src={src} alt={`Image ${index + 1}`} fill className='object-cover rounded-md' />
-                  <div
-                    className='transition-opacity ease-in duration-1000 absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent'
-                  />
-                </div>
-            ))}
+          <section id='library' className='mx-auto max-w-5xl py-24'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 '>
+              {images.map((src, index) => {
+                return (
+                      <div key={index} className='relative w-26'>
+                        <img
+                          src={src}
+                          alt='Cover Image'
+                          className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
+                        />
+                        <div className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none' />
+                      </div>
+                )
+              })}
+            </div>
           </section>
           <section className='py-20' id='pricing'>
             <div className='container mx-auto px-4'>
