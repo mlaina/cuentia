@@ -13,7 +13,7 @@ import Accordion from '@/components/Accordion'
 import Login from '@/components/Login'
 
 export default function Home () {
-  const [currentPage, setCurrentPage] = useState(1)
+  const [, setCurrentPage] = useState(1)
   const bookRef = useRef<any>(null)
 
   const faqs = [

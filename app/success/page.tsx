@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 
 export default function SuccessPage ({ searchParams }) {
   const [loading, setLoading] = useState(true)
-  const [session, setSession] = useState(null)
+  const [session] = useState(null)
   const router = useRouter()
 
   useEffect(() => {

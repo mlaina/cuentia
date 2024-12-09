@@ -23,13 +23,13 @@ export default function Login () {
     // }
 
     setIsLoading(true)
-    // const verifyResult = await verifyTurnstileToken(turnstileToken)
-    //
-    // if (verifyResult.success) {
-    //   setMessage({ text: 'Falló la verificación de seguridad', type: 'error' })
-    //   setIsLoading(false)
-    //   return
-    // }
+    const verifyResult = await verifyTurnstileToken(turnstileToken)
+
+    if (verifyResult.success) {
+      setMessage({ text: 'Falló la verificación de seguridad', type: 'error' })
+      setIsLoading(false)
+      return
+    }
 
     if (provider === 'custom') {
       const { error } = await supabase.auth.signInWithOtp({

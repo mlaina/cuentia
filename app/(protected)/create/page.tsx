@@ -7,7 +7,7 @@ import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { Slider } from '@/components/ui/slider'
 import { useRouter } from 'next/navigation'
 import AnimatedParticlesBackground from '@/components/ui/AnimatedParticlesBackground'
-import { Popover } from '@radix-ui/react-popover'
+// import { Popover } from '@radix-ui/react-popover'
 
 export default function CrearCuentoPage () {
   const [descripcion, setDescripcion] = useState('')
@@ -16,10 +16,10 @@ export default function CrearCuentoPage () {
   const [protagonists, setProtagonists] = useState([{}])
   const [longitud, setLongitud] = useState(6)
   const [loading, setLoading] = useState(false)
-  const [disabled, setDisabled] = useState(false)
+  const [, setDisabled] = useState(false)
   const [showPopover, setShowPopover] = useState(false)
-  const [popoverFilter, setPopoverFilter] = useState('')
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [, setPopoverFilter] = useState('')
+  const [, setAnchorEl] = useState(null)
   const searchFieldRef = useRef(null)
   const textFieldRef = useRef(null)
   const router = useRouter()
@@ -123,9 +123,9 @@ export default function CrearCuentoPage () {
     }
   }
 
-  const handlePopoverFilterChange = (e) => {
-    setPopoverFilter(e.target.value)
-  }
+  // const handlePopoverFilterChange = (e) => {
+  //   setPopoverFilter(e.target.value)
+  // }
 
   useEffect(() => {
     if (!showPopover) return
