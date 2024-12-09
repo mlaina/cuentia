@@ -4,11 +4,11 @@ import React from 'react'
 import Link from 'next/link'
 import PricingTable from '@/components/PricingTable'
 import Accordion from '@/components/Accordion'
-import { useSearchParams } from 'next/navigation'
+import { useUser } from '@supabase/auth-helpers-react'
 
 export default function Pricing () {
-  const searchParams = useSearchParams()
-  const email = searchParams.get('email')
+  const user = useUser()
+  const email = user?.email
   const faqs = [
     { question: '¿Cómo funciona Imagins?', answer: 'Imagins utiliza inteligencia artificial avanzada para generar cuentos personalizados basados en tus preferencias y las características de tu hijo.' },
     { question: '¿Puedo personalizar los personajes?', answer: '¡Sí! Puedes personalizar el aspecto, nombre y características de los personajes principales para que se parezcan a tu hijo o sus personajes favoritos.' },

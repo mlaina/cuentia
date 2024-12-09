@@ -1,9 +1,11 @@
 'use client'
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function SuccessPage ({ searchParams }) {
   const [loading, setLoading] = useState(true)
   const [session, setSession] = useState(null)
+  const router = useRouter()
 
   useEffect(() => {
     // eslint-disable-next-line camelcase
@@ -23,9 +25,8 @@ export default function SuccessPage ({ searchParams }) {
       })
       const data = await res.json()
 
-      if (data.session) {
-        setSession(data.session)
-        console.log('session', session)
+      if (data.success) {
+        router.push('/create')
       }
     } catch (error) {
       console.error('Error fetching session:', error)

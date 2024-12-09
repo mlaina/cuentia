@@ -1,17 +1,25 @@
-// app/api/checkout-session/route.js
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+import products from '@/types/products/products'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2022-11-15'
+})
 
 export async function POST (request) {
   const { sessionId } = await request.json()
+  const supabase = createRouteHandlerClient({ cookies })
+  const lineItems = await stripe.checkout.sessions.listLineItems(sessionId)
 
-  try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId)
-    return NextResponse.json({ session })
-  } catch (error) {
-    console.error('Error retrieving session:', error)
-    return NextResponse.json({ error: 'Error retrieving session' }, { status: 500 })
-  }
+  const productId = lineItems.data[0].price.product
+
+  const credits = products[productId] || 0
+
+  await supabase.auth.updateUser({
+    data: { credits }
+  })
+
+  return NextResponse.json({ success: true })
 }

@@ -13,7 +13,7 @@ import Accordion from '@/components/Accordion'
 import Login from '@/components/Login'
 
 export default function Home () {
-  const [, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
   const bookRef = useRef<any>(null)
 
   const faqs = [
@@ -61,19 +61,19 @@ export default function Home () {
                   } as React.CSSProperties}
                 >
                   {frontpages.map((imageUrl, index) => [
-                    <div key={index} className='page bg-white shadow-md'>
+                    <div key={'front-' + index} className='page bg-white shadow-md'>
                       <div className='page-content h-full flex justify-center items-center'>
                         <img src={imageUrl} alt={`Image for page ${index}`} className='absolute inset-0 w-full h-full object-cover rounded-l-sm' />
                       </div>
                     </div>,
-                    <div key={index} className='page-content h-full flex py-6 px-12 bg-white border border-gray-200 shadow-md'>
+                    <div key={'back-' + index} className='page-content h-full flex py-6 px-12 bg-white border border-gray-200 shadow-md'>
                       <div className='min-w-[455px] h-[300px] rounded-md border border-teal-600 border-dashed' />
                       {features[index] &&
                       <div className='flex w-full items-center justify-center mt-6'>
                         <div className=''>
                           <div className='p-6 flex flex-col gap-4'>
                             {features[index][0] && (
-                                <div key={index}>
+                                <div key={`feature-0-${index}`}>
                                   <div className='flex items-center gap-2'>
                                     <h3 className='text-xl font-semibold text-teal-600 mb-2'>
                                       {features[index][0].title}
@@ -92,7 +92,7 @@ export default function Home () {
                                 </div>
                             )}
                             {features[index][1] && (
-                                <div key={index + 1}>
+                                <div key={`feature-1-${index}`}>
                                   <div className='flex items-center gap-2'>
                                     <h3 className='text-xl font-semibold text-teal-600 mb-2'>
                                       {features[index][1].title}
@@ -188,7 +188,7 @@ export default function Home () {
             </div>
           </section>
           <section id='library' className='mx-auto max-w-5xl py-24'>
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 '>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 '>
               {images.map((src, index) => {
                 return (
                       <div key={index} className='relative w-26'>

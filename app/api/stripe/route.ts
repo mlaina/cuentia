@@ -1,4 +1,3 @@
-// app/api/stripe/route.ts (si usas App Router)
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 

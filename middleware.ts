@@ -1,7 +1,7 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 
-const publicRoutes = ['/', '/legal', '/pricing', '/api/stripe', '/api/webhook', '/images', '/validation']
+const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/images', '/validation']
 
 export async function middleware (req) {
   const res = NextResponse.next()
@@ -15,12 +15,20 @@ export async function middleware (req) {
     return NextResponse.redirect(new URL('/', req.url))
   }
 
-  if (user && ['/login', '/register', '/forgot-password'].includes(req.nextUrl.pathname)) {
+  if (user && req.nextUrl.pathname === '/success') {
+    return NextResponse.next()
+  }
+
+  if (user && req.nextUrl.pathname.startsWith('/api/')) {
+    return NextResponse.next()
+  }
+
+  if (user && isPublicRoute) {
     return NextResponse.redirect(new URL('/create', req.url))
   }
 
-  if (req.nextUrl.pathname === '/pricing' && !req.nextUrl.searchParams.get('email')) {
-    return NextResponse.redirect(new URL('/', req.url))
+  if (user && req.nextUrl.pathname !== '/pricing' && !isPublicRoute && (!user?.user_metadata.credits || user?.user_metadata.credits === 0)) {
+    return NextResponse.redirect(new URL('/pricing', req.url))
   }
 
   return res

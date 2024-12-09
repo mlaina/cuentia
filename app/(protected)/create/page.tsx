@@ -1,12 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { Wand2 } from 'lucide-react'
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { Slider } from '@/components/ui/slider'
 import { useRouter } from 'next/navigation'
 import AnimatedParticlesBackground from '@/components/ui/AnimatedParticlesBackground'
+import { Popover } from '@radix-ui/react-popover'
 
 export default function CrearCuentoPage () {
   const [descripcion, setDescripcion] = useState('')
@@ -15,6 +16,12 @@ export default function CrearCuentoPage () {
   const [protagonists, setProtagonists] = useState([{}])
   const [longitud, setLongitud] = useState(6)
   const [loading, setLoading] = useState(false)
+  const [disabled, setDisabled] = useState(false)
+  const [showPopover, setShowPopover] = useState(false)
+  const [popoverFilter, setPopoverFilter] = useState('')
+  const [anchorEl, setAnchorEl] = useState(null)
+  const searchFieldRef = useRef(null)
+  const textFieldRef = useRef(null)
   const router = useRouter()
   const supabase = useSupabaseClient()
   const user = useUser()
@@ -39,7 +46,7 @@ export default function CrearCuentoPage () {
       try {
         const { data, error } = await supabase
           .from('protagonists')
-          .select('id, name, physical_description, likes, dislikes')
+          .select('id, name, physical_description')
           .eq('author_id', user.id)
 
         if (error) {
@@ -106,6 +113,39 @@ export default function CrearCuentoPage () {
     }
   }
 
+  const handleTextFieldChange = (e) => {
+    const value = e.target.value
+    setDescripcion(value)
+
+    if (value.slice(-1) === '@') {
+      setAnchorEl(textFieldRef.current)
+      setShowPopover(true)
+    }
+  }
+
+  const handlePopoverFilterChange = (e) => {
+    setPopoverFilter(e.target.value)
+  }
+
+  useEffect(() => {
+    if (!showPopover) return
+    setPopoverFilter('')
+    const timeout = setTimeout(() => {
+      searchFieldRef.current.focus()
+    }, 100)
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [showPopover])
+
+  useEffect(() => {
+    const calculatePrice = (longitud) => {
+      setDisabled((11 + 5 * longitud) > user.user_metadata.credits)
+    }
+    calculatePrice(longitud)
+  }, [longitud])
+
   return (
       <div className='flex h-2/3 items-center'>
         <AnimatedParticlesBackground />
@@ -133,7 +173,7 @@ export default function CrearCuentoPage () {
                 <Textarea
                   placeholder='Escribe una breve descripción de tu idea para el cuento... Puedes mencionar a tus protagonistas con @nombre'
                   value={descripcion}
-                  onChange={(e) => setDescripcion(e.target.value)}
+                  onChange={handleTextFieldChange}
                   className='min-h-[100px] resize-none'
                 />
                 <div className='border-glow absolute inset-0 rounded-sm pointer-events-none' />
@@ -180,6 +220,50 @@ export default function CrearCuentoPage () {
             </button>
 
           </div>
+          {/* <Popover */}
+          {/*  open={showPopover} */}
+          {/*  anchorEl={anchorEl} */}
+          {/*  onClose={() => setShowPopover(false)} */}
+          {/*  anchorOrigin={{ */}
+          {/*    vertical: 'top', */}
+          {/*    horizontal: 'left' */}
+          {/*  }} */}
+          {/*  transformOrigin={{ */}
+          {/*    vertical: 'bottom', */}
+          {/*    horizontal: 'left' */}
+          {/*  }} */}
+          {/* > */}
+          {/*  <div className='p-4'> */}
+          {/*    <Textarea */}
+          {/*      value={popoverFilter} */}
+          {/*      onKeyPress={handleSearchFieldKeyPress} */}
+          {/*      onChange={handlePopoverFilterChange} */}
+          {/*      placeholder={t('SEARCH_MEMBERS')} */}
+          {/*      inputRef={searchFieldRef} */}
+          {/*      InputProps={{ */}
+          {/*        startAdornment: ( */}
+          {/*              <InputAdornment position='start'> */}
+          {/*                <Search /> */}
+          {/*              </InputAdornment> */}
+          {/*        ) */}
+          {/*      }} */}
+          {/*    /> */}
+
+          {/*    {filteredMembers.map((member) => ( */}
+          {/*        <div */}
+          {/*          key={member.id} */}
+          {/*          onClick={() => handleMemberClick(member.identify)} */}
+          {/*          className='cursor-pointer hover:bg-gray-200 p-2 rounded mt-2' */}
+          {/*        > */}
+          {/*          {member.name} */}
+          {/*        </div> */}
+          {/*    ))} */}
+          {/*    {filteredMembers.length === 0 && */}
+          {/*        <div className='text-gray-400 text-center mt-4'> */}
+          {/*          No hay protagonistas */}
+          {/*        </div>} */}
+          {/*  </div> */}
+          {/* </Popover> */}
         </section>
       </div>
   )

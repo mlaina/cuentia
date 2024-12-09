@@ -74,6 +74,27 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     fetchStory()
   }, [user, supabase, params.id])
 
+  const updateCredits = async (cost) => {
+    if (!user) return
+
+    const { data, error } = await supabase.auth.getUser()
+    if (error || !data?.user) {
+      console.error('Error fetching user:', error)
+      return
+    }
+
+    const currentCredits = data.user.user_metadata.credits || 0
+    const newCredits = currentCredits - cost
+
+    const { error: updateError } = await supabase.auth.updateUser({
+      data: { credits: newCredits }
+    })
+
+    if (updateError) {
+      console.error('Error updating credits:', updateError)
+    }
+  }
+
   useEffect(() => {
     setLoading(1)
     setTimeout(() => {
@@ -95,6 +116,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const createStoryIndex = async (story, length) => {
     try {
+      await updateCredits(1)
       const response = await fetch('/api/story/index', {
         method: 'POST',
         headers: {
@@ -123,6 +145,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const createPageFront = async (description, title) => {
     try {
+      await updateCredits(5)
       const response = await fetch('/api/story/front-page', {
         method: 'POST',
         headers: {
@@ -149,6 +172,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const createPageBack = async (description, idea, length) => {
     try {
+      await updateCredits(5)
       const response = await fetch('/api/story/back-page', {
         method: 'POST',
         headers: {
@@ -176,6 +200,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const createTextPage = async (index, number) => {
     try {
+      await updateCredits(1)
       const response = await fetch('/api/story/pages', {
         method: 'POST',
         headers: {
@@ -205,6 +230,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const createImagePage = async (index, description, number) => {
     try {
+      await updateCredits(4)
       const response = await fetch('/api/story/images', {
         method: 'POST',
         headers: {

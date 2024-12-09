@@ -56,8 +56,8 @@ export default function PricingTable ({ link = false, email = null }) {
   const handleCheckout = async (priceId) => {
     if (!link) return
     const stripe = await stripePromise
+    console.log(email)
 
-    console.log('stripe', stripe)
     const response = await fetch('/api/stripe', {
       method: 'POST',
       headers: {
