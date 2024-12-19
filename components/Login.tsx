@@ -17,15 +17,10 @@ export default function Login () {
   const [turnstileToken, setTurnstileToken] = useState('')
 
   const handleOAuthSignIn = async (provider: 'google' | 'custom') => {
-    // if ((provider === 'custom' && !email) || !turnstileToken) {
-    //   alert('Por favor completa todos los campos')
-    //   return
-    // }
-
     setIsLoading(true)
     const verifyResult = await verifyTurnstileToken(turnstileToken)
 
-    if (verifyResult.success) {
+    if (!verifyResult.success) {
       setMessage({ text: 'Falló la verificación de seguridad', type: 'error' })
       setIsLoading(false)
       return
