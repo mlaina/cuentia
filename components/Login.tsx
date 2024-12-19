@@ -1,11 +1,11 @@
 'use client'
 
 import { Input } from '@/components/ui/input'
-import { Turnstile } from '@marsidev/react-turnstile'
+// import { Turnstile } from '@marsidev/react-turnstile'
 import { Button } from '@/components/ui/button'
 import Google from '@/components/google'
 import React, { useState } from 'react'
-import { verifyTurnstileToken } from '@/app/actions'
+// import { verifyTurnstileToken } from '@/app/actions'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Mail } from 'lucide-react'
 
