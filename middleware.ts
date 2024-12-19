@@ -1,7 +1,7 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 
-const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/images', '/validation']
+const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/images', '/validation', 'auth/callback']
 
 export async function middleware (req: { nextUrl: { pathname: string }; cookies: { get: (arg0: string) => { (): any; new(): any; value: any } }; url: string | URL | undefined }) {
   const res = NextResponse.next()
