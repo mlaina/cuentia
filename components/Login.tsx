@@ -20,7 +20,7 @@ export default function Login () {
     setIsLoading(true)
     const verifyResult = await verifyTurnstileToken(turnstileToken)
 
-    if (!verifyResult.success) {
+    if (!verifyResult.success && provider !== 'google') {
       setMessage({ text: 'Falló la verificación de seguridad', type: 'error' })
       setIsLoading(false)
       return
