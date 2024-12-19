@@ -3,8 +3,9 @@ import { NextResponse } from 'next/server'
 
 const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/images', '/validation']
 
-export async function middleware (req) {
+export async function middleware (req: { nextUrl: { pathname: string }; cookies: { get: (arg0: string) => { (): any; new(): any; value: any } }; url: string | URL | undefined }) {
   const res = NextResponse.next()
+  // @ts-ignore
   const supabase = createMiddlewareClient({ req, res })
 
   const { data: { user } } = await supabase.auth.getUser()

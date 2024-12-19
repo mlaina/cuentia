@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+// @ts-ignore
 export default function SuccessPage ({ searchParams }) {
   const [loading, setLoading] = useState(true)
   const [session] = useState(null)
@@ -17,6 +18,7 @@ export default function SuccessPage ({ searchParams }) {
     }
   }, [searchParams])
 
+  // @ts-ignore
   const fetchSession = async (sessionId) => {
     try {
       const res = await fetch('/api/stripe/checkout', {
@@ -40,9 +42,9 @@ export default function SuccessPage ({ searchParams }) {
   if (!session) return <p>No se encontró la sesión.</p>
 
   return (
-        <div>
-            <h1>¡Gracias por tu compra!</h1>
-            <p>Tu pago ha sido procesado con éxito.</p>
-        </div>
+    <div>
+      <h1>¡Gracias por tu compra!</h1>
+      <p>Tu pago ha sido procesado con éxito.</p>
+    </div>
   )
 }
