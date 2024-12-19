@@ -14,17 +14,9 @@ export default function Login () {
   const [message, setMessage] = useState({ text: '', type: '' })
   const [email, setEmail] = useState('')
   const supabase = useSupabaseClient()
-  const [turnstileToken, setTurnstileToken] = useState('')
 
   const handleOAuthSignIn = async (provider: 'google' | 'custom') => {
     setIsLoading(true)
-    const verifyResult = await verifyTurnstileToken(turnstileToken)
-
-    if (!verifyResult.success && provider !== 'google') {
-      setMessage({ text: 'Falló la verificación de seguridad', type: 'error' })
-      setIsLoading(false)
-      return
-    }
 
     if (provider === 'custom') {
       const { error } = await supabase.auth.signInWithOtp({
@@ -53,7 +45,7 @@ export default function Login () {
   }
   return (
         <div className='absolute lg:left-1/2 top-0 lg:min-w-[460px] md:min-w-[400px] sm:min-w-[300px] z-50 backdrop-blur-sm rounded-lg mt-6 ml-12 shadow-lg'>
-            <div className='border-glow-container rounded-lg p-4 bg-white/80 backdrop-blur-sm min-h-[310px]'>
+            <div className='border-glow-container rounded-lg p-4 bg-white/80 backdrop-blur-sm min-h-[210px]'>
                 <div className='border-glow absolute inset-0 rounded-lg pointer-events-none' />
                 {!message.text && (
                     <>
@@ -69,21 +61,11 @@ export default function Login () {
                               aria-label='Email address'
                             />
                         </div>
-                        <Turnstile
-                          options={{
-                            size: 'flexible'
-                          }}
-                          className='mt-2 w-full h-8'
-                          siteKey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE}
-                          onSuccess={(token) => {
-                            setTurnstileToken(token)
-                          }}
-                        />
                         <Button
                           type='submit'
                           onClick={() => handleOAuthSignIn('custom')}
                           className='rounded-lg text-md mt-2 w-full transition-all ease-in-out b-glow to-sky-500 drop-shadow-lg text-white font-bold'
-                          disabled={!email || !turnstileToken || isLoading}
+                          disabled={!email || isLoading}
                         >
                             Accede a Imagins
                         </Button>

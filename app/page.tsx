@@ -67,7 +67,7 @@ export default function Home () {
                       </div>
                     </div>,
                     <div key={'back-' + index} className='page-content h-full flex py-6 px-12 bg-white border border-gray-200 shadow-md'>
-                      <div className='min-w-[455px] h-[300px] rounded-md border border-teal-600 border-dashed' />
+                      <div className='min-w-[455px] h-[230px] rounded-md border border-teal-600 border-dashed' />
                       {features[index] &&
                       <div className='flex w-full items-center justify-center mt-6'>
                         <div className=''>
