@@ -2,11 +2,11 @@
 import './globals.css'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import ClientWrapper from '@/components/ClientWrapper'
 import type { Database } from '@/types/supabase'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import React from 'react'
+import SupabaseProvider from '@/components/SupabaseProvider'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -42,9 +42,9 @@ export default async function RootLayout ({
   return (
         <html lang='es'>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased text-black`}>
-        <ClientWrapper user={user}>
+        <SupabaseProvider session={{ user }}>
             {children}
-        </ClientWrapper>
+        </SupabaseProvider>
         </body>
         </html>
   )
