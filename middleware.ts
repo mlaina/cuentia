@@ -7,7 +7,7 @@ export async function middleware (req: { nextUrl: { pathname: string }; cookies:
   const res = NextResponse.next()
 
   if (req.nextUrl.searchParams.has('_cf_chl_tk') || req.nextUrl.searchParams.has('code')) {
-    return NextResponse.next()
+    return NextResponse.redirect(new URL('/', req.url))
   }
 
   // @ts-ignore
