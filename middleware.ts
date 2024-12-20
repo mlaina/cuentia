@@ -10,9 +10,8 @@ export async function middleware (req: { nextUrl: { pathname: string }; cookies:
 
   const { data: { user } } = await supabase.auth.getUser()
   const isPublicRoute = publicRoutes.includes(req.nextUrl.pathname)
-  const turnstileVerified = req.cookies.get('turnstile_verified')?.value
 
-  if (!user && !isPublicRoute && turnstileVerified !== 'true') {
+  if (!user && !isPublicRoute) {
     return NextResponse.redirect(new URL('/', req.url))
   }
 
