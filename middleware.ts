@@ -6,7 +6,7 @@ const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/images', '/validat
 export async function middleware (req: { nextUrl: { pathname: string }; cookies: { get: (arg0: string) => { (): any; new(): any; value: any } }; url: string | URL | undefined }) {
   const res = NextResponse.next()
 
-  if (req.nextUrl.searchParams.has('_cf_chl_tk')) {
+  if (req.nextUrl.searchParams.has('_cf_chl_tk') || req.nextUrl.searchParams.has('code')) {
     return NextResponse.next()
   }
 
