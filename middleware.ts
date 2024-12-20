@@ -3,10 +3,12 @@ import { NextResponse } from 'next/server'
 
 const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/images', '/validation', 'auth/callback']
 
-export async function middleware (req: { nextUrl: { pathname: string }; cookies: { get: (arg0: string) => { (): any; new(): any; value: any } }; url: string | URL | undefined }) {
+export async function middleware (req: { nextUrl: {
+    searchParams: any; pathname: string
+  }; cookies: { get: (arg0: string) => { (): any; new(): any; value: any } }; url: string | URL | undefined }) {
   const res = NextResponse.next()
 
-  if (req.nextUrl.searchParams.has('_cf_chl_tk') || req.nextUrl.searchParams.has('code')) {
+  if (req.nextUrl.searchParams.has('_cf_chl_tk')) {
     return NextResponse.redirect(new URL('/', req.url))
   }
 
