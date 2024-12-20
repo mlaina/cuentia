@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { BookOpen, Wand2, Sparkles, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
@@ -11,10 +11,20 @@ import images from '@/types/landing/images.json'
 import features from '@/types/landing/features.json'
 import Accordion from '@/components/Accordion'
 import Login from '@/components/Login'
+import { useUser } from '@supabase/auth-helpers-react'
+import { useRouter } from 'next/navigation'
 
 export default function Home () {
   const [, setCurrentPage] = useState(1)
   const bookRef = useRef<any>(null)
+  const user = useUser()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (user) {
+      router.push('/create')
+    }
+  }, [user, router])
 
   const faqs = [
     { question: '¿Cómo funciona Imagins?', answer: 'Imagins utiliza inteligencia artificial avanzada para generar cuentos personalizados basados en tus preferencias y las características de tu hijo.' },
