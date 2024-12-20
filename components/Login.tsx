@@ -44,9 +44,9 @@ export default function Login () {
     setIsLoading(false)
   }
   return (
-        <div className='absolute lg:left-1/2 top-0 lg:min-w-[460px] md:min-w-[400px] sm:min-w-[300px] z-30 backdrop-blur-sm rounded-lg mt-6 ml-12 shadow-lg'>
-            <div className='border-glow-container rounded-lg p-4 bg-white/80 backdrop-blur-sm min-h-[210px]'>
-                <div className='border-glow absolute inset-0 rounded-lg pointer-events-none' />
+        <div className='absolute lg:left-1/2 top-0 lg:w-[460px] md:w-[400px] sm:w-[300px] z-30 backdrop-blur-sm rounded-lg mt-6 ml-12 shadow-lg'>
+            <div className='border-glow-container rounded-lg p-4 bg-white/80 backdrop-blur-sm min-h-[240px]'>
+                <div className='border-glow absolute inset-0 rounded-lg pointer-events-none min-h-[240px]' />
                 {!message.text && (
                     <>
                         <div className='flex'>
