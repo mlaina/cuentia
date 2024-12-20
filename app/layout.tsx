@@ -6,6 +6,7 @@ import ClientWrapper from '@/components/ClientWrapper'
 import type { Database } from '@/types/supabase'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import React from 'react'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
