@@ -1,0 +1,147 @@
+[
+  {
+    "Indice": 1,
+    "Tipo": "Apertura",
+    "Elemento": "Presentacion de los protagonistas (Apertura)"
+  },
+  {
+    "Indice": 2,
+    "Tipo": "Apertura",
+    "Elemento": "Descripcion de los protagonistas (Apertura)"
+  },
+  {
+    "Indice": 3,
+    "Tipo": "Apertura",
+    "Elemento": "Descripcion del mundo cotidiano de los protagonistas (Apertura)"
+  },
+  {
+    "Indice": 4,
+    "Tipo": "Apertura",
+    "Elemento": "Descripcion de la relacion de los personajes (Apertura)"
+  },
+  {
+    "Indice": 5,
+    "Tipo": "Apertura",
+    "Elemento": "Llamada a la aventura 1: Ruptura de la rutina con un evento singular (Apertura)"
+  },
+  {
+    "Indice": 5,
+    "Tipo": "Apertura",
+    "Elemento": "Llamada a la aventura 2: Ruptura de la rutina con un desafio (Apertura)"
+  },
+  {
+    "Indice": 5,
+    "Tipo": "Apertura",
+    "Elemento": "Llamada a la aventura 3: Ruptura de la rutina con una Perdida (Apertura)"
+  },
+  {
+    "Indice": 5,
+    "Tipo": "Apertura",
+    "Elemento": "Llamada a la aventura 4: Ruptura de la rutina con una Mision (Apertura)"
+  },
+  {
+    "Indice": 6,
+    "Tipo": "Apertura",
+    "Elemento": "Rechazo a la llamada a la aventura por dudas (Apertura)"
+  },
+  {
+    "Indice": 6,
+    "Tipo": "Apertura",
+    "Elemento": "Rechazo a la llamada a la aventura por Miedo (Apertura)"
+  },
+  {
+    "Indice": 7,
+    "Tipo": "Nudo",
+    "Elemento": "Encuentro del protagonista con un mentor o guia 1: Lo inspira a lanzarse a la aventura (Transicion apertura/Nudo)"
+  },
+  {
+    "Indice": 7,
+    "Tipo": "Nudo",
+    "Elemento": "Encuentro del protagonista con un mentor o guia 2: Lo dota de conocimientos para lanzarse a la aventura (Transicion apertura/Nudo)"
+  },
+  {
+    "Indice": 7,
+    "Tipo": "Nudo",
+    "Elemento": "Encuentro del protagonista con un mentor o guia 3: Lo dota de herramientas para lanzarse a la aventura (Transicion apertura/Nudo)"
+  },
+  {
+    "Indice": 8,
+    "Tipo": "Nudo",
+    "Elemento": "Cruzar el Humbral 1: El protagonista acepta la misión y se adentra en un espacio desconocido (Comienzo del Nudo)"
+  },
+  {
+    "Indice": 8,
+    "Tipo": "Nudo",
+    "Elemento": "Cruzar el Humbral 2: El protagonista acepta el desafío y se adentra en un espacio desconocido (Comienzo del Nudo)"
+  },
+  {
+    "Indice": 8,
+    "Tipo": "Nudo",
+    "Elemento": "Cruzar el Humbral 3: El protagonista cruza una barrera física o psicológica que lo separa de su vida anterior (Comienzo del Nudo)"
+  },
+  {
+    "Indice": 9,
+    "Tipo": "Nudo",
+    "Elemento": "A lo largo del viaje el protagonista conoce aliados o enemigos (Nudo)"
+  },
+  {
+    "Indice": 10,
+    "Tipo": "Nudo",
+    "Elemento": "A lo largo del viaje el protagonista se enfrenta a desafíos y pruebas frente a otros personajes o enemigos (Nudo)"
+  },
+  {
+    "Indice": 10,
+    "Tipo": "Nudo",
+    "Elemento": "A lo largo del viaje el protagonista se enfrenta a desafíos y pruebas frente a la naturaleza (Nudo)"
+  },
+  {
+    "Indice": 10,
+    "Tipo": "Nudo",
+    "Elemento": "A lo largo del viaje el protagonista se enfrenta a desafíos y pruebas frente a la tecnología (Nudo)"
+  },
+  {
+    "Indice": 10,
+    "Tipo": "Nudo",
+    "Elemento": "A lo largo del viaje el protagonista se enfrenta a desafíos y pruebas frente a la sociedad (Nudo)"
+  },
+  {
+    "Indice": 11,
+    "Tipo": "Nudo",
+    "Elemento": "El protagonista se enfrenta a sus mayores miedos o dudas transformándose (Nudo)"
+  },
+  {
+    "Indice": 11,
+    "Tipo": "Nudo",
+    "Elemento": "El protagonista se enfrenta a su mayor desafío cambiando y aprendiendo en el proceso (Nudo)"
+  },
+  {
+    "Indice": 12,
+    "Tipo": "Desenlace",
+    "Elemento": "El gran Hito 1: El protagonista pone a prueba todo lo aprendido y se enfrenta a la gran prueba (Comienzo del desenlace)"
+  },
+  {
+    "Indice": 12,
+    "Tipo": "Desenlace",
+    "Elemento": "El gran Hito 2: El protagonista pone a prueba todo lo aprendido y se enfrenta al desafío (Comienzo del desenlace)"
+  },
+  {
+    "Indice": 12,
+    "Tipo": "Desenlace",
+    "Elemento": "El gran Hito 3: El protagonista culmina la aventura y construye su nuevo destino (Comienzo del desenlace)"
+  },
+  {
+    "Indice": 13,
+    "Tipo": "Desenlace",
+    "Elemento": "El protagonista obtiene una recompensa, que puede ser un objeto mágico, un conocimiento especial o una transformación personal (Desenlace)"
+  },
+  {
+    "Indice": 14,
+    "Tipo": "Desenlace",
+    "Elemento": "Cierre 1: El protagonista emprende el camino de regreso a su vida original y trae la recompensa o sabiduría adquirida a sus amigos o comunidad (Desenlace)"
+  },
+  {
+    "Indice": 14,
+    "Tipo": "Desenlace",
+    "Elemento": "Cierre 2: El protagonista lleva consigo la sabiduría y la experiencia adquiridas en su aventura a otros lugares (Desenlace)"
+  }
+]

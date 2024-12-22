@@ -16,7 +16,8 @@ export async function POST (req: { json: () => PromiseLike<{ description: any }>
 
   const { description } = await req.json()
 
-  const prompt = `vivid animation style. ${description} Style: Vibrant colors, expansive storyworlds, stylized characters, flowing motion`
+  const prompt = `Vivid animation style. ${description} Style: Vibrant colors, expansive storyworlds, stylized characters, flowing motion`
+
   try {
     // @ts-ignore
     const output = await replicate.run(process.env.IMAGE_MODEL, {

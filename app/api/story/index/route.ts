@@ -1,4 +1,5 @@
 import storyIndexTemplate from '@/types/prompts/index.json'
+import indexStructure from '@/types/prompts/index_structure.json'
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
@@ -21,10 +22,38 @@ export async function POST (req: { json: () => PromiseLike<{ length: any; story:
 
     const { length, story } = await req.json()
 
-    let indexPrompt = `Crear un cuento con ${length} páginas sobre ${story.idea}. El título debe ser corto y atractivo. Debe haber una apertura, un nudo y un desenlace, acciones y eventos directos.`
+    let indexPrompt = `Crear un cuento con ${length} páginas sobre ${story.idea}.`
     if (story.protagonists) {
-      indexPrompt = `Crear un cuento con ${length} páginas sobre ${story.idea}. Debe salir de protagonistas: ${story.protagonists} El título debe ser corto y atractivo.`
+      indexPrompt = `Crear un cuento con ${length} páginas sobre ${story.idea}. Debe salir de protagonistas: ${story.protagonists} `
     }
+
+    const messages = []
+
+    messages.push({
+      role: 'system',
+      content: 'Eres un asistente que genera índices de cuentos para niños.'
+    })
+    messages.push({
+      role: 'user',
+      content: indexPrompt
+    })
+    messages.push({
+      role: 'user',
+      content: 'El título debe ser CORTO (no más de TRES palabras).  La descripción de la imagen de portada tiene que ser en inglés y descriptiva, épica y espectacular. La descripción de backpage_description tiene que ser un prompt en inglés de un paisaje tranquilo sin elementos impresionantes.'
+    })
+    messages.push({
+      role: 'user',
+      content: indexStructure.toString()
+    })
+    messages.push({
+      role: 'user',
+      content: 'Tienes que construir la historia utilizando los elementos proporcionados en el último mensaje. Ten en cuenta que los elementos están indexados para indicar su orden cronológico'
+    })
+    messages.push({
+      role: 'user',
+      content: 'Puede haber varios elementos en una misma página, pero se debe respetar su orden. Cada página tendrá un image_info para indicar información sobre la imagen a generar.'
+    })
+
     // @ts-ignore
     const completion = await openai.chat.completions.create({
       ...storyIndexTemplate,

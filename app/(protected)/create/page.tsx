@@ -14,7 +14,7 @@ export default function CrearCuentoPage () {
   const [ideas, setIdeas] = useState([])
   const [protagonists, setProtagonists] = useState([])
   const [seletedProtagonists, setSeletedProtagonists] = useState([])
-  const [longitud, setLongitud] = useState(6)
+  const [longitud, setLongitud] = useState(10)
   const [loading, setLoading] = useState(false)
   const [, setDisabled] = useState(false)
   const textFieldRef = useRef(null)
@@ -251,8 +251,8 @@ export default function CrearCuentoPage () {
                     <Slider
                       value={[longitud]}
                       onValueChange={(value) => setLongitud(value[0])}
-                      min={4}
-                      max={12}
+                      min={6}
+                      max={14}
                       step={2}
                       className='relative w-full h-2 rounded-full cursor-pointer'
                     />
