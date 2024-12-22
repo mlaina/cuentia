@@ -158,7 +158,7 @@ export default function CrearCuentoPage () {
             {!protagonists.length && (
                 <div className='border border-dashed border-red-200 py-3 px-4 rounded-md bg-red-50 text-red-700 text-sm'>
                   ¡Aún no has registrado ningún protagonista!{' '}
-                  <a href='/profile' className='underline decoration-sky-500 font-bold'>
+                  <a href='/characters' className='underline decoration-sky-500 font-bold'>
                     Haz clic aquí para crear uno
                   </a>{' '}
                   ✨
