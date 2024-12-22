@@ -35,7 +35,7 @@ export default function DashboardComponent () {
   return (
       <div className='flex'>
         <AnimatedParticlesBackground />
-        <main className='flex-1 '>
+        <main className='flex-1  max-w-6xl m-auto'>
           <div className=' mx-auto py-6 px-24'>
             <div className='mb-6'>
               <Link href='/story'>
@@ -45,7 +45,7 @@ export default function DashboardComponent () {
                 </Button>
               </Link>
             </div>
-            <div className='grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-5 gap-10 '>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10'>
               {stories.map((story) => {
                 return (
                     <Link key={story.id} href={`/story/${story.id}`} passHref>
