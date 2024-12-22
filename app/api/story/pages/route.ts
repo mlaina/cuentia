@@ -36,10 +36,22 @@ export async function POST (req: { json: () => PromiseLike<{ index: any; number:
       return NextResponse.json({ error: 'No hay resumen' }, { status: 500 })
     }
 
-    const prompt = `Profundiza en: ${index[number - 1].summary}. La respuesta debe en markdown, separando partes y resaltando nombres. No pongas títulos ni números de página. Debe ser corto un parrafo. El texto acompañará a una imagen por lo que el texto no tiene que tener ninguna descripción, tiene que ir directo a la acción. `
+    const prompt = `Profundiza en: ${index[number - 1].summary}. `
     messages.push({
       role: 'user',
       content: prompt
+    })
+    messages.push({
+      role: 'user',
+      content: 'La respuesta debe en markdown, separando partes y resaltando nombres. No pongas títulos ni números de página. Debe ser corto un parrafo.'
+    })
+    messages.push({
+      role: 'user',
+      content: 'Minimiza las descripciones, prioriza acción, diálogos y sonidos.'
+    })
+    messages.push({
+      role: 'user',
+      content: 'Página corta y directa. Máximos 500 caracteres.'
     })
 
     // @ts-ignore
