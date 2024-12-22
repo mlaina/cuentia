@@ -20,7 +20,7 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'Imagins - Cuentos personalizados con IA',
+  title: 'Imagins - Cuentos personalizados',
   description: 'Crea historias únicas para tus hijos',
   icons: {
     icon: '/favicon.ico',
@@ -41,11 +41,11 @@ export default async function RootLayout ({
 
   return (
         <html lang='es'>
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased text-black`}>
-        <SupabaseProvider session={{ user }}>
-            {children}
-        </SupabaseProvider>
-        </body>
+            <body className={`${geistSans.variable} ${geistMono.variable} antialiased text-black`}>
+                <SupabaseProvider session={{ user }}>
+                    {children}
+                </SupabaseProvider>
+            </body>
         </html>
   )
 }

@@ -38,9 +38,14 @@ export default function Header () {
             <Link href={user && user.user_metadata.credits > 0 ? '/create' : '/pricing'} className=' flex items-center'>
                 <BookOpen className='w-10 h-10 mr-2 text-sky-400' />
             </Link>
-            <Link href='/stories' className='text-sky-900 text-lg'>
-                Librería
-            </Link>
+            <div className='flex gap-4'>
+              <Link href='/characters' className='text-sky-900 text-lg'>
+                Protagonistas
+              </Link>
+              <Link href='/stories' className='text-sky-900 text-lg'>
+                  Librería
+              </Link>
+            </div>
           </div>
           {user && user.user_metadata.credits > 0 && (
               <Link href='/pricing' className='text-sky-900 mr-4 flex'>

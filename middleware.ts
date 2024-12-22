@@ -1,7 +1,7 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 
-const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/images', '/validation', 'auth/callback']
+const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/images', '/validation', '/auth/callback']
 
 export async function middleware (req: { nextUrl: {
     searchParams: any; pathname: string

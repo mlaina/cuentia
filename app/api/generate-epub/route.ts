@@ -8,7 +8,7 @@ import sharp from 'sharp'
 
 export const runtime = 'nodejs'
 
-async function convertAvifToJpeg (imageUrl) {
+async function convertAvifToJpeg (imageUrl: string) {
   try {
     const response = await axios.get(imageUrl, { responseType: 'arraybuffer' })
     const avifBuffer = Buffer.from(response.data, 'binary')
@@ -52,7 +52,7 @@ export async function POST (req: NextRequest) {
     return NextResponse.json({ error: 'Invalid story content format' }, { status: 500 })
   }
 
-  function markdownToHtml (markdownText) {
+  function markdownToHtml (markdownText: string) {
     return marked(markdownText)
   }
 
@@ -96,6 +96,7 @@ export async function POST (req: NextRequest) {
     }
 
     const coverJpegBuffer = await convertAvifToJpeg(coverImage)
+    // @ts-ignore
     const coverFile = new File([new Blob([coverJpegBuffer])], 'cover.jpg', { type: 'image/jpeg' })
 
     const options = {

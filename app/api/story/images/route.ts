@@ -3,10 +3,11 @@ import { NextResponse } from 'next/server'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { uploadImageUrl } from '@/lib/cloudflare'
+import OpenAI from 'openai'
 
 const replicate = new Replicate()
 
-export async function POST (req) {
+export async function POST (req: { json: () => PromiseLike<{ description: any }> | { description: any } }) {
   const supabase = createRouteHandlerClient({ cookies })
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -17,15 +18,21 @@ export async function POST (req) {
   const { description } = await req.json()
 
   const prompt = `vivid animation style. ${description} Style: Vibrant colors, expansive storyworlds, stylized characters, flowing motion`
-  console.log('prompt', prompt)
-  const output = await replicate.run(process.env.IMAGE_MODEL, {
-    input: {
-      prompt, aspect_ratio: '4:5'
-    }
-  })
-  const image = Array.isArray(output) ? output[0] : output
+  try {
+    // @ts-ignore
+    const output = await replicate.run(process.env.IMAGE_MODEL, {
+      input: {
+        prompt, aspect_ratio: '4:5'
+      }
+    })
 
-  const cfImageUrl = await uploadImageUrl(image)
+    const image = Array.isArray(output) ? output[0] : output
 
-  return NextResponse.json({ image: cfImageUrl })
+    const cfImageUrl = await uploadImageUrl(image)
+
+    return NextResponse.json({ image: cfImageUrl })
+  } catch (error) {
+    console.error('Error processing image:', error)
+    return NextResponse.json({ error: 'Error procesando la imagen' }, { status: 500 })
+  }
 }

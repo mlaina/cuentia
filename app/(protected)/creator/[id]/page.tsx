@@ -8,7 +8,7 @@ import StoryViewer from '@/components/StoryViewer'
 
 export const runtime = 'edge'
 
-function sanitizeText (text) {
+function sanitizeText (text: string) {
   let sanitized = text.replace(/"([^"]*)$/g, '“$1”')
 
   const openBrackets = (sanitized.match(/\[/g) || []).length
@@ -229,15 +229,26 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   }
 
   const createImagePage = async (index, description, number) => {
+    let response
     try {
       await updateCredits(4)
-      const response = await fetch('/api/story/images', {
+      response = await fetch('/api/story/images', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ index, description, number, storyId: params.id })
+        body: JSON.stringify({ description })
       })
+
+      if (response.status === 500) {
+        response = await fetch('/api/story/images', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ description })
+        })
+      }
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
