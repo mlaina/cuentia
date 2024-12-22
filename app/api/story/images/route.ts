@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { uploadImageUrl } from '@/lib/cloudflare'
-import OpenAI from 'openai'
 
 const replicate = new Replicate()
 

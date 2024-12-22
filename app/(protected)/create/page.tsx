@@ -13,14 +13,10 @@ export default function CrearCuentoPage () {
   const [randomIdeas, setRandomIdeas] = useState([])
   const [ideas, setIdeas] = useState([])
   const [protagonists, setProtagonists] = useState([])
-  const [filteredProtagonists, setFilteredProtagonists] = useState([])
   const [seletedProtagonists, setSeletedProtagonists] = useState([])
   const [longitud, setLongitud] = useState(6)
   const [loading, setLoading] = useState(false)
   const [, setDisabled] = useState(false)
-  const [showPopover, setShowPopover] = useState(false)
-  const [popoverFilter, setPopoverFilter] = useState('')
-  const searchFieldRef = useRef(null)
   const textFieldRef = useRef(null)
   const router = useRouter()
   const supabase = useSupabaseClient()
@@ -54,7 +50,6 @@ export default function CrearCuentoPage () {
         }
 
         setProtagonists(data || [])
-        setFilteredProtagonists(data || [])
       } catch (error) {
         console.error('Error al cargar los protagonistas:', error)
       }
