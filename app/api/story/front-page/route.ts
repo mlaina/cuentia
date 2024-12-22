@@ -50,6 +50,7 @@ async function titleGenerator (image, title, user) {
         }
       ]
     })
+
     i = JSON.parse(completionFront.choices[0].message.content)
   } catch (error) {
     console.log('Error al analizar front:', error)
@@ -124,12 +125,22 @@ export async function POST (req) {
     const { description, title } = await req.json()
 
     const promptFront = `Create a vivid animation style amazing frontpage about ${description} Style: Vibrant colors, expansive storyworlds, stylized characters, flowing motion`
-    const image = await replicate.run(process.env.IMAGE_MODEL, {
-      input: {
-        prompt: promptFront,
-        aspect_ratio: '4:5'
-      }
-    })
+    let image = null
+    try {
+      image = await replicate.run(process.env.IMAGE_MODEL, {
+        input: {
+          prompt: promptFront,
+          aspect_ratio: '4:5'
+        }
+      })
+    } catch (err) {
+      image = await replicate.run(process.env.IMAGE_MODEL, {
+        input: {
+          prompt: promptFront,
+          aspect_ratio: '4:5'
+        }
+      })
+    }
 
     const modifiedImage = await titleGenerator(image, title, user)
     const cfImageUrl = await uploadImage(modifiedImage)

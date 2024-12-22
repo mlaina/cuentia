@@ -85,12 +85,23 @@ export async function POST (req) {
     const { idea, description } = await req.json()
 
     const promptBack = `Create a vivid animation style amazing frontpage about ${description} Style: Vibrant colors, expansive storyworlds, stylized characters, flowing motion`
-    const image = await replicate.run(process.env.IMAGE_MODEL, {
-      input: {
-        prompt: promptBack,
-        aspect_ratio: '4:5'
-      }
-    })
+
+    let image = null
+    try {
+      image = await replicate.run(process.env.IMAGE_MODEL, {
+        input: {
+          prompt: promptBack,
+          aspect_ratio: '4:5'
+        }
+      })
+    } catch (err) {
+      image = await replicate.run(process.env.IMAGE_MODEL, {
+        input: {
+          prompt: promptBack,
+          aspect_ratio: '4:5'
+        }
+      })
+    }
 
     const modifiedImage = await backGenerator(image, idea)
     const cfImageUrl = await uploadImage(modifiedImage)

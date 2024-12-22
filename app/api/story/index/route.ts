@@ -21,7 +21,7 @@ export async function POST (req: { json: () => PromiseLike<{ length: any; story:
 
     const { length, story } = await req.json()
 
-    let indexPrompt = `Crear un cuento con ${length} páginas sobre ${story.idea}. El título debe ser corto y atractivo. Debe haber una apertura un nudo y un desenlace, acciones y eventos directos.`
+    let indexPrompt = `Crear un cuento con ${length} páginas sobre ${story.idea}. El título debe ser corto y atractivo. Debe haber una apertura, un nudo y un desenlace, acciones y eventos directos.`
     if (story.protagonists) {
       indexPrompt = `Crear un cuento con ${length} páginas sobre ${story.idea}. Debe salir de protagonistas: ${story.protagonists} El título debe ser corto y atractivo.`
     }
