@@ -337,8 +337,9 @@ export default function Characters () {
   return (
     <>
       <div className='max-w-5xl mx-auto mt-10'>
-        <h2 className='text-2xl font-bold mt-10 mb-4'>Protagonistas</h2>
-        {protagonists.map((protagonist, index) => (
+        <h2 className='text-3xl font-bold mt-10 mb-4 text-teal-700'>Protagonistas</h2>
+        <div className='flex flex-col gap-4'>
+          {protagonists.map((protagonist, index) => (
             <Card key={protagonist.id}>
               <CardHeader>
                 <CardTitle className='flex justify-between items-center'>
@@ -383,7 +384,7 @@ export default function Characters () {
                 <div className='mt-4'>
                   <label className='block text-sm font-medium text-gray-700'>Subir Imágenes</label>
                   <label className='block text-xs font-medium text-gray-500 mb-2'>Ninguna de las imágenes se almacenará en la plataforma, solo se utilizarán para generar avatares</label>
-                  <div className='flex gap-3 items-start'>
+                  <div className='flex gap-3 items-start justify-between'>
                     {[1, 2, 3].map((num) => (
                         <DraftAvatar key={num} protagonistId={protagonist.id!} index={num} />
                     ))}
@@ -410,8 +411,9 @@ export default function Characters () {
                 </div>
               </CardContent>
             </Card>
-        ))}
-        <Button onClick={addProtagonist} className='mt-4'>
+          ))}
+        </div>
+        <Button onClick={addProtagonist} className='my-4 bg-teal-500'>
           <PlusCircle className='mr-2 h-4 w-4' /> Añadir Protagonista
         </Button>
       </div>
