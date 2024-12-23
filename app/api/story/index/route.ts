@@ -53,6 +53,10 @@ export async function POST (req: { json: () => PromiseLike<{ length: any; story:
       role: 'user',
       content: 'Puede haber varios elementos en una misma página, pero se debe respetar su orden. Cada página tendrá un image_info para indicar información sobre la imagen a generar.'
     })
+    messages.push({
+      role: 'user',
+      content: 'El título tiene que tener un máximo de cuatro palabras. El contenido summary debe ser en español. Y los image_info frontpage_description y backpage_description en inglés.'
+    })
 
     // @ts-ignore
     const completion = await openai.chat.completions.create({

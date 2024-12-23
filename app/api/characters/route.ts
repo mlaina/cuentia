@@ -85,15 +85,15 @@ export async function PUT (req: { json: () => PromiseLike<{ description: any }> 
     const messages = [
       {
         role: 'system',
-        content: `Te voy a pasar varias descripciones de ${protagonist.name}, y tu tarea será extrapolar sus características físicas, estilo y detalles generales para generar una imagen representativa. Utiliza estas descripciones para imaginar cómo sería visualmente, destacando los rasgos más consistentes.`
+        content: `Te voy a pasar varias descripciones de ${protagonist.name}, y tu tarea es analizarlas y obtener: color y estilo de pelo, color de ojos, color de piel, estatura y complexión, accesoreios y color de ropa. Elige una sola vestimenta concreta para identificar bien.`
       },
       {
         role: 'user',
-        content: 'Sé conciso y directo, no necesitas describir cada detalle. No menciones los datos que se te han proporcionado, solo describe cómo sería visualmente. No menciones los distintos sitios dónde ha estado.'
+        content: 'Sé conciso y directo, no necesitas describir cada detalle. No menciones los datos que se te han proporcionado. No menciones los distintos sitios dónde ha estado. No digas que no se te ha especificado algo.'
       },
       {
         role: 'user',
-        content: 'Da detalles sobre pelo, ojos, piel, estatura, potencialmente accesorios o características físicas distintivas.'
+        content: 'Debes dar: Color y estilo de pelo, color de ojos, color de piel, estatura y complexión, accesoreios y color de ropa. Elige una sola vestimenta concreta para identificar bien. Aunque no se haya especificado algo, puedes inferirlo según lo más probable. Si no tienes alguna información invéntala.'
       },
       {
         role: 'user',

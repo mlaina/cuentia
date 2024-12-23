@@ -198,7 +198,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     }
   }
 
-  const createTextPage = async (index, number) => {
+  const createTextPage = async (index, number, protagonists) => {
     try {
       await updateCredits(1)
       const response = await fetch('/api/story/pages', {
@@ -206,7 +206,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ index, number, historic: indice, storyId: params.id })
+        body: JSON.stringify({ index, number, historic: indice, storyId: params.id, protagonists })
       })
 
       if (!response.ok) {
@@ -287,7 +287,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
         // eslint-disable-next-line no-const-assign,no-unused-vars
         [__, page] = await Promise.all([
           createImagePage(ind.index, page.image_description, i),
-          createTextPage(ind.index, i + 1)
+          createTextPage(ind.index, i + 1, story.protagonists)
         ])
       } else {
         await createImagePage(ind.index, page.image_description, i)

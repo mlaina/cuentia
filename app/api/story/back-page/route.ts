@@ -84,7 +84,7 @@ export async function POST (req) {
 
     const { idea, description } = await req.json()
 
-    const promptBack = `Create a vivid animation style amazing frontpage about ${description} Style: Vibrant colors, expansive storyworlds, stylized characters, flowing motion`
+    const promptBack = `Create a vivid animation about ${description} Style: Vibrant colors, expansive storyworlds. Focus on landscapes, objects, or abstract elements`
 
     let image = null
     try {

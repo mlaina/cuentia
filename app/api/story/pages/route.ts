@@ -19,7 +19,7 @@ export async function POST (req: { json: () => PromiseLike<{ index: any; number:
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
     }
 
-    const { index, number, historic } = await req.json()
+    const { index, number, historic, protagonists } = await req.json()
 
     const messages = []
 
@@ -41,7 +41,6 @@ export async function POST (req: { json: () => PromiseLike<{ index: any; number:
       content: 'Eres un asistente que desarrolla páginas de cuentos para niños y descripciones de imágenes correspondientes.'
     })
     const prompt = `Enriquece: ${index[number - 1].summary}. `
-    console.log('image_info', index[number - 1].image_info)
     messages.push({
       role: 'user',
       content: prompt
@@ -56,11 +55,19 @@ export async function POST (req: { json: () => PromiseLike<{ index: any; number:
     })
     messages.push({
       role: 'user',
-      content: 'Usa un máximo de 1000 caracteres'
+      content: 'La descripción de la imagen debe ser en inglés relacionada con: ' + index[number - 1].image_info
     })
     messages.push({
       role: 'user',
-      content: 'La descripción de la imagen debe ser en inglés relacionada con: ' + index[number - 1].image_info
+      content: 'Si en la información de la imagen aparece alguno de los protagonistas, utiliza esta descripción para añadirla sintetizada en la descripción de la imagen si es necesario: ' + protagonists
+    })
+    messages.push({
+      role: 'user',
+      content: 'Solo añade información de los protagonistas si es relevante para la página. Evita hacerlo si no lo es.'
+    })
+    messages.push({
+      role: 'user',
+      content: 'Usa un máximo de 1000 caracteres. En español.'
     })
 
     // @ts-ignore
