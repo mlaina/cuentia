@@ -6,7 +6,7 @@ import { Wand2 } from 'lucide-react'
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { Slider } from '@/components/ui/slider'
 import { useRouter } from 'next/navigation'
-import AnimatedParticlesBackground from '@/components/ui/AnimatedParticlesBackground'
+// import AnimatedParticlesBackground from '@/components/ui/AnimatedParticlesBackground'
 
 export default function CrearCuentoPage () {
   const [descripcion, setDescripcion] = useState('')
@@ -144,28 +144,28 @@ export default function CrearCuentoPage () {
   }, [longitud])
 
   return (
-      <div className='flex h-2/3 items-center'>
-        <AnimatedParticlesBackground />
+      <div className='flex h-full background-section-4'>
+        {/* <AnimatedParticlesBackground /> */}
         <section
-          className={`flex-1 transition duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}
+          className={`mt-20 flex-1 transition duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}
         >
-          <div className='max-w-4xl mx-auto p-6 items-center h-full justify-center space-y-8'>
+          <div className='max-w-4xl mx-auto p-6 items-center justify-center space-y-8'>
             <div className='pb-4'>
-              <h1 className='text-center bg-gradient-to-r from-sky-500 via-purple-800 to-red-600 bg-clip-text text-6xl font-bold text-transparent'>
+              <h1 className='text-center bg-gradient-to-r from-secondary to-accent bg-clip-text text-6xl font-bold text-transparent'>
                 Listos para soñar
               </h1>
             </div>
             {!protagonists.length && (
                 <div className='border border-dashed border-red-200 py-3 px-4 rounded-md bg-red-50 text-red-700 text-sm'>
                   ¡Aún no has registrado ningún protagonista!{' '}
-                  <a href='/characters' className='underline decoration-sky-500 font-bold'>
+                  <a href='/characters' className='underline decoration-secondary font-bold'>
                     Haz clic aquí para crear uno
                   </a>{' '}
                   ✨
                 </div>
             )}
             <div className='space-y-4'>
-              <div className='min-h-8 flex'>
+              <div className='flex'>
                 {seletedProtagonists.map((protagonist) => (
                     <div key={protagonist.id} className='flex items-center gap-2'>
                       {protagonist.avatars && protagonist.avatars.some((avatar) => avatar)
@@ -193,13 +193,13 @@ export default function CrearCuentoPage () {
                     placeholder='Escribe una breve descripción de tu idea para el cuento... Puedes mencionar a tus protagonistas con @nombre'
                     value={descripcion}
                     onChange={handleTextFieldChange}
-                    className='min-h-[100px] resize-none'
+                    className='min-h-[200px] resize-none'
                     ref={textFieldRef}
                   />
                   <div className='border-glow absolute inset-0 rounded-sm pointer-events-none' />
                   {/* Chips con ideas */}
                 </div>
-                <div className='w-64 flex flex-col gap-2 border-l pl-4'>
+                <div className='w-64 flex flex-col gap-2 pl-4'>
                   <h3 className='text-gray-700 font-bold'>Protagonistas Disponibles</h3>
                   {unselectedProtagonists.map((protagonist) => (
                       <div
@@ -260,7 +260,7 @@ export default function CrearCuentoPage () {
                   </div>
                 </div>
                 <button
-                  className='py-3 rounded-lg text-lg w-full bg-gradient-to-r from-sky-500 via-purple-500 to-pink-500 transition transition-all ease-in-out hover:b-glow hover:to-sky-500 hover:drop-shadow-lg transition-all hover:translate-y-1 hover:scale-105 text-white font-bold'
+                  className='py-3 rounded-lg text-lg w-full bg-gradient-to-r from-secondary to-accent transition transition-all ease-in-out hover:b-glow hover:to-sky-500 hover:drop-shadow-lg transition-all hover:translate-y-1 hover:scale-105 text-white font-bold'
                   onClick={handleCrearCuento}
                   disabled={loading}
                 >

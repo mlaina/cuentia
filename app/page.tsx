@@ -251,7 +251,7 @@ export default function Home () {
                   </div>
                 </div>
             </section>
-            <section className='py-12'>
+            <section className='pt-12'>
               <div className='container mx-auto px-4'>
                 <div className='max-w-5xl mx-auto'>
                   <Accordion data={faqs} />

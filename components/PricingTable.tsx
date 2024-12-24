@@ -10,6 +10,7 @@ const pricingPlans = [
     subtitle: 'BASIC PLAN',
     name: 'Plan Perrault',
     price: 10,
+    annual: 100,
     description: 'Acceso a 5 cuentos por mes',
     features: [
       '5 Cuentos',
@@ -25,6 +26,7 @@ const pricingPlans = [
     subtitle: 'MEDIUM PLAN',
     name: 'Plan Andersen',
     price: 35,
+    annual: 300,
     description: 'Acceso a 20 cuentos por mes',
     features: [
       '20 Cuentos',
@@ -40,6 +42,7 @@ const pricingPlans = [
     subtitle: 'UNLIMITED PLAN',
     name: 'Plan Grimm',
     price: 80,
+    annual: 600,
     description: 'Acceso ilimitado a cuentos',
     features: [
       'Cuentos ilimitados',
@@ -53,7 +56,7 @@ const pricingPlans = [
   }
 ]
 
-export default function PricingTable ({ link = false, email = null }) {
+export default function PricingTable ({ link = false, email = null, planPeriod = 'Anual' }) {
   const handleCheckout = async (priceId) => {
     if (!link) return
     const stripe = await stripePromise
@@ -76,7 +79,9 @@ export default function PricingTable ({ link = false, email = null }) {
 
   return (
       <div className='grid md:grid-cols-3 gap-12 max-w-5xl m-auto '>
-        {pricingPlans.map((plan) => (
+        {pricingPlans.map((plan) => {
+          const ahorroAnual = planPeriod === 'Anual' ? (plan.price * 12 - plan.annual) : 0
+          return (
             <div
               key={plan.stripePriceId}
               onClick={() => handleCheckout(plan.stripePriceId)}
@@ -99,11 +104,13 @@ export default function PricingTable ({ link = false, email = null }) {
                 ))}
               </ul>
               <hr className={`my-6 px-6 border-1 ${plan.large ? 'border-white' : 'border-gray-600'} border-dashed`} />
-              <p className={`${plan.large ? 'text-white' : 'text-gray-600'} mb-4`}>Mensual</p>
+              <p className={`${plan.large ? 'text-white' : 'text-gray-600'} mb-4`}>
+                {planPeriod}
+              </p>
               <div className='flex justify-between items-center'>
                 <div>
                   <p className={`${plan.large ? 'text-white' : 'text-gray-600'} text-5xl font-bold`}>
-                    {plan.price}€
+                    {planPeriod === 'Anual' ? plan.annual : plan.price}€
                   </p>
                 </div>
                 <div className='px-1'>
@@ -115,8 +122,14 @@ export default function PricingTable ({ link = false, email = null }) {
                   </button>
                 </div>
               </div>
+              {planPeriod === 'Anual' && ahorroAnual > 0 && (
+                  <p className={`${plan.large ? 'text-white' : 'text-gray-600'} text-md italic`}>
+                    Ahorras {ahorroAnual}€
+                  </p>
+              )}
             </div>
-        ))}
+          )
+        })}
       </div>
   )
 }

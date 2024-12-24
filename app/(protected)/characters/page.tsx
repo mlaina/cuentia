@@ -335,12 +335,12 @@ export default function Characters () {
   }
 
   return (
-    <>
-      <div className='max-w-5xl mx-auto mt-10'>
-        <h2 className='text-3xl font-bold mt-10 mb-4 text-teal-700'>Protagonistas</h2>
+    <div className='background-section-3'>
+      <div className='max-w-5xl mx-auto mt-10 '>
+        <h2 className='text-3xl font-bold mt-10 mb-4 text-secondary'>Protagonistas</h2>
         <div className='flex flex-col gap-4'>
           {protagonists.map((protagonist, index) => (
-            <Card key={protagonist.id}>
+            <Card key={protagonist.id} className='border-secondary border border-dashed shadow-lg'>
               <CardHeader>
                 <CardTitle className='flex justify-between items-center'>
                   @{protagonist.name || 'Protagonista ' + (index + 1)}
@@ -392,7 +392,7 @@ export default function Characters () {
                   {protagonist.avatars &&
                       protagonist.avatars.some((avatar: string | null) => avatar) && (
                           <div className='mt-4 text-right'>
-                            <Button onClick={() => handleInferDescription(protagonist.id!)}>
+                            <Button onClick={() => handleInferDescription(protagonist.id!)} className='bg-accent'>
                               Inferir descripción física
                             </Button>
                           </div>
@@ -413,10 +413,10 @@ export default function Characters () {
             </Card>
           ))}
         </div>
-        <Button onClick={addProtagonist} className='my-4 bg-teal-500'>
+        <Button onClick={addProtagonist} className='my-4 bg-secondary'>
           <PlusCircle className='mr-2 h-4 w-4' /> Añadir Protagonista
         </Button>
       </div>
-    </>
+    </div>
   )
 }

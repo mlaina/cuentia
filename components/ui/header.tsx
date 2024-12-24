@@ -36,21 +36,21 @@ export default function Header () {
         <div className='max-w-7xl mx-auto py-4 flex justify-between items-center'>
           <div className='flex justify-between w-full items-center mr-10'>
             <Link href={user && user.user_metadata.credits > 0 ? '/create' : '/pricing'} className=' flex items-center'>
-                <BookOpen className='w-10 h-10 mr-2 text-sky-400' />
+                <BookOpen className='w-10 h-10 mr-2 text-secondary' />
             </Link>
             <div className='flex gap-4'>
-              <Link href='/characters' className='text-secondary text-lg'>
+              <Link href='/characters' className='text-primary text-md hover:text-secondary'>
                 Protagonistas
               </Link>
-              <Link href='/stories' className='text-secondary text-lg'>
+              <Link href='/stories' className='text-primary text-md hover:text-secondary'>
                   Librería
               </Link>
             </div>
           </div>
           {user && user.user_metadata.credits > 0 && (
-              <Link href='/pricing' className='text-secondary mr-4 flex'>
+              <Link href='/pricing' className='text-primary mr-4 flex hover:text-secondary'>
                 {user.user_metadata.credits}
-                <Coins className='w-5 h-5 mr-1 text-secondary' />
+                <Coins className='w-5 h-5 mr-1 text-accent' />
               </Link>
           )}
           <div />
@@ -73,7 +73,7 @@ export default function Header () {
             </PopoverTrigger>
             <PopoverContent className='w-56'>
                 <div className='grid gap-4'>
-                    <div className='font-medium'>
+                    <div className=' text-secondary font-bold'>
                         {user.user_metadata?.name || user.email}
                     </div>
                     <Link href='/profile'>

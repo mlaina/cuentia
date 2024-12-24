@@ -188,6 +188,7 @@ html {
   background-repeat: no-repeat;
   background-position: right center; /* Ajusta la posición a la izquierda y centrada verticalmente */
   background-size: contain;
+  max-height: 100vh;
 }
 
 .background-section-4 {
@@ -195,6 +196,7 @@ html {
   background-repeat: no-repeat;
   background-position: right center; /* Ajusta la posición a la izquierda y centrada verticalmente */
   background-size: contain;
+  max-height: 100vh;
 }
 
 .pablo {

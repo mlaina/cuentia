@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import PricingTable from '@/components/PricingTable'
 import Accordion from '@/components/Accordion'
@@ -16,12 +16,41 @@ export default function Pricing () {
     { question: '¿Puedo editar el cuento una vez generado?', answer: 'Absolutamente. Ofrecemos herramientas de edición para que puedas ajustar el cuento a tu gusto después de la generación inicial.' }
   ]
 
+  const [plan, setPlan] = useState('Anual')
+
   return (
-        <div className='relative min-h-screen overflow-hidden bg-white'>
+        <div className='relative min-h-screen overflow-hidden background-section-1'>
             <main className='bg-cover bg-center'>
-                <section className='py-20' id='pricing'>
+                <section className='py-10'>
                     <div className='container mx-auto px-4'>
-                        <PricingTable link email={email} />
+                        {/* Botones de selección de plan */}
+                        <div className='flex items-center justify-center mb-8'>
+                            <div className='flex bg-gradient-to-r from-pink-200 to-pink-500 rounded-lg p-1'>
+                                <button
+                                  className={`px-6 py-2 rounded-lg font-semibold ${
+                                        plan === 'Mensual'
+                                            ? 'bg-pink-600 text-white'
+                                            : 'text-gray-500'
+                                    }`}
+                                  onClick={() => setPlan('Mensual')}
+                                >
+                                    Mensual
+                                </button>
+                                <button
+                                  className={`px-6 py-2 rounded-lg font-semibold ${
+                                        plan === 'Anual'
+                                            ? 'bg-pink-600 text-white'
+                                            : 'text-gray-500'
+                                    }`}
+                                  onClick={() => setPlan('Anual')}
+                                >
+                                    Anual
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Tabla de precios */}
+                        <PricingTable link email={email} planPeriod={plan} />
                     </div>
                 </section>
 
@@ -34,19 +63,27 @@ export default function Pricing () {
                 </section>
             </main>
 
-            <footer className='bg-teal-900 text-white py-12'>
+            <footer className='bg-secondary-700 text-white py-12'>
                 <div className='container mx-auto px-4'>
                     <div className='grid md:grid-cols-4 gap-8'>
                         <div>
                             <h3 className='text-lg font-semibold mb-4'>Imagins</h3>
-                            <p className='text-sm text-gray-400'>Creando historias mágicas con IA para niños de todo el mundo.</p>
+                            <p className='text-sm text-gray-400'>Creando historias mágicas con IA para niños de todo el
+                                mundo.</p>
                         </div>
                         <div>
                             <h3 className='text-lg font-semibold mb-4'>Enlaces rápidos</h3>
                             <ul className='space-y-2'>
-                                <li><Link href='/Users/m_lai/Desktop/git/project-nexus/cuentia/public' className='text-sm text-gray-400 hover:text-white'>Inicio</Link></li>
-                                <li><Link href='/about' className='text-sm text-gray-400 hover:text-white'>Sobre nosotros</Link></li>
-                                <li><Link href='/pricing' className='text-sm text-gray-400 hover:text-white'>Precios</Link></li>
+                                <li><Link
+                                  href='/Users/m_lai/Desktop/git/project-nexus/cuentia/public'
+                                  className='text-sm text-gray-400 hover:text-white'
+                                    >Inicio</Link></li>
+                                <li><Link href='/about' className='text-sm text-gray-400 hover:text-white'>Sobre
+                                    nosotros</Link></li>
+                                <li><Link
+                                  href='/pricing'
+                                  className='text-sm text-gray-400 hover:text-white'
+                                    >Precios</Link></li>
                                 <li><Link href='/contact' className='text-sm text-gray-400 hover:text-white'>Contacto</Link></li>
                             </ul>
                         </div>
@@ -66,7 +103,7 @@ export default function Pricing () {
                             </div>
                         </div>
                     </div>
-                    <div className='mt-8 pt-8 border-t border-gray-700 text-center'>
+                    <div className='mt-8 pt-8 border-t border-white text-center'>
                         <p className='text-sm text-gray-400'>&copy; 2024 Imagins. Todos los derechos reservados.</p>
                     </div>
                 </div>

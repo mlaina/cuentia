@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
-import AnimatedParticlesBackground from '@/components/ui/AnimatedParticlesBackground'
+// import AnimatedParticlesBackground from '@/components/ui/AnimatedParticlesBackground'
 import Head from 'next/head'
 import StoryViewer from '@/components/StoryViewer'
 
@@ -323,40 +323,40 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
         {indice.length > 0 && loading > 5 &&
             <StoryViewer title={title} pages={indice} stream />}
         </div>
-        <div className='flex flex-col h-screen w-full'>
-          <AnimatedParticlesBackground />
+        <div className='flex flex-col h-full w-full background-section-4'>
+          {/* <AnimatedParticlesBackground /> */}
           <div className='flex flex-col justify-center items-center w-full h-2/3 text-gray-500 relative'>
             <section className={`absolute inset-0 transition-opacity duration-500 ${loading === 1 ? 'opacity-100' : 'opacity-0'} flex justify-center items-center`}>
               <p className='text-5xl flex items-center'>
-                <span className='underline decoration-pink-500'>Despertando</span>&nbsp;a <strong className='text-sky-500'>&nbsp;dragones</strong>
+                <span className='underline decoration-pink-500'>Despertando</span>&nbsp;a <strong className='text-accent'>&nbsp;dragones</strong>
                 <span role='img' aria-label='despertando' className='mr-2'>🌅</span>
               </p>
             </section>
 
             <section className={`absolute inset-0 transition-opacity duration-500 ${loading === 2 ? 'opacity-100' : 'opacity-0'} flex justify-center items-center`}>
               <p className='text-5xl flex items-center'>
-                <span className='underline decoration-purple-500'>Convocando</span>&nbsp;a las <strong className='text-pink-500'>&nbsp;brujas</strong>
+                <span className='underline decoration-secondary'>Convocando</span>&nbsp;a las <strong className='text-pink-500'>&nbsp;brujas</strong>
                 <span role='img' aria-label='convocando' className='mr-2'>🔮</span>
               </p>
             </section>
 
             <section className={`absolute inset-0 transition-opacity duration-500 ${loading === 3 ? 'opacity-100' : 'opacity-0'} flex justify-center items-center`}>
               <p className='text-5xl flex items-center'>
-                <span className='underline decoration-sky-500'>Explorando</span>&nbsp;la <strong className='text-purple-500'>&nbsp;galaxia</strong>
+                <span className='underline decoration-accent'>Explorando</span>&nbsp;la <strong className='text-secondary'>&nbsp;galaxia</strong>
                 <span role='img' aria-label='explorando' className='mr-2'>🚀</span>
               </p>
             </section>
 
             <section className={`absolute inset-0 transition-opacity duration-500 ${loading === 4 ? 'opacity-100' : 'opacity-0'} flex justify-center items-center`}>
               <p className='text-5xl flex items-center'>
-                <span className='underline decoration-pink-500'>Llamando</span>&nbsp;al <strong className='text-purple-500'>&nbsp;fénix</strong>
+                <span className='underline decoration-pink-500'>Llamando</span>&nbsp;al <strong className='text-secondary'>&nbsp;fénix</strong>
                 <span role='img' aria-label='llamando' className='mr-2'>🔥</span>
               </p>
             </section>
 
             <section className={`absolute inset-0 transition-opacity duration-500 ${loading === 5 ? 'opacity-100' : 'opacity-0'} flex justify-center items-center`}>
               <p className='text-5xl flex items-center'>
-                <span className='underline decoration-purple-500'>Entrenando</span>&nbsp;a la <strong className='text-sky-500'>&nbsp;jauría</strong>
+                <span className='underline decoration-secondary'>Entrenando</span>&nbsp;a la <strong className='text-accent'>&nbsp;jauría</strong>
                 <span role='img' aria-label='entrenando' className='mr-2'>🐺</span>
               </p>
             </section>

@@ -5,7 +5,7 @@ import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Button } from '@/components/ui/button'
 import { PlusCircle } from 'lucide-react'
 import Link from 'next/link'
-import AnimatedParticlesBackground from '@/components/ui/AnimatedParticlesBackground'
+// import AnimatedParticlesBackground from '@/components/ui/AnimatedParticlesBackground'
 
 export default function DashboardComponent () {
   const [stories, setStories] = useState([])
@@ -33,19 +33,19 @@ export default function DashboardComponent () {
   }, [user, supabase])
 
   return (
-      <div className='flex'>
-        <AnimatedParticlesBackground />
-        <main className='flex-1  max-w-6xl m-auto'>
+      <div className='flex background-section-3'>
+        {/* <AnimatedParticlesBackground /> */}
+        <main className='flex-1 max-w-7xl m-auto'>
           <div className=' mx-auto py-6 px-24'>
             <div className='mb-6'>
               <Link href='/story'>
-                <Button className='bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 hover:from-red-600 hover:via-purple-600 hover:to-blue-600 text-white border-none transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg'>
+                <Button className='bg-gradient-to-r from-secondary to-accent hover:from-accent hover:to-secondary text-white border-none transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg'>
                   <PlusCircle className='w-5 h-5 mr-2' />
                   Crea un nuevo cuento
                 </Button>
               </Link>
             </div>
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10'>
+            <div className='grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-10'>
               {stories.map((story) => {
                 return (
                     <Link key={story.id} href={`/story/${story.id}`} passHref>

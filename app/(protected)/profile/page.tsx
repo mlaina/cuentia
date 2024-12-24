@@ -66,8 +66,9 @@ export default function ProfilePage () {
   }
 
   return (
-    <div className='max-w-5xl mx-auto mt-10'>
-      <h2 className='text-2xl font-bold mb-6'>Datos de usuario</h2>
+      <div className='w-full h-full background-section-4'>
+        <div className='max-w-5xl mx-auto mt-10 '>
+      <h2 className='text-2xl text-secondary font-bold mb-6'>Datos de usuario</h2>
 
       {message.text && (
         <div
@@ -94,5 +95,6 @@ export default function ProfilePage () {
           />
         </div>
     </div>
+      </div>
   )
 }

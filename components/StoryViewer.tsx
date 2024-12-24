@@ -256,10 +256,10 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
                       <button
                         key={index}
                         onClick={() => goToPage(index)}
-                        className={`shadow-md shadow-inner bg-gray-100 border border-sky-200 relative flex-shrink-0 w-20 h-28 rounded-md overflow-hidden transition-all duration-200 ${
+                        className={`shadow-md shadow-inner bg-gray-100 border border-secondary-100 relative flex-shrink-0 w-20 h-28 rounded-md overflow-hidden transition-all duration-200 ${
                               index === (currentPage === 0 ? 0 : Math.floor(currentPage / 2) + 1)
-                                  ? 'ring-2 ring-sky-300 ring-offset-1 border-none'
-                                  : 'hover:ring-2 hover:ring-sky-700 hover:ring-offset-1'
+                                  ? 'ring-2 ring-secondary-100 ring-offset-1 border-none'
+                                  : 'hover:ring-2 hover:ring-secondary hover:ring-offset-1'
                           }`}
                         aria-label={index === 0 || index === pages.length - 1 ? `Ir a la ${index === 0 ? 'portada' : 'contraportada'}` : `Ir a la página ${(index - 1) * 2 + 1}-${(index - 1) * 2 + 2}`}
                       >
@@ -273,7 +273,7 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
                             />
                             )
                           : (
-                            <div className='flex items-center justify-center w-full h-full border-sky-100 text-sky-400 text-sm font-medium'>
+                            <div className='flex items-center justify-center w-full h-full border-secondary-100 text-secondary text-sm font-medium'>
                               {index === 0 ? 'Portada' : index === pages.length - 1 ? 'Contra' : `${(index - 1) * 2 + 1}-${(index - 1) * 2 + 2}`}
                             </div>
                             )}
