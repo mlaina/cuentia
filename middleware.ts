@@ -1,7 +1,7 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 
-const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/images', '/validation', '/auth/callback']
+const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/image', '/validation', '/auth/callback']
 
 export async function middleware (req: { nextUrl: {
     searchParams: any; pathname: string
@@ -17,6 +17,10 @@ export async function middleware (req: { nextUrl: {
 
   const { data: { user } } = await supabase.auth.getUser()
   const isPublicRoute = publicRoutes.includes(req.nextUrl.pathname)
+
+  if (req.nextUrl.pathname.startsWith('/images')) {
+    return res // Dejar pasar la solicitud
+  }
 
   if (!user && !isPublicRoute) {
     return NextResponse.redirect(new URL('/', req.url))

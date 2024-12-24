@@ -4,7 +4,7 @@ import { ChevronDown } from 'lucide-react'
 function Accordion ({ title, children, isOpen, onClick }) {
   return (
     <div className='w-full mx-auto'>
-      <div className='bg-sky-100 overflow-hidden rounded-xl'>
+      <div className='bg-secondary-100 overflow-hidden rounded-xl'>
         <div
           className='px-4 py-5 sm:px-6 flex justify-between items-center cursor-pointer'
           onClick={onClick}
@@ -17,8 +17,8 @@ function Accordion ({ title, children, isOpen, onClick }) {
           />
         </div>
         <div
-          className={`border-gray-300 transition-max-height duration-700 overflow-hidden ${
-            isOpen ? 'max-h-96 border-t' : 'max-h-0'
+          className={`bg-secondary-100 transition-max-height duration-700 overflow-hidden ${
+            isOpen ? 'max-h-96' : 'max-h-0'
           }`}
         >
           <div className='bg-ocre-600 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>

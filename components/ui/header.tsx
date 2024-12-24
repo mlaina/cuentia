@@ -39,18 +39,18 @@ export default function Header () {
                 <BookOpen className='w-10 h-10 mr-2 text-sky-400' />
             </Link>
             <div className='flex gap-4'>
-              <Link href='/characters' className='text-sky-900 text-lg'>
+              <Link href='/characters' className='text-secondary text-lg'>
                 Protagonistas
               </Link>
-              <Link href='/stories' className='text-sky-900 text-lg'>
+              <Link href='/stories' className='text-secondary text-lg'>
                   Librería
               </Link>
             </div>
           </div>
           {user && user.user_metadata.credits > 0 && (
-              <Link href='/pricing' className='text-sky-900 mr-4 flex'>
+              <Link href='/pricing' className='text-secondary mr-4 flex'>
                 {user.user_metadata.credits}
-                <Coins className='w-5 h-5 mr-1 text-yellow-500' />
+                <Coins className='w-5 h-5 mr-1 text-secondary' />
               </Link>
           )}
           <div />

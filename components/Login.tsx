@@ -64,7 +64,7 @@ export default function Login () {
                         <Button
                           type='submit'
                           onClick={() => handleOAuthSignIn('custom')}
-                          className='rounded-lg text-md mt-2 w-full transition-all ease-in-out b-glow to-sky-500 drop-shadow-lg text-white font-bold'
+                          className='rounded-lg text-md mt-2 w-full transition-all ease-in-out b-glow to-secondary drop-shadow-lg text-white font-bold'
                           disabled={!email || isLoading}
                         >
                             Accede a Imagins

@@ -35,21 +35,21 @@ export default function Home () {
 
   return (
       <div className='relative min-h-screen overflow-hidden bg-white'>
-        <header id='top' className='container mx-auto px-16 py-4 pt-6 '>
+        <header id='top' className='container mx-auto max-w-6xl py-4 pt-6 '>
           <nav className='flex justify-between items-center'>
             <Link href='/' className='text-3xl font-bold text-gray-800 flex items-center'>
-              <BookOpen className='w-10 h-10 mr-2 text-teal-600' />
-              <p className='text-teal-600 text-4xl font-bold'>Imagins</p>
+              <BookOpen className='w-10 h-10 mr-2 text-secondary' />
+              <p className='text-secondary text-4xl font-bold'>Imagins</p>
             </Link>
-            <div className='space-x-4 text-lg'>
-              <a href='#library' className='text-teal-600 hover:text-gray-600'>Librería</a>
-              <a href='#pricing' className='text-teal-600 hover:text-gray-600'>Precios</a>
+            <div className='space-x-8 text-md'>
+              <a href='#library' className='text-primary font-bold hover:text-secondary'>Librería</a>
+              <a href='#pricing' className='text-primary font-bold hover:text-secondary'>Precios</a>
             </div>
           </nav>
         </header>
         <main className='bg-cover bg-center'>
-          <section>
-            <div className='mx-auto  my-8'>
+          <section className='background-section-1'>
+            <div className='mx-auto my-8'>
               <div className='relative'>
                 <HTMLFlipBook
                   width={550}
@@ -73,95 +73,103 @@ export default function Home () {
                   {frontpages.map((imageUrl, index) => [
                     <div key={'front-' + index} className='page bg-white shadow-md'>
                       <div className='page-content h-full flex justify-center items-center'>
-                        <img src={imageUrl} alt={`Image for page ${index}`} className='absolute inset-0 w-full h-full object-cover rounded-l-sm' />
+                        <img
+                          src={imageUrl} alt={`Image for page ${index}`}
+                          className='absolute inset-0 w-full h-full object-cover rounded-l-sm'
+                        />
                       </div>
                     </div>,
-                    <div key={'back-' + index} className='page-content h-full flex py-6 px-12 bg-white border border-gray-200 shadow-md'>
-                      <div className='min-w-[455px] h-[230px] rounded-md border border-teal-600 border-dashed' />
+                    <div
+                      key={'back-' + index}
+                      className='page-content h-full flex py-6 px-12 bg-white border border-gray-200 shadow-md'
+                    >
+                      <div className='min-w-[455px] h-[230px] rounded-md border border-secondary border-dashed' />
                       {features[index] &&
-                      <div className='flex w-full items-center justify-center mt-6'>
-                        <div className=''>
-                          <div className='p-6 flex flex-col gap-4'>
-                            {features[index][0] && (
-                                <div key={`feature-0-${index}`}>
-                                  <div className='flex items-center gap-2'>
-                                    <h3 className='text-xl font-semibold text-teal-600 mb-2'>
-                                      {features[index][0].title}
-                                    </h3>
-                                    {features[index][0].comming && (
-                                        <div className=' inline-block mt-[-6px] px-3 py-0.5 text-xs text-gray-600 bg-gray-200 rounded-full'>
-                                          Próximamente
-                                        </div>
-                                    )}
-                                  </div>
-                                  <p className='text-gray-600'>
-                                    {features[index][0].description || features[index][0].features.map(f => (
-                                        <li key={f}>{f}</li>
-                                    ))}
-                                  </p>
-                                </div>
-                            )}
-                            {features[index][1] && (
-                                <div key={`feature-1-${index}`}>
-                                  <div className='flex items-center gap-2'>
-                                    <h3 className='text-xl font-semibold text-teal-600 mb-2'>
-                                      {features[index][1].title}
-                                    </h3>
-                                    {features[index][1].comming && (
-                                        <div className=' inline-block px-3 mt-[-6px] py-0.5 text-xs text-gray-600 bg-gray-200 rounded-full'>
-                                          Próximamente
-                                        </div>
-                                    )}
-                                  </div>
-                                  <p className='text-gray-600'>
-                                    {features[index][1].description || features[index][1].features.map(f => (
-                                        <li key={f}>{f}</li>
-                                    ))}
-                                  </p>
-                                </div>
-                            )}
-                          </div>
+                          <div className='flex w-full items-center justify-center mt-6'>
+                            <div className=''>
+                              <div className='p-6 flex flex-col gap-4'>
+                                {features[index][0] && (
+                                    <div key={`feature-0-${index}`}>
+                                      <div className='flex items-center gap-2'>
+                                        <h3 className='text-xl font-semibold text-secondary mb-2'>
+                                          {features[index][0].title}
+                                        </h3>
+                                        {features[index][0].comming && (
+                                            <div
+                                              className=' inline-block mt-[-6px] px-3 py-0.5 text-xs text-primary bg-gray-200 rounded-full'
+                                            >
+                                              Próximamente
+                                            </div>
+                                        )}
+                                      </div>
+                                      <p className='text-primary'>
+                                        {features[index][0].description || features[index][0].features.map(f => (
+                                            <li key={f}>{f}</li>
+                                        ))}
+                                      </p>
+                                    </div>
+                                )}
+                                {features[index][1] && (
+                                    <div key={`feature-1-${index}`}>
+                                      <div className='flex items-center gap-2'>
+                                        <h3 className='text-xl font-semibold text-secondary mb-2'>
+                                          {features[index][1].title}
+                                        </h3>
+                                        {features[index][1].comming && (
+                                            <div
+                                              className=' inline-block px-3 mt-[-6px] py-0.5 text-xs text-primary bg-gray-200 rounded-full'
+                                            >
+                                              Próximamente
+                                            </div>
+                                        )}
+                                      </div>
+                                      <p className='text-primary'>
+                                        {features[index][1].description || features[index][1].features.map(f => (
+                                            <li key={f}>{f}</li>
+                                        ))}
+                                      </p>
+                                    </div>
+                                )}
+                              </div>
 
-                        </div>
-                      </div>}
+                            </div>
+                          </div>}
                     </div>
                   ])}
                 </HTMLFlipBook>
                 <Login />
               </div>
             </div>
-          </section>
-          <section className='py-20'>
-            <div className='container mx-auto px-18'>
+            <div className='container py-8 mx-auto px-18'>
               <div className='grid md:grid-cols-3 gap-8'>
-                <div className='p-6 rounded-lg shadow-md flex flex-col gap-2'>
-                  <Wand2 className='w-8 h-8 text-gray-500 mb-4' />
-                  <h3 className='text-xl font-bold text-gray-500 mb-2'>Personalización total</h3>
-                  <p className='text-gray-600'>Adapta los personajes y la trama a tus preferencias</p>
+                <div className='p-6 bg-white rounded-lg shadow-md flex flex-col gap-2'>
+                  <Wand2 className='w-8 h-8 text-primary mb-4' />
+                  <h3 className='text-xl font-bold text-primary mb-2'>Personalización total</h3>
+                  <p className='text-primary'>Adapta los personajes y la trama a tus preferencias</p>
                 </div>
-                <div className='p-6 rounded-lg shadow-md flex flex-col gap-2'>
-                  <Sparkles className='w-8 h-8 text-teal-500 mb-4' />
-                  <h3 className='text-xl font-bold text-teal-500 mb-2'>Generación instantánea</h3>
-                  <p className='text-gray-600'>Obtén tu cuento en segundos gracias a nuestra IA</p>
+                <div className='p-6 bg-white rounded-lg shadow-md flex flex-col gap-2'>
+                  <Sparkles className='w-8 h-8 text-secondary mb-4' />
+                  <h3 className='text-xl font-bold text-secondary mb-2'>Generación instantánea</h3>
+                  <p className='text-primary'>Obtén tu cuento en segundos gracias a nuestra IA</p>
                 </div>
-                <div className='p-6 rounded-lg shadow-md flex flex-col gap-2'>
-                  <MessageCircle className='w-8 h-8 text-yellow-500 mb-4' />
-                  <h3 className='text-xl font-bold text-yellow-500 mb-2'>Narración por voz</h3>
-                  <p className='text-gray-600'>Escucha el cuento narrado con la voz que elijas</p>
+                <div className='p-6 bg-white rounded-lg shadow-md flex flex-col gap-2'>
+                  <MessageCircle className='w-8 h-8 text-accent mb-4' />
+                  <h3 className='text-xl font-bold text-accent mb-2'>Narración por voz</h3>
+                  <p className='text-primary'>Escucha el cuento narrado con la voz que elijas</p>
                 </div>
               </div>
             </div>
           </section>
-          <section className='py-24 flex flex-col justify-center'>
+          <section className='py-16 flex flex-col justify-center background-section-2'>
             <div className='mx-auto px-6'>
-              <div className='flex flex-col space-y-12'>
+              <div className='flex flex-col space-y-20'>
                 <div className='flex flex-col md:flex-row items-start md:space-x-6 space-y-4 md:space-y-0'>
                   <div className='flex items-center gap-12'>
-                  <div className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-teal-600 text-teal-600 text-3xl font-bold'>
+                  <div className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-primary text-primary text-3xl font-bold'>
                     1
                   </div>
-                  <div className='flex flex-col gap-3'>
-                    <h3 className='text-2xl md:text-2xl font-bold text-teal-600'>Personaliza la historia</h3>
+                  <div className='flex flex-col gap-5'>
+                    <h3 className='text-2xl md:text-3xl font-bold text-primary'>Personaliza la historia</h3>
                     <p className='text-lg md:text-base text-gray-600 w-96'>
                       Selecciona el género, define los personajes y el estilo que quieres que tengan las ilustraciones.
                     </p>
@@ -170,11 +178,11 @@ export default function Home () {
                 </div>
                 <div className='flex flex-col md:flex-row items-start md:space-x-6 space-y-4 md:space-y-0'>
                   <div className='flex items-center gap-12'>
-                    <div className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-teal-600 text-teal-600 text-3xl font-bold'>
+                    <div className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-primary text-primary text-3xl font-bold'>
                       2
                     </div>
-                    <div className='flex flex-col gap-3'>
-                      <h3 className='text-2xl md:text-2xl font-bold text-teal-600'>Genera tu cuento</h3>
+                    <div className='flex flex-col gap-5'>
+                      <h3 className='text-2xl md:text-3xl font-bold text-primary'>Genera tu cuento</h3>
                       <p className='text-lg md:text-base text-gray-600 w-96'>
                         Nuestra IA empezará a crear una historia totalmente personalizada según tus parámetros en cuestión de segundos.
                       </p>
@@ -183,11 +191,11 @@ export default function Home () {
                 </div>
                 <div className='flex flex-col md:flex-row items-start md:space-x-6 space-y-4 md:space-y-0'>
                   <div className='flex items-center gap-12'>
-                    <div className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-teal-600 text-teal-600 text-3xl font-bold'>
+                    <div className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-primary text-primary text-3xl font-bold'>
                       3
                     </div>
-                    <div className='flex flex-col gap-3'>
-                      <h3 className='text-2xl md:text-2xl font-bold text-teal-600'>¡Disfruta y comparte!</h3>
+                    <div className='flex flex-col gap-5'>
+                      <h3 className='text-2xl md:text-3xl font-bold text-primary'>¡Disfruta y comparte!</h3>
                       <p className='text-lg md:text-base text-gray-600 w-96'>
                         Ponte cómodo y prepárate para la aventura.
                       </p>
@@ -197,8 +205,8 @@ export default function Home () {
               </div>
             </div>
           </section>
-          <section id='library' className='mx-auto max-w-5xl py-24'>
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 '>
+          <section id='library' className=' w-full py-16 background-section-3'>
+            <div className='grid grid-cols-1 max-w-6xl m-auto sm:grid-cols-2 lg:grid-cols-4 gap-10 '>
               {images.map((src, index) => {
                 return (
                       <div key={index} className='relative w-26'>
@@ -213,32 +221,47 @@ export default function Home () {
               })}
             </div>
           </section>
-          <section className='py-20' id='pricing'>
-            <div className='container mx-auto px-4'>
-              <a href='#top'>
-                <PricingTable />
-              </a>
-            </div>
-          </section>
-          <section className='py-20'>
-            <div className='container mx-auto px-4 text-center'>
-              <h2 className='text-4xl text-teal-500 font-bold mb-6'>¿Listo para crear magia?</h2>
-              <p className='text-xl mb-8'>Únete a miles de padres que ya están creando recuerdos inolvidables con Imagins</p>
-              <Button size='lg' variant='secondary' asChild className='bg-teal-500 text-white font-bold hover:text-gray-700'>
-                <a href='#top'>¡Comienza ahora!</a>
-              </Button>
-            </div>
-          </section>
-          <section className='py-20'>
-            <div className='container mx-auto px-4'>
-              <div className='max-w-5xl mx-auto'>
-                <Accordion data={faqs} />
+          <div className='background-section-4'>
+            <section className='py-20' id='pricing'>
+              <div className='container mx-auto px-4'>
+                <a href='#top'>
+                  <PricingTable />
+                </a>
               </div>
-            </div>
-          </section>
+            </section>
+            <section className='py-12'>
+              <div className='container mx-auto px-4 max-w-6xl flex justify-between items-center'>
+                <div className='w-1/2'>
+                  <img
+                    src='/images/pablo.svg'
+                    alt='pablo'
+                    className='w-full object-cover pablo'
+                  />
+                </div>
+                <div className='w-1/2'>
+                  <h2 className='text-6xl w-96 text-secondary font-bold mb-6'>Empieza tu historia</h2>
+                  <p className='text-lg w-96 text-primary mb-8'>Únete a miles de padres que ya están creando recuerdos
+                      inolvidables con Imagins</p>
+                    <Button
+                      size='lg' variant='secondary' asChild
+                      className='bg-secondary text-white font-bold hover:text-gray-700'
+                    >
+                      <a href='#top'>¡Comienza ahora!</a>
+                    </Button>
+                  </div>
+                </div>
+            </section>
+            <section className='py-12'>
+              <div className='container mx-auto px-4'>
+                <div className='max-w-5xl mx-auto'>
+                  <Accordion data={faqs} />
+                </div>
+              </div>
+            </section>
+          </div>
         </main>
 
-        <footer className='bg-teal-900 text-white py-12'>
+        <footer className='bg-secondary-700 text-white py-12'>
           <div className='container mx-auto px-4'>
             <div className='grid md:grid-cols-4 gap-8'>
               <div>
@@ -270,7 +293,7 @@ export default function Home () {
                 </div>
               </div>
             </div>
-            <div className='mt-8 pt-8 border-t border-gray-700 text-center'>
+            <div className='mt-8 pt-8 border-t border-gray-400 text-center'>
               <p className='text-sm text-gray-400'>&copy; 2024 Imagins. Todos los derechos reservados.</p>
             </div>
           </div>

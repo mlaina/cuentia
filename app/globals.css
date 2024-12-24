@@ -99,7 +99,7 @@ body {
 
   .border-glow {
     border: 2px solid transparent; /* Borde inicial transparente */
-    background: linear-gradient(90deg, rgba(0, 240, 255, 1),  rgb(13, 148, 136), rgba(0, 240, 255, 1));
+    background: linear-gradient(90deg, rgb(180, 24, 127), rgb(255, 145, 0), rgb(180, 24, 127));
     background-size: 300% 300%;
     animation: border-glow-animation 6s ease-in-out infinite;
     mask:
@@ -115,7 +115,7 @@ body {
 
   .b-glow {
     border: 2px solid transparent; /* Borde inicial transparente */
-    background: linear-gradient(90deg, rgba(0, 240, 255, 1), rgb(13, 148, 136), rgba(0, 240, 255, 1));
+    background: linear-gradient(90deg, rgb(180, 24, 127), rgb(255, 145, 0), rgb(180, 24, 127));
     background-size: 300% 300%;
     animation: border-glow-animation 6s ease-in-out infinite;
     width: 100%;
@@ -148,7 +148,7 @@ body {
   }
 
   .text-glow {
-    background: linear-gradient(90deg, rgba(0, 240, 255, 1),  rgb(13, 148, 136), rgba(0, 240, 255, 1));
+    background: linear-gradient(90deg, rgb(180, 24, 127), rgb(255, 145, 0), rgb(180, 24, 127));
     background-size: 300% 300%;
     animation: text-glow-animation 6s ease-in-out infinite;
     -webkit-background-clip: text;
@@ -167,4 +167,36 @@ body {
 
 html {
   scroll-behavior: smooth;
+}
+
+.background-section-1 {
+  background-image: url('/images/grad-1.svg');
+  background-repeat: no-repeat;
+  background-position: left center; /* Ajusta la posición a la izquierda y centrada verticalmente */
+  background-size: contain; /* Ajusta el tamaño para que la imagen no se distorsione */
+}
+
+.background-section-2 {
+  background-image: url('/images/grad-2.svg');
+  background-repeat: no-repeat;
+  background-position: center center; /* Ajusta la posición a la izquierda y centrada verticalmente */
+  background-size: 34%;
+}
+
+.background-section-3 {
+  background-image: url('/images/grad-3.svg');
+  background-repeat: no-repeat;
+  background-position: right center; /* Ajusta la posición a la izquierda y centrada verticalmente */
+  background-size: contain;
+}
+
+.background-section-4 {
+  background-image: url('/images/grad-4.svg');
+  background-repeat: no-repeat;
+  background-position: right center; /* Ajusta la posición a la izquierda y centrada verticalmente */
+  background-size: contain;
+}
+
+.pablo {
+  mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
 }

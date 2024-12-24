@@ -1,6 +1,7 @@
 'use client'
 
 import { loadStripe } from '@stripe/stripe-js'
+import { ArrowRight } from 'lucide-react'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
@@ -17,7 +18,7 @@ const pricingPlans = [
       '5 ediciones de imágenes por cuento'
     ],
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_5_STORIES_ID,
-    color: '#FFF5D9',
+    color: '#F5F5F5',
     large: false
   },
   {
@@ -28,11 +29,11 @@ const pricingPlans = [
     features: [
       '20 Cuentos',
       '5 Protagonistas',
-      '10 ediciones de texto por cuento',
-      '5 ediciones de imágenes por cuento'
+      '20 ediciones de texto por cuento',
+      '10 ediciones de imágenes por cuento'
     ],
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_20_STORIES_ID,
-    color: '#99f6e4',
+    color: '#B4187F',
     large: true
   },
   {
@@ -47,7 +48,7 @@ const pricingPlans = [
       'Ediciones de imágenes ilimitadas'
     ],
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_UNLIMITED_STORIES_ID,
-    color: '#C8F0F4',
+    color: '#F5F5F5',
     large: false
   }
 ]
@@ -74,35 +75,47 @@ export default function PricingTable ({ link = false, email = null }) {
   }
 
   return (
-      <div className='grid md:grid-cols-3 gap-12'>
+      <div className='grid md:grid-cols-3 gap-12 max-w-5xl m-auto '>
         {pricingPlans.map((plan) => (
-              <div
-                key={plan.stripePriceId}
-                onClick={() => handleCheckout(plan.stripePriceId)}
-                className={`p-10 rounded-lg py-12 cursor-pointer ${plan.large ? '-translate-y-1 scale-105' : ''}`}
-                style={{
-                  background: plan.color
-                }}
-              >
-                <h4 className='text-sm uppercase mb-2 text-gray-600'>
-                  {plan.subtitle}
-                </h4>
-                <h3 className='text-xl font-bold mb-4'>{plan.name}</h3>
-                <p className='mb-6 text-gray-700'>{plan.description}</p>
-                <ul className='mb-6 space-y-2'>
-                  {plan.features.map((feature, index) => (
-                      <li key={index} className='flex items-center'>
-                        <span className='mr-2 text-gray-600'>✔</span>
-                        {feature}
-                      </li>
-                  ))}
-                </ul>
-                <hr className='my-6 px-6 border-1 border-gray-600 border-dashed' />
-                <p className='text-gray-600 mb-4'>Mensual</p>
-                <p className='text-6xl text-gray-600 font-bold'>
-                  {plan.price}€
-                </p>
+            <div
+              key={plan.stripePriceId}
+              onClick={() => handleCheckout(plan.stripePriceId)}
+              className={`max-w-sm p-10 rounded-lg py-12 cursor-pointer ${plan.large ? '-translate-y-1 scale-105 text-white' : ''}`}
+              style={{
+                background: plan.color
+              }}
+            >
+              <h4 className={`text-sm uppercase mb-2 ${plan.large ? 'text-white' : 'text-gray-600'}`}>
+                {plan.subtitle}
+              </h4>
+              <h3 className='text-xl font-bold mb-4'>{plan.name}</h3>
+              <p className={`mb-6 ${plan.large ? 'text-white' : 'text-gray-600'}`}>{plan.description}</p>
+              <ul className='mb-6 space-y-2'>
+                {plan.features.map((feature, index) => (
+                    <li key={index} className='flex items-center'>
+                      <span className={`mr-2 ${plan.large ? 'text-white' : 'text-gray-600'}`}>✔</span>
+                      {feature}
+                    </li>
+                ))}
+              </ul>
+              <hr className={`my-6 px-6 border-1 ${plan.large ? 'border-white' : 'border-gray-600'} border-dashed`} />
+              <p className={`${plan.large ? 'text-white' : 'text-gray-600'} mb-4`}>Mensual</p>
+              <div className='flex justify-between items-center'>
+                <div>
+                  <p className={`${plan.large ? 'text-white' : 'text-gray-600'} text-5xl font-bold`}>
+                    {plan.price}€
+                  </p>
+                </div>
+                <div className='px-1'>
+                  <button
+                    className={`flex items-center justify-center w-12 h-12 rounded-full  hover:bg-gray-300 ${plan.large ? 'bg-white text-secondary' : 'bg-primary text-white'}`}
+                    aria-label='Comprar'
+                  >
+                    <ArrowRight className={`${plan.large ? 'text-secondary' : 'text-whit'}`} size={24} />
+                  </button>
+                </div>
               </div>
+            </div>
         ))}
       </div>
   )
