@@ -169,31 +169,39 @@ html {
   scroll-behavior: smooth;
 }
 
-.background-section-1 {
-  background-image: url('/images/grad-1.svg');
-  background-repeat: no-repeat;
-  background-position: left center; /* Ajusta la posición a la izquierda y centrada verticalmente */
-  background-size: contain; /* Ajusta el tamaño para que la imagen no se distorsione */
+@layer utilities {
+  .background-section-1 {
+    background-image: url('/images/grad-1.svg');
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: contain;
+  }
+  .background-section-1-small {
+    background-image: url('/images/grad-1.svg');
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: contain;
+  }
 }
 
 .background-section-2 {
   background-image: url('/images/grad-2.svg');
   background-repeat: no-repeat;
-  background-position: center center; /* Ajusta la posición a la izquierda y centrada verticalmente */
+  background-position: center center;
   background-size: 34%;
 }
 
 .background-section-3 {
   background-image: url('/images/grad-3.svg');
   background-repeat: no-repeat;
-  background-position: right center; /* Ajusta la posición a la izquierda y centrada verticalmente */
+  background-position: right center;
   background-size: contain;
 }
 
 .background-section-4 {
   background-image: url('/images/grad-4.svg');
   background-repeat: no-repeat;
-  background-position: right center; /* Ajusta la posición a la izquierda y centrada verticalmente */
+  background-position: right bottom;
   background-size: contain;
 }
 

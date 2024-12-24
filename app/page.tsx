@@ -35,20 +35,20 @@ export default function Home () {
 
   return (
       <div className='relative min-h-screen overflow-hidden bg-white'>
-        <header id='top' className='container mx-auto max-w-6xl py-4 pt-6 '>
+        <header id='top' className='container mx-auto max-w-6xl py-4 pt-6 px-8'>
           <nav className='flex justify-between items-center'>
             <Link href='/' className='text-3xl font-bold text-gray-800 flex items-center'>
               <BookOpen className='w-10 h-10 mr-2 text-secondary' />
               <p className='text-secondary text-4xl font-bold'>Imagins</p>
             </Link>
-            <div className='space-x-8 text-md'>
+            <div className='hidden md:flex space-x-8 text-md'>
               <a href='#library' className='text-primary font-bold hover:text-secondary'>Librería</a>
               <a href='#pricing' className='text-primary font-bold hover:text-secondary'>Precios</a>
             </div>
           </nav>
         </header>
         <main className='bg-cover bg-center'>
-          <section className='background-section-1'>
+          <section className='background-section-1-small lg:background-section-1'>
             <div className='mx-auto my-8'>
               <div className='lg:relative'>
                 <div className='hidden lg:block'>
@@ -140,21 +140,33 @@ export default function Home () {
                   </HTMLFlipBook>
                 </div>
                 <Login />
+                <div className='container md:hidden mx-auto px-8'>
+                  <div className='relative w-26 mt-12'>
+                    <img
+                      src={frontpages[0]}
+                      alt='Cover Image'
+                      className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
+                    />
+                    <div
+                      className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none'
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <div className='container py-8 mx-auto px-18'>
               <div className='grid lg:grid-cols-3 gap-8 px-4 sm:px-8 lg:px-0'>
-                <div className='p-6 bg-white rounded-lg shadow-md flex flex-col gap-2'>
+                <div className='p-6 bg-white rounded-lg shadow-md flex flex-col gap-2 border border-gray-200'>
                   <Wand2 className='w-8 h-8 text-primary mb-4' />
                   <h3 className='text-xl font-bold text-primary mb-2'>Personalización total</h3>
                   <p className='text-primary'>Adapta los personajes y la trama a tus preferencias</p>
                 </div>
-                <div className='p-6 bg-white rounded-lg shadow-md flex flex-col gap-2'>
+                <div className='p-6 bg-white rounded-lg shadow-md flex flex-col gap-2 border border-gray-200'>
                   <Sparkles className='w-8 h-8 text-secondary mb-4' />
                   <h3 className='text-xl font-bold text-secondary mb-2'>Generación instantánea</h3>
                   <p className='text-primary'>Obtén tu cuento en segundos gracias a nuestra IA</p>
                 </div>
-                <div className='p-6 bg-white rounded-lg shadow-md flex flex-col gap-2'>
+                <div className='p-6 bg-white rounded-lg shadow-md flex flex-col gap-2 border border-gray-200'>
                   <MessageCircle className='w-8 h-8 text-accent mb-4' />
                   <h3 className='text-xl font-bold text-accent mb-2'>Narración por voz</h3>
                   <p className='text-primary'>Escucha el cuento narrado con la voz que elijas</p>
@@ -167,38 +179,48 @@ export default function Home () {
               <div className='flex flex-col space-y-12 md:space-y-20'>
                 <div className='flex flex-col md:flex-row items-start md:space-x-6 space-y-4 md:space-y-0'>
                   <div className='flex items-center gap-6 md:gap-12'>
-                    <div className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-primary text-primary text-3xl font-bold'>
+                    <div
+                      className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-primary text-primary text-3xl font-bold'
+                    >
                       1
                     </div>
                     <div className='flex flex-col gap-5'>
-                      <h3 className='text-2xl md:text-3xl font-bold w-60 md:w-96 text-primary'>Personaliza la historia</h3>
-                      <p className='text-lg md:text-base text-gray-600 w-60 md:w-96'>
-                        Selecciona el género, define los personajes y el estilo que quieres que tengan las ilustraciones.
+                      <h3 className='text-2xl md:text-3xl font-bold w-60 md:w-96 text-primary'>Personaliza la
+                        historia</h3>
+                      <p className='text-lg md:text-base text-gray-600 w-56 sm:w-60 md:w-96'>
+                        Selecciona el género, define los personajes y el estilo que quieres que tengan las
+                        ilustraciones.
                       </p>
                     </div>
                   </div>
                 </div>
                 <div className='flex flex-col md:flex-row items-start md:space-x-6 space-y-4 md:space-y-0'>
                   <div className='flex items-center gap-6 md:gap-12'>
-                    <div className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-primary text-primary text-3xl font-bold'>
+                    <div
+                      className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-primary text-primary text-3xl font-bold'
+                    >
                       2
                     </div>
                     <div className='flex flex-col gap-5'>
                       <h3 className='text-2xl md:text-3xl font-bold w-60 md:w-96 text-primary'>Genera tu cuento</h3>
-                      <p className='text-lg md:text-base w-60 md:w-96  text-gray-600 w-96'>
-                        Nuestra IA empezará a crear una historia totalmente personalizada según tus parámetros en cuestión de segundos.
+                      <p className='text-lg md:text-base w-56 sm:w-60 md:w-96  text-gray-600   '>
+                        Nuestra IA empezará a crear una historia totalmente personalizada según tus parámetros en
+                        cuestión de segundos.
                       </p>
                     </div>
                   </div>
                 </div>
                 <div className='flex flex-col md:flex-row items-start md:space-x-6 space-y-4 md:space-y-0'>
                   <div className='flex items-center gap-6 md:gap-12'>
-                    <div className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-primary text-primary text-3xl font-bold'>
+                    <div
+                      className='flex items-center justify-center w-14 h-14 rounded-full border-2 border-primary text-primary text-3xl font-bold'
+                    >
                       3
                     </div>
                     <div className='flex flex-col gap-5'>
-                      <h3 className='text-2xl md:text-3xl w-72 md:w-96 font-bold text-primary'>¡Disfruta y comparte!</h3>
-                      <p className='text-lg md:text-base w-60 md:w-96  text-gray-600 w-96'>
+                      <h3 className='text-2xl md:text-3xl w-72 md:w-96 font-bold text-primary'>¡Disfruta y
+                        comparte!</h3>
+                      <p className='text-lg md:text-base w-56 sm:w-60 md:w-96  text-gray-600'>
                         Ponte cómodo y prepárate para la aventura.
                       </p>
                     </div>
@@ -211,21 +233,23 @@ export default function Home () {
             <div className='hidden md:grid md:max-w-xl lg:max-w-5xl m-auto md:grid-cols-3 lg:grid-cols-4 gap-10 '>
               {images.map((src, index) => {
                 return (
-                      <div key={index} className='relative w-26'>
-                        <img
-                          src={src}
-                          alt='Cover Image'
-                          className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
-                        />
-                        <div className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none' />
-                      </div>
+                    <div key={index} className='relative w-26'>
+                      <img
+                        src={src}
+                        alt='Cover Image'
+                        className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
+                      />
+                      <div
+                        className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none'
+                      />
+                    </div>
                 )
               })}
             </div>
             <div className='container md:hidden mx-auto px-8'>
               <div className='relative w-26'>
                 <img
-                  src={images[0]}
+                  src={frontpages[3]}
                   alt='Cover Image'
                   className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
                 />
@@ -236,36 +260,36 @@ export default function Home () {
             </div>
           </section>
           <div className='background-section-4'>
-            <section className='py-20' id='pricing'>
+            <section className='md:py-20 py-10' id='pricing'>
               <div className='mx-auto md:px-4 container'>
                 <a href='#top'>
                   <PricingTable />
                 </a>
               </div>
             </section>
-            <section className='py-12'>
-              <div className='container mx-auto px-4 max-w-6xl flex justify-between items-center'>
-              <div className='w-1/2'>
+            <section className='md:py-12'>
+              <div className='container mx-auto px-4 max-w-6xl md:flex justify-between items-center'>
+                <div className='md:w-1/2'>
                   <img
                     src='/images/pablo.svg'
                     alt='pablo'
                     className='w-full object-cover pablo'
                   />
                 </div>
-                <div className='w-1/2'>
-                  <h2 className='text-6xl w-96 text-secondary font-bold mb-6'>Empieza tu historia</h2>
-                  <p className='text-lg w-96 text-primary mb-8'>Únete a miles de padres que ya están creando recuerdos
-                      inolvidables con Imagins</p>
-                    <Button
-                      size='lg' variant='secondary' asChild
-                      className='bg-secondary text-white font-bold hover:text-gray-700'
-                    >
-                      <a href='#top'>¡Comienza ahora!</a>
-                    </Button>
-                  </div>
+                <div className='md:w-1/2 mt-8 md:mt-0 flex md:block flex-col items-center'>
+                  <h2 className='md:text-5xl text-3xl text-secondary  font-bold mb-3 md:mb-6'>Empieza tu historia</h2>
+                  <p className='text-lg md:w-96 text-center md:text-start text-primary mb-8'>Únete a miles de padres que ya están creando recuerdos
+                    inolvidables con Imagins</p>
+                  <Button
+                    size='lg' variant='secondary' asChild
+                    className='bg-secondary text-white font-bold hover:text-gray-700'
+                  >
+                    <a href='#top'>¡Comienza ahora!</a>
+                  </Button>
                 </div>
+              </div>
             </section>
-            <section className='pt-12'>
+            <section className='md:pt-12 py-28'>
               <div className='container mx-auto px-4'>
                 <div className='max-w-5xl mx-auto'>
                   <Accordion data={faqs} />

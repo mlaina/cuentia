@@ -44,8 +44,8 @@ export default function Login () {
     setIsLoading(false)
   }
   return (
-        <div className='absolute lg:left-1/2 top-0 lg:w-[460px] md:w-[400px] sm:w-[300px] z-30 backdrop-blur-sm rounded-lg mt-6 ml-12 shadow-lg'>
-            <div className='border-glow-container rounded-lg p-4 bg-white/80 backdrop-blur-sm min-h-[240px]'>
+        <div className='lg:absolute lg:left-1/2 lg:top-0 lg:w-[460px] w-full lg:z-30 backdrop-blur-sm rounded-lg lg:mt-6 lg:ml-12 px-4 lg:px-0 lg:shadow-lg'>
+            <div className='border-glow-container rounded-lg p-4 bg-white lg:bg-white/80 backdrop-blur-sm min-h-[240px]'>
                 <div className='border-glow absolute inset-0 rounded-lg pointer-events-none min-h-[240px]' />
                 {!message.text && (
                     <>

@@ -85,7 +85,7 @@ export default function PricingTable ({ link = false, email = null, planPeriod =
             <div
               key={plan.stripePriceId}
               onClick={() => handleCheckout(plan.stripePriceId)}
-              className={`w-full lg:max-w-sm p-10 rounded-lg py-12 cursor-pointer ${plan.large ? 'lg:-translate-y-1 lg:scale-105 text-white' : ''}`}
+              className={`w-full lg:max-w-sm p-10 rounded-lg py-12 cursor-pointer ${plan.large ? 'lg:-translate-y-1 lg:scale-105 text-white' : 'border-secondary border'}`}
               style={{
                 background: plan.color
               }}
@@ -103,7 +103,7 @@ export default function PricingTable ({ link = false, email = null, planPeriod =
                     </li>
                 ))}
               </ul>
-              <hr className={`my-6 px-6 border-1 ${plan.large ? 'border-white' : 'border-gray-600'} border-dashed`} />
+              <hr className={`my-6 px-6 border-1 ${plan.large ? 'border-white' : 'border-secondary'} border-dashed`} />
               <p className={`${plan.large ? 'text-white' : 'text-gray-600'} mb-4`}>
                 {planPeriod}
               </p>
