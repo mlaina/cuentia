@@ -188,14 +188,14 @@ export default function StoryPage ({ params }: { params: { slug: string } }) {
           <button
             onClick={convertToEpub}
             disabled={isLoadingEpub}
-            className='px-4 py-2 bg-accent text-primary rounded hover:bg-blue-600 transition-colors disabled:bg-blue-300'
+            className='px-4 py-2 bg-accent text-primary rounded hover:bg-secondary-100  transition-colors'
           >
             {isLoadingEpub ? 'Generando EPUB...' : 'Convertir a EPUB'}
           </button>
           <button
             onClick={convertToPdf}
             disabled={isLoadingPdf}
-            className='ml-2 px-4 py-2 bg-secondary text-white rounded hover:bg-green-600 transition-colors disabled:bg-green-300'
+            className='ml-2 px-4 py-2 bg-secondary text-white rounded hover:bg-secondary-700 transition-colors'
           >
             {isLoadingPdf ? 'Generando PDF...' : 'Convertir a PDF'}
           </button>
