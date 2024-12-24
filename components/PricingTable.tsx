@@ -105,12 +105,12 @@ export default function PricingTable ({ link = false, email = null, planPeriod =
               </ul>
               <hr className={`my-6 px-6 border-1 ${plan.large ? 'border-white' : 'border-secondary'} border-dashed`} />
               <p className={`${plan.large ? 'text-white' : 'text-gray-600'} mb-4`}>
-                {planPeriod}
+                Mensual
               </p>
               <div className='flex justify-between items-center'>
                 <div>
                   <p className={`${plan.large ? 'text-white' : 'text-gray-600'} text-5xl font-bold`}>
-                    {planPeriod === 'Anual' ? plan.annual : plan.price}€
+                    {planPeriod === 'Anual' ? Math.round(plan.annual / 12) : plan.price}€
                   </p>
                 </div>
                 <div className='px-1'>
@@ -124,7 +124,7 @@ export default function PricingTable ({ link = false, email = null, planPeriod =
               </div>
               {planPeriod === 'Anual' && ahorroAnual > 0 && (
                   <p className={`${plan.large ? 'text-white' : 'text-gray-600'} text-md italic`}>
-                    Ahorras {ahorroAnual}€
+                    Precio anual {plan.annual}€
                   </p>
               )}
             </div>
