@@ -78,14 +78,14 @@ export default function PricingTable ({ link = false, email = null, planPeriod =
   }
 
   return (
-      <div className='grid md:grid-cols-3 gap-12 max-w-5xl m-auto '>
+      <div className='flex flex-col items-center lg:grid lg:grid-cols-3 gap-6 lg:gap-12 lg:max-w-6xl m-auto px-8 lg:px-0'>
         {pricingPlans.map((plan) => {
           const ahorroAnual = planPeriod === 'Anual' ? (plan.price * 12 - plan.annual) : 0
           return (
             <div
               key={plan.stripePriceId}
               onClick={() => handleCheckout(plan.stripePriceId)}
-              className={`max-w-sm p-10 rounded-lg py-12 cursor-pointer ${plan.large ? '-translate-y-1 scale-105 text-white' : ''}`}
+              className={`w-full lg:max-w-sm p-10 rounded-lg py-12 cursor-pointer ${plan.large ? 'lg:-translate-y-1 lg:scale-105 text-white' : ''}`}
               style={{
                 background: plan.color
               }}
