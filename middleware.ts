@@ -18,6 +18,14 @@ export async function middleware (req: { nextUrl: {
   const { data: { user } } = await supabase.auth.getUser()
   const isPublicRoute = publicRoutes.includes(req.nextUrl.pathname)
 
+  if (req.headers.get('x-error-status') === '400') {
+    if (user) {
+      return NextResponse.redirect(new URL('/create', req.url))
+    } else {
+      return NextResponse.redirect(new URL('/', req.url))
+    }
+  }
+
   if (req.nextUrl.pathname.startsWith('/images')) {
     return res // Dejar pasar la solicitud
   }
