@@ -169,10 +169,10 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
             </div>
 
             {pages.slice(1, -1).flatMap((page, index) => [
-              <div key={`text-${index * 2}`} className='page bg-white shadow-md'>
+              <div key={`text-${index * 2}`} className='page bg-white shadow-md rounded-md md:rounded-none'>
                 <div className='page-content h-full flex items-center pb-8'>
                   <div className='flex pl-8 relative'>
-                    <div className='prose prose-sm max-w-none overflow-y-auto items-center'>
+                    <div className='prose prose-sm max-w-none max-h-80 md:max-h-none overflow-y-auto items-center'>
                       <div>
                         {page.content
                           ? (
@@ -247,16 +247,16 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
                 className='p-2 rounded-full bg-black/80 text-white disabled:opacity-50 transition-opacity hover:bg-black/90'
                 aria-label='Página anterior'
               >
-                <ChevronLeft className='w-6 h-6' />
+                <ChevronLeft className='w-3 h-3 md:w-6 md:h-6' />
               </button>
 
               <div className='flex-1 overflow-x-auto'>
-                <div className='flex gap-3 justify-center py-6'>
+                <div className='flex gap-3 md:justify-center py-6'>
                   {pages.map((page, index) => (
                       <button
                         key={index}
                         onClick={() => goToPage(index)}
-                        className={`shadow-md shadow-inner bg-gray-100 border border-secondary-100 relative flex-shrink-0 w-20 h-28 rounded-md overflow-hidden transition-all duration-200 ${
+                        className={`shadow-md shadow-inner bg-gray-100 border border-secondary-100 relative flex-shrink-0 w-10 h-14 md:w-20 md:h-28 rounded-md overflow-hidden transition-all duration-200 ${
                               index === (currentPage === 0 ? 0 : Math.floor(currentPage / 2) + 1)
                                   ? 'ring-2 ring-secondary-100 ring-offset-1 border-none'
                                   : 'hover:ring-2 hover:ring-secondary hover:ring-offset-1'
@@ -288,7 +288,7 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
                 className='p-2 rounded-full bg-black/80 text-white disabled:opacity-50 transition-opacity hover:bg-black/90'
                 aria-label='Página siguiente'
               >
-                <ChevronRight className='w-6 h-6' />
+                <ChevronRight className='w-3 h-3 md:w-6 md:h-6' />
               </button>
             </div>
           </div>

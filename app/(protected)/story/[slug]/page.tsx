@@ -183,8 +183,8 @@ export default function StoryPage ({ params }: { params: { slug: string } }) {
   }
 
   return (
-      <div className='background-section-4'>
-        <div className='mb-4 max-w-6xl mx-auto flex justify-end'>
+      <div className='background-section-4 min-h-screen'>
+        <div className='mb-4 max-w-6xl mx-auto hidden md:flex justify-center'>
           <button
             onClick={convertToEpub}
             disabled={isLoadingEpub}
@@ -202,6 +202,22 @@ export default function StoryPage ({ params }: { params: { slug: string } }) {
         </div>
         <div className='max-w-6xl mx-auto pb-10'>
           <StoryViewer pages={story.content} />
+        </div>
+        <div className='max-w-6xl pb-4 mx-auto flex md:hidden justify-center'>
+          <button
+            onClick={convertToEpub}
+            disabled={isLoadingEpub}
+            className='px-4 py-2 bg-accent text-primary rounded hover:bg-secondary-100  transition-colors'
+          >
+            {isLoadingEpub ? 'Generando EPUB...' : 'Convertir a EPUB'}
+          </button>
+          <button
+            onClick={convertToPdf}
+            disabled={isLoadingPdf}
+            className='ml-2 px-4 py-2 bg-secondary text-white rounded hover:bg-secondary-700 transition-colors'
+          >
+            {isLoadingPdf ? 'Generando PDF...' : 'Convertir a PDF'}
+          </button>
         </div>
       </div>
   )

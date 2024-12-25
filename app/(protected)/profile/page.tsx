@@ -66,7 +66,7 @@ export default function ProfilePage () {
   }
 
   return (
-      <div className='w-full h-full background-section-4'>
+      <div className='w-full h-full background-section-4 px-8 md:px-0'>
         <div className='max-w-5xl mx-auto mt-10 '>
       <h2 className='text-2xl text-secondary font-bold mb-6'>Datos de usuario</h2>
 

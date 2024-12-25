@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { User as UserIcon, LogOut, BookOpen, Coins } from 'lucide-react'
+import { User as UserIcon, LogOut, BookOpen, Coins, Library, PersonStanding } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Header () {
@@ -33,12 +33,12 @@ export default function Header () {
 
   return (
     <header className='bg-white top-0 bg-opacity-70'>
-        <div className='max-w-7xl mx-auto py-4 flex justify-between items-center'>
+        <div className='max-w-7xl px-8 mx-auto py-4 flex justify-between items-center'>
           <div className='flex justify-between w-full items-center mr-10'>
             <Link href={user && user.user_metadata.credits > 0 ? '/create' : '/pricing'} className=' flex items-center'>
                 <BookOpen className='w-10 h-10 mr-2 text-secondary' />
             </Link>
-            <div className='flex gap-4'>
+            <div className='gap-4 hidden md:flex'>
               <Link href='/characters' className='text-primary text-md hover:text-secondary'>
                 Protagonistas
               </Link>
@@ -72,30 +72,44 @@ export default function Header () {
                 </Button>
             </PopoverTrigger>
             <PopoverContent className='w-56'>
-                <div className='grid gap-4'>
-                    <div className=' text-secondary font-bold'>
-                        {user.user_metadata?.name || user.email}
-                    </div>
-                    <Link href='/profile'>
-                      <Button variant='outline' className='w-full justify-start'>
-                          <UserIcon className='mr-2 h-4 w-4' />
-                          Perfil
-                      </Button>
-                    </Link>
-                    <Button
-                      variant='outline'
-                      className='w-full justify-start'
-                      onClick={handleLogout}
-                    >
-                        <LogOut className='mr-2 h-4 w-4' />
-                        Cerrar sesión
-                    </Button>
+              <div className='grid gap-4'>
+                <div className=' text-secondary font-bold'>
+                  {user.user_metadata?.name || user.email}
                 </div>
+                <div className='gap-4 flex flex-col md:hidden'>
+                  <Link href='/characters' className=' text-md hover:text-secondary'>
+                    <Button variant='outline' className='w-full justify-start'>
+                      <PersonStanding className='mr-2 h-4 w-4' />
+                      Protagonistas
+                    </Button>
+                  </Link>
+                  <Link href='/stories' className=' text-md hover:text-secondary'>
+                    <Button variant='outline' className='w-full justify-start'>
+                      <Library className='mr-2 h-4 w-4' />
+                      Librería
+                    </Button>
+                  </Link>
+                </div>
+                <Link href='/profile'>
+                  <Button variant='outline' className='w-full justify-start'>
+                    <UserIcon className='mr-2 h-4 w-4' />
+                    Perfil
+                  </Button>
+                </Link>
+                <Button
+                  variant='outline'
+                  className='w-full justify-start'
+                  onClick={handleLogout}
+                >
+                  <LogOut className='mr-2 h-4 w-4' />
+                  Cerrar sesión
+                </Button>
+              </div>
             </PopoverContent>
         </Popover>)
           : (<Button variant='outline' onClick={() => router.push('/login')}>
-            Iniciar sesión
-        </Button>)}
+              Iniciar sesión
+            </Button>)}
         </div>
     </header>
   )

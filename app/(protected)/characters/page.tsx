@@ -160,7 +160,7 @@ function DraftAvatar ({ protagonistId, index }: { protagonistId: number; index: 
               <img
                 src={image}
                 alt='Avatar'
-                className='w-72 rounded-lg cursor-pointer'
+                className='md:w-72 w-40 rounded-lg cursor-pointer'
                 onClick={handleImageClick}
               />
               <button
@@ -335,7 +335,7 @@ export default function Characters () {
   }
 
   return (
-    <div className='background-section-3'>
+    <div className='background-section-3 px-8 md:px-0'>
       <div className='max-w-5xl mx-auto mt-10 '>
         <h2 className='text-3xl font-bold mt-10 mb-4 text-secondary'>Protagonistas</h2>
         <div className='flex flex-col gap-4'>
@@ -384,7 +384,7 @@ export default function Characters () {
                 <div className='mt-4'>
                   <label className='block text-sm font-medium text-gray-700'>Subir Imágenes</label>
                   <label className='block text-xs font-medium text-gray-500 mb-2'>Ninguna de las imágenes se almacenará en la plataforma, solo se utilizarán para generar avatares</label>
-                  <div className='flex gap-3 items-start justify-between'>
+                  <div className='flex md:flex-row flex-col gap-3 items-start justify-between'>
                     {[1, 2, 3].map((num) => (
                         <DraftAvatar key={num} protagonistId={protagonist.id!} index={num} />
                     ))}
