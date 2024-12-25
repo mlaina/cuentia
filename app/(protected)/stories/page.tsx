@@ -36,7 +36,7 @@ export default function DashboardComponent () {
       <div className='flex background-section-3'>
         {/* <AnimatedParticlesBackground /> */}
         <main className='flex-1 max-w-7xl m-auto'>
-          <div className='mx-auto py-6 px-10 md:px-24'>
+          <div className='mx-auto py-6 px-6 md:px-24'>
             <div className='mb-6'>
               <Link href='/story'>
                 <Button
@@ -65,7 +65,7 @@ export default function DashboardComponent () {
                 )
               })}
             </div>
-            <div className='grid md:hidden gap-4 grid-cols-8'>
+            <div className='grid md:hidden gap-4 grid-cols-3'>
               {stories.map((story) => {
                 return (
                     <Link key={story.id} href={`/story/${story.id}`} passHref>
@@ -76,7 +76,7 @@ export default function DashboardComponent () {
                           className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
                         />
                         <div
-                          className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none'
+                          className='absolute inset-y-0 left-0 w-1 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none'
                         />
                       </div>
                     </Link>
