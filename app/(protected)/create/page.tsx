@@ -16,6 +16,7 @@ export default function CrearCuentoPage () {
   const [seletedProtagonists, setSeletedProtagonists] = useState([])
   const [longitud, setLongitud] = useState(10)
   const [loading, setLoading] = useState(false)
+  const [ld, setLd] = useState(false)
   const [, setDisabled] = useState(false)
   const textFieldRef = useRef(null)
   const router = useRouter()
@@ -48,7 +49,7 @@ export default function CrearCuentoPage () {
         if (error) {
           throw error
         }
-
+        setLd(true)
         setProtagonists(data || [])
       } catch (error) {
         console.error('Error al cargar los protagonistas:', error)
@@ -155,7 +156,7 @@ export default function CrearCuentoPage () {
                 Listos para soñar
               </h1>
             </div>
-            {!protagonists.length && (
+            {!protagonists.length && ld && (
                 <div className='border border-dashed border-red-200 py-3 px-4 rounded-md bg-red-50 text-red-700 text-sm'>
                   ¡Aún no has registrado ningún protagonista!{' '}
                   <a href='/characters' className='underline decoration-secondary font-bold'>

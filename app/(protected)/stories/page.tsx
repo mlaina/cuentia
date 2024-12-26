@@ -38,7 +38,7 @@ export default function DashboardComponent () {
         <main className='flex-1 max-w-7xl m-auto'>
           <div className='mx-auto py-6 px-6 md:px-24'>
             <div className='mb-6'>
-              <Link href='/story'>
+              <Link href='/create'>
                 <Button
                   className='bg-gradient-to-r from-secondary to-accent hover:from-accent hover:to-secondary text-white border-none transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg'
                 >

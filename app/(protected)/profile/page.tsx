@@ -68,33 +68,40 @@ export default function ProfilePage () {
   return (
       <div className='w-full h-full background-section-4 px-8 md:px-0'>
         <div className='max-w-5xl mx-auto mt-10 '>
-      <h2 className='text-2xl text-secondary font-bold mb-6'>Datos de usuario</h2>
+          <h2 className='text-2xl text-secondary font-bold mb-6'>Datos de usuario</h2>
 
-      {message.text && (
-        <div
-          className={`mb-4 p-4 rounded ${
-                message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-            }`}
-        >
-          {message.text}
-        </div>
-      )}
+          {message.text && (
+              <div
+                className={`mb-4 p-4 rounded ${
+                      message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                  }`}
+              >
+                {message.text}
+              </div>
+          )}
 
-        <div>
-          <Label htmlFor='email'>Correo electrónico</Label>
-          <Input id='email' type='email' value={email} disabled />
+          <div>
+            <Label htmlFor='email'>Correo electrónico</Label>
+            <Input id='email' type='email' value={email} disabled />
+          </div>
+          <div className='mt-2'>
+            <Label htmlFor='name'>Nombre</Label>
+            <Input
+              id='name'
+              type='text'
+              value={name || ''}
+              onChange={(e) => setName(e.target.value)}
+              onBlur={handleNameBlur}
+            />
+          </div>
+          <a href='https://billing.stripe.com/p/login/00gbJ48gvgQQcMMaEE' target='_blank' rel='noreferrer'>
+            <button
+              className='mt-6 px-4 py-2 bg-secondary text-white rounded-lg hover:bg-secondary-700'
+            >
+              Gestionar subscripción
+            </button>
+          </a>
         </div>
-        <div className='mt-2'>
-          <Label htmlFor='name'>Nombre</Label>
-          <Input
-            id='name'
-            type='text'
-            value={name || ''}
-            onChange={(e) => setName(e.target.value)}
-            onBlur={handleNameBlur}
-          />
-        </div>
-    </div>
       </div>
   )
 }
