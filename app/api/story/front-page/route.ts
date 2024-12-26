@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient, User } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import axios from 'axios'
 import frontTemplate from '@/types/prompts/front.json'
@@ -18,7 +18,8 @@ const openai = new OpenAI({
 
 process.env.FONTCONFIG_PATH = path.join(process.cwd(), 'public', 'fonts')
 
-async function titleGenerator (image, title, user) {
+async function titleGenerator (image: string | object, title: any, user: User) {
+  // @ts-ignore
   const response = await axios.get(image, { responseType: 'arraybuffer' })
   const buffer = Buffer.from(response.data, 'binary')
 
@@ -30,6 +31,7 @@ async function titleGenerator (image, title, user) {
     color: 'white'
   }
   try {
+    // @ts-ignore
     const completionFront = await openai.chat.completions.create({
       ...frontTemplate,
       messages: [
@@ -51,6 +53,7 @@ async function titleGenerator (image, title, user) {
       ]
     })
 
+    // @ts-ignore
     i = JSON.parse(completionFront.choices[0].message.content)
   } catch (error) {
     console.log('Error al analizar front:', error)
@@ -61,25 +64,25 @@ async function titleGenerator (image, title, user) {
 
   if (i.position === 'bottom-center') {
     if (wrappedTitle.length === 1) {
-      htmlTitle = `<text x="50%" y="80%" font-family="Arial" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-      htmlAuthor = `<text x="50%" y="85%" font-family="Arial" font-size="38" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
+      htmlTitle = `<text x="50%" y="80%" font-family="Poppins" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>`
+      htmlAuthor = `<text x="50%" y="85%" font-family="Poppins" font-size="38" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
     } else {
       htmlTitle = `
-            <text x="50%" y="75%" font-family="Arial" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>
-            <text x="50%" y="80%" font-family="Arial" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[1]}</text>
+            <text x="50%" y="75%" font-family="Poppins" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>
+            <text x="50%" y="80%" font-family="Poppins" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[1]}</text>
         `
-      htmlAuthor = `<text x="50%" y="87%" font-family="Arial" font-size="38" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
+      htmlAuthor = `<text x="50%" y="87%" font-family="Poppins" font-size="38" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
     }
   } else {
     if (wrappedTitle.length === 1) {
-      htmlTitle = `<text x="50%" y="15%" font-family="Arial" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-      htmlAuthor = `<text x="50%" y="20%" font-family="Arial" font-size="38" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
+      htmlTitle = `<text x="50%" y="15%" font-family="Poppins" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>`
+      htmlAuthor = `<text x="50%" y="20%" font-family="Poppins" font-size="38" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
     } else {
       htmlTitle = `
-            <text x="50%" y="10%" font-family="Arial" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>
-            <text x="50%" y="15%" font-family="Arial" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[1]}</text>
+            <text x="50%" y="10%" font-family="Poppins" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>
+            <text x="50%" y="15%" font-family="Poppins" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[1]}</text>
         `
-      htmlAuthor = `<text x="50%" y="22%" font-family="Arial" font-size="38" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
+      htmlAuthor = `<text x="50%" y="22%" font-family="Poppins" font-size="38" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
     }
   }
 
@@ -94,9 +97,14 @@ async function titleGenerator (image, title, user) {
     .composite([
       {
         input: Buffer.from(`<svg width="1000" height="1250">
+                    <style>
+                          @font-face {
+                            font-family: 'Poppins';
+                            src: url('/var/task/public/fonts/Poppins-Regular.ttf') format('truetype');
+                          }
+                    </style>
                     ${htmlTitle}
                     ${htmlAuthor}
-                    
                 </svg>`),
         gravity: 'north'
       },
@@ -127,6 +135,7 @@ export async function POST (req) {
     const promptFront = `Create a vivid animation style amazing frontpage about ${description} Style: Vibrant colors, expansive storyworlds, stylized characters, flowing motion`
     let image = null
     try {
+      // @ts-ignore
       image = await replicate.run(process.env.IMAGE_MODEL, {
         input: {
           prompt: promptFront,
@@ -134,6 +143,7 @@ export async function POST (req) {
         }
       })
     } catch (err) {
+      // @ts-ignore
       image = await replicate.run(process.env.IMAGE_MODEL, {
         input: {
           prompt: promptFront,
@@ -142,6 +152,7 @@ export async function POST (req) {
       })
     }
 
+    console.log(fs.existsSync('/var/task/public/fonts/Poppins-Regular.ttf'))
     const modifiedImage = await titleGenerator(image, title, user)
     const cfImageUrl = await uploadImage(modifiedImage)
 

@@ -19,12 +19,22 @@ export async function POST (req: { json: () => PromiseLike<{ description: any }>
   const prompt = `Vivid animation style. ${description} Style: Vibrant colors, expansive storyworlds, stylized characters, flowing motion`
 
   try {
-    // @ts-ignore
-    const output = await replicate.run(process.env.IMAGE_MODEL, {
-      input: {
-        prompt, aspect_ratio: '4:5'
-      }
-    })
+    let output
+    try {
+      // @ts-ignore
+      output = await replicate.run(process.env.IMAGE_MODEL, {
+        input: {
+          prompt, aspect_ratio: '4:5'
+        }
+      })
+    } catch (err) {
+      // @ts-ignore
+      output = await replicate.run(process.env.IMAGE_MODEL, {
+        input: {
+          prompt, aspect_ratio: '4:5'
+        }
+      })
+    }
 
     const image = Array.isArray(output) ? output[0] : output
 

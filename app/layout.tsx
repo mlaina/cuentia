@@ -4,19 +4,13 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import type { Database } from '@/types/supabase'
 import type { Metadata } from 'next'
-import localFont from 'next/font/local'
 import React from 'react'
 import SupabaseProvider from '@/components/SupabaseProvider'
+import { Poppins } from 'next/font/google'
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900'
-})
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900'
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '700']
 })
 
 export const metadata: Metadata = {
@@ -41,7 +35,7 @@ export default async function RootLayout ({
 
   return (
         <html lang='es'>
-            <body className={`${geistSans.variable} ${geistMono.variable} antialiased text-black`}>
+            <body className={`${poppins.className} antialiased text-black`}>
                 <SupabaseProvider session={{ user }}>
                     {children}
                 </SupabaseProvider>
