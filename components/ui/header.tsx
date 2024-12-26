@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -30,6 +30,12 @@ export default function Header () {
       router.push('/')
     }
   }
+
+  useEffect(() => {
+    if (isPopoverOpen) {
+      setPopoverOpen(false)
+    }
+  }, [router?.pathname])
 
   return (
     <header className='bg-white top-0 bg-opacity-70'>
