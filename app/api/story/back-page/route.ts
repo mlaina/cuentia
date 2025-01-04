@@ -21,6 +21,20 @@ if (process.env.NODE_ENV === 'production') {
   process.env.LD_LIBRARY_PATH = '/var/task'
 }
 
+const fontsDir = path.join(process.cwd(), 'fonts')
+console.log(`Checking fonts in: ${fontsDir}`)
+fs.readdir(fontsDir, (err, files) => {
+  if (err) {
+    console.error('Error reading fonts directory:', err)
+  } else {
+    console.log('Available fonts:', files)
+  }
+})
+
+fs.mkdirSync(path.resolve(process.cwd(), 'tmp', 'fonts-cache'), {
+  recursive: true
+})
+
 async function backGenerator (image, description) {
   const response = await axios.get(image, { responseType: 'arraybuffer' })
   const buffer = Buffer.from(response.data, 'binary')
