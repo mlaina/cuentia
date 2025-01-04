@@ -100,7 +100,7 @@ async function titleGenerator (image: string | object, title: any, user: User) {
                     <style>
                           @font-face {
                             font-family: 'Poppins';
-                            src: url('/var/task/public/fonts/Poppins-Regular.ttf') format('truetype');
+                            src: url(https://fonts.gstatic.com/s/poppins/v22/pxiByp8kv8JHgFVrLGT9Z1JlFc-K.woff2) format('woff2');
                           }
                     </style>
                     ${htmlTitle}
@@ -152,7 +152,6 @@ export async function POST (req) {
       })
     }
 
-    console.log(fs.existsSync('/var/task/public/fonts/Poppins-Regular.ttf'))
     const modifiedImage = await titleGenerator(image, title, user)
     const cfImageUrl = await uploadImage(modifiedImage)
 

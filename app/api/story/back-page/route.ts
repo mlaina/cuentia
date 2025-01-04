@@ -24,18 +24,24 @@ async function backGenerator (image, description) {
 
   const htmlTitle = wrappedTitle
     .map((line, index) => {
-      return `<text x="70" y="${15 + index * 3}%" font-family="Arial" font-size="32" fill="black" text-anchor="start" dominant-baseline="middle">${line}</text>`
+      return `<text x="70" y="${15 + index * 3}%" font-family="Poppins" font-size="32" fill="black" text-anchor="start" dominant-baseline="middle">${line}</text>`
     })
     .join('\n')
 
   const htmlImagins = wrappedImagins
     .map((line, index) => {
-      return `<text x="70" y="${20 + (index + wrappedTitle.length) * 3}%" font-family="Arial" font-size="32" fill="black" text-anchor="start" dominant-baseline="middle">${line}</text>`
+      return `<text x="70" y="${20 + (index + wrappedTitle.length) * 3}%" font-family="Poppins" font-size="32" fill="black" text-anchor="start" dominant-baseline="middle">${line}</text>`
     })
     .join('\n')
 
   const htmlOverlay = `
     <svg width="1000" height="1250">
+        <style>
+              @font-face {
+                font-family: 'Poppins';
+                src: url(https://fonts.gstatic.com/s/poppins/v22/pxiByp8kv8JHgFVrLGT9Z1JlFc-K.woff2) format('woff2');
+              }
+        </style>
         <filter id="blurFilter" x="0" y="0">
             <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
         </filter>
