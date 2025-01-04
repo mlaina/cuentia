@@ -1,22 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: true
+  },
+  outputFileTracingRoot: process.cwd(),
+  outputFileTracingIncludes: {
+    '/api/**/*': ['fonts/**/*']
   },
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'replicate.delivery',
+        hostname: 'replicate.delivery'
       },
       {
         protocol: 'https',
-        hostname: 'imagedelivery.net',
+        hostname: 'imagedelivery.net'
       },
       {
         protocol: 'http',
-        hostname: 'localhost',
+        hostname: 'localhost'
       },
       {
         protocol: 'https',
@@ -29,11 +33,11 @@ const nextConfig = {
       config.resolve.fallback = {
         ...config.resolve.fallback,
         fs: false,
-        path: false,
-      };
+        path: false
+      }
     }
-    return config;
+    return config
   }
-};
+}
 
-export default nextConfig;
+export default nextConfig

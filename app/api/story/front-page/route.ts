@@ -19,6 +19,12 @@ const openai = new OpenAI({
 path.resolve(process.cwd(), 'fonts', 'fonts.conf')
 path.resolve(process.cwd(), 'fonts', 'Poppins-Regular.ttf')
 
+sharp.cache(false)
+if (process.env.NODE_ENV === 'production') {
+  process.env.FONTCONFIG_PATH = '/var/task/fonts'
+  process.env.LD_LIBRARY_PATH = '/var/task'
+}
+
 async function titleGenerator (image: string | object, title: any, user: User) {
   // @ts-ignore
   const response = await axios.get(image, { responseType: 'arraybuffer' })

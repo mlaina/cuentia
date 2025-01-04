@@ -15,6 +15,12 @@ const IMAGINS = '"La imaginación es la chispa que enciende los sueños y da for
 path.resolve(process.cwd(), 'fonts', 'fonts.conf')
 path.resolve(process.cwd(), 'fonts', 'Poppins-Regular.ttf')
 
+sharp.cache(false)
+if (process.env.NODE_ENV === 'production') {
+  process.env.FONTCONFIG_PATH = '/var/task/fonts'
+  process.env.LD_LIBRARY_PATH = '/var/task'
+}
+
 async function backGenerator (image, description) {
   const response = await axios.get(image, { responseType: 'arraybuffer' })
   const buffer = Buffer.from(response.data, 'binary')
