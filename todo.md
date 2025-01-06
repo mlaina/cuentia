@@ -5,7 +5,7 @@
 - [ ] portada
 - [ ] edición
 - [ ] 1 linea back
-- [ ] Cerrar sesión
+- [x] Cerrar sesión
 - [ ] cron subs y creditos
 - [ ] revisar coherencia
 - [ ] invitaciones
