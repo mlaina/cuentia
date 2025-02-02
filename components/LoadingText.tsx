@@ -25,8 +25,8 @@ export default function LoadingText ({ finalText = null }: { finalText?: string 
 
   const [currentText, setCurrentText] = useState<string[][]>([])
   const [highlightedIndices, setHighlightedIndices] = useState<Array<{ line: number, word: number, phase: number }>>([])
-  const [isComplete, setIsComplete] = useState(false)
-  const [finalizedWords, setFinalizedWords] = useState<Set<string>>(new Set())
+  const [, setIsComplete] = useState(false)
+  const [, setFinalizedWords] = useState<Set<string>>(new Set())
 
   const wordsPerLine = 6
   const totalLines = 16
