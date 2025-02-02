@@ -75,6 +75,7 @@ function DraftAvatar ({ protagonistId, index }: { protagonistId: number; index: 
   const createImagePage = async (description: any) => {
     let response
     try {
+      await updateCredits(5);
       response = await fetch('/api/story/images', {
         method: 'POST',
         headers: {
@@ -203,6 +204,27 @@ export default function Characters () {
     }
   }, [user])
 
+  const updateCredits = async (cost) => {
+    if (!user) return
+
+    const { data, error } = await supabase.auth.getUser()
+    if (error || !data?.user) {
+      console.error('Error fetching user:', error)
+      return
+    }
+
+    const currentCredits = data.user.user_metadata.credits || 0
+    const newCredits = currentCredits - cost
+
+    const { error: updateError } = await supabase.auth.updateUser({
+      data: { credits: newCredits }
+    })
+
+    if (updateError) {
+      console.error('Error updating credits:', updateError)
+    }
+  }
+  
   async function fetchProtagonists () {
     if (!user) return
     try {
@@ -310,6 +332,7 @@ export default function Characters () {
 
   async function handleInferDescription (protagonistId: number) {
     try {
+      await updateCredits(2);
       const response = await fetch('/api/characters', {
         method: 'PUT',
         headers: {

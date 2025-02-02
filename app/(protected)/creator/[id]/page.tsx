@@ -37,6 +37,28 @@ function sanitizeText (text: string) {
   return sanitized
 }
 
+const MAX_RETRIES = 3;
+
+async function withRetry(operation: () => Promise<any>, operationName: string) {
+  let attempts = 0;
+  
+  while (attempts < MAX_RETRIES) {
+    try {
+      return await operation();
+    } catch (error) {
+      attempts++;
+      console.error(`Error in ${operationName} (attempt ${attempts}/${MAX_RETRIES}):`, error);
+      
+      if (attempts === MAX_RETRIES) {
+        throw new Error(`${operationName} failed after ${MAX_RETRIES} attempts`);
+      }
+      
+      // Wait before retrying (exponential backoff)
+      await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempts) * 1000));
+    }
+  }
+}
+
 export default function CrearCuentoPage ({ params }: { params: { id: string } }) {
   const [title, setTitle] = useState(null)
   const [indice, setIndice] = useState([])
@@ -116,156 +138,159 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const createStoryIndex = async (story, length) => {
     try {
-      await updateCredits(1)
-      const response = await fetch('/api/story/index', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ story, length, storyId: params.id })
-      })
+      await updateCredits(1);
+      return await withRetry(async () => {
+        const response = await fetch('/api/story/index', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ story, length, storyId: params.id })
+        });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-      const respIndex = await response.json()
-      const index = JSON.parse(respIndex.index)
-      const content = respIndex.content
+        const respIndex = await response.json();
+        const index = JSON.parse(respIndex.index);
+        const content = respIndex.content;
 
-      setTitle(index.title)
-      setIndice(content)
+        setTitle(index.title);
+        setIndice(content);
 
-      return index
+        return index;
+      }, 'Create Story Index');
     } catch (error) {
-      console.error('Error creating story index:', error)
-      throw error
+      console.error('Error creating story index:', error);
+      alert('No se pudo crear el índice de la historia después de varios intentos. Por favor, inténtelo de nuevo.');
+      throw error;
     }
-  }
+  };
 
   const createPageFront = async (description, title) => {
     try {
-      await updateCredits(5)
-      const response = await fetch('/api/story/front-page', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ description, title, storyId: params.id })
-      })
+      await updateCredits(5);
+      await withRetry(async () => {
+        const response = await fetch('/api/story/front-page', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ description, title, storyId: params.id })
+        });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-      const { image: frontCoverImage } = await response.json()
-      setIndice(prev => {
-        const newIndice = [...prev]
-        newIndice[0].imageUrl = frontCoverImage
-        return newIndice
-      })
+        const { image: frontCoverImage } = await response.json();
+        setIndice(prev => {
+          const newIndice = [...prev];
+          newIndice[0].imageUrl = frontCoverImage;
+          return newIndice;
+        });
+      }, 'Create Front Page');
     } catch (error) {
-      console.error('Error creating story index:', error)
-      throw error
+      console.error('Error creating front page:', error);
+      alert('No se pudo crear la portada después de varios intentos. Por favor, inténtelo de nuevo.');
+      throw error;
     }
-  }
+  };
 
   const createPageBack = async (description, idea, length) => {
     try {
-      await updateCredits(5)
-      const response = await fetch('/api/story/back-page', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ description, idea, length, storyId: params.id })
-      })
+      await updateCredits(5);
+      await withRetry(async () => {
+        const response = await fetch('/api/story/back-page', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ description, idea, length, storyId: params.id })
+        });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-      const { image: backCoverImage } = await response.json()
-      setIndice(prev => {
-        const newIndice = [...prev]
-        newIndice[newIndice.length - 1].content = description
-        newIndice[newIndice.length - 1].imageUrl = backCoverImage
-        return newIndice
-      })
+        const { image: backCoverImage } = await response.json();
+        setIndice(prev => {
+          const newIndice = [...prev];
+          newIndice[newIndice.length - 1].content = description;
+          newIndice[newIndice.length - 1].imageUrl = backCoverImage;
+          return newIndice;
+        });
+      }, 'Create Back Page');
     } catch (error) {
-      console.error('Error creating story index:', error)
-      throw error
+      console.error('Error creating back page:', error);
+      alert('No se pudo crear la contraportada después de varios intentos. Por favor, inténtelo de nuevo.');
+      throw error;
     }
-  }
+  };
 
   const createTextPage = async (index, number, protagonists) => {
     try {
-      await updateCredits(1)
-      const response = await fetch('/api/story/pages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ index, number, historic: indice, storyId: params.id, protagonists })
-      })
+      await updateCredits(1);
+      return await withRetry(async () => {
+        const response = await fetch('/api/story/pages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ index, number, historic: indice, storyId: params.id, protagonists })
+        });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-      const { page } = await response.json()
+        const { page } = await response.json();
 
-      setIndice(prev => {
-        const newIndice = [...prev]
-        newIndice[number].content = sanitizeText(page.text)
-        return newIndice
-      })
+        setIndice(prev => {
+          const newIndice = [...prev];
+          newIndice[number].content = sanitizeText(page.text);
+          return newIndice;
+        });
 
-      return page
+        return page;
+      }, 'Create Text Page');
     } catch (error) {
-      console.log('Error creating story page:', error)
-      throw error
+      console.error('Error creating text page:', error);
+      alert('No se pudo crear el texto de la página después de varios intentos. Por favor, inténtelo de nuevo.');
+      throw error;
     }
-  }
+  };
 
   const createImagePage = async (index, description, number) => {
-    let response
     try {
-      await updateCredits(4)
-      response = await fetch('/api/story/images', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ description })
-      })
-
-      if (response.status === 500) {
-        response = await fetch('/api/story/images', {
+      await updateCredits(4);
+      await withRetry(async () => {
+        const response = await fetch('/api/story/images', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ description })
-        })
-      }
+        });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-      const { image: pageImage } = await response.json()
-
-      setIndice(prev => {
-        const newIndice = [...prev]
-        newIndice[number].imageUrl = pageImage
-        return newIndice
-      })
+        const { image: pageImage } = await response.json();
+        setIndice(prev => {
+          const newIndice = [...prev];
+          newIndice[number].imageUrl = pageImage;
+          return newIndice;
+        });
+      }, 'Create Image Page');
     } catch (error) {
-      console.error('Error creating story index:', error)
-      throw error
+      console.error('Error creating image page:', error);
+      alert('No se pudo crear la imagen después de varios intentos. Por favor, inténtelo de nuevo.');
+      throw error;
     }
-  }
+  };
 
   const handleCrearCuento = async (story) => {
     if (hasExecutedRef.current) return
