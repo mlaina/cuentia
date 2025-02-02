@@ -42,7 +42,7 @@ export async function POST (req) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
     }
 
-    const { idea, description } = await req.json()
+    const { description } = await req.json()
 
     const promptBack = `Create a vivid animation about ${description} Style: Vibrant colors, expansive storyworlds. Focus on landscapes, objects, or abstract elements`
 
