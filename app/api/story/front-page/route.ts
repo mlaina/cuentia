@@ -1,14 +1,11 @@
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
-import { createRouteHandlerClient, User } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import axios from 'axios'
-import frontTemplate from '@/types/prompts/front.json'
-import path from 'path'
-import fs from 'fs'
-import sharp from 'sharp'
 import Replicate from 'replicate'
-import { uploadImage, wrapText } from '@/lib/cloudflare'
+import { uploadImage } from '@/lib/cloudflare'
+import frontTemplate from '@/types/prompts/front.json'
 
 const replicate = new Replicate()
 
@@ -16,42 +13,9 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 })
 
-path.resolve(process.cwd(), 'fonts', 'fonts.conf')
-path.resolve(process.cwd(), 'fonts', 'Poppins-Regular.ttf')
-
-sharp.cache(false)
-if (process.env.NODE_ENV === 'production') {
-  process.env.FONTCONFIG_PATH = '/var/task/fonts'
-  process.env.LD_LIBRARY_PATH = '/var/task'
-}
-
-const fontsDir = path.join(process.cwd(), 'fonts')
-console.log(`Checking fonts in: ${fontsDir}`)
-fs.readdir(fontsDir, (err, files) => {
-  if (err) {
-    console.error('Error reading fonts directory:', err)
-  } else {
-    console.log('Available fonts:', files)
-  }
-})
-
-fs.mkdirSync(path.resolve(process.cwd(), 'tmp', 'fonts-cache'), {
-  recursive: true
-})
-
-async function titleGenerator (image: string | object, title: any, user: User) {
-  // @ts-ignore
-  const response = await axios.get(image, { responseType: 'arraybuffer' })
-  const buffer = Buffer.from(response.data, 'binary')
-
-  const maxLineLength = 25
-  const wrappedTitle = wrapText(title, maxLineLength)
-
-  let i = {
-    position: 'top-center',
-    color: 'white'
-  }
+async function titleGenerator (image: string | object, title: any, user: string) {
   try {
+    const formData = new FormData()
     // @ts-ignore
     const completionFront = await openai.chat.completions.create({
       ...frontTemplate,
@@ -66,7 +30,7 @@ async function titleGenerator (image: string | object, title: any, user: User) {
             {
               type: 'image_url',
               image_url: {
-                url: image
+                url: typeof image === 'string' ? image : image[0]
               }
             }
           ]
@@ -74,72 +38,38 @@ async function titleGenerator (image: string | object, title: any, user: User) {
       ]
     })
 
-    // @ts-ignore
-    i = JSON.parse(completionFront.choices[0].message.content)
-  } catch (error) {
-    console.log('Error al analizar front:', error)
-  }
+    const imageResponse = await axios.get(typeof image === 'string' ? image : image[0], {
+      responseType: 'arraybuffer'
+    })
+    const imageBuffer = Buffer.from(imageResponse.data, 'binary')
 
-  let htmlTitle
-  let htmlAuthor
+    const imageBlob = new Blob([imageBuffer], { type: 'image/png' })
+    formData.append('image', imageBlob, 'image.png')
 
-  if (i.position === 'bottom-center') {
-    if (wrappedTitle.length === 1) {
-      htmlTitle = `<text x="50%" y="80%" font-family="Poppins" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-      htmlAuthor = `<text x="50%" y="85%" font-family="Poppins" font-size="38" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
-    } else {
-      htmlTitle = `
-            <text x="50%" y="75%" font-family="Poppins" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>
-            <text x="50%" y="80%" font-family="Poppins" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[1]}</text>
-        `
-      htmlAuthor = `<text x="50%" y="87%" font-family="Poppins" font-size="38" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
+    const info = JSON.parse(completionFront.choices[0].message.content)
+    if (!info.position || !info.color) {
+      info.position = 'bottom-center'
+      info.color = 'white'
     }
-  } else {
-    if (wrappedTitle.length === 1) {
-      htmlTitle = `<text x="50%" y="15%" font-family="Poppins" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>`
-      htmlAuthor = `<text x="50%" y="20%" font-family="Poppins" font-size="38" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
-    } else {
-      htmlTitle = `
-            <text x="50%" y="10%" font-family="Poppins" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[0]}</text>
-            <text x="50%" y="15%" font-family="Poppins" font-size="62" font-weight="bold" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${wrappedTitle[1]}</text>
-        `
-      htmlAuthor = `<text x="50%" y="22%" font-family="Poppins" font-size="38" fill="${i.color}" text-anchor="middle" dominant-baseline="middle">${user.user_metadata.name || user.email}</text>`
-    }
-  }
+    formData.append('info', JSON.stringify(info))
 
-  const logoPath = path.join(process.cwd(), 'public', 'favicon.svg')
-  const logoBuffer = fs.readFileSync(logoPath)
-  const resizedLogoBuffer = await sharp(logoBuffer)
-    .resize({ width: 70 })
-    .toBuffer()
+    formData.append('user', String(user))
+    formData.append('title', String(title))
 
-  const modifiedImage = await sharp(buffer)
-    .resize(1000, 1250)
-    .composite([
-      {
-        input: Buffer.from(`<svg width="1000" height="1250">
-                    <style>
-                          @font-face {
-                            font-family: 'Poppins';
-                            src: url(https://fonts.gstatic.com/s/poppins/v22/pxiByp8kv8JHgFVrLGT9Z1JlFc-K.woff2) format('woff2');
-                          }
-                    </style>
-                    ${htmlTitle}
-                    ${htmlAuthor}
-                </svg>`),
-        gravity: 'north'
+    const response = await axios.post(process.env.RENDER_UTILS_URL + '/process-image-front', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
       },
-      {
-        input: resizedLogoBuffer,
-        gravity: 'southwest',
-        blend: 'over',
-        top: 1160,
-        left: 80
-      }
-    ])
-    .toBuffer()
+      responseType: 'arraybuffer',
+      maxBodyLength: Infinity,
+      maxContentLength: Infinity
+    })
 
-  return modifiedImage
+    return new Blob([response.data], { type: 'image/jpeg' })
+  } catch (error) {
+    console.error('Error al procesar la imagen:', error)
+    throw error
+  }
 }
 
 export async function POST (req) {
@@ -173,7 +103,12 @@ export async function POST (req) {
       })
     }
 
-    const modifiedImage = await titleGenerator(image, title, user)
+    const modifiedImage = await titleGenerator(image, title, user.user_metadata.full_name || user.email)
+
+    if (!modifiedImage) {
+      throw new Error('Error al generar la imagen con título')
+    }
+
     const cfImageUrl = await uploadImage(modifiedImage)
 
     return NextResponse.json({ image: cfImageUrl })

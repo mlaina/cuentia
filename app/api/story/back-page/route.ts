@@ -3,101 +3,34 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import axios from 'axios'
 import Replicate from 'replicate'
-import path from 'path'
-import fs from 'fs'
-import sharp from 'sharp'
-import { uploadImage, wrapText } from '@/lib/cloudflare'
+import { uploadImage } from '@/lib/cloudflare'
 
 const replicate = new Replicate()
 
 const IMAGINS = '"La imaginación es la chispa que enciende los sueños y da forma al futuro. Es el poder de transformar lo imposible en posible, abriendo puertas a ideas y soluciones que desafían los límites. Cuando dejamos volar nuestra mente, conectamos con un potencial ilimitado para crear y reinventar el mundo."'
 
-path.resolve(process.cwd(), 'fonts', 'fonts.conf')
-path.resolve(process.cwd(), 'fonts', 'Poppins-Regular.ttf')
-
-sharp.cache(false)
-if (process.env.NODE_ENV === 'production') {
-  process.env.FONTCONFIG_PATH = '/var/task/fonts'
-  process.env.LD_LIBRARY_PATH = '/var/task'
-}
-
-const fontsDir = path.join(process.cwd(), 'fonts')
-console.log(`Checking fonts in: ${fontsDir}`)
-fs.readdir(fontsDir, (err, files) => {
-  if (err) {
-    console.error('Error reading fonts directory:', err)
-  } else {
-    console.log('Available fonts:', files)
-  }
-})
-
-fs.mkdirSync(path.resolve(process.cwd(), 'tmp', 'fonts-cache'), {
-  recursive: true
-})
-
 async function backGenerator (image, description) {
-  const response = await axios.get(image, { responseType: 'arraybuffer' })
-  const buffer = Buffer.from(response.data, 'binary')
+  const formData = new FormData()
+  const imageResponse = await axios.get(typeof image === 'string' ? image : image[0], {
+    responseType: 'arraybuffer'
+  })
+  const imageBuffer = Buffer.from(imageResponse.data, 'binary')
 
-  const maxLineLength = 56
-  const wrappedTitle = wrapText(description, maxLineLength)
-  const wrappedImagins = wrapText(IMAGINS, maxLineLength)
+  const imageBlob = new Blob([imageBuffer], { type: 'image/png' })
+  formData.append('image', imageBlob, 'image.png')
 
-  const htmlTitle = wrappedTitle
-    .map((line, index) => {
-      return `<text x="70" y="${15 + index * 3}%" font-family="Poppins" font-size="32" fill="black" text-anchor="start" dominant-baseline="middle">${line}</text>`
-    })
-    .join('\n')
+  formData.append('description', description)
+  formData.append('IMAGINS', IMAGINS)
+  const response = await axios.post(process.env.RENDER_UTILS_URL + '/process-image-back', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    responseType: 'arraybuffer',
+    maxBodyLength: Infinity,
+    maxContentLength: Infinity
+  })
 
-  const htmlImagins = wrappedImagins
-    .map((line, index) => {
-      return `<text x="70" y="${20 + (index + wrappedTitle.length) * 3}%" font-family="Poppins" font-size="32" fill="black" text-anchor="start" dominant-baseline="middle">${line}</text>`
-    })
-    .join('\n')
-
-  const htmlOverlay = `
-    <svg width="1000" height="1250">
-        <style>
-              @font-face {
-                font-family: 'Poppins';
-                src: url(https://fonts.gstatic.com/s/poppins/v22/pxiByp8kv8JHgFVrLGT9Z1JlFc-K.woff2) format('woff2');
-              }
-        </style>
-        <filter id="blurFilter" x="0" y="0">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
-        </filter>
-        <rect x="35" y="140" width="900" height="${wrappedTitle.length * 50}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
-        ${htmlTitle}
-
-        <rect x="35" y="${140 + wrappedTitle.length * 50 + 25}" width="900" height="${wrappedImagins.length * 50}" fill="white" fill-opacity="0.6" rx="15" ry="15"></rect>
-        ${htmlImagins}
-    </svg>
-  `
-
-  const logoPath = path.join(process.cwd(), 'public', 'favicon.svg')
-  const logoBuffer = fs.readFileSync(logoPath)
-  const resizedLogoBuffer = await sharp(logoBuffer)
-    .resize({ width: 70 })
-    .toBuffer()
-
-  const modifiedImage = await sharp(buffer)
-    .resize(1000, 1250)
-    .composite([
-      {
-        input: Buffer.from(htmlOverlay),
-        gravity: 'north'
-      },
-      {
-        input: resizedLogoBuffer,
-        gravity: 'southwest',
-        blend: 'over',
-        top: 1160,
-        left: 80
-      }
-    ])
-    .toBuffer()
-
-  return modifiedImage
+  return new Blob([response.data], { type: 'image/jpeg' })
 }
 
 export async function POST (req) {
@@ -130,7 +63,7 @@ export async function POST (req) {
       })
     }
 
-    const modifiedImage = await backGenerator(image, idea)
+    const modifiedImage = await backGenerator(image, description)
     const cfImageUrl = await uploadImage(modifiedImage)
 
     return NextResponse.json({ image: cfImageUrl })
