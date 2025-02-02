@@ -10,6 +10,7 @@ const replicate = new Replicate()
 const IMAGINS = '"La imaginación es la chispa que enciende los sueños y da forma al futuro. Es el poder de transformar lo imposible en posible, abriendo puertas a ideas y soluciones que desafían los límites. Cuando dejamos volar nuestra mente, conectamos con un potencial ilimitado para crear y reinventar el mundo."'
 
 async function backGenerator (image, description) {
+  console.log('back imageeeeee', image)
   const formData = new FormData()
   const imageResponse = await axios.get(typeof image === 'string' ? image : image[0], {
     responseType: 'arraybuffer'
@@ -30,6 +31,7 @@ async function backGenerator (image, description) {
     maxContentLength: Infinity
   })
 
+  console.log('post render back', image)
   return new Blob([response.data], { type: 'image/jpeg' })
 }
 

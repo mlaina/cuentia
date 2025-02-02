@@ -32,8 +32,6 @@ export default function LoadingText ({ finalText = null }: { finalText?: string 
   const totalLines = 16
   const totalPhases = 8
 
-  console.log('isComplete', isComplete)
-  console.log('finalizedWords', finalizedWords)
   const cleanFinalText = useCallback((text: string) => {
     return text.replace(/[*_]/g, '')
   }, [])

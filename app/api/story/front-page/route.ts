@@ -15,6 +15,7 @@ const openai = new OpenAI({
 
 async function titleGenerator (image: string | object, title: any, user: string) {
   try {
+  console.log('front imageeeeee', image)
     const formData = new FormData()
     // @ts-ignore
     const completionFront = await openai.chat.completions.create({
@@ -65,6 +66,7 @@ async function titleGenerator (image: string | object, title: any, user: string)
       maxContentLength: Infinity
     })
 
+  console.log('post render front', image)
     return new Blob([response.data], { type: 'image/jpeg' })
   } catch (error) {
     console.error('Error al procesar la imagen:', error)
