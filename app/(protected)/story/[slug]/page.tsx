@@ -122,6 +122,11 @@ export default function StoryPage ({ params }: { params: { slug: string } }) {
         return
       }
 
+      const hasMissingImages = story.content.some(page => !page.imageUrl)
+      if (hasMissingImages) {
+        router.push(`/creator/${story.id}`)
+        return
+      }
       setStory(story)
     }
 

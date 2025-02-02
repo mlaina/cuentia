@@ -9,7 +9,7 @@ import StoryViewer from '@/components/StoryViewer'
 export const runtime = 'edge'
 
 function sanitizeText (text: string) {
-  let sanitized = text.replace(/"([^"]*)$/g, '“$1”')
+  let sanitized = text.replace(/"([^"]*)$/g, '"' + '$1' + '"')
 
   const openBrackets = (sanitized.match(/\[/g) || []).length
   const closeBrackets = (sanitized.match(/\]/g) || []).length
@@ -30,7 +30,7 @@ function sanitizeText (text: string) {
     sanitized = sanitized.slice(0, -1 * (closeBraces - openBraces))
   }
 
-  sanitized = sanitized.replace(/["“”]+$/g, '')
+  sanitized = sanitized.replace(/["""]+$/g, '')
 
   sanitized = sanitized.replace(/["}]+$/g, '')
 
@@ -273,24 +273,46 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
     console.log('Creating story...')
 
-    const ind = await createStoryIndex(story, story.length / 2)
+    if (story.content && story.content.length > 0) {
+      setIndice(story.content)
+      setTitle(story.title)
 
-    // eslint-disable-next-line no-unused-vars
-    let [_, __, page] = await Promise.all([
-      createPageFront(ind.frontpage_description, ind.title),
-      createPageBack(ind.frontpage_description, story.idea, story.length / 2),
-      createTextPage(ind.index, 1)
-    ])
+      for (let i = 0; i < story.content.length; i++) {
+        const page = story.content[i]
+        if (!page.imageUrl) {
+          if (i === 0) {
+            await createPageFront(page.content, story.title)
+          } else if (i === story.content.length - 1) {
+            await createPageBack(page.content, story.idea, story.length / 2)
+          } else if (page.content) {
+            await createImagePage(null, page.content, i)
+          }
+        }
+        if (!page.content && i !== 0 && i !== story.content.length - 1) {
+          const prevPage = await createTextPage(null, i, story.protagonists)
+          if (!page.imageUrl) {
+            await createImagePage(null, prevPage.image_description, i)
+          }
+        }
+      }
+    } else {
+      const ind = await createStoryIndex(story, story.length / 2)
 
-    for (let i = 1; i < ind.index.length + 1; i++) {
-      if (i !== ind.index.length) {
-        // eslint-disable-next-line no-const-assign,no-unused-vars
-        [__, page] = await Promise.all([
-          createImagePage(ind.index, page.image_description, i),
-          createTextPage(ind.index, i + 1, story.protagonists)
-        ])
-      } else {
-        await createImagePage(ind.index, page.image_description, i)
+      let [_, __, page] = await Promise.all([
+        createPageFront(ind.frontpage_description, ind.title),
+        createPageBack(ind.frontpage_description, story.idea, story.length / 2),
+        createTextPage(ind.index, 1)
+      ])
+
+      for (let i = 1; i < ind.index.length + 1; i++) {
+        if (i !== ind.index.length) {
+          [__, page] = await Promise.all([
+            createImagePage(ind.index, page.image_description, i),
+            createTextPage(ind.index, i + 1, story.protagonists)
+          ])
+        } else {
+          await createImagePage(ind.index, page.image_description, i)
+        }
       }
     }
   }

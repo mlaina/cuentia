@@ -53,7 +53,7 @@ export default function DashboardComponent () {
                     <Link key={story.id} href={`/story/${story.id}`} passHref>
                       <div className='relative w-26'>
                         <img
-                          src={story.images[0] === '' ? '/placeholder-covers.svg' : story.images[0]}
+                          src={story.images && story.images[0] !== '' ? story.images[0] : '/placeholder-covers.svg'}
                           alt='Cover Image'
                           className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
                         />
@@ -71,7 +71,7 @@ export default function DashboardComponent () {
                     <Link key={story.id} href={`/story/${story.id}`} passHref>
                       <div className='relative w-26'>
                         <img
-                          src={story.images[0]}
+                          src={story.images && story.images[0] !== '' ? story.images[0] : '/placeholder-covers.svg'}
                           alt='Cover Image'
                           className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
                         />
