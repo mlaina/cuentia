@@ -1,7 +1,7 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 
-const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/image', '/validation', '/auth/callback']
+const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/image', '/validation', '/auth/callback', '/preview/*']
 
 export async function middleware (req: { nextUrl: {
     searchParams: any; pathname: string
@@ -16,7 +16,13 @@ export async function middleware (req: { nextUrl: {
   const supabase = createMiddlewareClient({ req, res })
 
   const { data: { user } } = await supabase.auth.getUser()
-  const isPublicRoute = publicRoutes.includes(req.nextUrl.pathname)
+  const isPublicRoute = publicRoutes.some(route => {
+    if (route.endsWith('/*')) {
+      const baseRoute = route.slice(0, -2) // Remove '/*'
+      return req.nextUrl.pathname.startsWith(baseRoute)
+    }
+    return route === req.nextUrl.pathname
+  })
 
   if (req.headers.get('x-error-status') === '400') {
     if (user) {
@@ -27,7 +33,7 @@ export async function middleware (req: { nextUrl: {
   }
 
   if (req.nextUrl.pathname.startsWith('/images')) {
-    return res // Dejar pasar la solicitud
+    return res
   }
 
   if (!user && !isPublicRoute) {

@@ -2,6 +2,7 @@
   "name": "cuentia",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -42,6 +43,7 @@
     "marked": "^15.0.1",
     "next": "14.2.12",
     "next-auth": "^4.24.8",
+    "next-intl": "^3.26.3",
     "node-fetch": "^3.3.2",
     "openai": "^4.67.1",
     "path": "^0.12.7",

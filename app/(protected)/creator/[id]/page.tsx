@@ -5,6 +5,7 @@ import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 // import AnimatedParticlesBackground from '@/components/ui/AnimatedParticlesBackground'
 import Head from 'next/head'
 import StoryViewer from '@/components/StoryViewer'
+import { useTranslations } from 'next-intl'
 
 export const runtime = 'edge'
 
@@ -37,24 +38,24 @@ function sanitizeText (text: string) {
   return sanitized
 }
 
-const MAX_RETRIES = 3;
+const MAX_RETRIES = 3
 
-async function withRetry(operation: () => Promise<any>, operationName: string) {
-  let attempts = 0;
-  
+async function withRetry (operation: () => Promise<any>, operationName: string) {
+  let attempts = 0
+
   while (attempts < MAX_RETRIES) {
     try {
-      return await operation();
+      return await operation()
     } catch (error) {
-      attempts++;
-      console.error(`Error in ${operationName} (attempt ${attempts}/${MAX_RETRIES}):`, error);
-      
+      attempts++
+      console.error(`Error in ${operationName} (attempt ${attempts}/${MAX_RETRIES}):`, error)
+
       if (attempts === MAX_RETRIES) {
-        throw new Error(`${operationName} failed after ${MAX_RETRIES} attempts`);
+        throw new Error(`${operationName} failed after ${MAX_RETRIES} attempts`)
       }
-      
+
       // Wait before retrying (exponential backoff)
-      await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempts) * 1000));
+      await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempts) * 1000))
     }
   }
 }
@@ -138,7 +139,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const createStoryIndex = async (story, length) => {
     try {
-      await updateCredits(1);
+      await updateCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/index', {
           method: 'POST',
@@ -146,31 +147,31 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ story, length, storyId: params.id })
-        });
+        })
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`HTTP error! status: ${response.status}`)
         }
 
-        const respIndex = await response.json();
-        const index = JSON.parse(respIndex.index);
-        const content = respIndex.content;
+        const respIndex = await response.json()
+        const index = JSON.parse(respIndex.index)
+        const content = respIndex.content
 
-        setTitle(index.title);
-        setIndice(content);
+        setTitle(index.title)
+        setIndice(content)
 
-        return index;
-      }, 'Create Story Index');
+        return index
+      }, 'Create Story Index')
     } catch (error) {
-      console.error('Error creating story index:', error);
-      alert('No se pudo crear el índice de la historia después de varios intentos. Por favor, inténtelo de nuevo.');
-      throw error;
+      console.error('Error creating story index:', error)
+      alert('No se pudo crear el índice de la historia después de varios intentos. Por favor, inténtelo de nuevo.')
+      throw error
     }
-  };
+  }
 
   const createPageFront = async (description, title) => {
     try {
-      await updateCredits(5);
+      await updateCredits(5)
       await withRetry(async () => {
         const response = await fetch('/api/story/front-page', {
           method: 'POST',
@@ -178,29 +179,29 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ description, title, storyId: params.id })
-        });
+        })
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`HTTP error! status: ${response.status}`)
         }
 
-        const { image: frontCoverImage } = await response.json();
+        const { image: frontCoverImage } = await response.json()
         setIndice(prev => {
-          const newIndice = [...prev];
-          newIndice[0].imageUrl = frontCoverImage;
-          return newIndice;
-        });
-      }, 'Create Front Page');
+          const newIndice = [...prev]
+          newIndice[0].imageUrl = frontCoverImage
+          return newIndice
+        })
+      }, 'Create Front Page')
     } catch (error) {
-      console.error('Error creating front page:', error);
-      alert('No se pudo crear la portada después de varios intentos. Por favor, inténtelo de nuevo.');
-      throw error;
+      console.error('Error creating front page:', error)
+      alert('No se pudo crear la portada después de varios intentos. Por favor, inténtelo de nuevo.')
+      throw error
     }
-  };
+  }
 
   const createPageBack = async (description, idea, length) => {
     try {
-      await updateCredits(5);
+      await updateCredits(5)
       await withRetry(async () => {
         const response = await fetch('/api/story/back-page', {
           method: 'POST',
@@ -208,30 +209,30 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ description, idea, length, storyId: params.id })
-        });
+        })
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`HTTP error! status: ${response.status}`)
         }
 
-        const { image: backCoverImage } = await response.json();
+        const { image: backCoverImage } = await response.json()
         setIndice(prev => {
-          const newIndice = [...prev];
-          newIndice[newIndice.length - 1].content = description;
-          newIndice[newIndice.length - 1].imageUrl = backCoverImage;
-          return newIndice;
-        });
-      }, 'Create Back Page');
+          const newIndice = [...prev]
+          newIndice[newIndice.length - 1].content = description
+          newIndice[newIndice.length - 1].imageUrl = backCoverImage
+          return newIndice
+        })
+      }, 'Create Back Page')
     } catch (error) {
-      console.error('Error creating back page:', error);
-      alert('No se pudo crear la contraportada después de varios intentos. Por favor, inténtelo de nuevo.');
-      throw error;
+      console.error('Error creating back page:', error)
+      alert('No se pudo crear la contraportada después de varios intentos. Por favor, inténtelo de nuevo.')
+      throw error
     }
-  };
+  }
 
   const createTextPage = async (index, number, protagonists) => {
     try {
-      await updateCredits(1);
+      await updateCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/pages', {
           method: 'POST',
@@ -239,32 +240,32 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ index, number, historic: indice, storyId: params.id, protagonists })
-        });
+        })
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`HTTP error! status: ${response.status}`)
         }
 
-        const { page } = await response.json();
+        const { page } = await response.json()
 
         setIndice(prev => {
-          const newIndice = [...prev];
-          newIndice[number].content = sanitizeText(page.text);
-          return newIndice;
-        });
+          const newIndice = [...prev]
+          newIndice[number].content = sanitizeText(page.text)
+          return newIndice
+        })
 
-        return page;
-      }, 'Create Text Page');
+        return page
+      }, 'Create Text Page')
     } catch (error) {
-      console.error('Error creating text page:', error);
-      alert('No se pudo crear el texto de la página después de varios intentos. Por favor, inténtelo de nuevo.');
-      throw error;
+      console.error('Error creating text page:', error)
+      alert('No se pudo crear el texto de la página después de varios intentos. Por favor, inténtelo de nuevo.')
+      throw error
     }
-  };
+  }
 
   const createImagePage = async (index, description, number) => {
     try {
-      await updateCredits(4);
+      await updateCredits(4)
       await withRetry(async () => {
         const response = await fetch('/api/story/images', {
           method: 'POST',
@@ -272,25 +273,25 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ description })
-        });
+        })
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`HTTP error! status: ${response.status}`)
         }
 
-        const { image: pageImage } = await response.json();
+        const { image: pageImage } = await response.json()
         setIndice(prev => {
-          const newIndice = [...prev];
-          newIndice[number].imageUrl = pageImage;
-          return newIndice;
-        });
-      }, 'Create Image Page');
+          const newIndice = [...prev]
+          newIndice[number].imageUrl = pageImage
+          return newIndice
+        })
+      }, 'Create Image Page')
     } catch (error) {
-      console.error('Error creating image page:', error);
-      alert('No se pudo crear la imagen después de varios intentos. Por favor, inténtelo de nuevo.');
-      throw error;
+      console.error('Error creating image page:', error)
+      alert('No se pudo crear la imagen después de varios intentos. Por favor, inténtelo de nuevo.')
+      throw error
     }
-  };
+  }
 
   const handleCrearCuento = async (story) => {
     if (hasExecutedRef.current) return
@@ -323,7 +324,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     } else {
       const ind = await createStoryIndex(story, story.length / 2)
 
-      let [_, __, page] = await Promise.all([
+      let [, , page] = await Promise.all([
         createPageFront(ind.frontpage_description, ind.title),
         createPageBack(ind.frontpage_description, story.idea, story.length / 2),
         createTextPage(ind.index, 1)
@@ -331,7 +332,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
       for (let i = 1; i < ind.index.length + 1; i++) {
         if (i !== ind.index.length) {
-          [__, page] = await Promise.all([
+          [, page] = await Promise.all([
             createImagePage(ind.index, page.image_description, i),
             createTextPage(ind.index, i + 1, story.protagonists)
           ])
@@ -360,53 +361,38 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     fetchStory()
   }, [indice])
 
+  const t = useTranslations()
+
   return (
       <>
         <Head>
-            <title>{title ? { title } : 'Creando cuento...'}</title>
+          <title>{title || t('creating_story')}</title>
         </Head>
 
         <div className='overflow-hidden'>
-        {indice.length > 0 && loading > 5 &&
-            <StoryViewer title={title} pages={indice} stream />}
+          {indice.length > 0 && loading > 5 && <StoryViewer title={title} pages={indice} stream />}
         </div>
+
         <div className='flex flex-col h-full w-full background-section-4'>
-          {/* <AnimatedParticlesBackground /> */}
           <div className='flex flex-col justify-center items-center w-full h-2/3 text-gray-500 relative'>
-            <section className={`absolute inset-0 transition-opacity duration-500 ${loading === 1 ? 'opacity-100' : 'opacity-0'} flex justify-center items-center`}>
-              <p className='text-5xl flex items-center'>
-                <span className='underline decoration-pink-500'>Despertando</span>&nbsp;a <strong className='text-accent'>&nbsp;dragones</strong>
-                <span role='img' aria-label='despertando' className='mr-2'>🌅</span>
-              </p>
-            </section>
-
-            <section className={`absolute inset-0 transition-opacity duration-500 ${loading === 2 ? 'opacity-100' : 'opacity-0'} flex justify-center items-center`}>
-              <p className='text-5xl flex items-center'>
-                <span className='underline decoration-secondary'>Convocando</span>&nbsp;a las <strong className='text-pink-500'>&nbsp;brujas</strong>
-                <span role='img' aria-label='convocando' className='mr-2'>🔮</span>
-              </p>
-            </section>
-
-            <section className={`absolute inset-0 transition-opacity duration-500 ${loading === 3 ? 'opacity-100' : 'opacity-0'} flex justify-center items-center`}>
-              <p className='text-5xl flex items-center'>
-                <span className='underline decoration-accent'>Explorando</span>&nbsp;la <strong className='text-secondary'>&nbsp;galaxia</strong>
-                <span role='img' aria-label='explorando' className='mr-2'>🚀</span>
-              </p>
-            </section>
-
-            <section className={`absolute inset-0 transition-opacity duration-500 ${loading === 4 ? 'opacity-100' : 'opacity-0'} flex justify-center items-center`}>
-              <p className='text-5xl flex items-center'>
-                <span className='underline decoration-pink-500'>Llamando</span>&nbsp;al <strong className='text-secondary'>&nbsp;fénix</strong>
-                <span role='img' aria-label='llamando' className='mr-2'>🔥</span>
-              </p>
-            </section>
-
-            <section className={`absolute inset-0 transition-opacity duration-500 ${loading === 5 ? 'opacity-100' : 'opacity-0'} flex justify-center items-center`}>
-              <p className='text-5xl flex items-center'>
-                <span className='underline decoration-secondary'>Entrenando</span>&nbsp;a la <strong className='text-accent'>&nbsp;jauría</strong>
-                <span role='img' aria-label='entrenando' className='mr-2'>🐺</span>
-              </p>
-            </section>
+            {[1, 2, 3, 4, 5].map((step) => (
+                <section
+                  key={step}
+                  className={`absolute inset-0 transition-opacity duration-500 ${
+                        loading === step ? 'opacity-100' : 'opacity-0'
+                    } flex justify-center items-center`}
+                >
+                  <p className='text-5xl flex items-center'>
+                <span className={`underline decoration-${t(`loading_step_${step}_color`)}`}>
+                  {t(`loading_step_${step}_action`)}
+                </span>
+                    &nbsp;{t(`loading_step_${step}_object`)}
+                    <span role='img' aria-label={t(`loading_step_${step}_emoji_label`)} className='mr-2'>
+                  {t(`loading_step_${step}_emoji`)}
+                </span>
+                  </p>
+                </section>
+            ))}
           </div>
         </div>
       </>

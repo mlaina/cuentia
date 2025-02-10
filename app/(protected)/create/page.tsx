@@ -6,9 +6,10 @@ import { Wand2 } from 'lucide-react'
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { Slider } from '@/components/ui/slider'
 import { useRouter } from 'next/navigation'
-// import AnimatedParticlesBackground from '@/components/ui/AnimatedParticlesBackground'
+import { useTranslations } from 'next-intl'
 
 export default function CrearCuentoPage () {
+  const t = useTranslations()
   const [descripcion, setDescripcion] = useState('')
   const [randomIdeas, setRandomIdeas] = useState([])
   const [ideas, setIdeas] = useState([])
@@ -29,7 +30,7 @@ export default function CrearCuentoPage () {
         const { default: importedIdeas } = await import('@/types/ideas.json')
         setIdeas(importedIdeas)
       } catch (error) {
-        console.error('Error al cargar las ideas:', error)
+        console.error(t('error_loading_ideas'), error)
       }
     }
 
@@ -52,7 +53,7 @@ export default function CrearCuentoPage () {
         setLd(true)
         setProtagonists(data || [])
       } catch (error) {
-        console.error('Error al cargar los protagonistas:', error)
+        console.error(t('error_loading_protagonists'), error)
       }
     }
 
@@ -112,7 +113,7 @@ export default function CrearCuentoPage () {
       const storyId = data[0].id
       router.push(`/creator/${storyId}`)
     } catch (error) {
-      console.error('Error al crear la historia:', error.message)
+      console.error(t('error_creating_story'), error.message)
     }
   }
 
@@ -146,21 +147,18 @@ export default function CrearCuentoPage () {
 
   return (
       <div className='flex h-full background-section-4'>
-        {/* <AnimatedParticlesBackground /> */}
-        <section
-          className={`mt-4 md:mt-20 flex-1 transition duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}
-        >
+        <section className={`mt-4 md:mt-20 flex-1 transition duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}>
           <div className='max-w-4xl mx-auto p-6 items-center justify-center space-y-2 md:space-y-8'>
             <div className='pb-2 md:pb-4'>
               <h1 className='text-center bg-gradient-to-r from-secondary to-accent bg-clip-text text-4xl md:text-6xl font-bold text-transparent'>
-                Listos para soñar
+                {t('ready_to_dream')}
               </h1>
             </div>
             {!protagonists.length && ld && (
                 <div className='border border-dashed border-red-200 py-3 px-4 rounded-md bg-red-50 text-red-700 text-sm'>
-                  ¡Aún no has registrado ningún protagonista!{' '}
+                  {t('no_protagonists_yet')}{' '}
                   <a href='/characters' className='underline decoration-secondary font-bold'>
-                    Haz clic aquí para crear uno
+                    {t('create_one_here')}
                   </a>{' '}
                   ✨
                 </div>
@@ -169,7 +167,7 @@ export default function CrearCuentoPage () {
               <div className='flex md:flex-row flex-col gap-4'>
                 <div className='w-64 flex md:hidden flex-col gap-2 pl-4'>
                   {unselectedProtagonists && unselectedProtagonists.length > 0 &&
-                  <h3 className='text-gray-700 font-bold'>Protagonistas Disponibles</h3>}
+                      <h3 className='text-gray-700 font-bold'>{t('characters_avialable')}</h3>}
                   {unselectedProtagonists.map((protagonist) => (
                       <div
                         key={protagonist.id}
@@ -219,42 +217,41 @@ export default function CrearCuentoPage () {
                 </div>
                 <div className='flex-1 relative border-glow-container rounded-lg'>
                   <Textarea
-                    placeholder='Escribe una breve descripción de tu idea para el cuento... Puedes mencionar a tus protagonistas con @nombre'
+                    placeholder={t('story_description_placeholder')}
                     value={descripcion}
                     onChange={handleTextFieldChange}
                     className='min-h-[200px] resize-none'
                     ref={textFieldRef}
                   />
                   <div className='border-glow absolute inset-0 rounded-sm pointer-events-none' />
-                  {/* Chips con ideas */}
                 </div>
-                <div className='w-64 hidden md:flex flex-col gap-2 pl-4'>
-                  <h3 className='text-gray-700 font-bold'>Protagonistas Disponibles</h3>
-                  {unselectedProtagonists.map((protagonist) => (
-                      <div
-                        key={protagonist.id}
-                        onClick={() => handleMemberClick(protagonist)}
-                        className='flex items-center gap-2 cursor-pointer hover:bg-gray-200 p-2 rounded'
-                      >
-                        {protagonist.avatars && protagonist.avatars.some((avatar) => avatar)
-                          ? (
-                                <img
-                                  src={protagonist.avatars.find((avatar) => avatar)}
-                                  alt={protagonist.name}
-                                  className='w-8 h-8 rounded-full'
-                                />
-                            )
-                          : (
-                                <div
-                                  className='w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold'
-                                >
-                                  {protagonist.name.charAt(0).toUpperCase()}
-                                </div>
-                            )}
-                        <span>@{protagonist.name}</span>
-                      </div>
-                  ))}
-                </div>
+              </div>
+              <div className='w-64 hidden md:flex flex-col gap-2 pl-4'>
+                <h3 className='text-gray-700 font-bold'>{t('characters_avialable')}</h3>
+                {unselectedProtagonists.map((protagonist) => (
+                    <div
+                      key={protagonist.id}
+                      onClick={() => handleMemberClick(protagonist)}
+                      className='flex items-center gap-2 cursor-pointer hover:bg-gray-200 p-2 rounded'
+                    >
+                      {protagonist.avatars && protagonist.avatars.some((avatar) => avatar)
+                        ? (
+                              <img
+                                src={protagonist.avatars.find((avatar) => avatar)}
+                                alt={protagonist.name}
+                                className='w-8 h-8 rounded-full'
+                              />
+                          )
+                        : (
+                              <div
+                                className='w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold'
+                              >
+                                {protagonist.name.charAt(0).toUpperCase()}
+                              </div>
+                          )}
+                      <span>@{protagonist.name}</span>
+                    </div>
+                ))}
               </div>
               <div className='hidden md:flex justify-between'>
                 <div className='flex flex-wrap gap-2 mt-2'>
@@ -285,18 +282,18 @@ export default function CrearCuentoPage () {
                     step={2}
                     className='relative w-full h-2 rounded-full cursor-pointer'
                   />
-                  <span className='w-32 text-gray-700'>{longitud} páginas</span>
-                  </div>
+                  <span className='w-32 text-gray-700'>{longitud} {t('pages')}</span>
                 </div>
-                <button
-                  className='py-3 rounded-lg text-lg w-full bg-gradient-to-r from-secondary to-accent transition transition-all ease-in-out hover:b-glow hover:to-sky-500 hover:drop-shadow-lg transition-all hover:translate-y-1 hover:scale-105 text-white font-bold'
-                  onClick={handleCrearCuento}
-                  disabled={loading}
-                >
-                  Crear Cuento
-                </button>
               </div>
+              <button
+                className='py-3 rounded-lg text-lg w-full bg-gradient-to-r from-secondary to-accent transition transition-all ease-in-out hover:b-glow hover:to-sky-500 hover:drop-shadow-lg transition-all hover:translate-y-1 hover:scale-105 text-white font-bold'
+                onClick={handleCrearCuento}
+                disabled={loading}
+              >
+                {t('create_story')}
+              </button>
             </div>
+          </div>
         </section>
       </div>
   )

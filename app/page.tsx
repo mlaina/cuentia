@@ -7,18 +7,22 @@ import Link from 'next/link'
 import PricingTable from '@/components/PricingTable'
 import HTMLFlipBook from 'react-pageflip'
 import frontpages from '@/types/landing/frontpages.json'
-import images from '@/types/landing/images.json'
 import features from '@/types/landing/features.json'
 import Accordion from '@/components/Accordion'
 import Login from '@/components/Login'
 import { useUser } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/navigation'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useTranslations } from 'next-intl'
 
 export default function Home () {
   const [, setCurrentPage] = useState(1)
   const bookRef = useRef<any>(null)
+  const t = useTranslations()
   const user = useUser()
   const router = useRouter()
+  const [favoriteStories, setFavoriteStories] = useState([])
+  const supabase = createClientComponentClient()
 
   useEffect(() => {
     if (user) {
@@ -26,12 +30,34 @@ export default function Home () {
     }
   }, [user, router])
 
+  useEffect(() => {
+    async function fetchFavoriteStories () {
+      const { data, error } = await supabase
+        .from('stories')
+        .select('*')
+        .eq('fav', true)
+
+      if (error) {
+        console.error('Error fetching favorite stories:', error)
+        return
+      }
+
+      setFavoriteStories(data || [])
+    }
+
+    fetchFavoriteStories()
+  }, [supabase])
+
   const faqs = [
-    { question: '¿Cómo funciona Imagins?', answer: 'Imagins utiliza inteligencia artificial avanzada para generar cuentos personalizados basados en tus preferencias y las características de tu hijo.' },
-    { question: '¿Puedo personalizar los personajes?', answer: '¡Sí! Puedes personalizar el aspecto, nombre y características de los personajes principales para que se parezcan a tu hijo o sus personajes favoritos.' },
-    { question: '¿Cuánto tiempo tarda en generarse un cuento?', answer: 'La mayoría de los cuentos se generan en menos de un minuto, dependiendo de la complejidad y longitud solicitada.' },
-    { question: '¿Puedo editar el cuento una vez generado?', answer: 'Absolutamente. Ofrecemos herramientas de edición para que puedas ajustar el cuento a tu gusto después de la generación inicial.' }
+    { question: t('how_it_works'), answer: t('how_it_works_description') },
+    { question: t('customize_characters'), answer: t('customize_characters_description') },
+    { question: t('story_generation_time'), answer: t('story_generation_time_description') },
+    { question: t('edit_story'), answer: t('edit_story_description') }
   ]
+
+  const handleStoryClick = (storyId: string) => {
+    router.push(`/preview/${storyId}`)
+  }
 
   return (
       <div className='relative min-h-screen overflow-hidden bg-white'>
@@ -39,11 +65,11 @@ export default function Home () {
           <nav className='flex justify-between items-center'>
             <Link href='/' className='text-3xl font-bold text-gray-800 flex items-center'>
               <BookOpen className='w-10 h-10 mr-2 text-secondary' />
-              <p className='text-secondary text-4xl font-bold'>Imagins</p>
+              <p className='text-secondary text-4xl font-bold'>{t('app_name')}</p>
             </Link>
             <div className='hidden md:flex space-x-8 text-md'>
-              <a href='#library' className='text-primary font-bold hover:text-secondary'>Librería</a>
-              <a href='#pricing' className='text-primary font-bold hover:text-secondary'>Precios</a>
+              <a href='#library' className='text-primary font-bold hover:text-secondary'>{t('library')}</a>
+              <a href='#pricing' className='text-primary font-bold hover:text-secondary'>{t('welcome')}</a>
             </div>
           </nav>
         </header>
@@ -93,20 +119,22 @@ export default function Home () {
                                       <div key={`feature-0-${index}`}>
                                         <div className='flex items-center gap-2'>
                                           <h3 className='text-xl font-semibold text-secondary mb-2'>
-                                            {features[index][0].title}
+                                            {t(features[index][0].title)}
                                           </h3>
                                           {features[index][0].comming && (
                                               <div
                                                 className=' inline-block mt-[-6px] px-3 py-0.5 text-xs text-primary bg-gray-200 rounded-full'
                                               >
-                                                Próximamente
+                                                {t('coming_soon')}
                                               </div>
                                           )}
                                         </div>
                                         <p className='text-primary'>
-                                          {features[index][0].description || features[index][0].features.map(f => (
-                                              <li key={f}>{f}</li>
-                                          ))}
+                                          {features[index][0].description
+                                            ? t(features[index][0].description)
+                                            : features[index][0].features.map(f => (
+                                              <li key={f}>{t(f)}</li>
+                                            ))}
                                         </p>
                                       </div>
                                   )}
@@ -114,20 +142,22 @@ export default function Home () {
                                       <div key={`feature-1-${index}`}>
                                         <div className='flex items-center gap-2'>
                                           <h3 className='text-xl font-semibold text-secondary mb-2'>
-                                            {features[index][1].title}
+                                            {t(features[index][1].title)}
                                           </h3>
                                           {features[index][1].comming && (
                                               <div
                                                 className=' inline-block px-3 mt-[-6px] py-0.5 text-xs text-primary bg-gray-200 rounded-full'
                                               >
-                                                Próximamente
+                                                {t('coming_soon')}
                                               </div>
                                           )}
                                         </div>
                                         <p className='text-primary'>
-                                          {features[index][1].description || features[index][1].features.map(f => (
-                                              <li key={f}>{f}</li>
-                                          ))}
+                                          {features[index][1].description
+                                            ? t(features[index][1].description)
+                                            : features[index][1].features.map(f => (
+                                              <li key={f}>{t(f)}</li>
+                                            ))}
                                         </p>
                                       </div>
                                   )}
@@ -158,18 +188,18 @@ export default function Home () {
               <div className='grid lg:grid-cols-3 gap-8 px-4 sm:px-8 lg:px-0'>
                 <div className='p-6 bg-white rounded-lg shadow-md flex flex-col gap-2 border border-gray-200'>
                   <Wand2 className='w-8 h-8 text-primary mb-4' />
-                  <h3 className='text-xl font-bold text-primary mb-2'>Personalización total</h3>
-                  <p className='text-primary'>Adapta los personajes y la trama a tus preferencias</p>
+                  <h3 className='text-xl font-bold text-primary mb-2'>{t('total_customization')}</h3>
+                  <p className='text-primary'>{t('customization_description')}</p>
                 </div>
                 <div className='p-6 bg-white rounded-lg shadow-md flex flex-col gap-2 border border-gray-200'>
                   <Sparkles className='w-8 h-8 text-secondary mb-4' />
-                  <h3 className='text-xl font-bold text-secondary mb-2'>Generación instantánea</h3>
-                  <p className='text-primary'>Obtén tu cuento en segundos gracias a nuestra IA</p>
+                  <h3 className='text-xl font-bold text-secondary mb-2'>{t('instant_generation')}</h3>
+                  <p className='text-primary'>{t('instant_generation_description')}</p>
                 </div>
                 <div className='p-6 bg-white rounded-lg shadow-md flex flex-col gap-2 border border-gray-200'>
                   <MessageCircle className='w-8 h-8 text-accent mb-4' />
-                  <h3 className='text-xl font-bold text-accent mb-2'>Narración por voz</h3>
-                  <p className='text-primary'>Escucha el cuento narrado con la voz que elijas</p>
+                  <h3 className='text-xl font-bold text-accent mb-2'>{t('voice_narration')}</h3>
+                  <p className='text-primary'>{t('voice_narration_description')}</p>
                 </div>
               </div>
             </div>
@@ -185,11 +215,9 @@ export default function Home () {
                       1
                     </div>
                     <div className='flex flex-col gap-5'>
-                      <h3 className='text-2xl md:text-3xl font-bold w-60 md:w-96 text-primary'>Personaliza la
-                        historia</h3>
+                      <h3 className='text-2xl md:text-3xl font-bold w-60 md:w-96 text-primary'>{t('customize_story')}</h3>
                       <p className='text-lg md:text-base text-gray-600 w-56 sm:w-60 md:w-96'>
-                        Selecciona el género, define los personajes y el estilo que quieres que tengan las
-                        ilustraciones.
+                        {t('customize_story_description')}
                       </p>
                     </div>
                   </div>
@@ -202,10 +230,9 @@ export default function Home () {
                       2
                     </div>
                     <div className='flex flex-col gap-5'>
-                      <h3 className='text-2xl md:text-3xl font-bold w-60 md:w-96 text-primary'>Genera tu cuento</h3>
+                      <h3 className='text-2xl md:text-3xl font-bold w-60 md:w-96 text-primary'>{t('generate_story')}</h3>
                       <p className='text-lg md:text-base w-56 sm:w-60 md:w-96  text-gray-600   '>
-                        Nuestra IA empezará a crear una historia totalmente personalizada según tus parámetros en
-                        cuestión de segundos.
+                        {t('generate_story_description')}
                       </p>
                     </div>
                   </div>
@@ -218,10 +245,9 @@ export default function Home () {
                       3
                     </div>
                     <div className='flex flex-col gap-5'>
-                      <h3 className='text-2xl md:text-3xl w-72 md:w-96 font-bold text-primary'>¡Disfruta y
-                        comparte!</h3>
+                      <h3 className='text-2xl md:text-3xl w-72 md:w-96 font-bold text-primary'>{t('enjoy_and_share')}</h3>
                       <p className='text-lg md:text-base w-56 sm:w-60 md:w-96  text-gray-600'>
-                        Ponte cómodo y prepárate para la aventura.
+                        {t('enjoy_and_share_description')}
                       </p>
                     </div>
                   </div>
@@ -230,32 +256,36 @@ export default function Home () {
             </div>
           </section>
           <section id='library' className='w-full md:py-16 background-section-3'>
-            <div className='hidden md:grid md:max-w-xl lg:max-w-5xl m-auto md:grid-cols-3 lg:grid-cols-4 gap-10 '>
-              {images.map((src, index) => {
+            <div className='hidden md:grid md:max-w-xl lg:max-w-5xl m-auto md:grid-cols-3 lg:grid-cols-4 gap-10'>
+              {favoriteStories.map((story, index) => {
+                const coverImage = story.content?.[0]?.imageUrl
                 return (
-                    <div key={index} className='relative w-26'>
-                      <img
-                        src={src}
-                        alt='Cover Image'
-                        className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
-                      />
-                      <div
-                        className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none'
-                      />
-                    </div>
+                  <div
+                    key={index}
+                    className='relative w-26 cursor-pointer hover:opacity-90 transition-opacity'
+                    onClick={() => handleStoryClick(story.id)}
+                  >
+                    <img
+                      src={coverImage || '/placeholder-covers.svg'}
+                      alt='Cover Image'
+                      className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
+                    />
+                    <div className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none' />
+                  </div>
                 )
               })}
             </div>
             <div className='container md:hidden mx-auto px-8'>
-              <div className='relative w-26'>
+              <div
+                className='relative w-26 cursor-pointer hover:opacity-90 transition-opacity'
+                onClick={() => favoriteStories[0] && handleStoryClick(favoriteStories[0].id)}
+              >
                 <img
-                  src={frontpages[3]}
+                  src={favoriteStories[0]?.content?.[0]?.imageUrl || '/placeholder-covers.svg'}
                   alt='Cover Image'
                   className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
                 />
-                <div
-                  className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none'
-                />
+                <div className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none' />
               </div>
             </div>
           </section>
@@ -277,14 +307,13 @@ export default function Home () {
                   />
                 </div>
                 <div className='md:w-1/2 mt-8 md:mt-0 flex md:block flex-col items-center'>
-                  <h2 className='md:text-5xl text-3xl text-secondary  font-bold mb-3 md:mb-6'>Empieza tu historia</h2>
-                  <p className='text-lg md:w-96 text-center md:text-start text-primary mb-8'>Únete a miles de padres que ya están creando recuerdos
-                    inolvidables con Imagins</p>
+                  <h2 className='md:text-5xl text-3xl text-secondary  font-bold mb-3 md:mb-6'>{t('start_your_story')}</h2>
+                  <p className='text-lg md:w-96 text-center md:text-start text-primary mb-8'>{t('join_parents')}</p>
                   <Button
                     size='lg' variant='secondary' asChild
                     className='bg-secondary text-white font-bold hover:text-gray-700'
                   >
-                    <a href='#top'>¡Comienza ahora!</a>
+                    <a href='#top'>{t('get_started_now')}</a>
                   </Button>
                 </div>
               </div>
@@ -303,27 +332,27 @@ export default function Home () {
           <div className='container mx-auto px-4'>
             <div className='grid md:grid-cols-4 gap-8'>
               <div>
-                <h3 className='text-lg font-semibold mb-4'>Imagins</h3>
-                <p className='text-sm text-gray-400'>Creando historias mágicas con IA para niños de todo el mundo.</p>
+                <h3 className='text-lg font-semibold mb-4'>{t('app_name')}</h3>
+                <p className='text-sm text-gray-400'>{t('creating_magical_stories')}</p>
               </div>
               <div>
-                <h3 className='text-lg font-semibold mb-4'>Enlaces rápidos</h3>
+                <h3 className='text-lg font-semibold mb-4'>{t('quick_links')}</h3>
                 <ul className='space-y-2'>
-                  <li><Link href='/' className='text-sm text-gray-400 hover:text-white'>Inicio</Link></li>
-                  <li><Link href='/about' className='text-sm text-gray-400 hover:text-white'>Sobre nosotros</Link></li>
-                  <li><Link href='/pricing' className='text-sm text-gray-400 hover:text-white'>Precios</Link></li>
-                  <li><Link href='/contact' className='text-sm text-gray-400 hover:text-white'>Contacto</Link></li>
+                  <li><Link href='/' className='text-sm text-gray-400 hover:text-white'>{t('home')}</Link></li>
+                  <li><Link href='/about' className='text-sm text-gray-400 hover:text-white'>{t('about_us')}</Link></li>
+                  <li><Link href='/pricing' className='text-sm text-gray-400 hover:text-white'>{t('pricing')}</Link></li>
+                  <li><Link href='/contact' className='text-sm text-gray-400 hover:text-white'>{t('contact')}</Link></li>
                 </ul>
               </div>
               <div>
-                <h3 className='text-lg font-semibold mb-4'>Legal</h3>
+                <h3 className='text-lg font-semibold mb-4'>{t('legal')}</h3>
                 <ul className='space-y-2'>
-                  <li><Link href='/terms' className='text-sm text-gray-400 hover:text-white'>Términos de servicio</Link></li>
-                  <li><Link href='/privacy' className='text-sm text-gray-400 hover:text-white'>Política de privacidad</Link></li>
+                  <li><Link href='/terms' className='text-sm text-gray-400 hover:text-white'>{t('terms_of_service')}</Link></li>
+                  <li><Link href='/privacy' className='text-sm text-gray-400 hover:text-white'>{t('privacy_policy')}</Link></li>
                 </ul>
               </div>
               <div>
-                <h3 className='text-lg font-semibold mb-4'>Síguenos</h3>
+                <h3 className='text-lg font-semibold mb-4'>{t('follow_us')}</h3>
                 <div className='flex space-x-4'>
                   <a href='#' className='text-gray-400 hover:text-white'><svg className='w-6 h-6' fill='currentColor' viewBox='0 0 24 24' aria-hidden='true'><path fillRule='evenodd' d='M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z' clipRule='evenodd' /></svg></a>
                   <a href='#' className='text-gray-400 hover:text-white'><svg className='w-6 h-6' fill='currentColor' viewBox='0 0 24 24' aria-hidden='true'><path fillRule='evenodd' d='M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z' clipRule='evenodd' /></svg></a>
@@ -332,7 +361,7 @@ export default function Home () {
               </div>
             </div>
             <div className='mt-8 pt-8 border-t border-gray-400 text-center'>
-              <p className='text-sm text-gray-400'>&copy; 2024 Imagins. Todos los derechos reservados.</p>
+              <p className='text-sm text-gray-400'>&copy; 2024 Imagins. {t('all_rights_reserved')}</p>
             </div>
           </div>
         </footer>
