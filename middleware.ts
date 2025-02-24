@@ -1,35 +1,48 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 
-const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/image', '/validation', '/auth/callback', '/preview/*']
+const publicRoutes = [
+  '/', 
+  '/legal', 
+  '/s/', 
+  '/api/webhook', 
+  '/image', 
+  '/validation', 
+  '/auth/callback', 
+  '/preview/*'
+]
 
-export async function middleware (req: { nextUrl: {
-    searchParams: any; pathname: string
-  }; cookies: { get: (arg0: string) => { (): any; new(): any; value: any } }; url: string | URL | undefined }) {
-  const res = NextResponse.next()
+export async function middleware(req) {
+  let res = NextResponse.next()
 
+  // Si se detecta el parámetro _cf_chl_tk, forzar redirección con status 303 y eliminar header duplicado.
   if (req.nextUrl.searchParams.has('_cf_chl_tk')) {
-    return NextResponse.redirect(new URL('/', req.url))
+    res = NextResponse.redirect(new URL('/', req.url), { status: 303 })
+    res.headers.delete('x-middleware-set-cookie')
+    return res
   }
 
-  // @ts-ignore
+  // Inicializa Supabase en el middleware
   const supabase = createMiddlewareClient({ req, res })
-
   const { data: { user } } = await supabase.auth.getUser()
+
+  // Verifica si la ruta es pública
   const isPublicRoute = publicRoutes.some(route => {
     if (route.endsWith('/*')) {
-      const baseRoute = route.slice(0, -2) // Remove '/*'
+      const baseRoute = route.slice(0, -2)
       return req.nextUrl.pathname.startsWith(baseRoute)
     }
     return route === req.nextUrl.pathname
   })
 
+  // Si el header x-error-status es 400, redirige según el estado del usuario
   if (req.headers.get('x-error-status') === '400') {
-    if (user) {
-      return NextResponse.redirect(new URL('/create', req.url))
-    } else {
-      return NextResponse.redirect(new URL('/', req.url))
-    }
+    res = NextResponse.redirect(
+      new URL(user ? '/create' : '/', req.url), 
+      { status: 303 }
+    )
+    res.headers.delete('x-middleware-set-cookie')
+    return res
   }
 
   if (req.nextUrl.pathname.startsWith('/images')) {
@@ -37,23 +50,34 @@ export async function middleware (req: { nextUrl: {
   }
 
   if (!user && !isPublicRoute) {
-    return NextResponse.redirect(new URL('/', req.url))
+    res = NextResponse.redirect(new URL('/', req.url), { status: 303 })
+    res.headers.delete('x-middleware-set-cookie')
+    return res
   }
 
   if (user && req.nextUrl.pathname === '/success') {
-    return NextResponse.next()
+    return res
   }
 
   if (user && req.nextUrl.pathname.startsWith('/api/')) {
-    return NextResponse.next()
+    return res
   }
 
   if (user && isPublicRoute) {
-    return NextResponse.redirect(new URL('/create', req.url))
+    res = NextResponse.redirect(new URL('/create', req.url), { status: 303 })
+    res.headers.delete('x-middleware-set-cookie')
+    return res
   }
 
-  if (user && req.nextUrl.pathname !== '/pricing' && !isPublicRoute && (!user?.user_metadata.credits || user?.user_metadata.credits === 0)) {
-    return NextResponse.redirect(new URL('/pricing', req.url))
+  if (
+    user &&
+    req.nextUrl.pathname !== '/pricing' &&
+    !isPublicRoute &&
+    (!user?.user_metadata.credits || user?.user_metadata.credits === 0)
+  ) {
+    res = NextResponse.redirect(new URL('/pricing', req.url), { status: 303 })
+    res.headers.delete('x-middleware-set-cookie')
+    return res
   }
 
   return res
