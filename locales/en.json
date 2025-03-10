@@ -229,6 +229,20 @@
   "loading_step_5_emoji": "🐺",
   "loading_step_5_emoji_label": "training",
 
+  "system_mission": "Your mission is to create a children's story with {length} pages, full of action and excitement. You will tell the story in the text of each page. The story must have a beginning, a climax, and a resolution.",
+  "system_format": "The story must follow this format:\n- **Title:** A short title of 2-3 words. It should be original and creative.\n- **Main Element:** Describe places, objects, or other key elements that are crucial to the story.\n- **Characters:** A list of characters, where each element is a string including the name and a complete description (age, appearance, clothing color, and other relevant characteristics). Include details about the clothing they wear in the story, especially its color.\n- **Index:** A list of pages. Each page must include:\n   • Page number.\n   • **Text:** Develop a paragraph of at least 70 words detailing the events of this page (avoid descriptions). Include dialogues (make the dialogues **bold**, that they don't end up in a coma) and actions.\n   • **Characters appearing:** A list with the names of the characters that appear on that page (it can be empty or contain one or several). Avoid having all the characters appear on every page.",
+  "system_remember": "Remember that the summary of each page should not include descriptions; it must contain only action and dialogues.",
+  "system_illustration": "Each page must include an illustration description detailing what happens in the image.",
+  "system_no_all_characters": "I do not want all the characters to appear on every page.",
+  "user_characters": "Among the characters, the following must appear: {characters}. Enrich and add depth to these descriptions. Ensure that you mention the color of their clothing.",
+  "user_main_idea": "The main idea of the story is:",
+  "user_story_requirement": "The story must be interesant with a beginning, climax and resolution.",
+
+  "reasoner_prompt": "Create an effective prompt to create a children's story based on the idea and the characters input. It is important that the prompt covers the relationship between the characters, the objective they pursue in the story, and the key learning or story conclusion. If the relationship, objective, or conclusion is not specified, invent the most likely one.\nThe story idea: {idea}\nThe characters: {characters}\nThe number of pages: {length}\n",
+
+  "image_prompt": "Extract the essential visual elements for image generation from the page text. Provide a very concise plain text structure using bullet points or labeled lines that list: Setting, Characters, Main Action, Mood. Do not include any references to speech, conversation, or verbal interactions. Do not use JSON or include watermarks. Only append the characters if they are imprescindibles for this part of story. Whenever possible, avoid mentioning and adding detailed character information. When displaying characters: Replace character names with CHAR 1, CHAR 2... Always add age and gender, clothing color and hair color. Page Text: {text}\nCharacters description: {characters}\nOutput in english.",
+
+  "cover_image_prompt": "Generate a prompt to visually striking book cover that captures the story’s essence, setting, and any symbolic elements. Avoid speech bubbles, text, watermarks, or JSON \nIdea: {idea}\nOutput in English.",
 
   "characters_avialable": "Characters available"
 }

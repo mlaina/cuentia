@@ -119,25 +119,22 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   }
 
   useEffect(() => {
-    setLoading(1)
-    setTimeout(() => {
-      setLoading(2)
-      setTimeout(() => {
-        setLoading(3)
-        setTimeout(() => {
-          setLoading(4)
-          setTimeout(() => {
-            setLoading(5)
-            setTimeout(() => {
-              setLoading(6)
-            }, 3000)
-          }, 3000)
-        }, 3000)
-      }, 3000)
-    }, 3000)
+    const steps = [1, 2, 3, 4, 5, 6]
+    const delay = 3000
+
+    const progressLoading = async () => {
+      for (const step of steps) {
+        setLoading(step)
+        await new Promise(resolve => setTimeout(resolve, delay))
+      }
+    }
+
+    progressLoading()
+
+    return () => setLoading(0)
   }, [])
 
-  const createStoryIndex = async (story, length) => {
+  const createStoryIndex = async (story, description, length) => {
     try {
       await updateCredits(1)
       return await withRetry(async () => {
@@ -146,7 +143,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ story, length, storyId: params.id })
+          body: JSON.stringify({ story, description, length, storyId: params.id })
         })
 
         if (!response.ok) {
@@ -230,6 +227,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     }
   }
 
+  /*
   const createTextPage = async (index, number, protagonists) => {
     try {
       await updateCredits(1)
@@ -262,8 +260,9 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
       throw error
     }
   }
+   */
 
-  const createImagePage = async (index, description, number) => {
+  const createImagePage = async (description: any, number: number) => {
     try {
       await updateCredits(4)
       await withRetry(async () => {
@@ -282,6 +281,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
         const { image: pageImage } = await response.json()
         setIndice(prev => {
           const newIndice = [...prev]
+          // @ts-ignore
           newIndice[number].imageUrl = pageImage
           return newIndice
         })
@@ -293,53 +293,128 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     }
   }
 
-  const handleCrearCuento = async (story) => {
+  const buildPromptCover = async (text: null) => {
+    try {
+      await updateCredits(1)
+      return await withRetry(async () => {
+        const response = await fetch('/api/story/prompt-image-front', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ text })
+        })
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
+        const { prompt } = await response.json()
+        return prompt
+      }, 'Create Image Page')
+    } catch (error) {
+      console.error('Error creating image page:', error)
+      alert('No se pudo crear la imagen después de varios intentos. Por favor, inténtelo de nuevo.')
+      throw error
+    }
+  }
+
+  const buildPromptImage = async (text: null, characters: any) => {
+    try {
+      await updateCredits(1)
+      return await withRetry(async () => {
+        const response = await fetch('/api/story/prompt-image', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ text, characters })
+        })
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
+        const { prompt } = await response.json()
+        return prompt
+      }, 'Create Image Page')
+    } catch (error) {
+      console.error('Error creating image page:', error)
+      alert('No se pudo crear la imagen después de varios intentos. Por favor, inténtelo de nuevo.')
+      throw error
+    }
+  }
+
+  const developIdea = async (length: any, idea: undefined, characters: undefined) => {
+    try {
+      await updateCredits(1)
+      return await withRetry(async () => {
+        const response = await fetch('/api/story/idea', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ length, idea, characters })
+        })
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
+        const { idea: text } = await response.json()
+        return text
+      }, 'Create Image Page')
+    } catch (error) {
+      console.error('Error creating image page:', error)
+      alert('No se pudo crear la imagen después de varios intentos. Por favor, inténtelo de nuevo.')
+      throw error
+    }
+  }
+
+  const handleCrearCuento = async (story: { id: any; title: any; content: any; images: any; idea: any; length: any; protagonists: any }) => {
     if (hasExecutedRef.current) return
     hasExecutedRef.current = true
 
     console.log('Creating story...')
 
-    if (story.content && story.content.length > 0) {
-      setIndice(story.content)
-      setTitle(story.title)
+    // 1. Ejecutar en paralelo lo que no sea dependiente
+    const [description, promptCover] = await Promise.all([
+      developIdea(story.length / 2, story.idea, story.protagonists),
+      buildPromptCover(story.idea)
+    ])
 
-      for (let i = 0; i < story.content.length; i++) {
-        const page = story.content[i]
-        if (!page.imageUrl) {
-          if (i === 0) {
-            await createPageFront(page.content, story.title)
-          } else if (i === story.content.length - 1) {
-            await createPageBack(page.content, story.idea, story.length / 2)
-          } else if (page.content) {
-            await createImagePage(null, page.content, i)
-          }
-        }
-        if (!page.content && i !== 0 && i !== story.content.length - 1) {
-          const prevPage = await createTextPage(null, i, story.protagonists)
-          if (!page.imageUrl) {
-            await createImagePage(null, prevPage.image_description, i)
+    // 2. Ahora sí, una vez tenemos 'description', podemos crear el índice
+    const ind = await createStoryIndex(story, description, story.length / 2)
+
+    // 3. Estas llamadas necesitan el resultado de promptCover e ind, se hacen secuencialmente
+    await Promise.all([
+      createPageFront(promptCover, ind.title),
+      createPageBack(promptCover, story.idea, story.length / 2)
+    ])
+
+    for (let i = 0; i < ind.index.length; i++) {
+      const page = ind.index[i]
+      let charactersDescription = ''
+
+      for (const characterName of page.characters_appear) {
+        for (const character of ind.characters) {
+          if (character.name === characterName) {
+            charactersDescription += `${character.description}\n`
           }
         }
       }
-    } else {
-      const ind = await createStoryIndex(story, story.length / 2)
 
-      let [, , page] = await Promise.all([
-        createPageFront(ind.frontpage_description, ind.title),
-        createPageBack(ind.frontpage_description, story.idea, story.length / 2),
-        createTextPage(ind.index, 1)
-      ])
+      // Actualizar el estado con la información de la página
+      setIndice((prev) => {
+        const newIndice = [...prev]
+        newIndice[i + 1].content = sanitizeText(page.text)
+        return newIndice
+      })
 
-      for (let i = 1; i < ind.index.length + 1; i++) {
-        if (i !== ind.index.length) {
-          [, page] = await Promise.all([
-            createImagePage(ind.index, page.image_description, i),
-            createTextPage(ind.index, i + 1, story.protagonists)
-          ])
-        } else {
-          await createImagePage(ind.index, page.image_description, i)
-        }
-      }
+      // Construir el prompt y generar la página de manera asíncrona
+      const prompt = await buildPromptImage(page.text, charactersDescription)
+      // Guardamos la promesa de creación de imagen
+      await createImagePage(prompt, i + 1)
     }
   }
 
@@ -369,10 +444,12 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
           <title>{title || t('creating_story')}</title>
         </Head>
 
-        <div className='overflow-hidden'>
-          {indice.length > 0 && loading > 5 && <StoryViewer title={title} pages={indice} stream />}
-        </div>
+        {indice.length > 0 && loading > 5 &&
+          <div className='overflow-hidden background-section-4'>
+             <StoryViewer pages={indice} stream />
+          </div>}
 
+        {indice.length <= 0 && loading <= 5 &&
         <div className='flex flex-col h-full w-full background-section-4'>
           <div className='flex flex-col justify-center items-center w-full h-2/3 text-gray-500 relative'>
             {[1, 2, 3, 4, 5].map((step) => (
@@ -394,7 +471,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
                 </section>
             ))}
           </div>
-        </div>
+        </div>}
       </>
   )
 }

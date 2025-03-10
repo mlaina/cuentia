@@ -229,6 +229,21 @@
   "loading_step_5_emoji": "🐺",
   "loading_step_5_emoji_label": "entraîner",
 
-  "characters_avialable": "Personnages disponibles"
+  "system_mission": "Votre mission est de créer une histoire pour enfants de {length} pages, pleine d'action et d'excitation. Vous raconterez l'histoire dans le texte de chaque page. L'histoire doit comporter un début, un climax et une résolution.",
+  "system_format": "L'histoire doit suivre ce format :\n- **Titre :** Un titre court de 2-3 mots. Il doit être original et créatif.\n- **Élément principal :** Décrivez les lieux, objets ou autres éléments clés qui sont essentiels à l'histoire.\n- **Personnages :** Une liste de personnages, où chaque élément est une chaîne comprenant le nom et une description complète (âge, apparence, couleur des vêtements, et autres caractéristiques pertinentes). Incluez des détails sur les vêtements qu'ils portent dans l'histoire, en particulier leur couleur.\n- **Index :** Une liste de pages. Chaque page doit inclure :\n   • Numéro de page.\n   • **Texte :** Rédigez un paragraphe d'au moins 70 mots détaillant les événements de cette page (évitez les descriptions). Incluez des dialogues (mettez les dialogues en **gras**, pour qu'ils ne finissent pas par une virgule) et des actions.\n   • **Personnages apparaissant :** Une liste avec les noms des personnages qui apparaissent sur cette page (elle peut être vide ou contenir un ou plusieurs noms). Évitez que tous les personnages apparaissent sur chaque page.",
+  "system_remember": "N'oubliez pas que le résumé de chaque page ne doit pas inclure de descriptions ; il doit contenir uniquement des actions et des dialogues.",
+  "system_illustration": "Chaque page doit inclure une description de l'illustration détaillant ce qui se passe dans l'image.",
+  "system_no_all_characters": "Je ne veux pas que tous les personnages apparaissent sur chaque page.",
+  "user_characters": "Parmi les personnages, les suivants doivent apparaître : {characters}. Enrichissez et approfondissez ces descriptions. Assurez-vous de mentionner la couleur de leurs vêtements.",
+  "user_main_idea": "L'idée principale de l'histoire est :",
+  "user_story_requirement": "L'histoire doit être intéressante, avec un début, un climax et une résolution.",
+
+  "reasoner_prompt": "Créez un prompt efficace pour générer une histoire pour enfants basée sur l'idée et les personnages fournis. Il est important que le prompt couvre la relation entre les personnages, l'objectif qu'ils poursuivent dans l'histoire, ainsi que la leçon clé ou la conclusion de l'histoire. Si la relation, l'objectif ou la conclusion ne sont pas spécifiés, inventez le plus probable.\nL'idée de l'histoire : {idea}\nLes personnages : {characters}\nLe nombre de pages : {length}\n",
+  "image_prompt": "Extrait les éléments visuels essentiels pour la génération d'images à partir du texte de la page. Fournis une structure de texte très concise en utilisant des points de liste ou des lignes étiquetées qui indiquent : Décor, Personnages, Action Principale, Ambiance. N'inclus aucune référence à la parole, aux conversations ou aux interactions verbales. N'utilise pas de JSON et n'inclus pas de filigranes. N'ajoute les personnages que s'ils sont indispensables pour cette partie de l'histoire. Dans la mesure du possible, évite de mentionner ou d'ajouter des informations détaillées sur les personnages. Lors de l'affichage des personnages : remplace les noms des personnages par CHAR 1, CHAR 2... Ajoute toujours l'âge et le genre, la couleur des vêtements et la couleur des cheveux. Texte de la page : {text}\nDescription des personnages : {characters}\nOutput en anglais.",
+
+
+  "cover_image_prompt": "Générez une couverture de livre très détaillée et visuellement captivante basée sur le thème principal de l'histoire. La couverture doit représenter l'essence de l'histoire en incorporant des éléments clés tels que le décor, l'atmosphère et tout élément symbolique important. La composition doit être visuellement attrayante, avec une mise en page équilibrée et une palette de couleurs engageante. Évitez les bulles de dialogue, les éléments de texte, le JSON ou les filigranes. Assurez-vous que l'illustration transmet efficacement l'ambiance et les thèmes principaux de l'histoire.\nIdée : {idea}\nSortie en anglais.",
+
+"characters_avialable": "Personnages disponibles"
 }
 

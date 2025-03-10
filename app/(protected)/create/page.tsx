@@ -100,8 +100,7 @@ export default function CrearCuentoPage () {
             author_id: user.id,
             idea: descripcion,
             protagonists: characters,
-            length: longitud,
-            phase: 0
+            length: longitud
           }
         ])
         .select()
@@ -148,7 +147,7 @@ export default function CrearCuentoPage () {
   return (
       <div className='flex h-full background-section-4'>
         <section className={`mt-4 md:mt-20 flex-1 transition duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}>
-          <div className='max-w-4xl mx-auto p-6 items-center justify-center space-y-2 md:space-y-8'>
+          <div className='max-w-7xl mx-auto p-6 items-center justify-center space-y-2 md:space-y-8'>
             <div className='pb-2 md:pb-4'>
               <h1 className='text-center bg-gradient-to-r from-secondary to-accent bg-clip-text text-4xl md:text-6xl font-bold text-transparent'>
                 {t('ready_to_dream')}
@@ -163,59 +162,38 @@ export default function CrearCuentoPage () {
                   ✨
                 </div>
             )}
-            <div className='space-y-4'>
-              <div className='flex md:flex-row flex-col gap-4'>
-                <div className='w-64 flex md:hidden flex-col gap-2 pl-4'>
-                  {unselectedProtagonists && unselectedProtagonists.length > 0 &&
-                      <h3 className='text-gray-700 font-bold'>{t('characters_avialable')}</h3>}
-                  {unselectedProtagonists.map((protagonist) => (
+            <div className='md:flex md:space-x-6'>
+              <div className='flex-1 space-y-4'>
+                {seletedProtagonists.length > 0 && (
+                  <div className='flex flex-wrap gap-2 mb-2'>
+                    {seletedProtagonists.map((protagonist) => (
                       <div
                         key={protagonist.id}
+                        className='flex items-center bg-gray-100 px-3 py-1 rounded-full hover:bg-gray-200 cursor-pointer'
                         onClick={() => handleMemberClick(protagonist)}
-                        className='flex items-center gap-2 cursor-pointer hover:bg-gray-200 p-2 rounded'
                       >
                         {protagonist.avatars && protagonist.avatars.some((avatar) => avatar)
                           ? (
-                                <img
-                                  src={protagonist.avatars.find((avatar) => avatar)}
-                                  alt={protagonist.name}
-                                  className='w-8 h-8 rounded-full'
-                                />
+                            <img
+                              src={protagonist.avatars.find((avatar) => avatar)}
+                              alt={protagonist.name}
+                              title={`@${protagonist.name}`}
+                              className='w-8 h-8 rounded-full mr-2'
+                            />
                             )
                           : (
-                                <div
-                                  className='w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold'
-                                >
-                                  {protagonist.name.charAt(0).toUpperCase()}
-                                </div>
+                            <div
+                              className='w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold mr-2'
+                            >
+                              {protagonist.name.charAt(0).toUpperCase()}
+                            </div>
                             )}
-                        <span>@{protagonist.name}</span>
+                        <span className='text-sm'>@{protagonist.name}</span>
                       </div>
-                  ))}
-                </div>
-                <div className='flex'>
-                  {seletedProtagonists.map((protagonist) => (
-                      <div key={protagonist.id} className='flex items-center gap-2'>
-                        {protagonist.avatars && protagonist.avatars.some((avatar) => avatar)
-                          ? (
-                                <img
-                                  src={protagonist.avatars.find((avatar) => avatar)}
-                                  alt={protagonist.name}
-                                  title={`@${protagonist.name}`}
-                                  className='w-8 h-8 rounded-full content-center'
-                                />
-                            )
-                          : (
-                                <div
-                                  className='w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold'
-                                >
-                                  {protagonist.name.charAt(0).toUpperCase()}
-                                </div>
-                            )}
-                      </div>
-                  ))}
-                </div>
-                <div className='flex-1 relative border-glow-container rounded-lg'>
+                    ))}
+                  </div>
+                )}
+                <div className='relative border-glow-container rounded-lg'>
                   <Textarea
                     placeholder={t('story_description_placeholder')}
                     value={descripcion}
@@ -225,37 +203,9 @@ export default function CrearCuentoPage () {
                   />
                   <div className='border-glow absolute inset-0 rounded-sm pointer-events-none' />
                 </div>
-              </div>
-              <div className='w-64 hidden md:flex flex-col gap-2 pl-4'>
-                <h3 className='text-gray-700 font-bold'>{t('characters_avialable')}</h3>
-                {unselectedProtagonists.map((protagonist) => (
-                    <div
-                      key={protagonist.id}
-                      onClick={() => handleMemberClick(protagonist)}
-                      className='flex items-center gap-2 cursor-pointer hover:bg-gray-200 p-2 rounded'
-                    >
-                      {protagonist.avatars && protagonist.avatars.some((avatar) => avatar)
-                        ? (
-                              <img
-                                src={protagonist.avatars.find((avatar) => avatar)}
-                                alt={protagonist.name}
-                                className='w-8 h-8 rounded-full'
-                              />
-                          )
-                        : (
-                              <div
-                                className='w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold'
-                              >
-                                {protagonist.name.charAt(0).toUpperCase()}
-                              </div>
-                          )}
-                      <span>@{protagonist.name}</span>
-                    </div>
-                ))}
-              </div>
-              <div className='hidden md:flex justify-between'>
-                <div className='flex flex-wrap gap-2 mt-2'>
-                  {randomIdeas.map((idea, index) => (
+                <div className='hidden md:flex justify-between'>
+                  <div className='flex flex-wrap gap-2 mt-2'>
+                    {randomIdeas.map((idea, index) => (
                       <button
                         key={index}
                         onClick={() => handleIdeaClick(idea)}
@@ -263,35 +213,94 @@ export default function CrearCuentoPage () {
                       >
                         {idea.title}
                       </button>
-                  ))}
+                    ))}
+                  </div>
+                  <button
+                    onClick={generarDescripcionAleatoria}
+                    className='inline-flex border border-gray-500 items-center justify-center text-xs font-medium h-6 px-2 rounded-full text-gray-600 hover:bg-muted/80 hover:text-gray-900'
+                  >
+                    <Wand2 className='w-4 h-4' />
+                  </button>
+                </div>
+                <div>
+                  <div className='flex items-center space-x-4'>
+                    <Slider
+                      value={[longitud]}
+                      onValueChange={(value) => setLongitud(value[0])}
+                      min={6}
+                      max={14}
+                      step={2}
+                      className='relative w-full h-2 rounded-full cursor-pointer'
+                    />
+                    <span className='w-32 text-gray-700'>{longitud} {t('pages')}</span>
+                  </div>
                 </div>
                 <button
-                  onClick={generarDescripcionAleatoria}
-                  className='inline-flex border border-gray-500 items-center justify-center text-xs font-medium h-6 px-2 rounded-full text-gray-600 hover:bg-muted/80 hover:text-gray-900'
+                  className='py-3 rounded-lg text-lg w-full bg-gradient-to-r from-secondary to-accent transition ease-in-out hover:b-glow hover:to-sky-500 hover:drop-shadow-lg hover:translate-y-1 text-white font-bold'
+                  onClick={handleCrearCuento}
+                  disabled={loading}
                 >
-                  <Wand2 className='w-4 h-4' />
+                  {t('create_story')}
                 </button>
               </div>
-              <div>
-                <div className='flex items-center space-x-4'>
-                  <Slider
-                    value={[longitud]}
-                    onValueChange={(value) => setLongitud(value[0])}
-                    min={6}
-                    max={14}
-                    step={2}
-                    className='relative w-full h-2 rounded-full cursor-pointer'
-                  />
-                  <span className='w-32 text-gray-700'>{longitud} {t('pages')}</span>
+              <div className='hidden md:block w-64 p-4 rounded-lg'>
+                <h3 className='text-gray-700 font-bold mb-3'>{t('characters_avialable')}</h3>
+                <div className='flex flex-col gap-2'>
+                  {unselectedProtagonists.map((protagonist) => (
+                    <div
+                      key={protagonist.id}
+                      onClick={() => handleMemberClick(protagonist)}
+                      className='flex items-center gap-2 cursor-pointer hover:bg-gray-200 p-2 rounded transition-colors'
+                    >
+                      {protagonist.avatars && protagonist.avatars.some((avatar) => avatar)
+                        ? (
+                          <img
+                            src={protagonist.avatars.find((avatar) => avatar)}
+                            alt={protagonist.name}
+                            className='w-8 h-8 rounded-full'
+                          />
+                          )
+                        : (
+                          <div
+                            className='w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold'
+                          >
+                            {protagonist.name.charAt(0).toUpperCase()}
+                          </div>
+                          )}
+                      <span>@{protagonist.name}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-              <button
-                className='py-3 rounded-lg text-lg w-full bg-gradient-to-r from-secondary to-accent transition transition-all ease-in-out hover:b-glow hover:to-sky-500 hover:drop-shadow-lg transition-all hover:translate-y-1 hover:scale-105 text-white font-bold'
-                onClick={handleCrearCuento}
-                disabled={loading}
-              >
-                {t('create_story')}
-              </button>
+            </div>
+            <div className='md:hidden mt-6 bg-gray-50 p-4 rounded-lg'>
+              <h3 className='text-gray-700 font-bold mb-3'>{t('characters_avialable')}</h3>
+              <div className='grid grid-cols-2 gap-2'>
+                {unselectedProtagonists.map((protagonist) => (
+                  <div
+                    key={protagonist.id}
+                    onClick={() => handleMemberClick(protagonist)}
+                    className='flex items-center gap-2 cursor-pointer hover:bg-gray-200 p-2 rounded'
+                  >
+                    {protagonist.avatars && protagonist.avatars.some((avatar) => avatar)
+                      ? (
+                        <img
+                          src={protagonist.avatars.find((avatar) => avatar)}
+                          alt={protagonist.name}
+                          className='w-8 h-8 rounded-full'
+                        />
+                        )
+                      : (
+                        <div
+                          className='w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold'
+                        >
+                          {protagonist.name.charAt(0).toUpperCase()}
+                        </div>
+                        )}
+                    <span>@{protagonist.name}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>

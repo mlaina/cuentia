@@ -25,7 +25,7 @@ async function titleGenerator (image: string | object, title: any, user: string)
           content: [
             {
               type: 'text',
-              text: `¿En qué posición y color iría el título "${title}"? top-center o bottom-center y white o black.`
+              text: `¿En qué posición y color en formato RGB iría el título "${title}"? top-center o bottom-center. Por favor, devuelve el color en formato RGB (por ejemplo, "255, 255, 255").`
             },
             {
               type: 'image_url',

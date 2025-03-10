@@ -132,6 +132,9 @@ export default function StoryPage ({ params }: { params: { slug: string } }) {
 
   return (
       <div className='background-section-4 min-h-screen'>
+        <div className='max-w-6xl mx-auto pb-10'>
+          <StoryViewer pages={story.content} />
+        </div>
         <div className='mb-4 max-w-6xl mx-auto hidden md:flex justify-center'>
           <button
             onClick={convertToEpub}
@@ -147,9 +150,6 @@ export default function StoryPage ({ params }: { params: { slug: string } }) {
           >
             {isLoadingPdf ? t('generating_pdf') : t('convert_to_pdf')}
           </button>
-        </div>
-        <div className='max-w-6xl mx-auto pb-10'>
-          <StoryViewer pages={story.content} />
         </div>
       </div>
   )

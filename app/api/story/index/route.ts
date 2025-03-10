@@ -1,5 +1,4 @@
 import storyIndexTemplate from '@/types/prompts/index.json'
-import indexStructure from '@/types/prompts/index_structure.json'
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
@@ -16,57 +15,74 @@ export async function POST (req: { json: () => PromiseLike<{ length: any; story:
     const supabase = createRouteHandlerClient({ cookies })
     const { data: { user } } = await supabase.auth.getUser()
 
+    const { data: userData } = await supabase
+      .from('users')
+      .select('lang')
+      .eq('user_id', user.id)
+      .maybeSingle()
+
     if (!user) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
     }
 
-    const { length, story } = await req.json()
-
-    let indexPrompt = `Crear un cuento con ${length} páginas sobre ${story.idea}.`
-    if (story.protagonists) {
-      indexPrompt = `Crear un cuento con ${length} páginas sobre ${story.idea}. Debe salir de protagonistas: ${story.protagonists} `
+    const lan = (userData && userData.lang) ? userData.lang : 'en'
+    let prompts
+    try {
+      prompts = await import(`@/locales/${lan}.json`)
+      prompts = prompts.default || prompts
+    } catch (error) {
+      prompts = await import('@/locales/en.json')
+      prompts = prompts.default || prompts
     }
 
-    const messages = []
+    const { length, story, description } = await req.json()
 
-    messages.push({
-      role: 'system',
-      content: 'Eres un asistente que genera índices de cuentos para niños.'
-    })
-    messages.push({
-      role: 'user',
-      content: indexPrompt
-    })
-    messages.push({
-      role: 'user',
-      content: 'El título debe ser CORTO (no más de TRES palabras).  La descripción de la imagen de portada tiene que ser en inglés y descriptiva, épica y espectacular. La descripción de backpage_description tiene que ser un prompt en inglés de un paisaje tranquilo sin elementos impresionantes.'
-    })
-    messages.push({
-      role: 'user',
-      content: indexStructure.toString()
-    })
-    messages.push({
-      role: 'user',
-      content: 'Tienes que construir la historia utilizando los elementos proporcionados en el último mensaje. Ten en cuenta que los elementos están indexados para indicar su orden cronológico'
-    })
-    messages.push({
-      role: 'user',
-      content: 'Puede haber varios elementos en una misma página, pero se debe respetar su orden. Cada página tendrá un image_info para indicar información sobre la imagen a generar.'
-    })
-    messages.push({
-      role: 'user',
-      content: 'El título tiene que tener un máximo de cuatro palabras. El contenido summary debe ser en español. Y los image_info frontpage_description y backpage_description en inglés.'
-    })
+    const messages = [
+      {
+        role: 'system',
+        content: prompts.system_mission.replace('{length}', length)
+      },
+      {
+        role: 'system',
+        content: prompts.system_format
+      },
+      {
+        role: 'system',
+        content: prompts.system_remember
+      },
+      {
+        role: 'system',
+        content: prompts.system_illustration
+      },
+      {
+        role: 'system',
+        content: prompts.system_no_all_characters
+      },
+      {
+        role: 'user',
+        content: prompts.user_characters.replace(
+          '{characters}',
+          JSON.stringify(story.protagonists, null, 2)
+        )
+      },
+      {
+        role: 'user',
+        content: prompts.user_main_idea
+      },
+      {
+        role: 'user',
+        content: description
+      },
+      {
+        role: 'user',
+        content: prompts.user_story_requirement
+      }
+    ]
 
-    // @ts-ignore
     const completion = await openai.chat.completions.create({
       ...storyIndexTemplate,
-      messages: [
-        {
-          role: 'user',
-          content: indexPrompt
-        }
-      ]
+      max_tokens: 8000,
+      messages
     })
 
     const content = [
@@ -74,8 +90,6 @@ export async function POST (req: { json: () => PromiseLike<{ length: any; story:
       ...Array.from({ length }, () => ({ content: '', imageUrl: '' })),
       { content: story.description, imageUrl: '' }
     ]
-
-    console.log(completion.choices[0].message.content)
 
     return NextResponse.json({ index: completion.choices[0].message.content, content }, { status: 200 })
   } catch (error) {

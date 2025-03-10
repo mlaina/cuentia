@@ -229,7 +229,20 @@
   "loading_step_5_emoji": "🐺",
   "loading_step_5_emoji_label": "treinando",
 
+  "system_mission": "Sua missão é criar uma história infantil com {length} páginas, repleta de ação e emoção. Você contará a história no texto de cada página. A história deve ter um início, um clímax e uma resolução.",
+  "system_format": "A história deve seguir este formato:\n- **Título:** Um título curto de 2-3 palavras. Deve ser original e criativo.\n- **Elemento principal:** Descreva locais, objetos ou outros elementos-chave que são cruciais para a história.\n- **Personagens:** Uma lista de personagens, onde cada elemento é uma string que inclui o nome e uma descrição completa (idade, aparência, cor da roupa e outras características relevantes). Inclua detalhes sobre as roupas que eles usam na história, especialmente a cor.\n- **Índice:** Uma lista de páginas. Cada página deve incluir:\n   • Número da página.\n   • **Texto:** Desenvolva um parágrafo com pelo menos 70 palavras detalhando os eventos desta página (evite descrições). Inclua diálogos (deixe os diálogos em **negrito**, para que não terminem com uma vírgula) e ações.\n   • **Personagens que aparecem:** Uma lista com os nomes dos personagens que aparecem nessa página (pode estar vazia ou conter um ou vários nomes). Evite que todos os personagens apareçam em cada página.",
+  "system_remember": "Lembre-se de que o resumo de cada página não deve incluir descrições; ele deve conter apenas ação e diálogos.",
+  "system_illustration": "Cada página deve incluir uma descrição da ilustração detalhando o que acontece na imagem.",
+  "system_no_all_characters": "Não quero que todos os personagens apareçam em cada página.",
+  "user_characters": "Entre os personagens, os seguintes devem aparecer: {characters}. Enriqueça e dê profundidade a essas descrições. Certifique-se de mencionar a cor das roupas deles.",
+  "user_main_idea": "A ideia principal da história é:",
+  "user_story_requirement": "A história deve ser interessante, com um começo, um clímax e uma resolução.",
 
-  "characters_avialable": "Personagens disponíveis"
+  "reasoner_prompt": "Crie um prompt eficaz para gerar uma história infantil com base na ideia e nos personagens fornecidos. É importante que o prompt aborde a relação entre os personagens, o objetivo que eles perseguem na história e o aprendizado ou a conclusão chave da história. Se a relação, o objetivo ou a conclusão não forem especificados, invente o mais provável.\nA ideia da história: {idea}\nOs personagens: {characters}\nO número de páginas: {length}\n",
+  "image_prompt": "Extraia os elementos visuais essenciais para a geração de imagens a partir do texto da página. Forneça uma estrutura de texto simples e muito concisa, utilizando marcadores ou linhas rotuladas que listem: Cenário, Personagens, Ação Principal, Clima. Não inclua nenhuma referência à fala, conversa ou interações verbais. Não utilize JSON nem inclua marcas d'água. Adicione os personagens apenas se forem imprescindíveis para esta parte da história. Sempre que possível, evite mencionar ou adicionar informações detalhadas dos personagens. Ao exibir os personagens: substitua os nomes dos personagens por CHAR 1, CHAR 2... Sempre adicione idade e gênero, cor da roupa e cor do cabelo. Texto da página: {text}\nDescrição dos personagens: {characters}\nOutput em inglês.",
+
+  "cover_image_prompt": "Gere uma capa de livro altamente detalhada e visualmente envolvente com base no tema principal da história. A capa deve representar a essência da história, incorporando elementos-chave como cenário, atmosfera e quaisquer símbolos importantes. A composição deve ser visualmente impactante, com um layout equilibrado e uma paleta de cores atraente. Evite balões de fala, elementos de texto, JSON ou marcas d'água. Certifique-se de que a ilustração transmite eficazmente o clima e os principais temas da história.\nIdeia: {idea}\nSaída em inglês.",
+
+"characters_avialable": "Personagens disponíveis"
 }
 

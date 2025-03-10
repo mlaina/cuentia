@@ -16,7 +16,7 @@ export async function POST (req: { json: () => PromiseLike<{ description: any }>
 
   const { description } = await req.json()
 
-  const prompt = `Vivid animation style. ${description} Style: Vibrant colors, expansive storyworlds, stylized characters, flowing motion`
+  const prompt = `Vivid animation style. ${description}  Vibrant colors, expansive storyworlds, stylized characters, flowing motion. No comics, no watermarks.`
 
   try {
     let output

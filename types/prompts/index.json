@@ -1,15 +1,40 @@
 {
-  "model": "gpt-4o-2024-08-06",
+  "model": "gpt-4o-2024-11-20",
   "response_format": {
     "type": "json_schema",
     "json_schema": {
-      "name": "story_index",
+      "name": "index_format",
       "strict": true,
       "schema": {
         "type": "object",
         "properties": {
           "title": {
             "type": "string"
+          },
+          "frontpage_description": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "main_elements": {
+            "type": "string"
+          },
+          "characters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["name", "description"],
+              "additionalProperties": false
+            }
           },
           "index": {
             "type": "array",
@@ -19,25 +44,22 @@
                 "page": {
                   "type": "integer"
                 },
-                "summary": {
+                "text": {
                   "type": "string"
                 },
-                "image_info": {
-                  "type": "string"
+                "characters_appear": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
                 }
               },
-              "required": ["page", "summary", "image_info"],
+              "required": ["page", "text", "characters_appear"],
               "additionalProperties": false
             }
-          },
-          "frontpage_description": {
-            "type": "string"
-          },
-          "backpage_description": {
-            "type": "string"
           }
         },
-        "required": ["title", "index", "frontpage_description", "backpage_description"],
+        "required": ["title", "main_elements", "characters", "frontpage_description", "index"],
         "additionalProperties": false
       }
     }

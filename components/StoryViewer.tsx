@@ -119,7 +119,7 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
     const paragraphs = cleanText.split('\n\n')
 
     return paragraphs.map((paragraph, index) => (
-        <p key={index} className='text-justify leading-relaxed mb-4'>
+        <p key={index} className='text-justify leading-relaxed mb-4 text-lg'>
           {formatTextWithBoldQuotes(paragraph)}
         </p>
     ))
@@ -132,10 +132,6 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
             width={550}
             height={700}
             size='stretch'
-            minWidth={315}
-            maxWidth={1000}
-            minHeight={400}
-            maxHeight={1533}
             maxShadowOpacity={0.2}
             showCover
             mobileScrollSupport

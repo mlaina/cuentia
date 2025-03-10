@@ -4,6 +4,7 @@
     "react-hooks/exhaustive-deps": "off",
     "react/jsx-closing-tag-location": "off",
     "@next/next/no-img-element": "off",
-    "react/jsx-indent": "off"
+    "react/jsx-indent": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
   }
 }
