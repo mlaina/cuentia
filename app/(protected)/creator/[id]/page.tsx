@@ -445,7 +445,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
         </Head>
 
         {indice.length > 0 && loading > 5 &&
-          <div className='overflow-hidden background-section-4'>
+          <div className='overflow-hidden h-full background-section-4'>
              <StoryViewer pages={indice} stream />
           </div>}
 

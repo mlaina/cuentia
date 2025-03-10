@@ -236,7 +236,7 @@ export default function CrearCuentoPage () {
                   </div>
                 </div>
                 <button
-                  className='py-3 rounded-lg text-lg w-full bg-gradient-to-r from-secondary to-accent transition ease-in-out hover:b-glow hover:to-sky-500 hover:drop-shadow-lg hover:translate-y-1 text-white font-bold'
+                  className='py-3 rounded-lg text-lg w-full bg-gradient-to-r from-secondary to-accent transition ease-in-out hover:b-glow hover:to-sky-500 hover:drop-shadow-lg text-white font-bold'
                   onClick={handleCrearCuento}
                   disabled={loading}
                 >
