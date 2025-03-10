@@ -64,6 +64,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   const [title, setTitle] = useState(null)
   const [indice, setIndice] = useState([])
   const [loading, setLoading] = useState(0)
+  const [description, setDescription] = useState(null)
   const supabase = useSupabaseClient()
   const user = useUser()
   const hasExecutedRef = useRef(false)
@@ -382,6 +383,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
       developIdea(story.length / 2, story.idea, story.protagonists),
       buildPromptCover(story.idea)
     ])
+    setDescription(description)
 
     // 2. Ahora sí, una vez tenemos 'description', podemos crear el índice
     const ind = await createStoryIndex(story, description, story.length / 2)
@@ -449,7 +451,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
              <StoryViewer pages={indice} stream />
           </div>}
 
-        {indice.length <= 0 && loading <= 5 &&
+        {indice.length <= 0 && loading <= 5 && !description &&
         <div className='flex flex-col h-full w-full background-section-4'>
           <div className='flex flex-col justify-center items-center w-full h-2/3 text-gray-500 relative'>
             {[1, 2, 3, 4, 5].map((step) => (
