@@ -35,10 +35,11 @@ export async function POST (req: { json: () => PromiseLike<{ length: any; story:
     prompts = prompts.default || prompts
 
     // @ts-ignore
-    const { text, characters } = await req.json()
+    const { text, characters, mainElements } = await req.json()
     const compositePrompt = prompts.image_prompt
       .replace('{text}', text)
       .replace('{characters}', characters)
+      .replace('{elements}', mainElements)
 
     let refinedOutput = await deepseekStream(compositePrompt)
     refinedOutput = refinedOutput.trim()
