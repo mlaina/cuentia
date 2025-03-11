@@ -5,7 +5,6 @@ import { cookies } from 'next/headers'
 import axios from 'axios'
 import Replicate from 'replicate'
 import { uploadImage } from '@/lib/cloudflare'
-import frontTemplate from '@/types/prompts/front.json'
 
 const replicate = new Replicate()
 
@@ -16,16 +15,22 @@ const openai = new OpenAI({
 async function titleGenerator (image: string | object, title: any, user: string) {
   try {
     const formData = new FormData()
-    // @ts-ignore
-    const completionFront = await openai.chat.completions.create({
-      ...frontTemplate,
+
+    const responseA = await openai.chat.completions.create({
+      model: 'gpt-4o',
       messages: [
+        { role: 'system', content: 'You are an assistant that analyzes images.' },
+        {
+          role: 'system',
+          content:
+              "Return a JSON with 'position' and 'color'. Provide only the JSON output, without code blocks. The 'position' can be 'top', 'center', or 'bottom'. The 'color' should be the HEX value of the title text to maximize readability and avoid covering key elements in the image."
+        },
         {
           role: 'user',
           content: [
             {
               type: 'text',
-              text: `¿En qué posición y color en formato RGB iría el título "${title}"? top-center o bottom-center. Por favor, devuelve el color en formato RGB (por ejemplo, "255, 255, 255").`
+              text: `Decide where to place this title and what color to use: "${title}". Focus on readability and avoiding covering important elements. Place the title in the least interesting third of the image.`
             },
             {
               type: 'image_url',
@@ -46,7 +51,7 @@ async function titleGenerator (image: string | object, title: any, user: string)
     const imageBlob = new Blob([imageBuffer], { type: 'image/png' })
     formData.append('image', imageBlob, 'image.png')
 
-    const info = JSON.parse(completionFront.choices[0].message.content)
+    const info = JSON.parse(responseA.choices[0].message.content)
     if (!info.position || !info.color) {
       info.position = 'bottom-center'
       info.color = 'white'
