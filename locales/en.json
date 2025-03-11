@@ -236,7 +236,7 @@
   "system_no_all_characters": "I do not want all the characters to appear on every page.",
   "user_characters": "Among the characters, the following must appear: {characters}. Enrich and add depth to these descriptions. Ensure that you mention the color of their clothing.",
   "user_main_idea": "The main idea of the story is:",
-  "user_story_requirement": "The story must be interesant with a beginning, climax and resolution.",
+  "user_story_requirement": "The story must be interesting with a beginning, climax, and resolution. Additionally, each page must contain at least 100 words to ensure sufficient detail and depth in the narrative.",
 
   "reasoner_prompt": "Create an effective prompt to create a children's story based on the idea and the characters input. It is important that the prompt covers the relationship between the characters, the objective they pursue in the story, and the key learning or story conclusion. If the relationship, objective, or conclusion is not specified, invent the most likely one.\nThe story idea: {idea}\nThe characters: {characters}\nThe number of pages: {length}\n",
 
