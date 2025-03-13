@@ -114,7 +114,7 @@ export default function DashboardComponent () {
                   <Link key={story.id} href={`/story/${story.id}`} passHref>
                     <div className='relative w-26'>
                       <img
-                        src={story.images && story.images[0] !== '' ? story.images[0] : '/placeholder-covers.svg'}
+                        src={story.images && story.images[0] !== '' ? story.images[0] : 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'}
                         alt={t('cover_image')}
                         className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
                       />
@@ -129,7 +129,7 @@ export default function DashboardComponent () {
                   <Link key={story.id} href={`/story/${story.id}`} passHref>
                     <div className='relative w-26'>
                       <img
-                        src={story.images && story.images[0] !== '' ? story.images[0] : '/placeholder-covers.svg'}
+                        src={story.images && story.images[0] !== '' ? story.images[0] : 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'}
                         alt={t('cover_image')}
                         className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
                       />

@@ -202,7 +202,7 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
                       )
                     : (
                       <div className='relative border-glow-container rounded-md max-w-full max-h-full overflow-hidden shadow-inner shadow-md'>
-                        <img alt='loading' src='/placeholder.svg' className='w-full h-full object-cover ' />
+                        <img alt='loading' src='https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public' className='w-full h-full object-cover ' />
                         <div className='border-glow absolute inset-0 rounded-md pointer-events-none transition-opacity' />
                       </div>
                       )}
