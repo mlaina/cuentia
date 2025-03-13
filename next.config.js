@@ -6,7 +6,7 @@ const nextConfig = {
     ignoreBuildErrors: true
   },
   images: {
-    formats: ['image/avif', 'image/webp', 'image/svg+xml'],
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       { protocol: 'https', hostname: 'replicate.delivery' },
       { protocol: 'https', hostname: 'imagedelivery.net' },
