@@ -82,7 +82,7 @@ export default async function PreviewPage ({ params }: PreviewPageProps) {
                         <Link key={story.id} href={`/preview/${story.id}`}>
                           <div className='relative w-26 cursor-pointer hover:opacity-90 transition-opacity'>
                             <img
-                              src={coverImage || '/placeholder-covers.svg'}
+                              src={coverImage || 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'}
                               alt='Cover Image'
                               className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
                             />

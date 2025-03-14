@@ -266,7 +266,7 @@ export default function Home () {
                     onClick={() => handleStoryClick(story.id)}
                   >
                     <img
-                      src={coverImage || '/placeholder-covers.svg'}
+                      src={coverImage || 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'}
                       alt='Cover Image'
                       className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
                     />
@@ -281,7 +281,7 @@ export default function Home () {
                 onClick={() => favoriteStories[0] && handleStoryClick(favoriteStories[0].id)}
               >
                 <img
-                  src={favoriteStories[0]?.content?.[0]?.imageUrl || '/placeholder-covers.svg'}
+                  src={favoriteStories[0]?.content?.[0]?.imageUrl || 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'}
                   alt='Cover Image'
                   className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
                 />

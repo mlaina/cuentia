@@ -13,15 +13,15 @@ interface Page {
 const pages: Page[] = [
   {
     text: 'Había una vez, en un bosque encantado, un pequeño conejo llamado Hop. Hop era muy curioso y siempre estaba buscando nuevas aventuras.',
-    image: '/placeholder.svg?height=400&width=300'
+    image: 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'
   },
   {
     text: 'Un día, Hop encontró una puerta mágica escondida entre los arbustos. Con mucho cuidado, la abrió y entró en un mundo de colores brillantes.',
-    image: '/placeholder.svg?height=400&width=300'
+    image: 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'
   },
   {
     text: 'En este nuevo mundo, Hop hizo muchos amigos: mariposas que brillaban como estrellas y flores que cantaban dulces melodías.',
-    image: '/placeholder.svg?height=400&width=300'
+    image: 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'
   }
 ]
 

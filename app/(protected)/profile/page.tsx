@@ -72,25 +72,13 @@ export default function ProfilePage () {
     setLocale(newLocale)
     document.cookie = `locale=${newLocale}; Path=/;`
 
-    const { data: checkUser } = await supabase
-    .from('users')
-    .select('*')
-    .eq('user_id', user.id)
-    .maybeSingle()
-
-    console.log(checkUser)
-
-
     if (user) {
       try {
-        const { userUpdated, error } = await supabase
+        const { error } = await supabase
           .from('users')
           .update({ lang: newLocale })
           .eq('user_id', user.id)
           .select()
-
-
-          console.log(userUpdated)
 
         if (error) {
           console.error('Error al actualizar el idioma en la base de datos:', error)
