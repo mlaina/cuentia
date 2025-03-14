@@ -11,7 +11,8 @@ const nextConfig = {
       { protocol: 'https', hostname: 'replicate.delivery' },
       { protocol: 'https', hostname: 'imagedelivery.net' },
       { protocol: 'http', hostname: 'localhost' },
-      { protocol: 'https', hostname: 'cuentia.vercel.app' }
+      { protocol: 'https', hostname: 'cuentia.vercel.app' },
+      { protocol: 'https', hostname: 'imagins.ai' }
     ]
   },
   webpack: (config, { isServer }) => {
