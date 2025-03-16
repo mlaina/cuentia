@@ -40,6 +40,16 @@ const config: Config = {
         },
         accent: {
           DEFAULT: '#FFBF00',
+          50: '#FFF9E6',
+          100: '#FFF3CC',
+          200: '#FFE799',
+          300: '#FFDB66',
+          400: '#FFD233',
+          500: '#FFBF00', // Color principal
+          600: '#E6AC00',
+          700: '#D17A00',
+          800: '#B38600',
+          900: '#997300',
           foreground: 'hsl(var(--accent-foreground))'
         },
         destructive: {

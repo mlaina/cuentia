@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -16,6 +16,27 @@ export default function Header () {
   const supabase = useSupabaseClient()
   const user = useUser()
   const [isPopoverOpen, setPopoverOpen] = useState(false)
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false)
+
+  useEffect(() => {
+    async function checkSuperAdminStatus () {
+      if (!user) return
+
+      try {
+        // Consultar el estado de super admin directamente desde auth.users
+        // Nota: Esto requiere permisos especiales o una función RPC
+        const { data, error } = await supabase.rpc('check_is_super_admin')
+
+        if (error) throw error
+
+        setIsSuperAdmin(data)
+      } catch (error) {
+        console.error('Error verificando estado de super admin:', error)
+      }
+    }
+
+    checkSuperAdminStatus()
+  }, [user, supabase, router])
 
   const handleLogout = async () => {
     if (!user) {
@@ -46,6 +67,10 @@ export default function Header () {
               <Link href='/stories' className='text-primary text-md hover:text-secondary'>
                 {t('library')}
               </Link>
+              {isSuperAdmin &&
+                <Link href='/all-stories' className='text-primary text-md hover:text-secondary'>
+                    Admin
+                </Link>}
             </div>
           </div>
           {user && user.user_metadata.credits > 0 && (
@@ -90,6 +115,13 @@ export default function Header () {
                           {t('library')}
                         </Button>
                       </Link>
+                      {isSuperAdmin &&
+                        <Link href='/all-stories' className='text-md hover:text-secondary'>
+                          <Button variant='outline' className='w-full justify-start'>
+                            <Library className='mr-2 h-4 w-4' />
+                            {t('library')}
+                          </Button>
+                        </Link>}
                     </div>
                     <Link href='/profile'>
                       <Button variant='outline' className='w-full justify-start'>
