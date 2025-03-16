@@ -243,5 +243,7 @@
 
   "cover_image_prompt": "Genereer een zeer gedetailleerde en visueel meeslepende boekomslag op basis van het hoofdthema van het verhaal. De omslag moet de essentie van het verhaal weergeven en belangrijke elementen bevatten zoals de setting, sfeer en symbolische objecten. De compositie moet visueel aantrekkelijk zijn, met een uitgebalanceerde lay-out en een boeiend kleurenschema. Vermijd tekstballonnen, tekstelementen, JSON of watermerken. Zorg ervoor dat de illustratie de sfeer en de belangrijkste thema's van het verhaal effectief overbrengt.\nIdee: {idea}\nUitvoer in het Engels.",
 
-  "characters_avialable": "Beschikbare personages"
+  "characters_avialable": "Beschikbare personages",
+
+  "back_imagins": "„Verbeelding is de vonk die dromen aanwakkert en de toekomst vormgeeft. Het is de kracht om het onmogelijke mogelijk te maken, deuren te openen naar ideeën en oplossingen die grenzen uitdagen. Wanneer we onze geest laten vliegen, verbinden we ons met een onbeperkt potentieel om de wereld te creëren en opnieuw uit te vinden.“ - Imagins Team"
 }

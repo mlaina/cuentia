@@ -243,6 +243,7 @@
 
   "cover_image_prompt": "Gere uma capa de livro altamente detalhada e visualmente envolvente com base no tema principal da história. A capa deve representar a essência da história, incorporando elementos-chave como cenário, atmosfera e quaisquer símbolos importantes. A composição deve ser visualmente impactante, com um layout equilibrado e uma paleta de cores atraente. Evite balões de fala, elementos de texto, JSON ou marcas d'água. Certifique-se de que a ilustração transmite eficazmente o clima e os principais temas da história.\nIdeia: {idea}\nSaída em inglês.",
 
-"characters_avialable": "Personagens disponíveis"
+  "characters_avialable": "Personagens disponíveis",
+  "back_imagins": "«A imaginação é a centelha que acende os sonhos e molda o futuro. É o poder de transformar o impossível em possível, abrindo portas para ideias e soluções que desafiam os limites. Quando deixamos nossa mente voar, conectamo-nos com um potencial ilimitado para criar e reinventar o mundo.» - Imagins Team"
 }
 

@@ -243,5 +243,8 @@
 
   "cover_image_prompt": "Genera una portada de libro altamente detallada y visualmente impactante basada en el tema principal de la historia. La portada debe representar la esencia de la historia, incorporando elementos clave como la ambientación, la atmósfera y cualquier símbolo relevante. La composición debe ser visualmente atractiva, con un diseño equilibrado y una paleta de colores envolvente. Evita burbujas de diálogo, elementos de texto, JSON o marcas de agua. Asegúrate de que la ilustración transmita eficazmente el estado de ánimo y los temas principales de la historia.\nIdea: {idea}\nSalida en inglés.",
 
-  "characters_avialable": "Personajes disponibles"
+  "characters_avialable": "Personajes disponibles",
+  
+  "back_imagins": "«La imaginación es la chispa que enciende los sueños y da forma al futuro. Es el poder de transformar lo imposible en posible, abriendo puertas a ideas y soluciones que desafían los límites. Cuando dejamos volar nuestra mente, conectamos con un potencial ilimitado para crear y reinventar el mundo.» - Imagins Team"
+
 }

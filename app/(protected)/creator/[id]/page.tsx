@@ -63,6 +63,7 @@ async function withRetry (operation: () => Promise<any>, operationName: string) 
 export default function CrearCuentoPage ({ params }: { params: { id: string } }) {
   const [title, setTitle] = useState(null)
   const [indice, setIndice] = useState([])
+  const [prompts, setPrompts] = useState([])
   const [loading, setLoading] = useState(0)
   const [description, setDescription] = useState(null)
   const supabase = useSupabaseClient()
@@ -355,7 +356,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ length, idea, characters })
+          body: JSON.stringify({ length, idea, characters, storyId: params.id })
         })
 
         if (!response.ok) {
@@ -414,6 +415,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
       // Construir el prompt y generar la página de manera asíncrona
       const prompt = await buildPromptImage(page.text, charactersDescription)
+      setPrompts((prev) => [...prev, prompt])
       // Guardamos la promesa de creación de imagen
       await createImagePage(prompt, i + 1)
     }
@@ -436,6 +438,21 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     }
     fetchStory()
   }, [indice])
+
+  useEffect(() => {
+    const fetchStory = async () => {
+      if (prompts.length > 0) {
+        await supabase
+          .from('stories')
+          .update({
+            images_prompts: prompts
+          })
+          .eq('author_id', user.id)
+          .eq('id', params.id)
+      }
+    }
+    fetchStory()
+  }, [prompts])
 
   const t = useTranslations()
 

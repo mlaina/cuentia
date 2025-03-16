@@ -53,7 +53,7 @@ async function titleGenerator (image: string | object, title: any, user: string)
 
     const info = JSON.parse(responseA.choices[0].message.content)
     if (!info.position || !info.color) {
-      info.position = 'bottom-center'
+      info.position = 'bottom'
       info.color = 'white'
     }
     formData.append('info', JSON.stringify(info))
@@ -77,6 +77,44 @@ async function titleGenerator (image: string | object, title: any, user: string)
   }
 }
 
+// Función para actualizar clean_covers
+async function updateCleanCovers (supabase, user, storyId, image, prompt) {
+  const imageResponse = await axios.get(typeof image === 'string' ? image : image[0], {
+    responseType: 'arraybuffer'
+  })
+  const imageBuffer = Buffer.from(imageResponse.data, 'binary')
+
+  const cfCleanImageUrl = await uploadImage(imageBuffer)
+  const { data: currentStory } = await supabase
+    .from('stories')
+    .select('clean_covers')
+    .eq('author_id', user.id)
+    .eq('id', storyId)
+    .single()
+
+  const updatedCleanCovers = {
+    ...currentStory?.clean_covers,
+    front: cfCleanImageUrl
+  }
+
+  return supabase.from('stories').update({
+    clean_covers: updatedCleanCovers,
+    front_prompt: prompt
+  })
+    .eq('author_id', user.id)
+    .eq('id', storyId)
+}
+
+async function modifiedImageGen (image, title, user) {
+  const modifiedImage = await titleGenerator(image, title, user.user_metadata.full_name || user.email)
+
+  if (!modifiedImage) {
+    throw new Error('Error al generar la imagen con título')
+  }
+
+  return await uploadImage(modifiedImage)
+}
+
 export async function POST (req) {
   try {
     const supabase = createRouteHandlerClient({ cookies })
@@ -86,7 +124,7 @@ export async function POST (req) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
     }
 
-    const { description, title } = await req.json()
+    const { description, title, storyId } = await req.json()
 
     const promptFront = `Create a vivid animation style amazing frontpage about ${description} Style: Vibrant colors, expansive storyworlds, stylized characters, flowing motion`
     let image = null
@@ -108,13 +146,10 @@ export async function POST (req) {
       })
     }
 
-    const modifiedImage = await titleGenerator(image, title, user.user_metadata.full_name || user.email)
-
-    if (!modifiedImage) {
-      throw new Error('Error al generar la imagen con título')
-    }
-
-    const cfImageUrl = await uploadImage(modifiedImage)
+    const [, cfImageUrl] = await Promise.all([
+      updateCleanCovers(supabase, user, storyId, image, promptFront),
+      modifiedImageGen(image, title, user)
+    ])
 
     return NextResponse.json({ image: cfImageUrl })
   } catch (error) {

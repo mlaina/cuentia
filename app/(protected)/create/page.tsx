@@ -149,7 +149,7 @@ export default function CrearCuentoPage () {
         <section className={`mt-4 md:mt-20 flex-1 transition duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}>
           <div className='max-w-7xl mx-auto p-6 items-center justify-center space-y-2 md:space-y-8'>
             <div className='pb-2 md:pb-4'>
-              <h1 className='text-center bg-gradient-to-r from-secondary to-accent bg-clip-text text-4xl md:text-6xl font-bold text-transparent'>
+              <h1 className='text-center  text-4xl md:text-6xl font-bold text-secondary'>
                 {t('ready_to_dream')}
               </h1>
             </div>
@@ -164,6 +164,7 @@ export default function CrearCuentoPage () {
             )}
             <div className='md:flex md:space-x-6'>
               <div className='flex-1 space-y-4'>
+                <div className='h-8'>
                 {seletedProtagonists.length > 0 && (
                   <div className='flex flex-wrap gap-2 mb-2'>
                     {seletedProtagonists.map((protagonist) => (
@@ -193,6 +194,7 @@ export default function CrearCuentoPage () {
                     ))}
                   </div>
                 )}
+                </div>
                 <div className='relative border-glow-container rounded-lg'>
                   <Textarea
                     placeholder={t('story_description_placeholder')}
@@ -236,7 +238,7 @@ export default function CrearCuentoPage () {
                   </div>
                 </div>
                 <button
-                  className='py-3 rounded-lg text-lg w-full bg-gradient-to-r from-secondary to-accent transition ease-in-out hover:scale-105 hover:to-sky-500 hover:drop-shadow-lg text-white font-bold'
+                  className='py-3 rounded-lg text-lg w-full bg-secondary ease-in-out hover:scale-105 hover:drop-shadow-lg text-white font-bold'
                   onClick={handleCrearCuento}
                   disabled={loading}
                 >

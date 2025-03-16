@@ -242,7 +242,9 @@
   "image_prompt": "Extrahiere die wesentlichen visuellen Elemente für die Bildgenerierung aus dem Seitentext. Liefere eine sehr prägnante, unformatierte Textstruktur mit Aufzählungspunkten oder beschrifteten Zeilen, die Folgendes auflisten: Schauplatz, Charaktere, Hauptaktion, Stimmung. Füge keine Hinweise auf Sprache, Gespräche oder verbale Interaktionen ein. Verwende kein JSON und füge keine Wasserzeichen hinzu. Füge die Charaktere nur hinzu, wenn sie für diesen Teil der Geschichte unerlässlich sind. Vermeide, wenn möglich, detaillierte Informationen zu den Charakteren zu erwähnen oder hinzuzufügen. Bei der Darstellung der Charaktere: Ersetze die Namen der Charaktere durch CHAR 1, CHAR 2... Füge stets Alter und Geschlecht, Kleidungsfarbe und Haarfarbe hinzu. Seitentext: {text}\nCharakterbeschreibung: {characters}\nOutput in Englisch.",
   "cover_image_prompt": "Erstelle ein hochdetailliertes und visuell fesselndes Buchcover basierend auf dem Hauptthema der Geschichte. Das Cover sollte die Essenz der Geschichte widerspiegeln und wichtige Elemente wie Schauplatz, Atmosphäre und symbolische Objekte enthalten. Die Komposition sollte visuell ansprechend sein, mit einem ausgewogenen Layout und einer fesselnden Farbgestaltung. Vermeide Sprechblasen, Textelemente, JSON oder Wasserzeichen. Stelle sicher, dass die Illustration die Stimmung und die zentralen Themen der Geschichte wirkungsvoll vermittelt.\nIdee: {idea}\nAusgabe auf Englisch.",
 
-  "characters_avialable": "Verfügbare Charaktere"
+  "characters_avialable": "Verfügbare Charaktere",
+
+  "back_imagins": "„Die Vorstellungskraft ist der Funke, der Träume entzündet und die Zukunft gestaltet. Sie ist die Kraft, das Unmögliche möglich zu machen, Türen zu Ideen und Lösungen zu öffnen, die Grenzen herausfordern. Wenn wir unseren Geist fliegen lassen, verbinden wir uns mit einem unbegrenzten Potenzial, die Welt zu erschaffen und neu zu erfinden.“ - Imagins Team"
 }
 
 

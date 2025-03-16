@@ -15,35 +15,55 @@ Font.register({
   src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf'
 })
 
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'column',
-    backgroundColor: '#ffffff',
-    padding: 20
-  },
-  coverImage: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover'
-  },
-  content: {
-    fontSize: 20,
-    margin: 10,
-    fontFamily: 'Roboto',
-    lineHeight: 1.5,
-    textAlign: 'justify'
-  }
-})
-
 const MyDocument = ({ story, user }) => {
   const content = typeof story.content === 'string' ? JSON.parse(story.content) : story.content
 
   return (
       <Document>
         {content.map((page, index) => (
-            <Page key={index} size='A4' style={styles.page}>
-              {page.imageUrl && <Image alt='page' src={page.imageUrl} style={styles.coverImage} />}
-              {page.content && <Text style={styles.content}>{he.decode(marked(page.content).replace(/<[^>]*>/g, ''))}</Text>}
+            <Page
+              key={index}
+              size='A5'
+              style={{
+                padding: 0,
+                margin: 0,
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+            >
+              {page.imageUrl && (
+                <Image
+                  alt='page'
+                  src={page.imageUrl}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                    margin: 0,
+                    padding: 0
+                  }}
+                />
+              )}
+              {page.content && index !== story.content.length - 1 && (
+                <Text style={{
+                  position: 'absolute',
+                  top: 20,
+                  left: 10,
+                  right: 10,
+                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                  padding: 12,
+                  borderRadius: 4,
+                  zIndex: 10,
+                  fontSize: 18,
+                  lineHeight: 1.6,
+                  letterSpacing: 0.5,
+                  fontWeight: 500
+                }}
+                >
+                  {he.decode(marked(page.content).replace(/<[^>]*>/g, ''))}
+                </Text>
+              )}
             </Page>
         ))}
       </Document>

@@ -48,7 +48,7 @@ export async function POST (req: { json: () => PromiseLike<{ length: any; story:
     }
 
     // @ts-ignore
-    const { length, idea, characters } = await req.json()
+    const { length, idea, characters, storyId } = await req.json()
 
     const compositePrompt = prompts.reasoner_prompt
       .replace('{idea}', idea)
@@ -61,6 +61,12 @@ export async function POST (req: { json: () => PromiseLike<{ length: any; story:
     if (refinedOutput.endsWith('{}')) {
       refinedOutput = refinedOutput.slice(0, -2).trim()
     }
+
+    await supabase.from('stories').update({
+      idea_prompt: compositePrompt
+    })
+      .eq('author_id', user.id)
+      .eq('id', storyId)
 
     return NextResponse.json({ idea: refinedOutput }, { status: 200 })
   } catch (error) {

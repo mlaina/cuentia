@@ -35,7 +35,7 @@ export async function POST (req: { json: () => PromiseLike<{ length: any; story:
       prompts = prompts.default || prompts
     }
 
-    const { length, story, description } = await req.json()
+    const { length, story, description, storyId } = await req.json()
 
     const messages = [
       {
@@ -90,6 +90,11 @@ export async function POST (req: { json: () => PromiseLike<{ length: any; story:
       ...Array.from({ length }, () => ({ content: '', imageUrl: '' })),
       { content: story.description, imageUrl: '' }
     ]
+    await supabase.from('stories').update({
+      index_prompts: messages
+    })
+      .eq('author_id', user.id)
+      .eq('id', storyId)
 
     return NextResponse.json({ index: completion.choices[0].message.content, content }, { status: 200 })
   } catch (error) {

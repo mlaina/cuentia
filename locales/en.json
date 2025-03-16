@@ -243,5 +243,7 @@
 
   "cover_image_prompt": "Generate a prompt for a visually striking book cover that captures the story’s essence, setting, and key symbolic elements. Incorporate the main elements of the story to enhance the cover's visual impact. Avoid speech bubbles, text, watermarks, or JSON.\n\nIdea: {idea}\nMain Elements: {elements}\nOutput in English.",
 
-  "characters_avialable": "Characters available"
+  "characters_avialable": "Characters available",
+
+  "back_imagins": "\"Imagination is the spark that ignites dreams and shapes the future. It is the power to turn the impossible into possible, opening doors to ideas and solutions that challenge limits. When we let our minds soar, we connect with an unlimited potential to create and reinvent the world.\" - Imagins Team"
 }
