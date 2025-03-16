@@ -295,7 +295,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     }
   }
 
-  const buildPromptCover = async (text: null, mainElements : any) => {
+  const buildPromptCover = async (text: null, mainElements : any, characters) => {
     try {
       await updateCredits(1)
       return await withRetry(async () => {
@@ -304,7 +304,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ text, mainElements })
+          body: JSON.stringify({ text, mainElements, characters })
         })
 
         if (!response.ok) {
@@ -387,7 +387,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     // 2. Ahora sí, una vez tenemos 'description', podemos crear el índice
     const ind = await createStoryIndex(story, descriptiona, story.length / 2)
 
-    const promptCover = await buildPromptCover(story.idea, ind.main_elements)
+    const promptCover = await buildPromptCover(story.idea, ind.main_elements, story.protagonists)
     // 3. Estas llamadas necesitan el resultado de promptCover e ind, se hacen secuencialmente
     await Promise.all([
       createPageFront(promptCover, ind.title),

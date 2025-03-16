@@ -30,7 +30,7 @@ async function titleGenerator (image: string | object, title: any, user: string)
           content: [
             {
               type: 'text',
-              text: `Decide where to place this title and what color to use: "${title}". Focus on readability and avoiding covering important elements. Place the title in the least interesting third of the image.`
+              text: `Decide where to place this title and what color to use: "${title}". Focus on readability and avoiding covering important elements. Place the title in the least interesting third of the image. No necesarilly white.`
             },
             {
               type: 'image_url',
@@ -52,6 +52,7 @@ async function titleGenerator (image: string | object, title: any, user: string)
     formData.append('image', imageBlob, 'image.png')
 
     const info = JSON.parse(responseA.choices[0].message.content)
+    console.log('info:', info)
     if (!info.position || !info.color) {
       info.position = 'bottom'
       info.color = 'white'
