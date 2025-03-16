@@ -4,7 +4,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import StoryViewer from '@/components/StoryViewer'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Page, Text, Document, StyleSheet, pdf, Image, Font } from '@react-pdf/renderer'
+import { Page, Text, Document, pdf, Image, Font } from '@react-pdf/renderer'
 import { saveAs } from 'file-saver'
 import { marked } from 'marked'
 import he from 'he'
@@ -15,7 +15,7 @@ Font.register({
   src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf'
 })
 
-const MyDocument = ({ story, user }) => {
+const MyDocument = ({ story }) => {
   const content = typeof story.content === 'string' ? JSON.parse(story.content) : story.content
 
   return (
