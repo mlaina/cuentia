@@ -49,7 +49,7 @@ export default function Header () {
     if (error) {
       console.error(t('error_logging_out'), error)
     } else {
-      router.push('/')
+      window.location.href = '/'
     }
   }
 

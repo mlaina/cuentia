@@ -2,17 +2,17 @@ import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 
 const publicRoutes = [
-  '/', 
-  '/legal', 
-  '/s/', 
-  '/api/webhook', 
-  '/image', 
-  '/validation', 
-  '/auth/callback', 
+  '/',
+  '/legal',
+  '/s/',
+  '/api/webhook',
+  '/image',
+  '/validation',
+  '/auth/callback',
   '/preview/*'
 ]
 
-export async function middleware(req) {
+export async function middleware (req) {
   let res = NextResponse.next()
 
   // Si se detecta el parámetro _cf_chl_tk, forzar redirección con status 303 y eliminar header duplicado.
@@ -22,9 +22,22 @@ export async function middleware(req) {
     return res
   }
 
+  if (req.nextUrl.pathname.startsWith('/auth/callback')) {
+    return res // Permitir el flujo de autenticación sin interrupciones
+  }
+
   // Inicializa Supabase en el middleware
   const supabase = createMiddlewareClient({ req, res })
   const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    if (req.nextUrl.pathname !== '/') {
+      res = NextResponse.redirect(new URL('/', req.url), { status: 303 })
+      res.headers.delete('x-middleware-set-cookie')
+      return res
+    }
+    return res
+  }
 
   // Verifica si la ruta es pública
   const isPublicRoute = publicRoutes.some(route => {
@@ -38,7 +51,7 @@ export async function middleware(req) {
   // Si el header x-error-status es 400, redirige según el estado del usuario
   if (req.headers.get('x-error-status') === '400') {
     res = NextResponse.redirect(
-      new URL(user ? '/create' : '/', req.url), 
+      new URL(user ? '/create' : '/', req.url),
       { status: 303 }
     )
     res.headers.delete('x-middleware-set-cookie')
