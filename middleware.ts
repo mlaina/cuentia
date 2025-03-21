@@ -19,6 +19,10 @@ export async function middleware (req) {
     return res
   }
 
+  if (req.nextUrl.pathname.startsWith('/preview')) {
+    return res
+  }
+
   // Si se detecta el parámetro _cf_chl_tk, forzar redirección con status 303 y eliminar header duplicado.
   if (req.nextUrl.searchParams.has('_cf_chl_tk')) {
     res = NextResponse.redirect(new URL('/', req.url), { status: 303 })
