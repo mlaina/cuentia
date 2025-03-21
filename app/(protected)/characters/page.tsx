@@ -18,7 +18,7 @@ interface Protagonist {
   likes: string;
   dislikes: string;
 }
-
+/*
 function DraftAvatar ({ protagonistId, index }: { protagonistId: number; index: number }) {
   const [uploadingImage, setUploadingImage] = useState(false)
   const [image, setImage] = useState<string | null>(null)
@@ -212,7 +212,7 @@ function DraftAvatar ({ protagonistId, index }: { protagonistId: number; index: 
       </div>
   )
 }
-
+*/
 export default function Characters () {
   const supabase = useSupabaseClient()
   const user = useUser()
@@ -228,7 +228,7 @@ export default function Characters () {
       setLoading(false)
     }
   }, [user])
-
+  /*
   const updateCredits = async (cost) => {
     if (!user) return
 
@@ -249,6 +249,8 @@ export default function Characters () {
       console.error('Error updating credits:', updateError)
     }
   }
+
+ */
 
   async function fetchProtagonists () {
     if (!user) return
@@ -354,7 +356,7 @@ export default function Characters () {
         </Alert>
     )
   }
-
+  /*
   async function handleInferDescription (protagonistId: number) {
     try {
       await updateCredits(2)
@@ -381,6 +383,7 @@ export default function Characters () {
       console.error('Error realizando la inferencia:', error)
     }
   }
+ */
 
   return (
       <div className='background-section-3 px-8 md:px-0  '>
