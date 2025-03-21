@@ -15,6 +15,10 @@ const publicRoutes = [
 export async function middleware (req) {
   let res = NextResponse.next()
 
+  if (req.nextUrl.pathname.startsWith('/images')) {
+    return res
+  }
+
   // Si se detecta el parámetro _cf_chl_tk, forzar redirección con status 303 y eliminar header duplicado.
   if (req.nextUrl.searchParams.has('_cf_chl_tk')) {
     res = NextResponse.redirect(new URL('/', req.url), { status: 303 })
@@ -55,10 +59,6 @@ export async function middleware (req) {
       { status: 303 }
     )
     res.headers.delete('x-middleware-set-cookie')
-    return res
-  }
-
-  if (req.nextUrl.pathname.startsWith('/images')) {
     return res
   }
 

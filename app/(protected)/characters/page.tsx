@@ -383,73 +383,117 @@ export default function Characters () {
   }
 
   return (
-      <div className='background-section-3 px-8 md:px-0'>
-        <div className='max-w-5xl mx-auto mt-10 '>
-          <h2 className='text-3xl font-bold mt-10 mb-4 text-secondary'>{t('protagonists')}</h2>
-          <div className='flex flex-col gap-4'>
+      <div className='background-section-3 px-8 md:px-0  '>
+        <div className='max-w-7xl mx-auto mt-10 overflow-x-auto'>
+          <div className='flex gap-4'>
             {protagonists.map((protagonist, index) => (
-                <Card key={protagonist.id} className='border-secondary border border-dashed shadow-lg'>
+                <Card key={protagonist.id} className='border-gray border shadow-lg drop-shadow-lg w-full min-w-full'>
                   <CardHeader>
                     <CardTitle className='flex justify-between items-center'>
-                      @{protagonist.name || t('protagonist_default', { index: index + 1 })}
-                      <Button variant='ghost' size='icon' onClick={() => removeProtagonist(protagonist.id!)}>
-                        <Trash2 className='h-5 w-5' />
-                      </Button>
+                      {protagonist.name || t('protagonist_default', { index: index + 1 })}
+                      <button className='border-gray border rounded-2xl p-2' onClick={() => removeProtagonist(protagonist.id!)}>
+                        <Trash2 className='h-5 w-5 text-gray-400' />
+                      </button>
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className='space-y-2'>
-                      <label>{t('name')}</label>
-                      <Input
-                        id={`name-${protagonist.id}`}
-                        value={protagonist.name}
-                        onChange={(e) =>
-                          handleInputChange(protagonist.id!, 'name', e.target.value)}
-                        onBlur={(e) =>
-                          handleBlur(protagonist.id!, 'name', e.target.value)}
-                        placeholder={t('name_placeholder')}
-                      />
-                      <label>{t('description')}</label>
-                      <Textarea
-                        id={`physical-${protagonist.id}`}
-                        className='resize-none'
-                        value={protagonist.physical_description}
-                        onChange={(e) =>
-                          handleInputChange(protagonist.id!, 'physical_description', e.target.value)}
-                        onBlur={(e) =>
-                          handleBlur(protagonist.id!, 'physical_description', e.target.value)}
-                        placeholder='description_placeholder'
-                      />
-                    </div>
-                    <div className='mt-4'>
-                      <label className='block text-sm font-medium text-gray-700'>Subir Imágenes</label>
-                      <label className='block text-xs font-medium text-gray-500 mb-2'>Ninguna de las imágenes se
-                        almacenará en la plataforma, solo se utilizarán para generar avatares</label>
-                      <div className='flex md:flex-row flex-col gap-3 items-start justify-between'>
-                        {[1, 2, 3].map((num) => (
-                            <DraftAvatar key={num} protagonistId={protagonist.id!} index={num} />
-                        ))}
+                    <div className='space-y-6'>
+                      <div>
+                        <label className='text-gray-400 mb-1'>{t('name')}</label>
+                        <Input
+                          className='max-w-[300px]'
+                          id={`name-${protagonist.id}`}
+                          value={protagonist.name}
+                          onChange={(e) =>
+                            handleInputChange(protagonist.id!, 'name', e.target.value)}
+                          onBlur={(e) =>
+                            handleBlur(protagonist.id!, 'name', e.target.value)}
+                          placeholder={t('name_placeholder')}
+                        />
                       </div>
-                      {protagonist.avatars &&
-                          protagonist.avatars.some((avatar: string | null) => avatar) && (
-                              <div className='mt-4 text-right'>
-                                <Button onClick={() => handleInferDescription(protagonist.id!)} className='bg-accent'>
-                                  Inferir descripción física
-                                </Button>
-                              </div>
-                      )}
-                      <div className='mt-2'>
-                        <label
-                          htmlFor={`inference-${protagonist.id}`}
-                          className='block text-sm font-medium text-gray-700'
-                        >
-                          Descripción Inferida
-                        </label>
+
+                      <div className='space-y-4'>
+                        <h2 className='font-bold text-lg'>{t('physical_traits')}</h2>
+                        <div>
+                          <label className='text-gray-400 mb-1'>{t('height')}</label>
+                          <div className='flex flex-wrap gap-2'>
+                            {['Alta', 'Media', 'Baja'].map((option) => (
+                                <button
+                                  key={option}
+                                  className={`px-3 py-1 rounded ${protagonist.height === option ? 'bg-yellow-500' : 'bg-gray-200'}`}
+                                  onClick={() => handleInputChange(protagonist.id, 'height', option)}
+                                >
+                                  {option}
+                                </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <label className='text-gray-400 mb-1'>{t('physique')}</label>
+                          <div className='flex flex-wrap gap-2'>
+                            {['Robusta', 'Delgada', 'Atlética', 'Descuidada', 'Musculosa'].map((option) => (
+                                <button
+                                  key={option}
+                                  className={`px-3 py-1 rounded ${protagonist.physique === option ? 'bg-yellow-500' : 'bg-gray-200'}`}
+                                  onClick={() => handleInputChange(protagonist.id, 'physique', option)}
+                                >
+                                  {option}
+                                </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <label className='text-gray-400 mb-1'>{t('hair_color')}</label>
+                          <div className='flex flex-wrap gap-2'>
+                            {['Castaño', 'Rubio', 'Negro', 'Blanco'].map((option) => (
+                                <button
+                                  key={option}
+                                  className={`px-3 py-1 rounded ${protagonist.hairColor === option ? 'bg-yellow-500' : 'bg-gray-200'}`}
+                                  onClick={() => handleInputChange(protagonist.id, 'hairColor', option)}
+                                >
+                                  {option}
+                                </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <label className='text-gray-400 mb-1'>{t('eye_color')}</label>
+                          <div className='flex flex-wrap gap-2'>
+                            {['Azules', 'Verdes', 'Marrones'].map((option) => (
+                                <button
+                                  key={option}
+                                  className={`px-3 py-1 rounded ${protagonist.eyeColor === option ? 'bg-yellow-500' : 'bg-gray-200'}`}
+                                  onClick={() => handleInputChange(protagonist.id, 'eyeColor', option)}
+                                >
+                                  {option}
+                                </button>
+                            ))}
+                          </div>
+                        </div>
+
+                      </div>
+                      <div>
+                        <h2 className='font-bold text-lg'>{t('accessories')}</h2>
+                        <div className='flex flex-wrap gap-2'>
+                          {['Gafas', 'Sombrero', 'Bastón'].map((option) => (
+                              <button
+                                key={option}
+                                className={`px-3 py-1 rounded ${protagonist.accessories?.includes(option) ? 'bg-yellow-500' : 'bg-gray-200'}`}
+                                onClick={() => handleInputChange(protagonist.id, 'accessories', option)}
+                              >
+                                {option}
+                              </button>
+                          ))}
+                        </div>
                         <Textarea
-                          id={`inference-${protagonist.id}`}
-                          value={protagonist.inference || ''}
-                          disabled
-                          className='resize-none mt-1 h-72'
+                          id={`physical-${protagonist.id}`}
+                          className='resize-none'
+                          value={protagonist.physical_description}
+                          onChange={(e) =>
+                            handleInputChange(protagonist.id!, 'physical_description', e.target.value)}
+                          onBlur={(e) =>
+                            handleBlur(protagonist.id!, 'physical_description', e.target.value)}
+                          placeholder='others-accesories_placeholder'
                         />
                       </div>
                     </div>

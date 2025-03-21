@@ -175,8 +175,12 @@ export default function StoryPage ({ params }) {
     }
   }
 
-  const handleChanges = (newContent) => {
-    setStory({ ...story, content: newContent })
+  const handleChanges = (page, newContent) => {
+    setStory((prevStory) => {
+      const updatedContent = [...prevStory.content]
+      updatedContent[page] = { ...updatedContent[page], content: newContent }
+      return { ...prevStory, content: updatedContent }
+    })
   }
 
   // Abre el popup al hacer clic en "Editar"

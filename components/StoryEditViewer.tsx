@@ -116,7 +116,7 @@ export default function StoryEditViewer ({ pages = [], handleChanges }) {
                       '
                       rows={15}
                       value={current.content}
-                      onChange={handleChanges}
+                      onChange={(e) => handleChanges(currentPage, e.target.value)}
                     />
                     <div className='mb-4 max-w-6xl mx-auto hidden md:flex justify-end gap-4 pr-4'>
                       <button
