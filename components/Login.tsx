@@ -49,7 +49,7 @@ export default function Login () {
     }
 
     if (provider === 'custom') {
-      const { data, error } = await supabase.auth.signInWithOtp({
+      const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
           emailRedirectTo: `${window.location.origin}/auth/callback`
@@ -77,7 +77,7 @@ export default function Login () {
         setMessage({ text: t('login_email_sent'), type: 'success' })
       }
     } else {
-      const { data, error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
           redirectTo: `${window.location.origin}/auth/callback`
