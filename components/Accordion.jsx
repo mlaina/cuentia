@@ -9,7 +9,7 @@ function Accordion ({ title, children, isOpen, onClick }) {
           className='px-4 py-4 sm:px-6 flex justify-between items-center cursor-pointer'
           onClick={onClick}
         >
-          <h3 className='text-lg leading-6 text-gray-700 font-bold'>{title}</h3>
+          <h3 className='md:text-lg leading-6 text-gray-700 font-bold'>{title}</h3>
           <ChevronDown
             className={`h-4 w-4 transform transition-transform duration-700 text-gray-900 ${
               isOpen ? 'rotate-180' : ''

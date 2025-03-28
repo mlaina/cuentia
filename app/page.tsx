@@ -249,8 +249,8 @@ export default function Home () {
                     </div>
                 </section>
                 <section id='library' className='w-full background-section-3'>
-                    <div className='container mx-auto px-4 py-12 md:py-16'>
-                        <div className='grid md:max-w-xl lg:max-w-5xl m-auto grid-cols-2 md:grid-cols-4 gap-5 md:gap-10'>
+                    <div className='md:hidden container mx-auto px-4 py-12 md:py-16'>
+                        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-10'>
                             {currentStories.map((story, index) => {
                               const coverImage = story.content?.[0]?.imageUrl
                               return (
@@ -263,12 +263,15 @@ export default function Home () {
                                           src={
                                                 coverImage ||
                                                 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public' ||
+                                                '/placeholder.svg' ||
                                                 '/placeholder.svg'
                                             }
                                           alt='Cover Image'
                                           className='w-full object-cover rounded-md md:rounded-r-md drop-shadow-xl shadow-lg aspect-[3/4]'
                                         />
-                                        <div className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none' />
+                                        <div
+                                          className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none'
+                                        />
                                     </div>
                               )
                             })}
@@ -290,14 +293,41 @@ export default function Home () {
                             </div>
                         )}
                     </div>
+                    <div
+                      className='hidden md:grid px-4 lg:max-w-5xl m-auto md:grid-cols-3 lg:py-10 xl:py-14 lg:grid-cols-4 gap-10'
+                    >
+                        {favoriteStories.map((story, index) => {
+                          const coverImage = story.content?.[0]?.imageUrl
+                          return (
+                                <div
+                                  key={index}
+                                  className='relative w-26 cursor-pointer hover:opacity-90 transition-opacity'
+                                  onClick={() => handleStoryClick(story.id)}
+                                >
+                                    <img
+                                      src={coverImage || 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'}
+                                      alt='Cover Image'
+                                      className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
+                                    />
+                                    <div
+                                      className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none'
+                                    />
+                                </div>
+                          )
+                        })}
+                    </div>
                 </section>
-                <section className='w-full flex justify-center items-center py-12 md:py-16 lg:py-20 background-section-2'>
+                <section
+                  className='w-full flex justify-center items-center py-12 md:py-16 lg:py-20 xl:py-28 background-section-2'
+                >
                     <div className='container max-w-[600px] mx-auto px-4 md:px-6'>
                         <div className='max-w-[600px] mx-auto grid gap-8 md:gap-12 lg:gap-16'>
                             {/* Step 1 */}
                             <div className='flex items-start gap-4 md:gap-8'>
                                 <div className='flex-shrink-0'>
-                                    <div className='flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-gray-600 text-gray-600 text-lg md:text-xl font-semibold'>
+                                    <div
+                                      className='flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-gray-600 text-gray-600 text-lg md:text-xl font-semibold'
+                                    >
                                         1
                                     </div>
                                 </div>
@@ -329,8 +359,7 @@ export default function Home () {
                                 </div>
                                 <div className='space-y-2'>
                                     <h2 className='text-2xl md:text-3xl font-bold text-gray-700'>{t('enjoy_and_share')}</h2>
-                                    <p className='text-gray-600 max-w-lg md:hidden'>{t('enjoy_and_share_description')}</p>
-                                    <p className='text-gray-600 max-w-lg hidden md:block'>Ponte cómodo y prepárate para la aventura.</p>
+                                    <p className='text-gray-600 max-w-lg'>{t('enjoy_and_share_description')}</p>
                                 </div>
                             </div>
                         </div>
