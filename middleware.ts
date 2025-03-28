@@ -1,16 +1,10 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 
-const publicRoutes = [
-  '/',
-  '/legal',
-  '/s/',
-  '/api/webhook',
-  '/image',
-  '/validation',
-  '/auth/callback',
-  '/preview/*'
-]
+const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/image', '/validation', '/auth/callback', '/preview/*']
+
+// Rutas permitidas para usuarios con plan WAITING
+const waitingAllowedRoutes = ['/coming-soon', '/story/']
 
 export async function middleware (req) {
   let res = NextResponse.next()
@@ -36,7 +30,9 @@ export async function middleware (req) {
 
   // Inicializa Supabase en el middleware
   const supabase = createMiddlewareClient({ req, res })
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
 
   if (!user) {
     if (req.nextUrl.pathname !== '/') {
@@ -47,8 +43,27 @@ export async function middleware (req) {
     return res
   }
 
+  // Verificar el plan del usuario en la tabla users
+  const { data: userData, error } = await supabase.from('users').select('plan').eq('user_id', user.id).single()
+
+  // Si el usuario tiene plan WAITING, restringir acceso solo a rutas permitidas
+  if (userData?.plan === 'WAITING') {
+    const isAllowedForWaiting = waitingAllowedRoutes.some(
+      (route) => req.nextUrl.pathname === route || req.nextUrl.pathname.startsWith(route)
+    )
+
+    if (!isAllowedForWaiting) {
+      res = NextResponse.redirect(new URL('/coming-soon', req.url), { status: 303 })
+      res.headers.delete('x-middleware-set-cookie')
+      return res
+    }
+
+    // Si está en una ruta permitida para WAITING, permitir acceso
+    return res
+  }
+
   // Verifica si la ruta es pública
-  const isPublicRoute = publicRoutes.some(route => {
+  const isPublicRoute = publicRoutes.some((route) => {
     if (route.endsWith('/*')) {
       const baseRoute = route.slice(0, -2)
       return req.nextUrl.pathname.startsWith(baseRoute)
@@ -58,10 +73,7 @@ export async function middleware (req) {
 
   // Si el header x-error-status es 400, redirige según el estado del usuario
   if (req.headers.get('x-error-status') === '400') {
-    res = NextResponse.redirect(
-      new URL(user ? '/create' : '/', req.url),
-      { status: 303 }
-    )
+    res = NextResponse.redirect(new URL(user ? '/create' : '/', req.url), { status: 303 })
     res.headers.delete('x-middleware-set-cookie')
     return res
   }
@@ -88,9 +100,9 @@ export async function middleware (req) {
 
   if (
     user &&
-    req.nextUrl.pathname !== '/pricing' &&
-    !isPublicRoute &&
-    (!user?.user_metadata.credits || user?.user_metadata.credits === 0)
+      req.nextUrl.pathname !== '/pricing' &&
+      !isPublicRoute &&
+      (!user?.user_metadata.credits || user?.user_metadata.credits === 0)
   ) {
     res = NextResponse.redirect(new URL('/pricing', req.url), { status: 303 })
     res.headers.delete('x-middleware-set-cookie')

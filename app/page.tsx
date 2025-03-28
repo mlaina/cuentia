@@ -54,7 +54,6 @@ export default function Home () {
         const totalPages = frontpages.length * 2
         const nextPage = currentPage >= totalPages - 2 ? 0 : currentPage + 2
         setCurrentPage(nextPage)
-        console.log(nextPage)
         bookRef.current.pageFlip().turnToPage(nextPage)
       }
     }, 4000)
