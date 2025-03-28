@@ -75,7 +75,7 @@ export default async function PreviewPage ({ params }: PreviewPageProps) {
           {favoriteStories?.length > 0 && (
               <section className='container mx-auto px-4 py-16'>
                 <h2 className='text-3xl font-bold text-secondary mb-8 text-center'>Más historias</h2>
-                <div className='grid md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-6xl mx-auto'>
+                <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-6xl mx-auto'>
                   {favoriteStories.map((story) => {
                     const coverImage = story.content?.[0]?.imageUrl
                     return (

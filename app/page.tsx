@@ -285,7 +285,7 @@ export default function Home () {
                                       type='button'
                                       onClick={() => setCurrentStoryPage(index)}
                                       className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                                            index === currentStoryPage ? 'bg-secondary scale-125' : 'bg-secondary-300 hover:bg-secondary-400'
+                                            index === currentStoryPage ? 'bg-secondary scale-125 w-5' : 'bg-secondary-300 hover:bg-secondary-400 '
                                         }`}
                                       aria-label={`Ver página ${index + 1} de historias`}
                                     />

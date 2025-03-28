@@ -130,7 +130,6 @@ export default function Component ({ pages = [], stream = false, hiddenPageText 
     <div className='absolute inset-0 backdrop-blur-md flex flex-col items-center justify-center z-10 bg-white/50'>
       {!onlyBlur &&
       <>
-        <h3 className='text-secondary-700 text-xl font-bold mb-4'>Descubre mucho más en Imagins</h3>
         <a
           href='/'
           className='px-6 py-3 bg-secondary text-white font-semibold rounded-lg hover:bg-secondary-700 transition-colors'
