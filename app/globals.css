@@ -198,6 +198,14 @@ html {
   background-size: contain;
 }
 
+.background-section-6 {
+  background-image: url('/images/grad-3.svg');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: contain;
+  background-size: 20%;
+}
+
 .background-section-4 {
   background-image: url('/images/grad-4.svg');
   background-repeat: no-repeat;

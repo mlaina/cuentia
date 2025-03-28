@@ -54,7 +54,7 @@ export default function Header () {
   }
 
   return (
-      <header className='bg-white top-0 bg-opacity-70'>
+      <header className='fixed z-50 top-0 w-full bg-white bg-opacity-80 border-b-1 border-white'>
         <div className='max-w-7xl px-8 mx-auto py-4 flex justify-between items-center'>
           <div className='flex justify-between w-full items-center mr-10'>
             <Link href={user && user.user_metadata.credits > 0 ? '/create' : '/pricing'} className='flex items-center'>

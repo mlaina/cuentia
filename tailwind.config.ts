@@ -29,9 +29,17 @@ const config: Config = {
         },
         secondary: {
           DEFAULT: '#B4187F',
-          100: '#F8D7ED',
-          500: '#B4187F',
-          700: '#711B53',
+          50: '#FDF2F9', // Rosa casi blanco
+          100: '#F8D7ED', // Rosa muy claro (ya definido)
+          200: '#F3B0DB', // Rosa claro
+          300: '#E985C4', // Rosa medio claro
+          400: '#D54DA4', // Rosa medio
+          500: '#B4187F', // Rosa fuerte/magenta (color base ya definido)
+          600: '#9A1470', // Magenta oscuro
+          700: '#711B53', // Púrpura rojizo (ya definido)
+          800: '#581542', // Púrpura oscuro
+          900: '#3F1030', // Púrpura muy oscuro
+          950: '#2B0A21', // Casi negro con tinte púrpura
           foreground: 'hsl(var(--secondary-foreground))'
         },
         muted: {

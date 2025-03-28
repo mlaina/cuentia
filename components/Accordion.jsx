@@ -34,7 +34,7 @@ const AccordionList = ({ data }) => {
   const [openIndex, setOpenIndex] = useState(null)
 
   return (
-    <div className='w-full space-y-3 h-[500px]'>
+    <div className='w-full space-y-3 '>
       {data.map((item, index) => (
         <Accordion
           key={index}

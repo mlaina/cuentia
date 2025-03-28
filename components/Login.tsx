@@ -45,7 +45,7 @@ export default function Login () {
   }
 
   return (
-      <div className='lg:absolute lg:left-1/2 lg:top-0 lg:w-[460px] w-full lg:z-30 backdrop-blur-sm rounded-lg lg:mt-6 lg:ml-12 px-4 lg:px-0 lg:shadow-lg'>
+      <div id='login' className='lg:absolute lg:left-1/2 lg:top-0 lg:w-[460px] w-full lg:z-30 backdrop-blur-sm rounded-lg lg:mt-6 lg:ml-12 px-4 lg:px-0 lg:shadow-lg'>
         <div className='border-glow-container rounded-lg p-4 bg-white lg:bg-white/80 backdrop-blur-sm min-h-[240px]'>
           <div className='border-glow absolute inset-0 rounded-lg pointer-events-none min-h-[240px]' />
           {!message.text && (

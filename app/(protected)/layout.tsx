@@ -10,7 +10,9 @@ export default function ProtectedLayout ({
     <div className='flex flex-col h-screen'>
         <main className='flex-1 text-black'>
             <Header />
-            {children}
+            <div className='h-full pt-12'>
+                {children}
+            </div>
         </main>
     </div>
   )

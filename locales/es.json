@@ -17,9 +17,9 @@
   "voice_narration": "Narración por voz",
   "voice_narration_description": "Escucha el cuento narrado con la voz que elijas.",
   "customize_story": "Personaliza la historia",
-  "customize_story_description": "Selecciona el género, define los personajes y el estilo que quieres que tengan las ilustraciones.",
+  "customize_story_description": "Define tus personajes e introduce tu idea.",
   "generate_story": "Genera tu cuento",
-  "generate_story_description": "Nuestra IA empezará a crear una historia totalmente personalizada según tus parámetros en cuestión de segundos.",
+  "generate_story_description": "Nuestra IA empezará a crear una historia totalmente personalizada según tu idea y tus personajes en cuestión de segundos.",
   "enjoy_and_share": "¡Disfruta y comparte!",
   "enjoy_and_share_description": "Ponte cómodo y prepárate para la aventura.",
   "start_your_story": "Empieza tu historia",
@@ -244,7 +244,10 @@
   "cover_image_prompt": "Genera una portada de libro altamente detallada y visualmente impactante basada en el tema principal de la historia. La portada debe representar la esencia de la historia, incorporando elementos clave como la ambientación, la atmósfera y cualquier símbolo relevante. La composición debe ser visualmente atractiva, con un diseño equilibrado y una paleta de colores envolvente. Evita burbujas de diálogo, elementos de texto, JSON o marcas de agua. Asegúrate de que la ilustración transmita eficazmente el estado de ánimo y los temas principales de la historia.\nIdea: {idea}\nSalida en inglés.",
 
   "characters_avialable": "Personajes disponibles",
-  
-  "back_imagins": "«La imaginación es la chispa que enciende los sueños y da forma al futuro. Es el poder de transformar lo imposible en posible, abriendo puertas a ideas y soluciones que desafían los límites. Cuando dejamos volar nuestra mente, conectamos con un potencial ilimitado para crear y reinventar el mundo.» - Imagins Team"
+
+  "back_imagins": "«La imaginación es la chispa que enciende los sueños y da forma al futuro. Es el poder de transformar lo imposible en posible, abriendo puertas a ideas y soluciones que desafían los límites. Cuando dejamos volar nuestra mente, conectamos con un potencial ilimitado para crear y reinventar el mundo.» - Imagins Team",
+  "appeared_stories": "Cuentos:",
+
+  "delete": "Eliminar"
 
 }
