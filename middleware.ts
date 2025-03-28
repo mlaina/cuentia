@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/image', '/validation', '/auth/callback', '/preview/*']
 
 // Rutas permitidas para usuarios con plan WAITING
-const waitingAllowedRoutes = ['/coming-soon', '/story/']
+const waitingAllowedRoutes = ['/coming-soon', '/story-view/']
 
 export async function middleware (req) {
   let res = NextResponse.next()
