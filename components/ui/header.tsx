@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { User as UserIcon, LogOut, BookOpen, Coins, Library, PersonStanding } from 'lucide-react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export default function Header () {
   const t = useTranslations()
@@ -17,14 +18,19 @@ export default function Header () {
   const user = useUser()
   const [isPopoverOpen, setPopoverOpen] = useState(false)
   const [isSuperAdmin, setIsSuperAdmin] = useState(false)
+  const [isComingSoon, setIsComingSoon] = useState(true)
 
   useEffect(() => {
     async function checkSuperAdminStatus () {
       if (!user) return
 
       try {
-        // Consultar el estado de super admin directamente desde auth.users
-        // Nota: Esto requiere permisos especiales o una función RPC
+        const { data: dataUser } = await supabase.from('users').select('plan, credits')
+          .eq('user_id', user.id)
+          .single()
+
+        setIsComingSoon(dataUser.plan === 'WAITING')
+
         const { data, error } = await supabase.rpc('check_is_super_admin')
 
         if (error) throw error
@@ -60,6 +66,7 @@ export default function Header () {
             <Link href={user && user.user_metadata.credits > 0 ? '/create' : '/pricing'} className='flex items-center'>
               <BookOpen className='w-10 h-10 mr-2 text-secondary' />
             </Link>
+            {!isComingSoon &&
             <div className='gap-4 hidden md:flex'>
               <Link href='/characters' className='text-primary text-md hover:text-secondary'>
                 {t('characters')}
@@ -71,7 +78,7 @@ export default function Header () {
                 <Link href='/all-stories' className='text-primary text-md hover:text-secondary'>
                     Admin
                 </Link>}
-            </div>
+            </div>}
           </div>
           {user && user.user_metadata.credits > 0 && (
               <Link href='/pricing' className='text-primary mr-4 flex hover:text-secondary'>
@@ -102,6 +109,7 @@ export default function Header () {
                     <div className='text-secondary font-bold'>
                       {user.user_metadata?.name || user.email}
                     </div>
+                    {!isComingSoon &&
                     <div className='gap-4 flex flex-col md:hidden'>
                       <Link href='/characters' className='text-md hover:text-secondary'>
                         <Button variant='outline' className='w-full justify-start'>
@@ -119,16 +127,17 @@ export default function Header () {
                         <Link href='/all-stories' className='text-md hover:text-secondary'>
                           <Button variant='outline' className='w-full justify-start'>
                             <Library className='mr-2 h-4 w-4' />
-                            {t('library')}
+                            Admin
                           </Button>
                         </Link>}
-                    </div>
+                    </div>}
+                    {!isComingSoon &&
                     <Link href='/profile'>
                       <Button variant='outline' className='w-full justify-start'>
                         <UserIcon className='mr-2 h-4 w-4' />
                         {t('profile')}
                       </Button>
-                    </Link>
+                    </Link>}
                     <Button
                       variant='outline'
                       className='w-full justify-start'

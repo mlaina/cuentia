@@ -229,6 +229,9 @@
   "loading_step_5_emoji": "🐺",
   "loading_step_5_emoji_label": "trainen",
 
+  "coming_soon_title": "Binnenkort beschikbaar!",
+  "coming_soon_description": "We laten je binnenkort weten wanneer imagins klaar is om je eigen verhalen te maken. Geniet in de tussentijd van de verhalen van anderen.",
+
   "system_mission": "Jouw opdracht is om een kinderverhaal te maken met {length} pagina's, vol actie en spanning. Je zult het verhaal vertellen in de tekst van elke pagina. Het verhaal moet een begin, een climax en een ontknoping hebben.",
   "system_format": "Het verhaal moet het volgende formaat volgen:\n- **Titel:** Een korte titel van 2-3 woorden. Het moet origineel en creatief zijn.\n- **Hoofdelement:** Beschrijf locaties, objecten of andere belangrijke elementen die cruciaal zijn voor het verhaal.\n- **Personages:** Een lijst met personages, waarbij elk item een string is die de naam en een volledige beschrijving bevat (leeftijd, uiterlijk, kleur van kleding en andere relevante kenmerken). Voeg details toe over de kleding die ze in het verhaal dragen, vooral de kleur.\n- **Index:** Een lijst van pagina's. Elke pagina moet bevatten:\n   • Paginanummer.\n   • **Tekst:** Schrijf een alinea van ten minste 100 woorden waarin de gebeurtenissen op die pagina in detail worden beschreven (vermijd beschrijvingen). Voeg dialogen toe (maak de dialogen **vetgedrukt**, zodat ze niet eindigen met een komma) en acties.\n   • **Verschijnende personages:** Een lijst met de namen van de personages die op die pagina verschijnen (de lijst kan leeg zijn of één of meerdere namen bevatten). Zorg ervoor dat niet alle personages op elke pagina verschijnen.",
   "system_remember": "Onthoud dat de samenvatting van elke pagina geen beschrijvingen mag bevatten; het moet alleen actie en dialogen bevatten.",

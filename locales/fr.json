@@ -229,6 +229,9 @@
   "loading_step_5_emoji": "🐺",
   "loading_step_5_emoji_label": "entraîner",
 
+  "coming_soon_title": "Bientôt disponible !",
+  "coming_soon_description": "Nous vous informerons bientôt lorsque imagins sera prêt pour que vous puissiez créer vos propres histoires. En attendant, profitez de celles des autres.",
+
   "system_mission": "Votre mission est de créer une histoire pour enfants de {length} pages, pleine d'action et d'excitation. Vous raconterez l'histoire dans le texte de chaque page. L'histoire doit comporter un début, un climax et une résolution.",
   "system_format": "L'histoire doit suivre ce format :\n- **Titre :** Un titre court de 2-3 mots. Il doit être original et créatif.\n- **Élément principal :** Décrivez les lieux, objets ou autres éléments clés qui sont essentiels à l'histoire.\n- **Personnages :** Une liste de personnages, où chaque élément est une chaîne comprenant le nom et une description complète (âge, apparence, couleur des vêtements, et autres caractéristiques pertinentes). Incluez des détails sur les vêtements qu'ils portent dans l'histoire, en particulier leur couleur.\n- **Index :** Une liste de pages. Chaque page doit inclure :\n   • Numéro de page.\n   • **Texte :** Rédigez d'au moins 100 mots détaillant les événements de cette page (évitez les descriptions). Incluez des dialogues (mettez les dialogues en **gras**, pour qu'ils ne finissent pas par une virgule) et des actions.\n   • **Personnages apparaissant :** Une liste avec les noms des personnages qui apparaissent sur cette page (elle peut être vide ou contenir un ou plusieurs noms). Évitez que tous les personnages apparaissent sur chaque page.",
   "system_remember": "N'oubliez pas que le résumé de chaque page ne doit pas inclure de descriptions ; il doit contenir uniquement des actions et des dialogues.",

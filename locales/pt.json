@@ -229,6 +229,9 @@
   "loading_step_5_emoji": "🐺",
   "loading_step_5_emoji_label": "treinando",
 
+  "coming_soon_title": "Em breve!",
+  "coming_soon_description": "Avisaremos em breve quando o imagins estiver pronto para você criar suas próprias histórias. Enquanto isso, aproveite as histórias de outras pessoas.",
+
   "system_mission": "Sua missão é criar uma história infantil com {length} páginas, repleta de ação e emoção. Você contará a história no texto de cada página. A história deve ter um início, um clímax e uma resolução.",
   "system_format": "A história deve seguir este formato:\n- **Título:** Um título curto de 2-3 palavras. Deve ser original e criativo.\n- **Elemento principal:** Descreva locais, objetos ou outros elementos-chave que são cruciais para a história.\n- **Personagens:** Uma lista de personagens, onde cada elemento é uma string que inclui o nome e uma descrição completa (idade, aparência, cor da roupa e outras características relevantes). Inclua detalhes sobre as roupas que eles usam na história, especialmente a cor.\n- **Índice:** Uma lista de páginas. Cada página deve incluir:\n   • Número da página.\n   • **Texto:** Desenvolva com pelo menos 100 palavras detalhando os eventos desta página (evite descrições). Inclua diálogos (deixe os diálogos em **negrito**, para que não terminem com uma vírgula) e ações.\n   • **Personagens que aparecem:** Uma lista com os nomes dos personagens que aparecem nessa página (pode estar vazia ou conter um ou vários nomes). Evite que todos os personagens apareçam em cada página.",
   "system_remember": "Lembre-se de que o resumo de cada página não deve incluir descrições; ele deve conter apenas ação e diálogos.",

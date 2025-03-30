@@ -229,6 +229,10 @@
   "loading_step_5_emoji": "🐺",
   "loading_step_5_emoji_label": "trainieren",
 
+  "coming_soon_title": "Kommt bald!",
+  "coming_soon_description": "Wir lassen dich bald wissen, wann imagins bereit ist, damit du deine eigenen Geschichten erstellen kannst. In der Zwischenzeit genieße die Geschichten anderer.",
+
+
   "system_mission": "Deine Aufgabe ist es, eine Kindergeschichte mit {length} Seiten zu erstellen, die voller Action und Spannung ist. Du wirst die Geschichte im Text jeder Seite erzählen. Die Geschichte muss einen Anfang, einen Höhepunkt und eine Auflösung haben.",
   "system_format": "Die Geschichte muss folgendem Format folgen:\n- **Titel:** Ein kurzer Titel von 2-3 Wörtern. Er sollte originell und kreativ sein.\n- **Hauptbestandteil:** Beschreibe Orte, Gegenstände oder andere Schlüsselelemente, die für die Geschichte entscheidend sind.\n- **Charaktere:** Eine Liste von Charakteren, bei denen jedes Element ein String ist, der den Namen und eine vollständige Beschreibung (Alter, Aussehen, Kleidungfarbe und andere relevante Merkmale) enthält. Füge Details über die Kleidung hinzu, die sie in der Geschichte tragen, insbesondere deren Farbe.\n- **Index:** Eine Liste von Seiten. Jede Seite muss enthalten:\n   • Seitenzahl.\n   • **Text:** Entwickle einen Absatz mit mindestens 100 Wörtern, der die Ereignisse dieser Seite detailliert beschreibt (beschreibende Texte vermeiden). Füge Dialoge (mache die Dialoge **fett** und vermeide, dass sie in einem Komma enden) und Aktionen ein.\n   • **Erschienene Charaktere:** Eine Liste mit den Namen der Charaktere, die auf dieser Seite erscheinen (kann leer sein oder einen oder mehrere enthalten). Vermeide, dass alle Charaktere auf jeder Seite erscheinen.",
   "system_remember": "Denke daran, dass die Zusammenfassung jeder Seite keine Beschreibungen enthalten sollte; sie muss ausschließlich Aktion und Dialoge umfassen.",
