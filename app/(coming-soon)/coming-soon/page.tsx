@@ -36,7 +36,8 @@ export default function Home () {
       >
           <div className='flex flex-col justify-center gap-4 mt-12'>
               <img
-                className='md:max-w-[400px] mb-4'
+                alt='Footprints'
+                className='hidden md:block md:max-w-[400px] mb-4'
                 src='/images/footprints.svg'
               />
               <h1 className='text-secondary text-center text-2xl md:text-5xl font-bold'>{t('coming_soon_title')}</h1>

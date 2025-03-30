@@ -9,7 +9,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { User as UserIcon, LogOut, BookOpen, Coins, Library, PersonStanding } from 'lucide-react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export default function Header () {
   const t = useTranslations()
