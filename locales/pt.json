@@ -251,6 +251,26 @@
   "no_more_stories": "Não há mais histórias para mostrar.",
   "back_imagins": "«A imaginação é a centelha que acende os sonhos e molda o futuro. É o poder de transformar o impossível em possível, abrindo portas para ideias e soluções que desafiam os limites. Quando deixamos nossa mente voar, conectamo-nos com um potencial ilimitado para criar e reinventar o mundo.» - Imagins Team",
   "appeared_stories": "Histórias:",
+
+  "error_loading_ideas": "Erro ao carregar as ideias",
+  "error_loading_protagonists": "Erro ao carregar os protagonistas",
+  "error_creating_story": "Erro ao criar a história",
+  "inspirational.title_line1": "Comece",
+  "inspirational.title_line2": "a sonhar",
+  "ready_to_dream": "Pronto para sonhar?",
+  "story_description_instruction": "Escreva uma breve descrição da sua história. Lembre-se de adicionar os protagonistas que você criou anteriormente com @nome ou clicando neles.",
+  "no_protagonists_yet": "Você ainda não tem protagonistas.",
+  "create_one_here": "Crie um aqui",
+  "story_description_placeholder": "Comece sua história e deixe a magia acontecer...",
+  "generate_random_idea": "Gerar ideia aleatória",
+  "characters_available": "Seus protagonistas",
+  "story_length": "Comprimento da história",
+  "min_pages": "6 páginas",
+  "max_pages": "20 páginas",
+  "creating": "Criando...",
+  "create_story": "Criar história",
+  "inspirational_title_line1": "Comece",
+  "inspirational_title_line2": "a sonhar",
   "delete": "Excluir"
 }
 

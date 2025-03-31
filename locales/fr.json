@@ -252,6 +252,27 @@
 
   "back_imagins": "« L'imagination est l'étincelle qui allume les rêves et façonne l'avenir. C'est le pouvoir de transformer l'impossible en possible, en ouvrant des portes à des idées et des solutions qui défient les limites. Lorsque nous laissons notre esprit s'envoler, nous nous connectons à un potentiel illimité pour créer et réinventer le monde. » - Imagins Team",
   "appeared_stories": "Contes:",
+
+  "error_loading_ideas": "Erreur lors du chargement des idées",
+  "error_loading_protagonists": "Erreur lors du chargement des protagonistes",
+  "error_creating_story": "Erreur lors de la création de l'histoire",
+  "inspirational.title_line1": "Commencez",
+  "inspirational.title_line2": "à rêver",
+  "ready_to_dream": "Prêt à rêver ?",
+  "story_description_instruction": "Écrivez une brève description de votre histoire. N'oubliez pas d'ajouter les protagonistes que vous avez créés précédemment avec @nom ou en cliquant dessus.",
+  "no_protagonists_yet": "Vous n'avez pas encore de protagonistes.",
+  "create_one_here": "Créez-en un ici",
+  "story_description_placeholder": "Commencez votre histoire et laissez la magie opérer...",
+  "generate_random_idea": "Générer une idée aléatoire",
+  "characters_available": "Vos protagonistes",
+  "story_length": "Longueur de l'histoire",
+  "min_pages": "6 pages",
+  "max_pages": "20 pages",
+  "creating": "Création en cours...",
+  "create_story": "Créer l'histoire",
+  "inspirational_title_line1": "Commencez",
+  "inspirational_title_line2": "à rêver",
+
   "delete": "Supprimer"
 }
 

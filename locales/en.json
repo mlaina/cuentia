@@ -252,6 +252,26 @@
 
   "back_imagins": "\"Imagination is the spark that ignites dreams and shapes the future. It is the power to turn the impossible into possible, opening doors to ideas and solutions that challenge limits. When we let our minds soar, we connect with an unlimited potential to create and reinvent the world.\" - Imagins Team",
   "appeared_stories": "Stories:",
+  "error_loading_ideas": "Error loading ideas",
+  "error_loading_protagonists": "Error loading protagonists",
+  "error_creating_story": "Error creating story",
+  "inspirational.title_line1": "Start",
+  "inspirational.title_line2": "dreaming",
+  "ready_to_dream": "Ready to dream?",
+  "story_description_instruction": "Write a brief description of your story. Remember to add the protagonists you created earlier with @name or by clicking on them.",
+  "no_protagonists_yet": "You don't have any protagonists yet.",
+  "create_one_here": "Create one here",
+  "story_description_placeholder": "Start your story and let the magic begin...",
+  "generate_random_idea": "Generate random idea",
+  "characters_available": "Your protagonists",
+  "story_length": "Story length",
+  "min_pages": "6 pages",
+  "max_pages": "20 pages",
+  "creating": "Creating...",
+  "create_story": "Create story",
+  "inspirational_title_line1": "Start",
+  "inspirational_title_line2": "dreaming",
+
 
   "delete": "Delete"
 

@@ -251,7 +251,24 @@
 
   "back_imagins": "«La imaginación es la chispa que enciende los sueños y da forma al futuro. Es el poder de transformar lo imposible en posible, abriendo puertas a ideas y soluciones que desafían los límites. Cuando dejamos volar nuestra mente, conectamos con un potencial ilimitado para crear y reinventar el mundo.» - Imagins Team",
   "appeared_stories": "Cuentos:",
-
+  "error_loading_ideas": "Error al cargar las ideas",
+  "error_loading_protagonists": "Error al cargar los protagonistas",
+  "error_creating_story": "Error al crear el cuento",
+  "inspirational.title_line1": "Empieza",
+  "inspirational.title_line2": "a soñar",
+  "ready_to_dream": "¿Listo para soñar?",
+  "story_description_instruction": "Escribe una descripción breve de tu cuento. Recuerda añadir a los protagonistas que creaste anteriormente con @nombre o pulsando sobre ellos.",
+  "no_protagonists_yet": "Aún no tienes protagonistas.",
+  "create_one_here": "Crea uno aquí",
+  "story_description_placeholder": "Inicia tu cuento y deja que empiece la magia...",
+  "generate_random_idea": "Generar idea aleatoria",
+  "characters_available": "Tus protagonistas",
+  "story_length": "Longitud del cuento",
+  "min_pages": "6 páginas",
+  "max_pages": "20 páginas",
+  "creating": "Creando...",
+  "inspirational_title_line1": "Empieza",
+  "inspirational_title_line2": "a soñar",
   "delete": "Eliminar",
   "annual": "Anual"
 

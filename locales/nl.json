@@ -252,5 +252,22 @@
 
   "back_imagins": "„Verbeelding is de vonk die dromen aanwakkert en de toekomst vormgeeft. Het is de kracht om het onmogelijke mogelijk te maken, deuren te openen naar ideeën en oplossingen die grenzen uitdagen. Wanneer we onze geest laten vliegen, verbinden we ons met een onbeperkt potentieel om de wereld te creëren en opnieuw uit te vinden.“ - Imagins Team",
   "appeared_stories": "Verhalen:",
+  "error_loading_ideas": "Fout bij het laden van ideeën",
+  "error_loading_protagonists": "Fout bij het laden van de hoofdpersonen",
+  "error_creating_story": "Fout bij het aanmaken van het verhaal",
+  "inspirational_title_line1": "Begin",
+  "inspirational_title_line2": "met dromen",
+  "ready_to_dream": "Klaar om te dromen?",
+  "story_description_instruction": "Schrijf een korte beschrijving van je verhaal. Vergeet niet de hoofdpersonen toe te voegen die je eerder hebt aangemaakt met @naam of door erop te klikken.",
+  "no_protagonists_yet": "Je hebt nog geen hoofdpersonen.",
+  "create_one_here": "Maak er hier een aan",
+  "story_description_placeholder": "Begin je verhaal en laat de magie beginnen...",
+  "generate_random_idea": "Genereer willekeurig idee",
+  "characters_available": "Je hoofdpersonen",
+  "story_length": "Lengte van het verhaal",
+  "min_pages": "6 pagina's",
+  "max_pages": "20 pagina's",
+  "creating": "Aanmaken...",
+  "create_story": "Verhaal aanmaken",
   "delete": "Verwijderen"
 }

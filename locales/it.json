@@ -251,5 +251,27 @@
 
   "back_imagins": "«L'immaginazione è la scintilla che accende i sogni e dà forma al futuro. È il potere di trasformare l'impossibile in possibile, aprendo porte a idee e soluzioni che sfidano i limiti. Quando lasciamo volare la nostra mente, ci connettiamo con un potenziale illimitato per creare e reinventare il mondo.» - Imagins Team",
   "appeared_stories": "Fiabe:",
+
+  "error_loading_ideas": "Errore nel caricamento delle idee",
+  "error_loading_protagonists": "Errore nel caricamento dei protagonisti",
+  "error_creating_story": "Errore nella creazione della storia",
+  "inspirational.title_line1": "Inizia",
+  "inspirational.title_line2": "a sognare",
+  "ready_to_dream": "Pronto a sognare?",
+  "story_description_instruction": "Scrivi una breve descrizione della tua storia. Ricorda di aggiungere i protagonisti che hai creato in precedenza con @nome o cliccandoci sopra.",
+  "no_protagonists_yet": "Non hai ancora creato protagonisti.",
+  "create_one_here": "Creane uno qui",
+  "story_description_placeholder": "Inizia la tua storia e lascia che la magia abbia inizio...",
+  "generate_random_idea": "Genera idea casuale",
+  "characters_available": "I tuoi protagonisti",
+  "story_length": "Lunghezza della storia",
+  "min_pages": "6 pagine",
+  "max_pages": "20 pagine",
+  "creating": "Creazione in corso...",
+  "create_story": "Crea la storia",
+  "inspirational_title_line1": "Inizia",
+  "inspirational_title_line2": "a sognare",
+
+
   "delete": "Elimina"
 }

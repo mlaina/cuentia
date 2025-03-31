@@ -251,6 +251,27 @@
 
   "back_imagins": "Die Vorstellungskraft ist der Funke, der Träume entzündet und die Zukunft gestaltet. Sie ist die Kraft, das Unmögliche möglich zu machen, Türen zu Ideen und Lösungen zu öffnen, die Grenzen herausfordern. Wenn wir unseren Geist fliegen lassen, verbinden wir uns mit einem unbegrenzten Potenzial, die Welt zu erschaffen und neu zu erfinden.“ - Imagins Team",
   "appeared_stories": "Geschichten:",
+
+  "error_loading_ideas": "Fehler beim Laden der Ideen",
+  "error_loading_protagonists": "Fehler beim Laden der Protagonisten",
+  "error_creating_story": "Fehler beim Erstellen der Geschichte",
+  "inspirational.title_line1": "Fang an",
+  "inspirational.title_line2": "zu träumen",
+  "ready_to_dream": "Bereit zu träumen?",
+  "story_description_instruction": "Schreibe eine kurze Beschreibung deiner Geschichte. Denke daran, die Protagonisten hinzuzufügen, die du zuvor mit @Name erstellt oder angeklickt hast.",
+  "no_protagonists_yet": "Du hast noch keine Protagonisten.",
+  "create_one_here": "Erstelle hier einen",
+  "story_description_placeholder": "Beginne deine Geschichte und lass die Magie beginnen...",
+  "generate_random_idea": "Zufällige Idee generieren",
+  "characters_available": "Deine Protagonisten",
+  "story_length": "Geschichtslänge",
+  "min_pages": "6 Seiten",
+  "max_pages": "20 Seiten",
+  "creating": "Erstelle...",
+  "create_story": "Geschichte erstellen",
+  "inspirational_title_line1": "Fang an",
+  "inspirational_title_line2": "zu träumen",
+
   "delete": "Löschen"
 
 }
