@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { Textarea } from '@/components/ui/textarea'
+import { useEffect, useState } from 'react'
 import { Wand2 } from 'lucide-react'
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { Slider } from '@/components/ui/slider'
