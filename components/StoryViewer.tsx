@@ -131,6 +131,10 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
           <HTMLFlipBook
             width={550}
             height={700}
+            minWidth={315}
+            maxWidth={1000}
+            minHeight={400}
+            maxHeight={1533}
             size='stretch'
             maxShadowOpacity={0.2}
             showCover
@@ -139,7 +143,7 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
               setCurrentPage(Math.floor(e.data))
             }}
             ref={bookRef}
-            className='mx-auto cursor-grab'
+            className='mx-auto cursor-grab rounded-sm'
             style={{
               '--page-shadow-color': 'rgba(0, 0, 0, 0.1)'
             } as React.CSSProperties}
@@ -198,12 +202,27 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
                 <div className='page-content h-full flex justify-center pb-8 items-center px-8'>
                   {page.imageUrl
                     ? (
-                      <img src={page.imageUrl} alt={`Image for page ${index * 2 + 2}`} className='max-h-full max-w-full rounded-md' />
+                          <div className='relative max-h-full max-w-full rounded-md overflow-hidden'>
+                            <img
+                              src={page.imageUrl}
+                              alt={`Image for page ${index * 2 + 2}`}
+                              className='max-h-full max-w-full rounded-md object-cover'
+                            />
+                            <div
+                              className='absolute bottom-0 left-0 w-full h-[6%] bg-gradient-to-t from-black/90 to-transparent pointer-events-none rounded-b-md'
+                            />
+                          </div>
                       )
                     : (
-                      <div className='relative border-glow-container rounded-md max-w-full max-h-full overflow-hidden shadow-inner shadow-md'>
-                        <img alt='loading' src='https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public' className='w-full h-full object-cover ' />
-                        <div className='border-glow absolute inset-0 rounded-md pointer-events-none transition-opacity' />
+                          <div
+                            className='relative border-glow-container rounded-md max-w-full max-h-full overflow-hidden shadow-inner shadow-md'
+                          >
+                            <img
+                              alt='loading'
+                              src='https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'
+                              className='w-full h-full object-cover '
+                            />
+                            <div className='border-glow absolute inset-0 rounded-md pointer-events-none transition-opacity' />
                       </div>
                       )}
                 </div>

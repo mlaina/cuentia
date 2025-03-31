@@ -314,7 +314,26 @@
   "extra_personality": "Zusätzliche Persönlichkeitsdetails",
   "extra_appearance": "Zusätzliche Erscheinungsdetails",
   "other": "Andere",
-  "gorro": "Beanie"
+  "gorro": "Beanie",
+  "cover_alt": "Umschlag",
+  "backcover_alt": "Rückseite",
+  "page_image_alt": "Seitenbild",
+  "customize_story_title": "Passe deine Geschichte an und bearbeite sie",
+  "customize_story_edit_text": "Bearbeite den Text manuell oder mit Hilfe von KI",
+  "customize_story_replace_images": "Ersetze die Illustrationen durch Bilder oder erstelle neue",
+  "cancel": "Abbrechen",
+  "next": "Weiter",
+  "error_fetching_story": "Fehler beim Abrufen der Geschichte",
+  "story_not_found": "Geschichte nicht gefunden",
+  "error_generating_epub": "Fehler beim Erstellen der EPUB-Datei",
+  "error_converting_epub": "Fehler bei der Umwandlung in EPUB",
+  "error_generating_pdf": "Fehler beim Erstellen des PDFs",
+  "error_saving_story": "Fehler beim Speichern der Geschichte",
+  "error_sharing": "Fehler beim Teilen",
+  "error_copying": "Fehler beim Kopieren",
+  "text_copied": "Text kopiert",
+  "generate_image": "Bild generieren",
+  "upload_image": "Bild hochladen"
 
 }
 

@@ -314,6 +314,25 @@
   "extra_personality": "Detalhes adicionais da personalidade",
   "extra_appearance": "Detalhes adicionais da aparência",
   "other": "Outro",
-  "gorro": "Gorro"
+  "gorro": "Gorro",
+  "cover_alt": "Capa",
+  "backcover_alt": "Contracapa",
+  "page_image_alt": "Imagem da página",
+  "customize_story_title": "Personalize e edite sua história",
+  "customize_story_edit_text": "Edite o texto manualmente ou com a ajuda da IA",
+  "customize_story_replace_images": "Substitua as ilustrações por imagens ou gere novas",
+  "cancel": "Cancelar",
+  "next": "Próximo",
+  "error_fetching_story": "Erro ao buscar a história",
+  "story_not_found": "História não encontrada",
+  "error_generating_epub": "Erro ao gerar EPUB",
+  "error_converting_epub": "Erro ao converter para EPUB",
+  "error_generating_pdf": "Erro ao gerar PDF",
+  "error_saving_story": "Erro ao salvar a história",
+  "error_sharing": "Erro ao compartilhar",
+  "error_copying": "Erro ao copiar",
+  "text_copied": "Texto copiado",
+  "generate_image": "Gerar imagem",
+  "upload_image": "Carregar imagem"
 }
 

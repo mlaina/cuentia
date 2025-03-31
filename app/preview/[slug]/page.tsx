@@ -1,10 +1,11 @@
+'use client'
+
 import Preview from '@/components/Preview'
-import { notFound } from 'next/navigation'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 import { BookOpen } from 'lucide-react'
-import React from 'react'
+import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 interface PreviewPageProps {
   params: {
@@ -12,48 +13,55 @@ interface PreviewPageProps {
   }
 }
 
-async function getStoryBySlug (slug: string) {
-  try {
-    const supabase = createServerComponentClient({ cookies })
-    const { data, error } = await supabase
-      .from('stories')
-      .select('*')
-      .eq('id', slug)
-      .single()
+const IMAGINS =
+    '"La imaginación es la chispa que enciende los sueños y da forma al futuro. Es el poder de transformar lo imposible en posible, abriendo puertas a ideas y soluciones que desafían los límites. Cuando dejamos volar nuestra mente, conectamos con un potencial ilimitado para crear y reinventar el mundo."'
 
-    if (error) {
-      console.error('Error fetching story:', error)
-      return null
+export default function PreviewPage ({ params }: PreviewPageProps) {
+  const { slug } = params
+  const [favoriteStories, setFavoriteStories] = useState([])
+  const [story, setStory] = useState({ content: [] })
+  const [isLoading, setIsLoading] = useState(true)
+  const t = useTranslations()
+  const supabase = createClientComponentClient()
+
+  useEffect(() => {
+    async function fetchData () {
+      try {
+        setIsLoading(true)
+
+        // Fetch favorite stories
+        const { data: favData, error: favError } = await supabase.from('stories').select('id, content').eq('fav', true)
+
+        if (favError) {
+          console.error('Error fetching favorite stories:', favError)
+        } else {
+          setFavoriteStories(favData || [])
+        }
+
+        // Fetch current story
+        const { data: storyData, error: storyError } = await supabase
+          .from('stories')
+          .select('*')
+          .eq('id', slug)
+          .single()
+
+        if (storyError) {
+          console.error('Error fetching story:', storyError)
+        } else {
+          setStory(storyData || { content: [] })
+        }
+      } catch (error) {
+        console.error('Error in data fetching:', error)
+      } finally {
+        setIsLoading(false)
+      }
     }
 
-    return data
-  } catch (error) {
-    console.error('Error fetching story:', error)
-    return null
-  }
-}
-
-const IMAGINS = '"La imaginación es la chispa que enciende los sueños y da forma al futuro. Es el poder de transformar lo imposible en posible, abriendo puertas a ideas y soluciones que desafían los límites. Cuando dejamos volar nuestra mente, conectamos con un potencial ilimitado para crear y reinventar el mundo."'
-
-export default async function PreviewPage ({ params }: PreviewPageProps) {
-  const { slug } = params
-  const story = await getStoryBySlug(slug)
-
-  // Fetch favorite stories for the gallery, excluding the current story
-  const supabase = createServerComponentClient({ cookies })
-  const { data: favoriteStories } = await supabase
-    .from('stories')
-    .select('*')
-    .eq('fav', true)
-    .neq('id', slug)
-    .limit(8)
-
-  if (!story) {
-    notFound()
-  }
+    fetchData()
+  }, [supabase, slug])
 
   return (
-      <div className='relative min-h-screen overflow-hidden bg-white'>
+      <div className='relative min-h-screen overflow-hidden bg-white background-section-1-small'>
         <header id='top' className='container mx-auto max-w-6xl py-4 pt-6 px-8'>
           <nav className='flex justify-between items-center'>
             <Link href='/' className='text-3xl font-bold text-gray-800 flex items-center'>
@@ -61,20 +69,32 @@ export default async function PreviewPage ({ params }: PreviewPageProps) {
               <p className='text-secondary text-4xl font-bold'>Imagins</p>
             </Link>
             <div className='hidden md:flex space-x-8 text-md'>
-              <a href='/#library' className='text-primary font-bold hover:text-secondary'>Librería</a>
-              <a href='/#pricing' className='text-primary font-bold hover:text-secondary'>Precios</a>
+              <a href='/#library' className='text-primary font-bold hover:text-secondary'>
+                {t('library')}
+              </a>
+              <a href='/#pricing' className='text-primary font-bold hover:text-secondary'>
+                {t('pricing')}
+              </a>
             </div>
           </nav>
         </header>
 
-        <main className='background-section-1-small lg:background-section-1'>
+        <main className=' lg:background-section-1'>
           <div className='container mx-auto px-4 py-8'>
-            <Preview pages={story.content} hiddenPageText={IMAGINS} />
+            {isLoading
+              ? (
+                <div className='flex justify-center items-center h-64'>
+                  <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-secondary' />
+                </div>
+                )
+              : (
+                <Preview pages={story.content} hiddenPageText={IMAGINS} />
+                )}
           </div>
 
           {favoriteStories?.length > 0 && (
               <section className='container mx-auto px-4 py-16'>
-                <h2 className='text-3xl font-bold text-secondary mb-8 text-center'>Más historias</h2>
+                <h2 className='text-3xl font-bold text-secondary mb-8 text-center'>{t('more_stories')}</h2>
                 <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-6xl mx-auto'>
                   {favoriteStories.map((story) => {
                     const coverImage = story.content?.[0]?.imageUrl
@@ -82,13 +102,14 @@ export default async function PreviewPage ({ params }: PreviewPageProps) {
                         <Link key={story.id} href={`/preview/${story.id}`}>
                           <div className='relative w-26 cursor-pointer hover:opacity-90 transition-opacity'>
                             <img
-                              src={coverImage || 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'}
+                              src={
+                                    coverImage ||
+                                    'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'
+                                }
                               alt='Cover Image'
                               className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
                             />
-                            <div
-                              className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none'
-                            />
+                            <div className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none' />
                           </div>
                         </Link>
                     )

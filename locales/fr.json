@@ -315,6 +315,25 @@
   "extra_personality": "Détails supplémentaires sur la personnalité",
   "extra_appearance": "Détails supplémentaires sur l'apparence",
   "other": "Autre",
-  "gorro": "Bonnet"
+  "gorro": "Bonnet",
+  "cover_alt": "Couverture",
+  "backcover_alt": "Quatrième de couverture",
+  "page_image_alt": "Image de page",
+  "customize_story_title": "Personnalisez et modifiez votre histoire",
+  "customize_story_edit_text": "Modifiez le texte manuellement ou avec l'aide de l'IA",
+  "customize_story_replace_images": "Remplacez les illustrations par des images ou générez-en de nouvelles",
+  "cancel": "Annuler",
+  "next": "Suivant",
+  "error_fetching_story": "Erreur lors de la récupération de l'histoire",
+  "story_not_found": "Histoire non trouvée",
+  "error_generating_epub": "Erreur lors de la génération de l'EPUB",
+  "error_converting_epub": "Erreur lors de la conversion en EPUB",
+  "error_generating_pdf": "Erreur lors de la génération du PDF",
+  "error_saving_story": "Erreur lors de l'enregistrement de l'histoire",
+  "error_sharing": "Erreur lors du partage",
+  "error_copying": "Erreur lors de la copie",
+  "text_copied": "Texte copié",
+  "generate_image": "Générer image",
+  "upload_image": "Téléverser image"
 }
 

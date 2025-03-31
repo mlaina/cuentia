@@ -313,6 +313,25 @@
   "extra_personality": "Detalles adicionales de personalidad",
   "extra_appearance": "Detalles adicionales de apariencia",
   "other": "Otro",
-  "gorro": "Gorro"
+  "gorro": "Gorro",
+  "cover_alt": "Portada",
+  "backcover_alt": "Contraportada",
+  "page_image_alt": "Imagen de página",
+  "customize_story_title": "Personaliza y edita tu cuento",
+  "customize_story_edit_text": "Edita el texto manualmente o con ayuda de la IA",
+  "customize_story_replace_images": "Reemplaza las ilustraciones por imágenes o genera nuevas",
+  "cancel": "Cancelar",
+  "next": "Siguiente",
+  "error_fetching_story": "Error al obtener el cuento",
+  "story_not_found": "Cuento no encontrado",
+  "error_generating_epub": "Error al generar el EPUB",
+  "error_converting_epub": "Error al convertir a EPUB",
+  "error_generating_pdf": "Error al generar el PDF",
+  "error_saving_story": "Error al guardar el cuento",
+  "error_sharing": "Error al compartir",
+  "error_copying": "Error al copiar",
+  "text_copied": "Texto copiado",
+  "generate_image": "Generar imagen",
+  "upload_image": "Subir imagen"
 
 }

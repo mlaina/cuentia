@@ -3,9 +3,11 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, Atom } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 export default function StoryEditViewer ({ pages = [], handleChanges }) {
   const [currentPage, setCurrentPage] = useState(0)
+  const t = useTranslations()
 
   const goToPage = (index) => {
     setCurrentPage(index)
@@ -51,10 +53,10 @@ export default function StoryEditViewer ({ pages = [], handleChanges }) {
                             '
                       >
                         <button className='bg-white w-[300px]  text-black px-4 py-2 rounded-md mb-4'>
-                          Subir imagen
+                          {t('upload_image')}
                         </button>
                         <button className='bg-pink-600 w-[300px]  text-white px-4 py-2 rounded-md'>
-                          Generar imagen
+                          {t('generate_image')}
                         </button>
                       </div>
                     </div>
@@ -86,10 +88,10 @@ export default function StoryEditViewer ({ pages = [], handleChanges }) {
                             '
                       >
                         <button className='bg-white w-[300px]  text-black px-4 py-2 rounded-md mb-4'>
-                          Subir imagen
+                          {t('upload_image')}
                         </button>
                         <button className='bg-pink-600 w-[300px]  text-white px-4 py-2 rounded-md'>
-                          Generar imagen
+                          {t('generate_image')}
                         </button>
                       </div>
                     </div>
@@ -136,11 +138,16 @@ export default function StoryEditViewer ({ pages = [], handleChanges }) {
                     {current.imageUrl && (
                         <>
                           {/* La imagen en sí */}
-                          <img
-                            src={current.imageUrl}
-                            alt={`Imagen de la página ${currentPage + 1}`}
-                            className='max-h-full max-w-full object-cover rounded-md'
-                          />
+                          <div className='relative max-h-full max-w-full rounded-md overflow-hidden'>
+                            <img
+                              src={current.imageUrl}
+                              alt='Image for page'
+                              className='max-h-full max-w-full rounded-md object-cover'
+                            />
+                            <div
+                              className='absolute bottom-0 left-0 w-full h-[6%] bg-gradient-to-t from-black/90 to-transparent pointer-events-none rounded-b-md'
+                            />
+                          </div>
 
                           {/* Overlay que aparece al hover */}
                           <div
@@ -158,13 +165,13 @@ export default function StoryEditViewer ({ pages = [], handleChanges }) {
                               rounded-md
                             '
                           >
-                              <button className='bg-white w-[300px]  text-black px-4 py-2 rounded-md mb-4'>
-                                Subir imagen
-                              </button>
-                              <button className='bg-pink-600 w-[300px]  text-white px-4 py-2 rounded-md'>
-                                Generar imagen
-                              </button>
-                            </div>
+                            <button className='bg-white w-[300px]  text-black px-4 py-2 rounded-md mb-4'>
+                              Subir imagen
+                            </button>
+                            <button className='bg-pink-600 w-[300px]  text-white px-4 py-2 rounded-md'>
+                              Generar imagen
+                            </button>
+                          </div>
                         </>
                     )}
                   </div>

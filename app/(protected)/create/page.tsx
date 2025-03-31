@@ -57,7 +57,7 @@ export default function CrearCuentoPage () {
       try {
         const { data, error } = await supabase
           .from('protagonists')
-          .select('id, name, physical_description, inference, avatars')
+          .select('id, name, avatars')
           .eq('author_id', user.id)
         if (error) {
           throw error
@@ -225,10 +225,10 @@ export default function CrearCuentoPage () {
                                 onClick={() => handleMemberClick(protagonist)}
                                 className='flex items-center gap-2 cursor-pointer rounded-2xl bg-secondary-50 hover:bg-secondary-200 py-1.5 px-2 transition-colors'
                               >
-                                {protagonist.avatars && protagonist.avatars.some((avatar) => avatar)
+                                {protagonist.avatars
                                   ? (
                                         <img
-                                          src={protagonist.avatars.find((avatar) => avatar) || '/placeholder.svg'}
+                                          src={protagonist.avatars || '/placeholder.svg'}
                                           alt={protagonist.name}
                                           className='w-8 h-8 rounded-full'
                                         />
@@ -280,10 +280,10 @@ export default function CrearCuentoPage () {
                               onClick={() => handleMemberClick(protagonist)}
                               className='flex items-center gap-2 cursor-pointer hover:bg-secondary-100 p-2 rounded-full'
                             >
-                              {protagonist.avatars && protagonist.avatars.some((avatar) => avatar)
+                              {protagonist.avatars
                                 ? (
                                       <img
-                                        src={protagonist.avatars.find((avatar) => avatar) || '/placeholder.svg'}
+                                        src={protagonist.avatars || '/placeholder.svg'}
                                         alt={protagonist.name}
                                         className='w-8 h-8 rounded-full'
                                       />

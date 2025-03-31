@@ -242,7 +242,7 @@
   "user_story_requirement": "The story must be interesting with a beginning, climax, and resolution. Additionally, each page must contain at least 100 words to ensure sufficient detail and depth in the narrative.",
   "reasoner_prompt": "Craft a captivating and adventurous prompt for generating an engaging children's story. Clearly outline an exciting central idea that guarantees dynamic action, intriguing challenges, and memorable events. Specifically address:\n- A vivid description of the core idea, ensuring there are compelling conflicts or challenges.\n- Detailed relationships and interactions between characters, emphasizing teamwork, friendship, or rivalry.\n- A clear, adventurous objective or quest that motivates characters throughout the story.\n- Important settings or locations that add depth, excitement, and variety.\n- A meaningful key lesson or conclusion, designed to resonate with and inspire young readers.\n\nIf the relationships, objectives, or key lessons aren't explicitly provided, creatively invent scenarios and motivations that logically fit and enhance the narrative.\n\nThe story idea: {idea}\nThe characters: {characters}\nThe number of pages: {length}\n\nEnsure the resulting story is imaginative, action-packed, and appealing for children, with clearly defined stakes and a rewarding resolution.",
 
-  "image_prompt": "Extract essential visual elements from the page text suitable for image generation. Provide a concise, structured plain text using bullet points or labeled lines listing: Setting, Main Action, Mood, Main Elements, and Characters description. Minimize references to characters unless strictly essential to understanding the scene. When including characters:\n- Use CHAR 1, CHAR 2, etc.\n- Provide basic details only: age, gender, clothing color, and hair color, if explicitly mentioned.\n\nExclude all speech, conversations, and verbal interactions. Avoid JSON format and watermarks. Ensure the visual style matches modern Disney animation, featuring vibrant colors, expressive visual storytelling, and a cinematic atmosphere.\n\nPage Text: {text}\nCharacters description: {characters}\nMain Elements: {elements}\nInclude characters only if they are absolutely necessary for clarity. Output in English.",
+  "image_prompt": "Extract essential visual elements from the page text suitable for image generation. Provide a concise, structured plain text using bullet points or labeled lines listing: Setting, Main Action, Mood, Main Elements, and Characters description. Minimize references to characters unless strictly essential to understanding the scene. When including characters:\n- Use CHAR 1, CHAR 2, etc.\n- Provide basic details only: age, gender, clothing color, and hair color, if explicitly mentioned.\n\nExclude all speech, conversations, and verbal interactions. Avoid JSON format and watermarks. Ensure the visual style matches modern animation, featuring vibrant colors, expressive visual storytelling, and a cinematic atmosphere.\n\nPage Text: {text}\nCharacters description: {characters}\nMain Elements: {elements}\nInclude characters only if they are absolutely necessary for clarity. Output in English.",
 
   "cover_image_prompt": "Generate a prompt for a visually striking book cover that captures the story’s essence, setting, and key symbolic elements. Focus primarily on atmosphere, scenery, and thematic symbols to enhance visual impact. If a character's presence is crucial to conveying the story’s essence, incorporate them subtly with defining traits, but prioritize a design that works effectively without characters. Avoid speech bubbles, text, watermarks, or JSON.\n\nIdea: {idea}\nMain Elements: {elements}\nCharacters (if essential for composition): {characters}.\nOutput in English.",
 
@@ -313,6 +313,25 @@
   "extra_personality": "Additional personality details",
   "extra_appearance": "Additional appearance details",
   "other": "Other",
-  "gorro": "Beanie"
+  "gorro": "Beanie",
+  "cover_alt": "Cover",
+  "backcover_alt": "Back Cover",
+  "page_image_alt": "Page Image",
+  "customize_story_title": "Customize and Edit Your Story",
+  "customize_story_edit_text": "Edit the text manually or with the help of AI",
+  "customize_story_replace_images": "Replace the illustrations with images or generate new ones",
+  "cancel": "Cancel",
+  "next": "Next",
+  "error_fetching_story": "Error fetching story",
+  "story_not_found": "Story not found",
+  "error_generating_epub": "Error generating EPUB",
+  "error_converting_epub": "Error converting to EPUB",
+  "error_generating_pdf": "Error generating PDF",
+  "error_saving_story": "Error saving story",
+  "error_sharing": "Error sharing",
+  "error_copying": "Error copying",
+  "text_copied": "Text copied",
+  "generate_image": "Generate image",
+  "upload_image": "Upload image"
 
 }

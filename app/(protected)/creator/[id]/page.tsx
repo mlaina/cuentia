@@ -60,6 +60,25 @@ async function withRetry (operation: () => Promise<any>, operationName: string) 
   }
 }
 
+function formatProtagonistDescription (
+  protagonist: Protagonist,
+  t: (key: string) => string
+): string {
+  const parts: string[] = []
+  if (protagonist.name) parts.push(protagonist.name)
+  if (protagonist.age) parts.push(`${t('age')}: ${protagonist.age}`)
+  if (protagonist.height) parts.push(`${t('height')}: ${t(protagonist.height)}`)
+  if (protagonist.skin_color) parts.push(`${t('skin')}: ${t(protagonist.skin_color)}`)
+  if (protagonist.hair_color) parts.push(`${t('hair_color')}: ${t(protagonist.hair_color)}`)
+  if (protagonist.hair_type) parts.push(`${t('hair_type')}: ${t(protagonist.hair_type)}`)
+  if (protagonist.accessories && protagonist.accessories.length > 0) {
+    const accessories = protagonist.accessories?.map(accessory => t(accessory))
+    parts.push(`${t('accessories')}: ${accessories.join(', ')}`)
+  }
+
+  return parts.join(', ')
+}
+
 export default function CrearCuentoPage ({ params }: { params: { id: string } }) {
   const [title, setTitle] = useState(null)
   const [indice, setIndice] = useState([])
@@ -82,12 +101,24 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
           .eq('id', params.id)
           .single()
 
+        let characters = ''
+        for (const protagonist of data.protagonists) {
+          const { data: protagonistsData } = await supabase
+            .from('protagonists')
+            .select('*')
+            .eq('id', protagonist)
+            .single()
+          console.log(protagonistsData)
+          characters += formatProtagonistDescription(protagonistsData, t) + '\n'
+        }
+
+        console.log(characters)
         if (error) {
           throw error
         }
 
         if (data) {
-          await handleCrearCuento(data)
+          await handleCrearCuento({ ...data, protagonists: characters })
         } else {
           console.error('Story not found')
         }
@@ -457,18 +488,18 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   const t = useTranslations()
 
   return (
-      <>
+      <div className='background-section-4 h-full'>
         <Head>
           <title>{title || t('creating_story')}</title>
         </Head>
 
         {indice.length > 0 && loading > 5 &&
-          <div className='overflow-hidden h-full background-section-4 pt-6'>
+          <div className='overflow-hidden h-full pt-6'>
              <StoryViewer pages={indice} stream />
           </div>}
 
         {indice.length <= 0 && loading <= 5 && !description &&
-        <div className='flex flex-col h-full w-full background-section-4'>
+        <div className='flex flex-col h-full w-full '>
           <div className='flex flex-col justify-center items-center w-full h-2/3 text-gray-500 relative'>
             {[1, 2, 3, 4, 5].map((step) => (
                 <section
@@ -477,7 +508,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
                         loading === step ? 'opacity-100' : 'opacity-0'
                     } flex justify-center items-center`}
                 >
-                  <p className='text-5xl flex items-center'>
+                  <p className='text-2xl md:text-5xl flex items-center'>
                 <span className={`underline decoration-${t(`loading_step_${step}_color`)}`}>
                   {t(`loading_step_${step}_action`)}
                 </span>
@@ -490,6 +521,6 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
             ))}
           </div>
         </div>}
-      </>
+      </div>
   )
 }

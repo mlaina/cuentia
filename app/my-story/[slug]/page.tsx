@@ -9,7 +9,11 @@ import { saveAs } from 'file-saver'
 import { marked } from 'marked'
 import he from 'he'
 import { useTranslations } from 'next-intl'
+import DownloadMenu from '@/components/DownloadMenu'
 import { useUser } from '@supabase/auth-helpers-react'
+import Link from 'next/link'
+import { BookOpen } from 'lucide-react'
+import Preview from '@/components/Preview'
 
 Font.register({
   family: 'Roboto',
@@ -134,178 +138,111 @@ const MyDocument = ({ story }) => {
   )
 }
 
-export default function StoryPage ({ params }: { params: { slug: string } }) {
+const IMAGINS =
+    '"La imaginación es la chispa que enciende los sueños y da forma al futuro. Es el poder de transformar lo imposible en posible, abriendo puertas a ideas y soluciones que desafían los límites. Cuando dejamos volar nuestra mente, conectamos con un potencial ilimitado para crear y reinventar el mundo."'
+
+export default function PreviewPage ({ params }: PreviewPageProps) {
+  const { slug } = params
+  const [favoriteStories, setFavoriteStories] = useState([])
+  const [story, setStory] = useState({ content: [] })
+  const [isLoading, setIsLoading] = useState(true)
   const t = useTranslations()
-  const [story, setStory] = useState(null)
-  const [isLoadingEpub, setIsLoadingEpub] = useState(false)
-  const [isLoadingPdf, setIsLoadingPdf] = useState(false)
-  const router = useRouter()
-  const user = useUser()
   const supabase = createClientComponentClient()
 
   useEffect(() => {
-    async function checkSuperAdminStatus () {
-      if (!user) return
-
+    async function fetchData () {
       try {
-        const { data, error } = await supabase.rpc('check_is_super_admin')
+        setIsLoading(true)
 
-        if (error) throw error
+        // Fetch favorite stories
+        const { data: favData, error: favError } = await supabase.from('stories').select('id, content').eq('fav', true)
 
-        if (!data) {
-          router.push('/stories')
+        if (favError) {
+          console.error('Error fetching favorite stories:', favError)
+        } else {
+          setFavoriteStories(favData || [])
+        }
+
+        // Fetch current story
+        const { data: storyData, error: storyError } = await supabase
+          .from('stories')
+          .select('*')
+          .eq('id', slug)
+          .single()
+
+        if (storyError) {
+          console.error('Error fetching story:', storyError)
+        } else {
+          setStory(storyData || { content: [] })
         }
       } catch (error) {
-        console.error('Error verificando estado de super admin:', error)
+        console.error('Error in data fetching:', error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
-    checkSuperAdminStatus()
-  }, [])
-
-  useEffect(() => {
-    async function loadStory () {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        router.push('/login')
-        return
-      }
-
-      const { data: story, error } = await supabase
-        .from('stories')
-        .select('*')
-        .eq('id', Number(params.slug))
-        .single()
-
-      console.log(story)
-
-      if (error) {
-        console.error(t('error_fetching_story'), error)
-        return
-      }
-
-      if (!story) {
-        console.error(t('story_not_found'))
-        return
-      }
-
-      setStory(story)
-    }
-
-    loadStory()
-  }, [params.slug, router, supabase])
-
-  const convertToEpub = async () => {
-    if (!story) return
-
-    setIsLoadingEpub(true)
-    try {
-      const response = await fetch('/api/generate-epub', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ storyId: story.id })
-      })
-
-      if (!response.ok) throw new Error(t('error_generating_epub'))
-
-      const blob = await response.blob()
-      saveAs(blob, `${story.title}.epub`)
-    } catch (error) {
-      console.error(t('error_converting_epub'), error)
-    } finally {
-      setIsLoadingEpub(false)
-    }
-  }
-
-  const convertToPdf = async () => {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!story) return
-
-    setIsLoadingPdf(true)
-    try {
-      const blob = await pdf(<MyDocument story={story} user={user} />).toBlob()
-      saveAs(blob, `${story.title}.pdf`)
-    } catch (error) {
-      console.error(t('error_generating_pdf'), error)
-    } finally {
-      setIsLoadingPdf(false)
-    }
-  }
-
-  const convertFav = async () => {
-    if (!story) return
-
-    const newFav = !story.fav
-
-    const { error } = await supabase
-      .from('stories')
-      .update({ fav: newFav })
-      .eq('id', story.id)
-
-    setStory({ ...story, fav: newFav })
-    if (error) {
-      console.error('Error actualizando fav:', error)
-    }
-  }
-
-  if (!story) {
-    return <div />
-  }
+    fetchData()
+  }, [supabase, slug])
 
   return (
-      <div className='background-section-4 h-full'>
-        <div className='max-w-6xl mx-auto mt-14'>
-          <StoryViewer pages={story.content} />
-        </div>
-        <div className='flex my-6 flex-col max-w-[1000px] mx-auto'>
-          <div className='w-full flex gap-5'>
-            <button
-              onClick={convertFav}
-              className='my-6 px-4 py-2 hover:cursor-pointer bg-secondary text-white rounded hover:bg-secondary-700 transition-colors'
-            >
-              {!story.fav ? 'fav' : 'unfav'}
-            </button>
-            <button
-              onClick={convertToPdf}
-              className='my-6 px-4 py-2 hover:cursor-pointer bg-secondary text-white rounded hover:bg-secondary-700 transition-colors'
-            >
-              Lulu
-            </button>
-          </div>
-          <h1 className='text-3xl font-bold'>Prompts</h1>
-          <h2 className='text-xl font-bold'>Idea:</h2>
-          <p>{story.idea_prompt}</p>
-          <hr className='my-4' />
-          <h2 className='text-xl font-bold'>Covers:</h2>
-          <p>{story.front_prompt}</p>
-          <hr className='my-4' />
-          <h2 className='text-xl font-bold'>Index:</h2>
-          <p>{story.index_prompts?.map((p, i) =>
-              <p key={i}>{p.content}</p>
-          )}</p>
-          <hr className='my-4' />
-          <h2 className='text-xl font-bold'>Images:</h2>
-          <p>{story.images_prompts?.map((p, i) =>
-              <p key={i}><strong>{(i + 1) * 2}: </strong>{p}</p>
-          )}</p>
+      <div className='relative min-h-screen overflow-hidden bg-white background-section-1-small'>
+        <header id='top' className='container mx-auto max-w-6xl py-4 pt-6 px-8'>
+          <nav className='flex justify-between items-center'>
+            <Link href='/' className='text-3xl font-bold text-gray-800 flex items-center'>
+              <BookOpen className='w-10 h-10 mr-2 text-secondary' />
+              <p className='text-secondary text-4xl font-bold'>Imagins</p>
+            </Link>
+            <div className='hidden md:flex space-x-8 text-md'>
+              <a href='/#library' className='text-primary font-bold hover:text-secondary'>
+                {t('library')}
+              </a>
+              <a href='/#pricing' className='text-primary font-bold hover:text-secondary'>
+                {t('pricing')}
+              </a>
+            </div>
+          </nav>
+        </header>
 
-        </div>
-        <div className='mb-8 max-w-6xl mx-auto hidden md:flex justify-center'>
-          <button
-            onClick={convertToEpub}
-            disabled={isLoadingEpub}
-            className='px-4 py-2 bg-accent text-primary rounded hover:bg-secondary-100 transition-colors'
-          >
-          {isLoadingEpub ? t('generating_epub') : t('convert_to_epub')}
-          </button>
-          <button
-            onClick={convertToPdf}
-            disabled={isLoadingPdf}
-            className='ml-2 px-4 py-2 bg-secondary text-white rounded hover:bg-secondary-700 transition-colors'
-          >
-            {isLoadingPdf ? t('generating_pdf') : t('convert_to_pdf')}
-          </button>
-        </div>
+        <main className=' lg:background-section-1'>
+          <div className='container mx-auto px-4 py-8'>
+            {isLoading
+              ? (
+                    <div className='flex justify-center items-center h-64'>
+                      <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-secondary' />
+                    </div>
+                )
+              : (
+                    <Preview pages={story.content} hiddenPageText={IMAGINS} />
+                )}
+          </div>
+
+          {favoriteStories?.length > 0 && (
+              <section className='container mx-auto px-4 py-16'>
+                <h2 className='text-3xl font-bold text-secondary mb-8 text-center'>{t('more_stories')}</h2>
+                <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-6xl mx-auto'>
+                  {favoriteStories.map((story) => {
+                    const coverImage = story.content?.[0]?.imageUrl
+                    return (
+                        <Link key={story.id} href={`/preview/${story.id}`}>
+                          <div className='relative w-26 cursor-pointer hover:opacity-90 transition-opacity'>
+                            <img
+                              src={
+                                    coverImage ||
+                                    'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'
+                                }
+                              alt='Cover Image'
+                              className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
+                            />
+                            <div className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none' />
+                          </div>
+                        </Link>
+                    )
+                  })}
+                </div>
+              </section>
+          )}
+        </main>
       </div>
   )
 }
