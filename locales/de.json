@@ -247,8 +247,9 @@
   "cover_image_prompt": "Erstelle ein hochdetailliertes und visuell fesselndes Buchcover basierend auf dem Hauptthema der Geschichte. Das Cover sollte die Essenz der Geschichte widerspiegeln und wichtige Elemente wie Schauplatz, Atmosphäre und symbolische Objekte enthalten. Die Komposition sollte visuell ansprechend sein, mit einem ausgewogenen Layout und einer fesselnden Farbgestaltung. Vermeide Sprechblasen, Textelemente, JSON oder Wasserzeichen. Stelle sicher, dass die Illustration die Stimmung und die zentralen Themen der Geschichte wirkungsvoll vermittelt.\nIdee: {idea}\nAusgabe auf Englisch.",
 
   "characters_avialable": "Verfügbare Charaktere",
+  "no_more_stories": "Keine weiteren Geschichten verfügbar.",
 
-  "back_imagins": "„Die Vorstellungskraft ist der Funke, der Träume entzündet und die Zukunft gestaltet. Sie ist die Kraft, das Unmögliche möglich zu machen, Türen zu Ideen und Lösungen zu öffnen, die Grenzen herausfordern. Wenn wir unseren Geist fliegen lassen, verbinden wir uns mit einem unbegrenzten Potenzial, die Welt zu erschaffen und neu zu erfinden.“ - Imagins Team",
+  "back_imagins": "Die Vorstellungskraft ist der Funke, der Träume entzündet und die Zukunft gestaltet. Sie ist die Kraft, das Unmögliche möglich zu machen, Türen zu Ideen und Lösungen zu öffnen, die Grenzen herausfordern. Wenn wir unseren Geist fliegen lassen, verbinden wir uns mit einem unbegrenzten Potenzial, die Welt zu erschaffen und neu zu erfinden.“ - Imagins Team",
   "appeared_stories": "Geschichten:",
   "delete": "Löschen"
 

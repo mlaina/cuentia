@@ -104,7 +104,7 @@ export default function DashboardComponent () {
           <div className='mx-auto py-6 px-6 md:px-24'>
             <div className='mb-6'>
               <Link href='/create'>
-                <Button className='bg-gradient-to-r from-secondary to-accent hover:from-accent hover:to-secondary text-white border-none transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg'>
+                <Button className='bg-gradient-to-r bg-secondary text-white border-none transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg'>
                   <PlusCircle className='w-5 h-5 mr-2' />
                   {t('create_new_story')}
                 </Button>

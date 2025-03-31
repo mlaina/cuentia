@@ -1,0 +1,326 @@
+[
+  {
+    "title": "El Tren de los Planetas",
+    "description": "Un tren mágico viaja por el espacio, deteniéndose en planetas extraordinarios donde los personajes pueden flotar en gravedad cero, conocer criaturas alienígenas y descubrir secretos cósmicos."
+  },
+  {
+    "title": "El Paraguas Estelar",
+    "description": "Un paraguas que no protege de la lluvia sino que abre portales hacia el cielo, permitiendo a los personajes viajar a través de constelaciones, montar estrellas fugaces y visitar ciudades flotantes entre las nubes."
+  },
+  {
+    "title": "El Mapa del Tiempo",
+    "description": "Un mapa antiguo no solo muestra lugares, sino que revela momentos en el tiempo. Cada vez que los personajes lo despliegan, son transportados a una era diferente, donde deben resolver misterios y corregir errores del pasado."
+  },
+  {
+    "title": "El Castillo del Espejo",
+    "description": "Más allá de un espejo encantado se encuentra un castillo donde los reflejos tienen vida propia, creando versiones alternativas de los personajes. Para escapar, deben encontrar su verdadero yo."
+  },
+  {
+    "title": "La Montaña de los Recuerdos",
+    "description": "En la cima de una montaña legendaria, el viento susurra recuerdos perdidos. Los personajes deben escalar hasta la cima para recuperar momentos olvidados que podrían cambiar su destino."
+  },
+  {
+    "title": "Las Llaves a Mundos Ocultos",
+    "description": "Un llavero misterioso contiene llaves que abren puertas a lugares secretos, cada una conduciendo a un mundo lleno de acertijos, maravillas o tesoros perdidos."
+  },
+  {
+    "title": "El Bosque de los Susurros",
+    "description": "En un bosque encantado, los árboles murmuran historias antiguas. Los personajes deben escuchar con atención para descubrir una verdad oculta que cambiará todo lo que saben."
+  },
+  {
+    "title": "Las Botellas de Historias",
+    "description": "Botellas de vidrio flotantes en el mar contienen relatos inconclusos. Al abrirse, los personajes son absorbidos y deben encontrar la manera de completar la historia antes de poder regresar."
+  },
+  {
+    "title": "La Isla Oculta",
+    "description": "Una isla misteriosa aparece solo para aquellos que realmente la necesitan. Los personajes deben explorar sus paisajes mágicos para entender su propósito antes de que desaparezca nuevamente."
+  },
+  {
+    "title": "La Caja del Eco",
+    "description": "Una caja mágica repite las palabras de quienes la abren, pero con respuestas que parecen provenir del futuro. Usarla sabiamente podría cambiar el destino."
+  },
+  {
+    "title": "El Bosque Cambiante de Estaciones",
+    "description": "Un bosque donde las estaciones cambian según las emociones de quienes entran. Los personajes deben encontrar el equilibrio para restaurar la armonía en la naturaleza."
+  },
+  {
+    "title": "La Biblioteca de Mundos Perdidos",
+    "description": "Una biblioteca oculta donde cada libro es un portal a un mundo diferente. Los personajes deben elegir cuidadosamente en qué historia desean adentrarse."
+  },
+  {
+    "title": "La Ciudad Flotante",
+    "description": "Una ciudad en el cielo se mantiene a flote gracias a la felicidad de sus habitantes. Cuando la tristeza comienza a hundirla, los personajes deben encontrar la manera de salvarla."
+  },
+  {
+    "title": "El Jardín de los Colores Olvidados",
+    "description": "Un jardín mágico donde las flores florecen en colores que nadie ha visto antes. Cada flor tiene un significado especial, y los personajes deben encontrar la adecuada para completar su misión."
+  },
+  {
+    "title": "El Mercado de los Sueños",
+    "description": "Un mercado misterioso que solo aparece a medianoche, donde los sueños pueden ser intercambiados por recuerdos. Los personajes deben decidir lo que están dispuestos a dar a cambio de su deseo más profundo."
+  },
+  {
+    "title": "El Laberinto de Ilusiones",
+    "description": "Un laberinto que cambia constantemente y crea ilusiones para engañar a quienes están dentro. La única salida es descubrir qué es real y qué no lo es."
+  },
+  {
+    "title": "La Nube Narradora",
+    "description": "Una nube mágica flota por el mundo, contando historias a quienes la escuchan. Pero cuando pierde su voz, los personajes deben ayudarla a recuperar sus cuentos perdidos."
+  },
+  {
+    "title": "El Río de los Reflejos",
+    "description": "Un río cuyas aguas revelan recuerdos en lugar de reflejos. Los personajes deben viajar a lo largo de sus corrientes para redescubrir un momento perdido en el tiempo."
+  },
+  {
+    "title": "El Espejo de las Verdades",
+    "description": "Un espejo encantado no refleja apariencias, sino que revela la verdadera naturaleza de una persona. Para encontrar lo que buscan, los personajes deben enfrentarse a quienes realmente son."
+  },
+  {
+    "title": "El Sombrero del Tiempo",
+    "description": "Un sombrero mágico permite viajar en el tiempo con un simple giro, hacia adelante o hacia atrás. Los personajes deben aprender a usarlo sabiamente antes de alterar la historia de maneras irreparables."
+  },
+  {
+    "title": "El Camino de las Huellas",
+    "description": "Un camino misterioso aparece solo para aquellos que buscan respuestas. Las huellas en el suelo guían a los personajes exactamente a donde necesitan ir, pero no siempre a donde esperan."
+  },
+  {
+    "title": "El Bosque de los Secretos",
+    "description": "Un bosque místico donde cada árbol guarda un secreto oculto. Los personajes deben escuchar atentamente para descubrir la verdad que ha sido guardada durante siglos."
+  },
+  {
+    "title": "El Taller de las Invenciones Imposibles",
+    "description": "Un taller oculto donde las máquinas desafían las leyes de la física. Los personajes deben reparar una de estas extrañas invenciones antes de que altere la realidad misma."
+  },
+  {
+    "title": "El Faro de las Almas Perdidas",
+    "description": "Un faro en medio del océano guía a viajeros perdidos, pero su luz se ha apagado. Los personajes deben encontrar la manera de reavivarla antes de que la oscuridad se imponga."
+  },
+  {
+    "title": "La Casa Errante",
+    "description": "Una casa con ruedas se mueve por sí sola, en busca del lugar perfecto para establecerse. Pero cuando los personajes entran, descubren que cada habitación conduce a un mundo diferente."
+  },
+  {
+    "title": "El Árbol de los Deseos",
+    "description": "Un árbol legendario concede deseos, pero solo a quienes saben pedirlos correctamente. Los personajes deben descifrar su lenguaje antes de que se pierda la oportunidad."
+  },
+  {
+    "title": "Las Estrellas de Papel",
+    "description": "Cada noche, las estrellas se pliegan como papel y caen a la Tierra. Los personajes descubren que estas estrellas caídas contienen mensajes de mundos distantes y deben decidir qué hacer con ellos."
+  },
+  {
+    "title": "El Festival de las Luces Encantadas",
+    "description": "Una vez al año, una ciudad se ilumina con faroles mágicos que contienen sabiduría ancestral. Pero este año, las luces se han atenuado, y los personajes deben descubrir la razón."
+  },
+  {
+    "title": "Los Zapatos del Destino",
+    "description": "Un par de zapatos encantados lleva a quien los usa exactamente a donde necesita estar, incluso si no entiende por qué. Los personajes deben confiar en el viaje para encontrar su verdadero propósito."
+  },
+  {
+    "title": "La Mariposa Mecánica",
+    "description": "Una delicada mariposa mecánica escapa del taller de un viejo inventor. Los personajes deben seguir su vuelo a través de la ciudad, descubriendo maravillas ocultas en el camino."
+  },
+  {
+    "title": "La Puerta del Rompecabezas",
+    "description": "Una puerta misteriosa aparece en un lugar inesperado, pero solo se puede abrir resolviendo una serie de acertijos ocultos en objetos cotidianos."
+  },
+  {
+    "title": "La Máquina del Clima Caprichosa",
+    "description": "Una máquina secreta controla el clima del mundo, pero algo ha salido mal. La lluvia se convierte en música, los copos de nieve susurran secretos, y los personajes deben restaurar el equilibrio antes de que se propague el caos."
+  },
+  {
+    "title": "El Carrusel de las Cosas Perdidas",
+    "description": "Un carrusel mágico recoge objetos perdidos de todo el mundo. Cada paseo lleva a los personajes al momento en que se perdió un objeto, donde pueden elegir devolverlo o descubrir su historia oculta."
+  },
+  {
+    "title": "El Jardín Invisible",
+    "description": "Un jardín encantado solo aparece cuando el viento sopla en una dirección determinada. Los personajes deben encontrarlo antes de que la estación cambie y desaparezca nuevamente."
+  },
+  {
+    "title": "El Libro que Se Escribe Solo",
+    "description": "Un libro llena misteriosamente sus páginas con las propias aventuras de los personajes a medida que las viven. Pero cuando el libro empieza a escribir sobre peligros que aún no han enfrentado, deben descubrir si están escribiendo su propio destino o siguiendo uno ya escrito."
+  },
+  {
+    "title": "El Buzón Flotante",
+    "description": "Un buzón flota en el aire, entregando cartas de remitentes desconocidos. Los personajes reciben un mensaje que los lleva a un viaje para descubrir su origen."
+  },
+  {
+    "title": "El Rastro de Huellas Vivas",
+    "description": "Un conjunto misterioso de huellas nunca se desvanece, ni en el agua ni en el aire. Los personajes deben seguirlas para descubrir quién, o qué, las está dejando."
+  },
+  {
+    "title": "La Vela que Nunca Se Apaga",
+    "description": "Una vela solitaria guarda una luz titilante que ha pasado de generación en generación durante siglos. Cuando los personajes la encienden, ven visiones del pasado y del futuro, revelando secretos que deben resolverse."
+  },
+  {
+    "title": "La Ciudad Bajo las Olas",
+    "description": "Una ciudad antigua yace en el fondo del océano, visible solo cuando la marea se retira. Los personajes deben explorarla antes de que las aguas vuelvan a subir."
+  },
+  {
+    "title": "El Pintor de Atardeceres",
+    "description": "Cada tarde, un artista oculto pinta el cielo con los colores de sus emociones. Pero cuando los atardeceres se vuelven de repente apagados y sin color, los personajes deben devolver la inspiración perdida."
+  },
+  {
+    "title": "La Escalera de Caracol a Cualquier Lugar",
+    "description": "Una escalera en espiral aparece en un campo vacío, ascendiendo sin fin hacia el cielo. Subirla lleva a los personajes a destinos inesperados, cada escalón cambia la realidad."
+  },
+  {
+    "title": "La Isla de los Nombres Olvidados",
+    "description": "Una isla flotante recoge nombres que han sido perdidos en el tiempo. Quienes la visitan pueden recordar algo que habían olvidado, o elegir olvidar algo para siempre."
+  },
+  {
+    "title": "El Coleccionista de Estrellas",
+    "description": "Alguien ha estado robando estrellas del cielo nocturno. Los personajes emprenden un viaje cósmico para recuperarlas antes de que el cielo se oscurezca por completo."
+  },
+  {
+    "title": "El Eco que No Era Suyo",
+    "description": "En un profundo cañón, los personajes escuchan un eco, pero no repite sus palabras. En su lugar, susurra un mensaje de alguien que necesita ayuda."
+  },
+  {
+    "title": "El Secreto del Fabricante de Juguetes",
+    "description": "Las creaciones de un fabricante de juguetes cobran vida cuando nadie los observa. Los personajes deben descubrir la verdad detrás de la magia antes de que caiga en manos equivocadas."
+  },
+  {
+    "title": "El Puente Susurrante",
+    "description": "Un viejo puente de madera susurra secretos mientras la gente lo cruza. Los personajes escuchan un secreto destinado solo para ellos, llevándolos en un viaje inesperado."
+  },
+  {
+    "title": "El Museo del Mañana",
+    "description": "Un museo oculto exhibe artefactos del futuro. Los personajes deben navegar por sus pasillos sin alterar lo que está por venir."
+  },
+  {
+    "title": "El Bosque que Hace Tic Tac",
+    "description": "Un bosque donde los árboles hacen tic tac como relojes, contando hacia un evento desconocido. Los personajes deben resolver el misterio antes de que se acabe el tiempo."
+  },
+  {
+    "title": "La Casa sin Puertas",
+    "description": "Una casa sin entrada visible aparece en medio de un pueblo. Quienes entran se encuentran en mundos diferentes, cada habitación conduce a una nueva realidad."
+  },
+  {
+    "title": "La Brújula de los Susurros",
+    "description": "Una brújula rota no apunta al norte, sino que guía a quien la posee hacia aquello que más necesita, aunque aún no se dé cuenta."
+  },
+  {
+    "title": "La Lluvia que Cayó Hacia Arriba",
+    "description": "Un día, la lluvia comienza a caer hacia el cielo en lugar de hacerlo hacia la tierra. Los personajes deben averiguar qué causó este cambio antes de que los océanos desaparezcan entre las nubes."
+  },
+  {
+    "title": "La Escalera Oculta en la Biblioteca",
+    "description": "En lo profundo de una biblioteca antigua, los personajes encuentran una escalera que conduce a libros que aún no han sido escritos. Pero al pasar las páginas, se dan cuenta de que los libros están escribiendo sobre ellos."
+  },
+  {
+    "title": "El Festival del Tiempo",
+    "description": "Cada cien años, un festival permite a las personas revivir un día de su pasado. Los personajes deben decidir qué momento revivir, pero también enfrentar las consecuencias de su elección."
+  },
+  {
+    "title": "La Calle que Cambia Constantemente",
+    "description": "Cada noche, una determinada calle se reorganiza, conduciendo a diferentes destinos. Los personajes deben encontrar un patrón antes de perderse para siempre."
+  },
+  {
+    "title": "La Constelación Olvidada",
+    "description": "Una noche, aparece en el cielo una constelación desconocida. Los personajes se dan cuenta de que intenta guiarlos a algún lugar, pero ¿a dónde?"
+  },
+  {
+    "title": "El Reino del Castillo de Arena",
+    "description": "Un majestuoso castillo de arena en la orilla es mucho más de lo que parece. Cuando la marea sube, revela un mundo oculto bajo las olas."
+  },
+  {
+    "title": "El Viento Parlante",
+    "description": "En ciertos días, el viento lleva voces de otro lugar. Los personajes deben seguir los susurros para descubrir su origen."
+  },
+  {
+    "title": "El Barco que Navegó el Cielo",
+    "description": "Un barco sin agua debajo de él flota en el aire. Los personajes suben a bordo y zarpan hacia destinos desconocidos más allá de las nubes."
+  },
+  {
+    "title": "El Túnel Sin Fin",
+    "description": "Un túnel aparece donde antes no había ninguno. Al caminar por él, los personajes se encuentran en lugares que solo habían imaginado en sueños."
+  },
+  {
+    "title": "La Sombra del Bailarín",
+    "description": "La sombra de un bailarín se mueve por sí sola, contando una historia con sus movimientos. Los personajes deben descifrar su mensaje silencioso antes de que desaparezca al amanecer."
+  },
+  {
+    "title": "Las Estrellas que Recuerdan",
+    "description": "Algunas estrellas titilan no por quemarse, sino porque recuerdan. Los personajes descubren una forma de leer las historias escritas en la luz de las estrellas."
+  },
+  {
+    "title": "La Oficina de Correos de Medianoche",
+    "description": "Una oficina de correos que solo abre a medianoche, entregando cartas del pasado, presente y futuro. Los personajes reciben una carta destinada a ellos, pero es de alguien a quien aún no han conocido."
+  },
+  {
+    "title": "El Día en que Me Sentí Invisible",
+    "description": "El protagonista se siente ignorado e insignificante en la escuela, hasta que descubre que sus pequeñas acciones, como la amabilidad, la creatividad y el esfuerzo, tienen un gran impacto en quienes le rodean."
+  },
+  {
+    "title": "El Misterio de la Voz Perdida",
+    "description": "El protagonista es demasiado tímido para hablar en clase o hacer nuevos amigos. Cuando su voz desaparece mágicamente, debe emprender un viaje para encontrarla, aprendiendo sobre la confianza en sí mismo en el proceso."
+  },
+  {
+    "title": "Los Zapatos que No Encajaban",
+    "description": "El protagonista desea ser más como los demás. Pero cuando se prueba unos zapatos mágicos que lo hacen igual a los demás, se da cuenta de que ser único es lo que lo hace especial."
+  },
+  {
+    "title": "El Rompecabezas de la Amistad",
+    "description": "Hacer amigos no siempre es fácil, especialmente cuando sientes que no encajas. El protagonista aprende que la verdadera amistad no se trata de cambiar quién eres, sino de encontrar a las personas adecuadas que te valoren."
+  },
+  {
+    "title": "El Día en que las Reglas Desaparecieron",
+    "description": "Una mañana, ¡todas las reglas en la escuela desaparecen! Sin filas, sin turnos, sin compartir. Al principio parece divertido, pero pronto el caos se apodera. El protagonista aprende por qué las reglas nos ayudan a trabajar y a jugar en conjunto."
+  },
+  {
+    "title": "El Día al Revés",
+    "description": "Nada sale según lo planeado: la leche se derrama, los calcetines no combinan y todo se siente fuera de lugar. Pero a medida que el protagonista navega por el caos, descubre que los errores y los días malos son solo parte de la vida."
+  },
+  {
+    "title": "Los Colores de Mí",
+    "description": "El protagonista se da cuenta de que no se ve, habla ni actúa como los demás y trata de encajar. Pero cuando un pincel mágico le permite verse a sí mismo en colores brillantes y hermosos, aprende a celebrar quién es."
+  },
+  {
+    "title": "El Bolsillo de las Preocupaciones",
+    "description": "El protagonista lleva todas sus preocupaciones en un pequeño bolsillo. Pero a medida que acumula más, el bolsillo se vuelve más pesado. Con la ayuda de un amigo, aprende a compartir sus inquietudes y aligerar la carga."
+  },
+  {
+    "title": "El Club de los Ruidosos y los Silenciosos",
+    "description": "Algunos niños son ruidosos, otros son callados, ¡y eso está bien! Pero cuando la escuela se divide en dos grupos, el Club de los Ruidosos y el Club de los Silenciosos, todos deben encontrar la manera de unirse y aceptar sus diferencias."
+  },
+  {
+    "title": "El Superpoder Secreto",
+    "description": "El protagonista desea tener súper fuerza o poder volar. Pero cuando descubre su verdadero superpoder, ya sea la amabilidad, la paciencia o la capacidad de escuchar, se da cuenta de que es especial a su manera."
+  },
+  {
+    "title": "El Desastre de la Tarea",
+    "description": "El protagonista siempre olvida su tarea o se distrae. Tras una serie de percances, aprende trucos sencillos para organizarse y hacerse cargo de sus responsabilidades."
+  },
+  {
+    "title": "La Máquina del 'No'",
+    "description": "Al protagonista le cuesta decir no y siempre termina haciendo cosas que no quiere hacer. Pero cuando encuentra una máquina que dice 'no' por él, debe aprender cuándo y cómo usar su propia voz."
+  },
+  {
+    "title": "El Espejo que Contó la Verdad",
+    "description": "El protagonista solo ve sus defectos cuando se mira en el espejo. Pero un espejo especial le muestra lo que sus amigos y familiares ven: la amabilidad, la valentía y todas las cosas que lo hacen maravilloso."
+  },
+  {
+    "title": "El Monstruo en Mi Barriga",
+    "description": "Antes de un gran examen o presentación, el estómago del protagonista se llena de mariposas, o quizá incluso de un pequeño monstruo. Con la ayuda de un viejo gato sabio, aprende a calmar sus nervios y a creer en sí mismo."
+  },
+  {
+    "title": "El Tarro del 'No Puedo'",
+    "description": "Cada vez que el protagonista dice 'no puedo', una pequeña hada recoge esas palabras en un tarro. Cuando el tarro se llena, ocurre algo mágico, enseñándole el poder de la perseverancia y una mentalidad de crecimiento."
+  },
+  {
+    "title": "El Día en que Nadie Rió",
+    "description": "Una mañana, la risa desaparece del mundo. El protagonista, conocido por sus chistes tontos y divertidas ideas, debe descubrir cómo devolver la alegría y recordar a todos por qué la risa es importante."
+  },
+  {
+    "title": "La Mochila Llena de Miedos",
+    "description": "El protagonista lleva una mochila llena de miedos: miedo a la oscuridad, a cometer errores o a expresarse. Con la ayuda de un bibliotecario sabio, aprende que enfrentar los miedos lo hace sentir más ligero y fuerte."
+  },
+  {
+    "title": "El Experimento de la Amabilidad",
+    "description": "Después de escuchar que la amabilidad es 'contagiosa', el protagonista decide ponerla a prueba. A medida que pequeños actos de bondad se extienden por su pueblo, descubre cuán poderosa puede ser una buena acción."
+  },
+  {
+    "title": "La Sombra que Bailó",
+    "description": "El protagonista ama bailar pero se siente avergonzado ante los demás. Cuando su sombra comienza a bailar por sí sola, se da cuenta de que ser uno mismo es la mejor manera de brillar."
+  }
+]

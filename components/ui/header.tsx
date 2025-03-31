@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { User as UserIcon, LogOut, BookOpen, Coins, Library, PersonStanding } from 'lucide-react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
+import LanguageSelector from '@/components/LanguageSelector'
 
 export default function Header () {
   const t = useTranslations()
@@ -67,6 +68,7 @@ export default function Header () {
             </Link>
             {!isComingSoon &&
             <div className='gap-4 hidden md:flex'>
+              <LanguageSelector />
               <Link href='/characters' className='text-primary text-md hover:text-secondary'>
                 {t('characters')}
               </Link>
@@ -108,6 +110,7 @@ export default function Header () {
                     <div className='text-secondary font-bold'>
                       {user.user_metadata?.name || user.email}
                     </div>
+                    <LanguageSelector />
                     {!isComingSoon &&
                     <div className='gap-4 flex flex-col md:hidden'>
                       <Link href='/characters' className='text-md hover:text-secondary'>

@@ -27,7 +27,7 @@ export default function CrearCuentoPage () {
   useEffect(() => {
     const loadIdeas = async () => {
       try {
-        const { default: importedIdeas } = await import('@/types/ideas.json')
+        const { default: importedIdeas } = await import('@/types/ideas/en.json')
         setIdeas(importedIdeas)
       } catch (error) {
         console.error(t('error_loading_ideas'), error)

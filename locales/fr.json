@@ -248,6 +248,7 @@
   "cover_image_prompt": "Générez une couverture de livre très détaillée et visuellement captivante basée sur le thème principal de l'histoire. La couverture doit représenter l'essence de l'histoire en incorporant des éléments clés tels que le décor, l'atmosphère et tout élément symbolique important. La composition doit être visuellement attrayante, avec une mise en page équilibrée et une palette de couleurs engageante. Évitez les bulles de dialogue, les éléments de texte, le JSON ou les filigranes. Assurez-vous que l'illustration transmet efficacement l'ambiance et les thèmes principaux de l'histoire.\nIdée : {idea}\nSortie en anglais.",
 
   "characters_avialable": "Personnages disponibles",
+  "no_more_stories": "Vous n'avez plus de contes disponibles.",
 
   "back_imagins": "« L'imagination est l'étincelle qui allume les rêves et façonne l'avenir. C'est le pouvoir de transformer l'impossible en possible, en ouvrant des portes à des idées et des solutions qui défient les limites. Lorsque nous laissons notre esprit s'envoler, nous nous connectons à un potentiel illimité pour créer et réinventer le monde. » - Imagins Team",
   "appeared_stories": "Contes:",

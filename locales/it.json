@@ -247,6 +247,8 @@
   "cover_image_prompt": "Genera una copertina di libro altamente dettagliata e visivamente accattivante basata sul tema principale della storia. La copertina deve rappresentare l'essenza della storia, incorporando elementi chiave come l'ambientazione, l'atmosfera e qualsiasi simbolo importante. La composizione deve essere visivamente d'impatto, con un layout equilibrato e una combinazione di colori coinvolgente. Evita fumetti, elementi testuali, JSON o filigrane. Assicurati che l'illustrazione trasmetta efficacemente l'atmosfera e i temi principali della storia.\nIdea: {idea}\nOutput in inglese.",
   "characters_avialable": "Personaggi disponibili",
 
+  "no_more_stories": "Non ci sono più storie da mostrare.",
+
   "back_imagins": "«L'immaginazione è la scintilla che accende i sogni e dà forma al futuro. È il potere di trasformare l'impossibile in possibile, aprendo porte a idee e soluzioni che sfidano i limiti. Quando lasciamo volare la nostra mente, ci connettiamo con un potenziale illimitato per creare e reinventare il mondo.» - Imagins Team",
   "appeared_stories": "Fiabe:",
   "delete": "Elimina"
