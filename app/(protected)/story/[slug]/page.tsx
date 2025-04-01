@@ -53,11 +53,13 @@ const MyDocument = ({ story }) => {
                     alignItems: 'center'
                   }}
                 >
+
+                  {/* eslint-disable-next-line multiline-ternary */}
                   {isBackCover ? (
                   // Contraportada: se pinta la imagen en la izquierda
                     page.imageUrl && (
                           <Image
-                            alt={t('backcover_alt') || 'Contraportada'}
+                            alt='Contraportada'
                             src={page.imageUrl}
                             style={{
                               left: '5%',
@@ -99,11 +101,12 @@ const MyDocument = ({ story }) => {
                     alignItems: 'center'
                   }}
                 >
+                  {/* eslint-disable-next-line multiline-ternary */}
                   {isCover ? (
                   // Portada: se pinta la imagen en la derecha
                     page.imageUrl && (
                           <Image
-                            alt={t('cover_alt') || 'Portada'}
+                            alt='Portada'
                             src={page.imageUrl}
                             style={{
                               width: '100%',
@@ -118,7 +121,7 @@ const MyDocument = ({ story }) => {
                     !isBackCover &&
                       page.imageUrl && (
                           <Image
-                            alt={t('page_image_alt') || 'Imagen de página'}
+                            alt='Imagen de página'
                             src={page.imageUrl}
                             style={{
                               width: '100%',

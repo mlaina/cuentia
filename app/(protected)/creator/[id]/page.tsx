@@ -61,7 +61,7 @@ async function withRetry (operation: () => Promise<any>, operationName: string) 
 }
 
 function formatProtagonistDescription (
-  protagonist: Protagonist,
+  protagonist: any,
   t: (key: string) => string
 ): string {
   const parts: string[] = []

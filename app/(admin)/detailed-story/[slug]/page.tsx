@@ -50,6 +50,7 @@ const MyDocument = ({ story }) => {
                     alignItems: 'center'
                   }}
                 >
+                  {/* eslint-disable-next-line multiline-ternary */}
                   {isBackCover ? (
                   // Contraportada: se pinta la imagen en la izquierda
                     page.imageUrl && (
@@ -96,6 +97,7 @@ const MyDocument = ({ story }) => {
                     alignItems: 'center'
                   }}
                 >
+                  {/* eslint-disable-next-line multiline-ternary */}
                   {isCover ? (
                   // Portada: se pinta la imagen en la derecha
                     page.imageUrl && (

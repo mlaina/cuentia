@@ -1,147 +1,16 @@
 'use client'
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import StoryViewer from '@/components/StoryViewer'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Page, Text, Document, pdf, Image, Font, View } from '@react-pdf/renderer'
-import { saveAs } from 'file-saver'
-import { marked } from 'marked'
-import he from 'he'
 import { useTranslations } from 'next-intl'
-import DownloadMenu from '@/components/DownloadMenu'
-import { useUser } from '@supabase/auth-helpers-react'
 import Link from 'next/link'
 import { BookOpen } from 'lucide-react'
 import Preview from '@/components/Preview'
 
-Font.register({
-  family: 'Roboto',
-  src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf'
-})
-
-const MyDocument = ({ story }) => {
-  const pages =
-      typeof story.content === 'string'
-        ? JSON.parse(story.content)
-        : story.content
-
-  return (
-      <Document>
-        {pages.map((page, index) => {
-          const isCover = index === 0
-          const isBackCover = index === pages.length - 1
-
-          return (
-              <Page
-                key={index}
-                size='A4'
-                orientation='landscape'
-                style={{
-                  padding: 0,
-                  margin: 0,
-                  flexDirection: 'row', // Dividimos la página en dos columnas
-                  position: 'relative',
-                  overflow: 'hidden'
-                }}
-              >
-                {/* Mitad izquierda */}
-                <View
-                  style={{
-                    flex: 1,
-                    padding: 10,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                >
-                  {isBackCover ? (
-                  // Contraportada: se pinta la imagen en la izquierda
-                    page.imageUrl && (
-                          <Image
-                            alt='Contraportada'
-                            src={page.imageUrl}
-                            style={{
-                              left: '5%',
-                              width: '110%',
-                              height: '100%',
-                              objectFit: 'cover',
-                              objectPosition: 'center',
-                              display: 'block'
-                            }}
-                          />
-                    )
-                  ) : (
-                  // Páginas intermedias: se pinta el texto en la izquierda
-                    !isCover &&
-                      page.content && (
-                          <Text
-                            style={{
-                              backgroundColor: 'rgba(255, 255, 255, 0.7)',
-                              padding: 12,
-                              borderRadius: 4,
-                              fontSize: 18,
-                              lineHeight: 1.6,
-                              letterSpacing: 0.5,
-                              fontWeight: 500
-                            }}
-                          >
-                            {he.decode(marked(page.content).replace(/<[^>]*>/g, ''))}
-                          </Text>
-                    )
-                  )}
-                </View>
-
-                {/* Mitad derecha */}
-                <View
-                  style={{
-                    flex: 1,
-                    padding: 10,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                >
-                  {isCover ? (
-                  // Portada: se pinta la imagen en la derecha
-                    page.imageUrl && (
-                          <Image
-                            alt='Portada'
-                            src={page.imageUrl}
-                            style={{
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover',
-                              display: 'block'
-                            }}
-                          />
-                    )
-                  ) : (
-                  // Páginas intermedias: se pinta la imagen en la derecha
-                    !isBackCover &&
-                      page.imageUrl && (
-                          <Image
-                            alt='Imagen de página'
-                            src={page.imageUrl}
-                            style={{
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover',
-                              display: 'block'
-                            }}
-                          />
-                    )
-                  )}
-                </View>
-              </Page>
-          )
-        })}
-      </Document>
-  )
-}
-
 const IMAGINS =
     '"La imaginación es la chispa que enciende los sueños y da forma al futuro. Es el poder de transformar lo imposible en posible, abriendo puertas a ideas y soluciones que desafían los límites. Cuando dejamos volar nuestra mente, conectamos con un potencial ilimitado para crear y reinventar el mundo."'
 
-export default function PreviewPage ({ params }: PreviewPageProps) {
+export default function PreviewPage ({ params }: any) {
   const { slug } = params
   const [favoriteStories, setFavoriteStories] = useState([])
   const [story, setStory] = useState({ content: [] })
