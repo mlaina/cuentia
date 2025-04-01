@@ -119,14 +119,14 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
     const paragraphs = cleanText.split('\n\n')
 
     return paragraphs.map((paragraph, index) => (
-        <p key={index} className='text-justify leading-relaxed mb-4 text-lg'>
+        <p key={index} className='text-justify leading-relaxed mb-4 text-sm md:text-lg'>
           {formatTextWithBoldQuotes(paragraph)}
         </p>
     ))
   }
 
   return (
-      <div className='mx-auto p-4 py-2 md:py-4 max-w-6xl'>
+      <div className='mx-auto p-4 py-2 max-w-6xl pt-20'>
         <div className='relative'>
           <HTMLFlipBook
             width={550}
@@ -134,7 +134,7 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
             minWidth={315}
             maxWidth={1000}
             minHeight={400}
-            maxHeight={1533}
+            maxHeight={1333}
             size='stretch'
             maxShadowOpacity={0.2}
             showCover

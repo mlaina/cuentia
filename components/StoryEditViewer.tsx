@@ -105,6 +105,8 @@ export default function StoryEditViewer ({ pages = [], handleChanges }) {
                   <div className='overflow-y-auto h-full'>
                     <textarea
                       className='
+                        text-sm
+                        md:text-md
                         w-full
                         bg-white
                         border-2

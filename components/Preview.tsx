@@ -120,7 +120,7 @@ export default function Component ({ pages = [], stream = false, hiddenPageText 
     const paragraphs = cleanText.split('\n\n')
 
     return paragraphs.map((paragraph, index) => (
-        <p key={index} className='text-justify leading-relaxed mb-4'>
+        <p key={index} className='text-justify leading-relaxed mb-4 text-sm md:text-lg'>
           {formatTextWithBoldQuotes(paragraph)}
         </p>
     ))

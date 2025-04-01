@@ -254,7 +254,7 @@ export default function StoryPage ({ params }) {
   }
 
   const handleShare = async () => {
-    const shareUrl = process.env.NEXT_PUBLIC_BASE_URL + '/my-story/' + story.id
+    const shareUrl = process.env.NEXT_PUBLIC_BASE_URL + '/story-view/' + story.id
 
     await supabase.from('stories').update({ public: true }).eq('id', story.id)
 
