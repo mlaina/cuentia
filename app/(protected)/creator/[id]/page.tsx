@@ -110,7 +110,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   const [indice, setIndice] = useState([])
   const [prompts, setPrompts] = useState([])
   const [loading, setLoading] = useState(0)
-  const [description, setDescription] = useState(null)
+  const [, setDescription] = useState(null)
   const supabase = useSupabaseClient()
   const user = useUser()
   const hasExecutedRef = useRef(false)
@@ -185,6 +185,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
     const loopLoading = async () => {
       let step = 1
+      // eslint-disable-next-line no-unmodified-loop-condition
       while (!isCancelled && indice.length === 0) {
         setLoading(step)
         step = step === 5 ? 1 : step + 1

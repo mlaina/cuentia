@@ -17,16 +17,6 @@ export default function LoadingImageAnimation ({ images, maxVisibleImages = 5 }:
   const lastTimestampRef = useRef<number>(0)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Shuffle array function
-  const shuffleArray = (array: string[]) => {
-    const shuffled = [...array]
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-            ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
-    }
-    return shuffled
-  }
-
   // Calculate scale based on position (bell curve)
   const getScaleForPosition = (position: number) => {
     // Maximum scale at position 50 (center)
