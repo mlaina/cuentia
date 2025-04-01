@@ -201,7 +201,7 @@
   "creating_story": "Verhaal wordt gemaakt...",
   "loading_step_1_action": "Wekken",
   "loading_step_1_object": "de draken",
-  "loading_step_1_color": "pink-500",
+  "loading_step_1_color": "secondary",
   "loading_step_1_emoji": "🌅",
   "loading_step_1_emoji_label": "wekken",
 
@@ -213,13 +213,13 @@
 
   "loading_step_3_action": "Verkennen",
   "loading_step_3_object": "het universum",
-  "loading_step_3_color": "accent",
+  "loading_step_3_color": "secondary",
   "loading_step_3_emoji": "🚀",
   "loading_step_3_emoji_label": "verkennen",
 
   "loading_step_4_action": "Roepen",
   "loading_step_4_object": "de feniks",
-  "loading_step_4_color": "pink-500",
+  "loading_step_4_color": "secondary",
   "loading_step_4_emoji": "🔥",
   "loading_step_4_emoji_label": "roepen",
 

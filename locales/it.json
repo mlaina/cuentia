@@ -201,7 +201,7 @@
   "creating_story": "Creazione della storia in corso...",
   "loading_step_1_action": "Risvegliando",
   "loading_step_1_object": "i draghi",
-  "loading_step_1_color": "pink-500",
+  "loading_step_1_color": "secondary",
   "loading_step_1_emoji": "🌅",
   "loading_step_1_emoji_label": "risvegliando",
 
@@ -213,13 +213,13 @@
 
   "loading_step_3_action": "Esplorando",
   "loading_step_3_object": "la galassia",
-  "loading_step_3_color": "accent",
+  "loading_step_3_color": "secondary",
   "loading_step_3_emoji": "🚀",
   "loading_step_3_emoji_label": "esplorando",
 
   "loading_step_4_action": "Chiamando",
   "loading_step_4_object": "la fenice",
-  "loading_step_4_color": "pink-500",
+  "loading_step_4_color": "secondary",
   "loading_step_4_emoji": "🔥",
   "loading_step_4_emoji_label": "chiamando",
 

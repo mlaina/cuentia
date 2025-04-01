@@ -147,7 +147,7 @@ export default function CrearCuentoPage () {
       <div className='h-full flex flex-col md:flex-row background-section-4 [transform:scaleX(-1)]'>
         <div
           className={`w-full flex flex-col md:flex-row [transform:scaleX(-1)] transition-opacity duration-300 ${
-                loading ? 'opacity-50' : 'opacity-100'
+                loading ? 'opacity-50 pointer-events-none' : 'opacity-100 pointer-events-auto'
             }`}
         >
           {/* Lado izquierdo - Título inspirador */}
@@ -190,7 +190,7 @@ export default function CrearCuentoPage () {
 
                 {/* Ideas aleatorias y botón de varita mágica */}
                 <div className='flex justify-between mt-4'>
-                  <div className='flex flex-wrap gap-2'>
+                  <div className='flex flex-wrap gap-2 h-14'>
                     {randomIdeas.map((idea, index) => (
                         <button
                           key={index}

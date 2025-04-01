@@ -6,8 +6,34 @@ import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import Head from 'next/head'
 import StoryViewer from '@/components/StoryViewer'
 import { useTranslations } from 'next-intl'
+import LoadingImageAnimation from '@/components/loading-image-animation'
 
 export const runtime = 'edge'
+
+const IMAGES = [
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/b554f97a-2ccb-4700-9da2-cdd227f8de00/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/1fda4855-4e9b-41d3-2c3d-3c6deca83400/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/035dd683-8635-4111-1e6d-f1eada67dc00/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/7f20a316-fdaf-4f6f-fe78-3c87b47ba300/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/27c73af9-ee2b-4b77-7e86-661eb7eeef00/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/1a531b04-c3d9-4eb2-d68e-d6cd13846600/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/461a7fe4-7e40-44c5-c12e-a06d27876900/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/f5935a77-bd6c-432f-6b0c-9a7501c94000/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/2c9caedd-7eaa-4c6a-772a-9bad95689800/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/a387cb47-354f-44b5-1582-397f40700400/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/8c0ce7e4-3eae-4c84-56b3-ad7004a19100/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/d8c0d37a-29f0-4e9f-3976-c6408f532d00/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/b75f2714-8465-49ed-fca7-05e76e655100/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/df06a836-b11c-451a-1f21-8ae19ee40500/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/97433eac-6907-446f-b7d1-9b2c3ad51400/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/de079655-2d7a-4ecb-3f04-83b28e19cd00/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/f5b372b7-a7f2-404f-58fb-f0cbf6478f00/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/3fa09938-5805-4ff7-5aa4-6aa8db73b400/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/d7db3dca-c25d-4053-57df-aa458ca7b400/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/eb6781bb-8676-4e8d-53d7-da414741c000/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/b51a2c9e-7a50-464d-5692-c58f14a7df00/public',
+  'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/c376454c-b3ce-4a59-2c0c-9faee460d000/public'
+]
 
 function sanitizeText (text: string) {
   let sanitized = text.replace(/"([^"]*)$/g, '"' + '$1' + '"')
@@ -152,20 +178,26 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   }
 
   useEffect(() => {
-    const steps = [1, 2, 3, 4, 5, 6]
+    if (indice.length > 0) return // si ya hay índice, no hacer nada
+
+    let isCancelled = false
     const delay = 3000
 
-    const progressLoading = async () => {
-      for (const step of steps) {
+    const loopLoading = async () => {
+      let step = 1
+      while (!isCancelled && indice.length === 0) {
         setLoading(step)
+        step = step === 5 ? 1 : step + 1
         await new Promise(resolve => setTimeout(resolve, delay))
       }
     }
 
-    progressLoading()
+    loopLoading()
 
-    return () => setLoading(0)
-  }, [])
+    return () => {
+      isCancelled = true
+    }
+  }, [indice])
 
   const createStoryIndex = async (story, description, length) => {
     try {
@@ -493,34 +525,38 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
           <title>{title || t('creating_story')}</title>
         </Head>
 
-        {indice.length > 0 && loading > 5 &&
+        {indice.length > 0 &&
           <div className='overflow-hidden h-full pt-6'>
              <StoryViewer pages={indice} stream />
           </div>}
 
-        {indice.length <= 0 && loading <= 5 && !description &&
-        <div className='flex flex-col h-full w-full '>
-          <div className='flex flex-col justify-center items-center w-full h-2/3 text-gray-500 relative'>
-            {[1, 2, 3, 4, 5].map((step) => (
-                <section
-                  key={step}
-                  className={`absolute inset-0 transition-opacity duration-500 ${
-                        loading === step ? 'opacity-100' : 'opacity-0'
-                    } flex justify-center items-center`}
-                >
-                  <p className='text-2xl md:text-5xl flex items-center'>
-                <span className={`underline decoration-${t(`loading_step_${step}_color`)}`}>
-                  {t(`loading_step_${step}_action`)}
-                </span>
-                    &nbsp;{t(`loading_step_${step}_object`)}
-                    <span role='img' aria-label={t(`loading_step_${step}_emoji_label`)} className='mr-2'>
-                  {t(`loading_step_${step}_emoji`)}
-                </span>
-                  </p>
-                </section>
-            ))}
-          </div>
-        </div>}
+        {indice.length <= 0 &&
+            <div className='flex flex-col h-full w-full '>
+              <div className='flex flex-col justify-center items-center w-full mt-[15%] text-gray-500 relative'>
+                {[1, 2, 3, 4, 5].map((step) => (
+                    <section
+                      key={step}
+                      className={`absolute inset-0 transition-opacity duration-500 ${
+                            loading === step ? 'opacity-100' : 'opacity-0'
+                        } flex justify-center items-center`}
+                    >
+                      <p className='text-2xl md:text-5xl flex items-center'>
+                        <span className={`underline decoration-${t(`loading_step_${step}_color`)}`}>
+                          {t(`loading_step_${step}_action`)}
+                        </span>
+                        &nbsp;{t(`loading_step_${step}_object`)}
+                        <span role='img' aria-label={t(`loading_step_${step}_emoji_label`)} className='mr-2'>
+                          {t(`loading_step_${step}_emoji`)}
+                        </span>
+                      </p>
+                    </section>
+                ))}
+
+              </div>
+              <div>
+                <LoadingImageAnimation images={IMAGES} maxVisibleImages={5} />
+              </div>
+            </div>}
       </div>
   )
 }

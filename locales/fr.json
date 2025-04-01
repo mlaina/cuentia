@@ -201,7 +201,7 @@
   "creating_story": "Création du conte en cours...",
   "loading_step_1_action": "Réveiller",
   "loading_step_1_object": "les dragons",
-  "loading_step_1_color": "pink-500",
+  "loading_step_1_color": "secondary",
   "loading_step_1_emoji": "🌅",
   "loading_step_1_emoji_label": "réveiller",
 
@@ -213,13 +213,13 @@
 
   "loading_step_3_action": "Explorer",
   "loading_step_3_object": "la galaxie",
-  "loading_step_3_color": "accent",
+  "loading_step_3_color": "secondary",
   "loading_step_3_emoji": "🚀",
   "loading_step_3_emoji_label": "explorer",
 
   "loading_step_4_action": "Appeler",
   "loading_step_4_object": "le phénix",
-  "loading_step_4_color": "pink-500",
+  "loading_step_4_color": "secondary",
   "loading_step_4_emoji": "🔥",
   "loading_step_4_emoji_label": "appeler",
 

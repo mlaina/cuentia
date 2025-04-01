@@ -201,7 +201,7 @@
   "creating_story": "Creating story...",
   "loading_step_1_action": "Waking up",
   "loading_step_1_object": "dragons",
-  "loading_step_1_color": "pink-500",
+  "loading_step_1_color": "secondary",
   "loading_step_1_emoji": "🌅",
   "loading_step_1_emoji_label": "waking up",
 
@@ -213,13 +213,13 @@
 
   "loading_step_3_action": "Exploring",
   "loading_step_3_object": "the galaxy",
-  "loading_step_3_color": "accent",
+  "loading_step_3_color": "secondary",
   "loading_step_3_emoji": "🚀",
   "loading_step_3_emoji_label": "exploring",
 
   "loading_step_4_action": "Calling",
   "loading_step_4_object": "the phoenix",
-  "loading_step_4_color": "pink-500",
+  "loading_step_4_color": "secondary",
   "loading_step_4_emoji": "🔥",
   "loading_step_4_emoji_label": "calling",
 

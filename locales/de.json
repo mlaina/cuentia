@@ -201,7 +201,7 @@
   "creating_story": "Geschichte wird erstellt...",
   "loading_step_1_action": "Erwecken",
   "loading_step_1_object": "der Drachen",
-  "loading_step_1_color": "pink-500",
+  "loading_step_1_color": "secondary",
   "loading_step_1_emoji": "🌅",
   "loading_step_1_emoji_label": "erwecken",
 
@@ -213,13 +213,13 @@
 
   "loading_step_3_action": "Erkunden",
   "loading_step_3_object": "der Galaxie",
-  "loading_step_3_color": "accent",
+  "loading_step_3_color": "secondary",
   "loading_step_3_emoji": "🚀",
   "loading_step_3_emoji_label": "erkunden",
 
   "loading_step_4_action": "Rufen",
   "loading_step_4_object": "des Phönix",
-  "loading_step_4_color": "pink-500",
+  "loading_step_4_color": "secondary",
   "loading_step_4_emoji": "🔥",
   "loading_step_4_emoji_label": "rufen",
 

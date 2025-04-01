@@ -201,7 +201,7 @@
   "creating_story": "Creando cuento...",
   "loading_step_1_action": "Despertando",
   "loading_step_1_object": "a dragones",
-  "loading_step_1_color": "pink-500",
+  "loading_step_1_color": "secondary",
   "loading_step_1_emoji": "🌅",
   "loading_step_1_emoji_label": "despertando",
 
@@ -213,13 +213,13 @@
 
   "loading_step_3_action": "Explorando",
   "loading_step_3_object": "la galaxia",
-  "loading_step_3_color": "accent",
+  "loading_step_3_color": "secondary",
   "loading_step_3_emoji": "🚀",
   "loading_step_3_emoji_label": "explorando",
 
   "loading_step_4_action": "Llamando",
   "loading_step_4_object": "al fénix",
-  "loading_step_4_color": "pink-500",
+  "loading_step_4_color": "secondary",
   "loading_step_4_emoji": "🔥",
   "loading_step_4_emoji_label": "llamando",
 
