@@ -9,6 +9,10 @@ const waitingAllowedRoutes = ['/coming-soon', '/story-view/']
 export async function middleware (req) {
   let res = NextResponse.next()
 
+  if (req.nextUrl.pathname.startsWith('/images')) {
+    return res
+  }
+
   if (req.nextUrl.pathname.startsWith('/preview')) {
     return res
   }
