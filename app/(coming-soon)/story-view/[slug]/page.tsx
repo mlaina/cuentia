@@ -57,7 +57,7 @@ export default function StoryPage ({ params }) {
 
   return (
       <div className='background-section-4 h-full relative'>
-        <div className='max-w-6xl mx-auto'>
+        <div className='max-w-6xl mx-auto  pt-20'>
           <StoryViewer pages={story.content} />
         </div>
       </div>
