@@ -223,6 +223,7 @@ export default function StoryPage ({ params }) {
     if (!story) return
     try {
       setEditing(false)
+      await supabase.from('stories').update(story).eq('id', story.id)
     } catch (error) {
       console.error(t('error_saving_story'), error)
     }
@@ -232,6 +233,14 @@ export default function StoryPage ({ params }) {
     setStory((prevStory) => {
       const updatedContent = [...prevStory.content]
       updatedContent[page] = { ...updatedContent[page], content: newContent }
+      return { ...prevStory, content: updatedContent }
+    })
+  }
+
+  const handleImageChanges = (page, newImageUrl) => {
+    setStory((prevStory) => {
+      const updatedContent = [...prevStory.content]
+      updatedContent[page] = { ...updatedContent[page], imageUrl: newImageUrl }
       return { ...prevStory, content: updatedContent }
     })
   }
@@ -337,7 +346,7 @@ export default function StoryPage ({ params }) {
         {/* Vista edición (StoryEditViewer) */}
         {editing && (
             <div className='max-w-6xl mx-auto pb-10'>
-              <StoryEditViewer pages={story.content} onChanges={handleChanges} />
+              <StoryEditViewer pages={story.content} handleImageChanges={handleImageChanges} handleChanges={handleChanges} />
             </div>
         )}
 

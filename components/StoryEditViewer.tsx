@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { ChevronLeft, ChevronRight, Atom } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
-export default function StoryEditViewer ({ pages = [], handleChanges }) {
+export default function StoryEditViewer ({ pages = [], handleChanges, handleImageChanges }) {
   const [currentPage, setCurrentPage] = useState(0)
   const t = useTranslations()
 
@@ -19,6 +19,47 @@ export default function StoryEditViewer ({ pages = [], handleChanges }) {
 
   const prevPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 0))
+  }
+
+  const uploadImage = async () => {
+    // Crea un input file de forma dinámica
+    const fileInput = document.createElement('input')
+    fileInput.type = 'file'
+    fileInput.accept = 'image/*'
+    fileInput.style.display = 'none'
+
+    fileInput.onchange = async (event) => {
+      const file = event.target.files[0]
+      if (!file) return
+
+      // Lee el archivo como Data URL para enviarlo en el body
+      const reader = new FileReader()
+      reader.onload = async (e) => {
+        const dataURL = e.target.result
+
+        try {
+          const response = await fetch('/api/images', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: dataURL })
+          })
+          const result = await response.json()
+          if (result.image) {
+            // Actualiza el estado del page actual con la nueva URL
+            handleImageChanges(currentPage, result.image)
+          } else {
+            console.error('Error uploading image:', result.error)
+          }
+        } catch (error) {
+          console.error(t('error_converting_epub'), error)
+        }
+      }
+      reader.readAsDataURL(file)
+    }
+
+    document.body.appendChild(fileInput)
+    fileInput.click()
+    document.body.removeChild(fileInput)
   }
 
   const current = pages[currentPage]
@@ -38,24 +79,11 @@ export default function StoryEditViewer ({ pages = [], handleChanges }) {
                         alt='Portada'
                         className='max-h-full max-w-full object-cover rounded-md'
                       />
-                      <div
-                        className='
-                              absolute
-                              inset-0
-                              flex
-                              flex-col
-                              items-center
-                              justify-center
-                              bg-black/50
-                              opacity-0
-                              group-hover:opacity-100
-                              transition-opacity
-                            '
-                      >
-                        <button className='bg-white w-[300px]  text-black px-4 py-2 rounded-md mb-4'>
+                      <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity'>
+                        <button onClick={uploadImage} className='bg-white w-[300px] text-black px-4 py-2 rounded-md mb-4'>
                           {t('upload_image')}
                         </button>
-                        <button className='bg-pink-600 w-[300px]  text-white px-4 py-2 rounded-md'>
+                        <button className='bg-pink-600 w-[300px] text-white px-4 py-2 rounded-md'>
                           {t('generate_image')}
                         </button>
                       </div>
@@ -73,104 +101,57 @@ export default function StoryEditViewer ({ pages = [], handleChanges }) {
                         alt='Contraportada'
                         className='max-h-full max-w-full object-cover rounded-md'
                       />
-                      <div
-                        className='
-                              absolute
-                              inset-0
-                              flex
-                              flex-col
-                              items-center
-                              justify-center
-                              bg-black/50
-                              opacity-0
-                              group-hover:opacity-100
-                              transition-opacity
-                            '
-                      >
-                        <button className='bg-white w-[300px]  text-black px-4 py-2 rounded-md mb-4'>
+                      <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity'>
+                        <button onClick={uploadImage} className='bg-white w-[300px] text-black px-4 py-2 rounded-md mb-4'>
                           {t('upload_image')}
                         </button>
-                        <button className='bg-pink-600 w-[300px]  text-white px-4 py-2 rounded-md'>
+                        <button className='bg-pink-600 w-[300px] text-white px-4 py-2 rounded-md'>
                           {t('generate_image')}
                         </button>
                       </div>
                     </div>
                 )}
-                </div>
+              </div>
           ) : (
-          // Páginas intermedias: dos columnas (texto y imagen)
+              // Páginas intermedias: dos columnas (texto e imagen)
               <div className='w-full h-full flex'>
                 {/* Columna de texto */}
                 <div className='w-1/2 flex flex-col justify-between p-4'>
                   <div className='overflow-y-auto h-full'>
-                    <textarea
-                      className='
-                        text-sm
-                        md:text-md
-                        w-full
-                        bg-white
-                        border-2
-                        border-secondary
-                        text-black
-                        rounded-md
-                        p-4
-                        shadow-sm
-                        focus:outline-none
-                        resize-none
-                      '
-                      rows={15}
-                      value={current.content}
-                      onChange={(e) => handleChanges(currentPage, e.target.value)}
-                    />
+                <textarea
+                  className='text-sm md:text-md w-full bg-white border-2 border-secondary text-black rounded-md p-4 shadow-sm focus:outline-none resize-none'
+                  rows={15}
+                  value={current.content}
+                  onChange={(e) => handleChanges(currentPage, e.target.value)}
+                />
                     <div className='mb-4 max-w-6xl mx-auto hidden md:flex justify-end gap-4 pr-4'>
-                      <button
-                        className='flex items-center justify-center w-10 h-10 text-white rounded-full bg-secondary transition-colors'
-                      >
+                      <button className='flex items-center justify-center w-10 h-10 text-white rounded-full bg-secondary transition-colors'>
                         <Atom className='w-5 h-5' />
                       </button>
                     </div>
                   </div>
-                  <span className='text-sm text-gray-500 font-bold'>
-                  {currentPage * 2 - 1}
-                  </span>
+                  <span className='text-sm text-gray-500 font-bold'>{currentPage * 2 - 1}</span>
                 </div>
 
                 <div className='w-1/2 flex flex-col justify-between p-4'>
                   <div className='relative group'>
                     {current.imageUrl && (
                         <>
-                          {/* La imagen en sí */}
+                          {/* Imagen de la página */}
                           <div className='relative max-h-full max-w-full rounded-md overflow-hidden'>
                             <img
                               src={current.imageUrl}
                               alt='Image for page'
                               className='max-h-full max-w-full rounded-md object-cover'
                             />
-                            <div
-                              className='absolute bottom-0 left-0 w-full h-[6%] bg-gradient-to-t from-black/90 to-transparent pointer-events-none rounded-b-md'
-                            />
+                            <div className='absolute bottom-0 left-0 w-full h-[6%] bg-gradient-to-t from-black/90 to-transparent pointer-events-none rounded-b-md' />
                           </div>
-
-                          {/* Overlay que aparece al hover */}
-                          <div
-                            className='
-                              absolute
-                              inset-0
-                              flex
-                              flex-col
-                              items-center
-                              justify-center
-                              bg-black/50
-                              opacity-0
-                              group-hover:opacity-100
-                              transition-opacity
-                              rounded-md
-                            '
-                          >
-                            <button className='bg-white w-[300px]  text-black px-4 py-2 rounded-md mb-4'>
+                          {/* Overlay al hover */}
+                          <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-md'>
+                            <button onClick={uploadImage} className='bg-white w-[300px] text-black px-4 py-2 rounded-md mb-4'>
                               Subir imagen
                             </button>
-                            <button className='bg-pink-600 w-[300px]  text-white px-4 py-2 rounded-md'>
+                            <button className='bg-pink-600 w-[300px] text-white px-4 py-2 rounded-md'>
                               Generar imagen
                             </button>
                           </div>
@@ -178,9 +159,7 @@ export default function StoryEditViewer ({ pages = [], handleChanges }) {
                     )}
                   </div>
                 </div>
-
               </div>
-
           )}
         </div>
 

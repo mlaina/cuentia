@@ -146,12 +146,12 @@ export default function CrearCuentoPage () {
   return (
       <div className='h-full flex flex-col md:flex-row background-section-4 [transform:scaleX(-1)]'>
         <div
-          className={`w-full flex flex-col md:flex-row [transform:scaleX(-1)] transition-opacity duration-300 ${
+          className={`max-w-7xl mx-auto flex flex-col md:flex-row [transform:scaleX(-1)] transition-opacity duration-300 ${
                 loading ? 'opacity-50 pointer-events-none' : 'opacity-100 pointer-events-auto'
             }`}
         >
           {/* Lado izquierdo - Título inspirador */}
-          <div className='w-full md:w-1/2 flex items-center justify-center p-8 md:p-16'>
+          <div className='w-full md:w-1/2 flex items-center md:justify-start justify-center pt-6 md:pt-0'>
             <h1 className='text-5xl md:text-7xl font-bold text-secondary leading-tight'>
               {t('inspirational_title_line1')}
               <br />
@@ -161,7 +161,7 @@ export default function CrearCuentoPage () {
 
           {/* Lado derecho - Formulario de creación */}
           <div className='w-full md:w-1/2 px-3 flex items-center justify-center md:py-6 md:py-10'>
-            <div className='w-full max-w-3xl lg:w-full lg:pr-20'>
+            <div className='w-full max-w-3xl lg:w-full'>
               <h2 className='text-2xl md:text-3xl hidden md:block font-bold text-gray-800'>
                 {t('ready_to_dream')}
               </h2>
@@ -190,7 +190,7 @@ export default function CrearCuentoPage () {
 
                 {/* Ideas aleatorias y botón de varita mágica */}
                 <div className='flex justify-between mt-4'>
-                  <div className='flex flex-wrap gap-2 h-14'>
+                  <div className='flex flex-wrap gap-2 min-h-14'>
                     {randomIdeas.map((idea, index) => (
                         <button
                           key={index}

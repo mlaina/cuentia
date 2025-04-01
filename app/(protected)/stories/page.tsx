@@ -117,7 +117,7 @@ export default function DashboardComponent () {
                 )
               : (
                 <>
-                  <div className='hidden md:grid grid-cols-1 grid-cols-3 lg:grid-cols-4 gap-10'>
+                  <div className='hidden md:grid md:grid-cols-3 lg:grid-cols-4 gap-10'>
                     {stories.map((story) => (
                         <Link key={story.id} href={`/story/${story.id}`} passHref>
                           <div className='relative w-26'>
@@ -136,7 +136,7 @@ export default function DashboardComponent () {
                     ))}
                   </div>
 
-                  <div className='grid md:hidden gap-4 grid-cols-3'>
+                  <div className='grid md:hidden gap-4 grid-cols-2'>
                     {stories.map((story) => (
                         <Link key={story.id} href={`/story/${story.id}`} passHref>
                           <div className='relative w-26'>

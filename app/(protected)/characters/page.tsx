@@ -97,6 +97,7 @@ export default function Characters () {
               .select('id, title')
               .contains('protagonists', protagonist.id)
               .order('id', { ascending: false })
+              .limit(6)
 
             if (storyError) throw storyError
 

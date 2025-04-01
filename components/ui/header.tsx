@@ -68,7 +68,6 @@ export default function Header () {
             </Link>
             {!isComingSoon &&
             <div className='gap-4 hidden md:flex'>
-              <LanguageSelector />
               <Link href='/characters' className='text-primary text-md hover:text-secondary'>
                 {t('characters')}
               </Link>
@@ -82,11 +81,14 @@ export default function Header () {
             </div>}
           </div>
           {user && user.user_metadata.credits > 0 && (
-              <Link href='/pricing' className='text-primary mr-4 flex hover:text-secondary'>
+              <Link href='/pricing' className='text-primary flex hover:text-secondary'>
                 {user.user_metadata.credits}
                 <Coins className='w-5 h-5 mr-1 text-accent' />
               </Link>
           )}
+          <div className=' mr-4'>
+          <LanguageSelector />
+          </div>
           <div />
           {user
             ? (
@@ -110,7 +112,9 @@ export default function Header () {
                     <div className='text-secondary font-bold'>
                       {user.user_metadata?.name || user.email}
                     </div>
-                    <LanguageSelector />
+                    <div className='block md:hidden'>
+                      <LanguageSelector />
+                    </div>
                     {!isComingSoon &&
                     <div className='gap-4 flex flex-col md:hidden'>
                       <Link href='/characters' className='text-md hover:text-secondary'>

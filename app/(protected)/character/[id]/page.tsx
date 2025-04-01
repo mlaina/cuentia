@@ -198,8 +198,8 @@ export default function EditProtagonistPage () {
         <div className='lg:w-1/2 md:p-10 px-4 py-2 lg:pr-20 flex items-center justify-center'>
           <div className='w-full max-w-3xl lg:max-w-full'>
             <div className='flex items-center mb-6'>
-              <div className='min-w-10 min-h-10 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden border-2 border-secondary-700 mr-3'>
-              <span className='text-secondary-700 text-sm'>
+              <div className='min-w-10 min-h-10 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden border-2 border-secondary mr-3'>
+              <span className='text-secondary text-sm'>
                 {protagonist.name?.[0] || '?'}
               </span>
               </div>
@@ -208,7 +208,7 @@ export default function EditProtagonistPage () {
                 value={protagonist.name}
                 onChange={(e) => handleOptionSelect('name', e.target.value)}
                 placeholder={t('new_protagonist')}
-                className='w-full text-xl font-bold text-secondary-700 border-b border-dashed focus:outline-none'
+                className='w-full text-xl font-bold text-secondary border-b border-dashed focus:outline-none'
               />
             </div>
 
