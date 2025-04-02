@@ -6,7 +6,7 @@ const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/image', '/validati
 // Rutas permitidas para usuarios con plan WAITING
 const waitingAllowedRoutes = ['/coming-soon', '/story-view/']
 
-export async function middleware (req) {
+export async function middleware (req: { nextUrl: { pathname: string; searchParams: { has: (arg0: string) => any } }; url: string | URL | undefined; headers: { get: (arg0: string) => string } }) {
   let res = NextResponse.next()
 
   if (req.nextUrl.pathname.startsWith('/images')) {
@@ -14,6 +14,10 @@ export async function middleware (req) {
   }
 
   if (req.nextUrl.pathname.startsWith('/preview')) {
+    return res
+  }
+
+  if (req.nextUrl.pathname.startsWith('/my-story')) {
     return res
   }
 
@@ -44,7 +48,7 @@ export async function middleware (req) {
   }
 
   // Verificar el plan del usuario en la tabla users
-  const { data: userData, error } = await supabase.from('users').select('plan').eq('user_id', user.id).single()
+  const { data: userData } = await supabase.from('users').select('plan').eq('user_id', user.id).single()
 
   // Si el usuario tiene plan WAITING, restringir acceso solo a rutas permitidas
   if (userData?.plan === 'WAITING') {

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { BookOpen } from 'lucide-react'
-import Preview from '@/components/Preview'
+import StoryViewer from '@/components/StoryViewer'
 
 const IMAGINS =
     '"La imaginación es la chispa que enciende los sueños y da forma al futuro. Es el poder de transformar lo imposible en posible, abriendo puertas a ideas y soluciones que desafían los límites. Cuando dejamos volar nuestra mente, conectamos con un potencial ilimitado para crear y reinventar el mundo."'
@@ -37,6 +37,7 @@ export default function PreviewPage ({ params }: any) {
           .from('stories')
           .select('*')
           .eq('id', slug)
+          .eq('public', true)
           .single()
 
         if (storyError) {
@@ -55,7 +56,7 @@ export default function PreviewPage ({ params }: any) {
   }, [supabase, slug])
 
   return (
-      <div className='relative min-h-screen overflow-hidden bg-white background-section-1-small'>
+      <div className='relative min-h-screen overflow-hidden bg-white background-section-1'>
         <header id='top' className='container mx-auto max-w-6xl py-4 pt-6 px-8'>
           <nav className='flex justify-between items-center'>
             <Link href='/' className='text-3xl font-bold text-gray-800 flex items-center'>
@@ -73,7 +74,7 @@ export default function PreviewPage ({ params }: any) {
           </nav>
         </header>
 
-        <main className=' lg:background-section-1'>
+        <main>
           <div className='container mx-auto px-4 py-8'>
             {isLoading
               ? (
@@ -82,7 +83,7 @@ export default function PreviewPage ({ params }: any) {
                     </div>
                 )
               : (
-                    <Preview pages={story.content} hiddenPageText={IMAGINS} />
+                    <StoryViewer pages={story.content} hiddenPageText={IMAGINS} />
                 )}
           </div>
 
