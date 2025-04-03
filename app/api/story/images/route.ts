@@ -24,14 +24,18 @@ export async function POST (req: { json: () => PromiseLike<{ description: any }>
       // @ts-ignore
       output = await replicate.run(process.env.IMAGE_MODEL, {
         input: {
-          prompt, aspect_ratio: '4:5'
+          prompt,
+          aspect_ratio: '4:5',
+          seed: 333
         }
       })
     } catch (err) {
       // @ts-ignore
       output = await replicate.run(process.env.IMAGE_MODEL, {
         input: {
-          prompt, aspect_ratio: '4:5'
+          prompt,
+          aspect_ratio: '4:5',
+          seed: 333
         }
       })
     }

@@ -262,8 +262,13 @@ export default function StoryPage ({ params }) {
     return <div />
   }
 
+  function encodeId (id) {
+    return Buffer.from(String(id), 'utf8').toString('base64')
+  }
+
   const handleShare = async () => {
-    const shareUrl = process.env.NEXT_PUBLIC_BASE_URL + '/story-view/' + story.id
+    const encodedId = encodeId(story.id)
+    const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/my-story/${encodedId}`
 
     await supabase.from('stories').update({ public: true }).eq('id', story.id)
 
@@ -338,14 +343,14 @@ export default function StoryPage ({ params }) {
 
         {/* Vista normal (StoryViewer) */}
         {!editing && (
-            <div className='container max-w-6xl mx-auto pb-10'>
+            <div className='container max-w-5xl mx-auto'>
               <StoryViewer pages={story.content} />
             </div>
         )}
 
         {/* Vista edición (StoryEditViewer) */}
         {editing && (
-            <div className='max-w-6xl mx-auto pb-10'>
+            <div className='max-w-6xl mx-auto'>
               <StoryEditViewer pages={story.content} handleImageChanges={handleImageChanges} handleChanges={handleChanges} />
             </div>
         )}
@@ -358,6 +363,7 @@ export default function StoryPage ({ params }) {
                 isLoadingEpub={isLoadingEpub}
                 isLoadingPdf={isLoadingPdf}
                 t={t}
+                bot
               />
               <button
                 onClick={handleShare}

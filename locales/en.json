@@ -233,7 +233,7 @@
   "coming_soon_description": "We'll let you know soon when imagins is ready for you to create your own stories. In the meantime, enjoy this stories.",
 
   "system_mission": "Your mission is to create a children's story with {length} pages, full of action and excitement. You will tell the story in the text of each page. The story must have a beginning, a climax, and a resolution.",
-  "system_format": "The story must follow this format:\n- **Title:** A short title of 2-3 words. It should be original and creative.\n- **Main Element:** Describe places, objects, or other key elements that are crucial to the story.\n- **Characters:** A list of characters, where each element is a string including the name and a complete description (age, appearance, clothing color, and other relevant characteristics). Include details about the clothing they wear in the story, especially its color.\n- **Index:** A list of pages. Each page must include:\n   • Page number.\n   • **Text:** Develop at least 100 words, detailing the events of this page (avoid descriptions). Include dialogues (make the dialogues **bold**, that they don't end up in a coma) and actions.\n   • **Characters appearing:** A list with the names of the characters that appear on that page (it can be empty or contain one or several). Avoid having all the characters appear on every page.",
+  "system_format": "The story must follow this format:\n- **Title:** A short title of 2-3 words. It should be original and creative.\n- **Main Element:** Describe places, objects, or other key elements that are crucial to the story.\n- **Characters:** A list of characters, where each element is a string including the name and a complete description (age, appearance, clothing color, and other relevant characteristics). Include details about the clothing they wear in the story, especially its color.\n- **Index:** A list of pages. Each page must include:\n   • Page number.\n   • **Text:** Develop at least 150 words, detailing the events of this page (avoid descriptions). Include dialogues (make the dialogues **bold**, that they don't end up in a coma) and actions.\n   • **Characters appearing:** A list with the names of the characters that appear on that page (it can be empty or contain one or several). Avoid having all the characters appear on every page.",
   "system_remember": "Remember that the summary of each page should not include descriptions; it must contain only action and dialogues.",
   "system_illustration": "Each page must include an illustration description detailing what happens in the image.",
   "system_no_all_characters": "I do not want all the characters to appear on every page.",
@@ -332,6 +332,8 @@
   "error_copying": "Error copying",
   "text_copied": "Text copied",
   "generate_image": "Generate image",
-  "upload_image": "Upload image"
+  "upload_image": "Upload image",
+  "no_protagonists_yet": "No protagonists yet",
+  "create_first_protagonist_instruction": "Create your first protagonist"
 
 }

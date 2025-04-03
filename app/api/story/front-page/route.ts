@@ -134,7 +134,8 @@ export async function POST (req) {
       image = await replicate.run(process.env.IMAGE_MODEL, {
         input: {
           prompt: promptFront,
-          aspect_ratio: '4:5'
+          aspect_ratio: '4:5',
+          seed: 333
         }
       })
     } catch (err) {
@@ -142,7 +143,8 @@ export async function POST (req) {
       image = await replicate.run(process.env.IMAGE_MODEL, {
         input: {
           prompt: promptFront,
-          aspect_ratio: '4:5'
+          aspect_ratio: '4:5',
+          seed: 333
         }
       })
     }

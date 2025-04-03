@@ -14,10 +14,7 @@ export async function POST (req: { json: () => PromiseLike<{ description: any }>
     // @ts-ignore
     const { image } = await req.json()
 
-    console.log('Uploading image:', image)
     const cfImageUrl = await uploadImageUrl(image)
-
-    console.log('Uploaded image:', cfImageUrl)
 
     return NextResponse.json({ image: cfImageUrl })
   } catch (error) {

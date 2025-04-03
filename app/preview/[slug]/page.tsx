@@ -7,6 +7,15 @@ import { BookOpen } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 
+// Funciones de codificación/decodificación en Base64
+function encodeId (id: string | number) {
+  return Buffer.from(String(id), 'utf8').toString('base64')
+}
+
+function decodeId (encoded: string) {
+  return Buffer.from(encoded, 'base64').toString('utf8')
+}
+
 interface PreviewPageProps {
   params: {
     slug: string
@@ -18,8 +27,8 @@ const IMAGINS =
 
 export default function PreviewPage ({ params }: PreviewPageProps) {
   const { slug } = params
-  const [favoriteStories, setFavoriteStories] = useState([])
-  const [story, setStory] = useState({ content: [] })
+  const [favoriteStories, setFavoriteStories] = useState<any[]>([])
+  const [story, setStory] = useState<{ content: any[]; name?: string }>({ content: [] })
   const [isLoading, setIsLoading] = useState(true)
   const t = useTranslations()
   const supabase = createClientComponentClient()
@@ -29,8 +38,11 @@ export default function PreviewPage ({ params }: PreviewPageProps) {
       try {
         setIsLoading(true)
 
-        // Fetch favorite stories
-        const { data: favData, error: favError } = await supabase.from('stories').select('id, content').eq('fav', true)
+        // 1) Fetch de las historias favoritas
+        const { data: favData, error: favError } = await supabase
+          .from('stories')
+          .select('id, content')
+          .eq('fav', true)
 
         if (favError) {
           console.error('Error fetching favorite stories:', favError)
@@ -38,11 +50,14 @@ export default function PreviewPage ({ params }: PreviewPageProps) {
           setFavoriteStories(favData || [])
         }
 
-        // Fetch current story
+        // 2) Decodificamos el slug de la URL para obtener el ID real
+        const realId = decodeId(slug)
+
+        // 3) Fetch de la historia actual usando su ID real
         const { data: storyData, error: storyError } = await supabase
           .from('stories')
           .select('*')
-          .eq('id', slug)
+          .eq('id', realId)
           .single()
 
         if (storyError) {
@@ -61,7 +76,7 @@ export default function PreviewPage ({ params }: PreviewPageProps) {
   }, [supabase, slug])
 
   return (
-      <div className='relative min-h-screen overflow-hidden bg-white background-section-1-small'>
+      <div className='relative min-h-screen overflow-hidden bg-white'>
         <header id='top' className='container mx-auto max-w-6xl py-4 pt-6 px-8'>
           <nav className='flex justify-between items-center'>
             <Link href='/' className='text-3xl font-bold text-gray-800 flex items-center'>
@@ -79,7 +94,7 @@ export default function PreviewPage ({ params }: PreviewPageProps) {
           </nav>
         </header>
 
-        <main className=' lg:background-section-1'>
+        <main className='lg:background-section-1'>
           <div className='container mx-auto px-4 py-8'>
             {isLoading
               ? (
@@ -92,14 +107,19 @@ export default function PreviewPage ({ params }: PreviewPageProps) {
                 )}
           </div>
 
-          {favoriteStories?.length > 0 && (
+          {favoriteStories.length > 0 && (
               <section className='container mx-auto px-4 py-16'>
-                <h2 className='text-3xl font-bold text-secondary mb-8 text-center'>{t('more_stories')}</h2>
+                <h2 className='text-3xl font-bold text-secondary mb-8 text-center'>
+                  {t('more_stories')}
+                </h2>
                 <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-6xl mx-auto'>
-                  {favoriteStories.map((story) => {
-                    const coverImage = story.content?.[0]?.imageUrl
+                  {favoriteStories.map((favStory) => {
+                    const coverImage = favStory.content?.[0]?.imageUrl
+                    // Codificamos el ID de la historia
+                    const encodedId = encodeId(favStory.id)
+
                     return (
-                        <Link key={story.id} href={`/preview/${story.id}`}>
+                        <Link key={favStory.id} href={`/preview/${encodedId}`}>
                           <div className='relative w-26 cursor-pointer hover:opacity-90 transition-opacity'>
                             <img
                               src={

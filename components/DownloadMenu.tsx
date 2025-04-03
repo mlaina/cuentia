@@ -8,7 +8,8 @@ export default function DownloadMenu ({
   onConvertToPdf,
   isLoadingEpub,
   isLoadingPdf,
-  t
+  t,
+  bot = false
 }) {
   const [open, setOpen] = useState(false)
 
@@ -35,7 +36,7 @@ export default function DownloadMenu ({
 
             {/* Menú flotante */}
             {open && (
-                <div className='absolute right-0 mt-2 w-44 bg-white rounded shadow-lg border z-20'>
+                <div className={`absolute ${bot ? 'left-0' : 'right-0'} mt-2 w-44 bg-white rounded shadow-lg border z-20`}>
                     <button
                       onClick={handleEpubClick}
                       disabled={isLoadingEpub}

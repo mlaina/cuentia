@@ -239,7 +239,7 @@
   "system_no_all_characters": "No quiero que todos los personajes aparezcan en cada página.",
   "user_characters": "Entre los personajes, deben aparecer los siguientes: {characters}. Enriquece y añade profundidad a estas descripciones. Asegúrate de mencionar el color de su ropa.",
   "user_main_idea": "La idea principal de la historia es:",
-  "user_story_requirement": "La historia debe ser interesante y tener un inicio, un clímax y una resolución. Además, cada página debe contener al menos 100 palabras para garantizar suficiente detalle y profundidad en la narrativa.",
+  "user_story_requirement": "La historia debe ser interesante y tener un inicio, un clímax y una resolución. Además, cada página debe contener al menos 150 palabras para garantizar suficiente detalle y profundidad en la narrativa.",
 
   "reasoner_prompt": "Crea un prompt cautivador y aventurero para generar una historia infantil emocionante. Describe claramente una idea central que garantice acción dinámica, desafíos intrigantes y eventos memorables. Específicamente incluye:\n- Una descripción vívida de la idea central con conflictos o desafíos atractivos.\n- Relaciones e interacciones detalladas entre personajes, destacando trabajo en equipo, amistad o rivalidad.\n- Un objetivo o búsqueda clara y aventurera que motive a los personajes.\n- Escenarios o lugares importantes que añadan profundidad, emoción y variedad.\n- Una enseñanza o conclusión significativa que resuene e inspire a los jóvenes lectores.\n\nSi las relaciones, objetivos o enseñanzas clave no están especificados explícitamente, inventa creativamente escenarios y motivaciones que encajen lógicamente y enriquezcan la narrativa.\n\nLa idea de la historia: {idea}\nLos personajes: {characters}\nNúmero de páginas: {length}\n\nAsegúrate de que la historia resultante sea imaginativa, llena de acción y atractiva para niños, con desafíos claramente definidos y una resolución satisfactoria.",
   "image_prompt": "Extrae los elementos visuales esenciales para la generación de imágenes a partir del texto de la página. Proporciona una estructura de texto plano muy concisa, utilizando líneas etiquetadas que enumeren: Escenario, Personajes, Acción Principal, Estado de ánimo. No incluyas ninguna referencia a habla, conversación o interacciones verbales. No uses JSON ni incluyas marcas de agua. Solo incluye a los personajes si son imprescindibles para esta parte de la historia. Siempre que sea posible, evita mencionar o agregar información detallada de los personajes. Al mostrar los personajes: Reemplaza los nombres de los personajes con CHAR 1, CHAR 2... Siempre añade edad y género, color de la ropa y color del cabello. Texto de la página: {text}\nDescripción de personajes: {characters}\nOutput en inglés.",
@@ -332,6 +332,8 @@
   "error_copying": "Error al copiar",
   "text_copied": "Texto copiado",
   "generate_image": "Generar imagen",
-  "upload_image": "Subir imagen"
+  "upload_image": "Subir imagen",
+  "no_protagonists_yet": "Aún no hay protagonistas",
+  "create_first_protagonist_instruction": "Crea tu primer protagonista"
 
 }

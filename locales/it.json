@@ -233,7 +233,7 @@
   "coming_soon_description": "Ti faremo sapere presto quando imagins sarà pronto per creare le tue storie. Nel frattempo, goditi quelle degli altri.",
 
   "system_mission": "La tua missione è creare una storia per bambini con {length} pagine, ricca di azione ed entusiasmo. Racconterai la storia nel testo di ogni pagina. La storia deve avere un inizio, un climax e una conclusione.",
-  "system_format": "La storia deve seguire questo formato:\n- **Titolo:** Un titolo breve di 2-3 parole. Deve essere originale e creativo.\n- **Elemento principale:** Descrivi i luoghi, gli oggetti o altri elementi chiave che sono fondamentali per la storia.\n- **Personaggi:** Una lista di personaggi, in cui ogni elemento è una stringa che include il nome e una descrizione completa (età, aspetto, colore degli abiti e altre caratteristiche rilevanti). Includi dettagli sugli abiti che indossano nella storia, in particolare il colore.\n- **Indice:** Una lista di pagine. Ogni pagina deve includere:\n   • Numero di pagina.\n   • **Testo:** Sviluppa di almeno 100 parole che descriva in dettaglio gli eventi di quella pagina (evita le descrizioni). Includi dialoghi (rendi i dialoghi in **grassetto**, per evitare che terminino con una virgola) e azioni.\n   • **Personaggi in scena:** Una lista con i nomi dei personaggi che appaiono in quella pagina (può essere vuota o contenere uno o più nomi). Evita che tutti i personaggi appaiano in ogni pagina.",
+  "system_format": "La storia deve seguire questo formato:\n- **Titolo:** Un titolo breve di 2-3 parole. Deve essere originale e creativo.\n- **Elemento principale:** Descrivi i luoghi, gli oggetti o altri elementi chiave che sono fondamentali per la storia.\n- **Personaggi:** Una lista di personaggi, in cui ogni elemento è una stringa che include il nome e una descrizione completa (età, aspetto, colore degli abiti e altre caratteristiche rilevanti). Includi dettagli sugli abiti che indossano nella storia, in particolare il colore.\n- **Indice:** Una lista di pagine. Ogni pagina deve includere:\n   • Numero di pagina.\n   • **Testo:** Sviluppa di almeno 150 parole che descriva in dettaglio gli eventi di quella pagina (evita le descrizioni). Includi dialoghi (rendi i dialoghi in **grassetto**, per evitare che terminino con una virgola) e azioni.\n   • **Personaggi in scena:** Una lista con i nomi dei personaggi che appaiono in quella pagina (può essere vuota o contenere uno o più nomi). Evita che tutti i personaggi appaiano in ogni pagina.",
   "system_remember": "Ricorda che il riassunto di ogni pagina non deve includere descrizioni; deve contenere solo azioni e dialoghi.",
   "system_illustration": "Ogni pagina deve includere una descrizione dell'illustrazione che dettagli ciò che accade nell'immagine.",
   "system_no_all_characters": "Non voglio che tutti i personaggi appaiano in ogni pagina.",
@@ -332,5 +332,7 @@
   "error_copying": "Errore nella copia",
   "text_copied": "Testo copiato",
   "generate_image": "Genera immagine",
-  "upload_image": "Carica immagine"
+  "upload_image": "Carica immagine",
+  "no_protagonists_yet": "Ancora nessun protagonista",
+  "create_first_protagonist_instruction": "Crea il tuo primo protagonista"
 }
