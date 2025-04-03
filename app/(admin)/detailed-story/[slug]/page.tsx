@@ -1,8 +1,9 @@
 'use client'
 
+import React, { useEffect, useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import StoryViewer from '@/components/StoryViewer'
-import { useEffect, useState } from 'react'
+
 import { useRouter } from 'next/navigation'
 import {
   Page,
@@ -47,6 +48,7 @@ function CoversPDF ({ frontPage, backPage }) {
               {backPage?.imageUrl && (
                   <Image
                     src={backPage.imageUrl}
+                    alt='Contraportada'
                     style={{
                       width: '100%',
                       height: '100%'
@@ -54,15 +56,16 @@ function CoversPDF ({ frontPage, backPage }) {
                   />
               )}
             </View>
+
             {/* Derecha: Portada */}
             <View style={{ flex: 1 }}>
               {frontPage?.imageUrl && (
                   <Image
                     src={frontPage.imageUrl}
+                    alt='Portada'
                     style={{
                       width: '100%',
-                      height: '100%',
-                      objectFit: 'cover'
+                      height: '100%'
                     }}
                   />
               )}
@@ -79,7 +82,6 @@ function CoversPDF ({ frontPage, backPage }) {
   - Generamos 2 páginas:
       1) Texto en la primera
       2) Imagen en la segunda
-  o bien texto e imagen en la misma. Ajusta a tu gusto.
 */
 function ContentPDF ({ contentPages }) {
   return (
@@ -91,10 +93,19 @@ function ContentPDF ({ contentPages }) {
             .trim()
 
           return (
-              <>
-
+              // Usamos React.Fragment con key para el bloque de 2 páginas.
+              <React.Fragment key={index}>
                 {/* Página de TEXTO */}
-                <Page key={`text-${index}`} size='A5' style={{ paddingLeft: 25, paddingRight: 25, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Page
+                  size='A5'
+                  style={{
+                    paddingLeft: 25,
+                    paddingRight: 25,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
                   <Text
                     style={{
                       fontSize: 20,
@@ -111,6 +122,7 @@ function ContentPDF ({ contentPages }) {
                     <Page key={`img-${index}`} size='A5'>
                       <Image
                         src={page.imageUrl}
+                        alt={`Imagen de la página ${index + 1}`}
                         style={{
                           width: '100%',
                           height: '100%',
@@ -119,7 +131,7 @@ function ContentPDF ({ contentPages }) {
                       />
                     </Page>
                 )}
-              </>
+              </React.Fragment>
           )
         })}
       </Document>
@@ -219,7 +231,9 @@ export default function StoryPage ({ params }) {
       saveAs(coversBlob, 'lulu-covers.pdf')
 
       // 2) Generar PDF de contenido en A5
-      const contentBlob = await pdf(<ContentPDF contentPages={contentPages} />).toBlob()
+      const contentBlob = await pdf(
+          <ContentPDF contentPages={contentPages} />
+      ).toBlob()
       saveAs(contentBlob, 'lulu-content.pdf')
     } catch (error) {
       console.error('Error generando PDFs para Lulu:', error)
@@ -313,9 +327,11 @@ export default function StoryPage ({ params }) {
             {isLoadingEpub ? t('generating_epub') : t('convert_to_epub')}
           </button>
 
-          {/* convertToPdf original, si sigues usándolo aparte */}
+          {/* convertToPdf original, si lo sigues usando aparte */}
           <button
-            onClick={() => { /* ... */ }}
+            onClick={() => {
+              /* ... */
+            }}
             className='ml-2 px-4 py-2 bg-secondary text-white rounded hover:bg-secondary-700 transition-colors'
           >
             {t('convert_to_pdf')}
