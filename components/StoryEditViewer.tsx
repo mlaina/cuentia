@@ -149,10 +149,10 @@ export default function StoryEditViewer ({ pages = [], handleChanges, handleImag
                           {/* Overlay al hover */}
                           <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-md'>
                             <button onClick={uploadImage} className='bg-white w-[300px] text-black px-4 py-2 rounded-md mb-4'>
-                              Subir imagen
+                              {t('upload_image')}
                             </button>
                             <button className='bg-pink-600 w-[300px] text-white px-4 py-2 rounded-md'>
-                              Generar imagen
+                              {t('generate_image')}
                             </button>
                           </div>
                         </>
