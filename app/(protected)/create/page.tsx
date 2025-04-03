@@ -147,7 +147,7 @@ export default function CrearCuentoPage () {
   return (
       <div className='h-full flex flex-col md:flex-row background-section-4 [transform:scaleX(-1)]'>
         <div
-          className={`max-w-7xl mx-auto flex flex-col md:flex-row [transform:scaleX(-1)] transition-opacity duration-300 ${
+          className={` mx-auto flex flex-col md:flex-row [transform:scaleX(-1)] transition-opacity duration-300 ${
                 loading ? 'opacity-50 pointer-events-none' : 'opacity-100 pointer-events-auto'
             }`}
         >
@@ -219,7 +219,7 @@ export default function CrearCuentoPage () {
                           </h3>
                       )}
                       <div className='max-h-[150px] overflow-y-auto pr-2'>
-                        <div className='flex gap-2'>
+                        <div className='flex flex-wrap  gap-2'>
                           {unselectedProtagonists.map((protagonist) => (
                               <div
                                 key={protagonist.id}
@@ -235,7 +235,9 @@ export default function CrearCuentoPage () {
                                         />
                                     )
                                   : (
-                                        <div className='w-8 h-8 rounded-full bg-secondary-100 flex items-center justify-center text-secondary-800 font-bold'>
+                                        <div
+                                          className='w-8 h-8 rounded-full bg-secondary-100 flex items-center justify-center text-secondary-800 font-bold'
+                                        >
                                           {protagonist.name.charAt(0).toUpperCase()}
                                         </div>
                                     )}
