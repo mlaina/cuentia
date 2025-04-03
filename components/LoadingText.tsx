@@ -3,21 +3,22 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 
 const words = [
-  'imaginación', 'creatividad', 'fantasía', 'sueños', 'magia', 'aventura', 'cuento', 'fábula',
-  'leyenda', 'mito', 'héroe', 'dragón', 'hada', 'duende', 'unicornio', 'castillo', 'bosque',
-  'océano', 'estrella', 'luna', 'sol', 'viaje', 'descubrimiento', 'misterio', 'enigma',
-  'portal', 'dimensión', 'universo', 'galaxia', 'tiempo', 'espacio', 'poder', 'maravilla',
-  'asombro', 'inspiración', 'creación', 'invención', 'innovación', 'transformación', 'evolución',
-  'revolución', 'visión', 'idea', 'concepto', 'pensamiento', 'mente', 'conciencia', 'alma',
-  'espíritu', 'corazón', 'pasión', 'emoción', 'sentimiento', 'amor', 'amistad', 'valentía',
-  'coraje', 'determinación', 'perseverancia', 'esperanza', 'cariño', 'confianza', 'sabiduría',
-  'conocimiento', 'aprendizaje', 'crecimiento', 'desarrollo', 'progreso', 'éxito', 'logro',
-  'triunfo', 'victoria', 'conquista', 'exploración', 'descubrimiento', 'invención', 'creación',
-  'imaginario', 'fantástico', 'mágico', 'místico', 'encantado', 'sobrenatural', 'extraordinario',
-  'increíble', 'asombroso', 'maravilloso', 'fascinante', 'cautivador', 'inspirador', 'motivador',
-  'estimulante', 'emocionante', 'apasionante', 'intrigante', 'misterioso', 'enigmático',
-  'legendario', 'mítico', 'épico', 'heroico', 'valiente', 'audaz', 'intrépido', 'aventurero',
-  'soñador', 'visionario', 'creativo', 'innovador', 'original', 'único', 'especial', 'mágico'
+  'imaginación', 'créativité', 'fantasía', 'sogni', 'magie', 'aventura', 'cuento', 'fábula',
+  'leyenda', 'mythos', 'héroe', 'dragon', 'fee', 'elfo', 'unicornio', 'château', 'bosque',
+  'oceano', 'estrella', 'luna', 'sun', 'viaggio', 'descubrimiento', 'mystère', 'enigma',
+  'portal', 'dimension', 'universo', 'galaxie', 'tiempo', 'spazio', 'poder', 'maravilla',
+  'Wunder', 'inspiración', 'creazione', 'invenzione', 'innovaçâo', 'transformación', 'evoluzione',
+  'revolución', 'vision', 'idea', 'concepto', 'pensamiento', 'mento', 'conscience', 'alma',
+  'spirit', 'corazón', 'passione', 'emozione', 'sentimento', 'amor', 'amistad', 'coraggio',
+  'determinación', 'perseveranza', 'hope', 'cariño', 'confianca', 'wisdom', 'conhecimento',
+  'aprendizaje', 'crescimento', 'desenvolvimento', 'progresso', 'sucesso', 'achievement',
+  'logro', 'triunfo', 'victoria', 'conquista', 'exploración', 'descubrimento', 'invención',
+  'création', 'imaginario', 'fantastico', 'mágico', 'mistico', 'enchanté', 'sobrenatural',
+  'extraordinario', 'incredible', 'asombroso', 'wonderful', 'fascinante', 'captivant', 'inspirador',
+  'motivador', 'stimolante', 'emocionante', 'exciting', 'apasionante', 'intrigante', 'misterioso',
+  'enigmático', 'legendario', 'mítico', 'epic', 'heroico', 'valiente', 'audacieux', 'intrépido',
+  'aventurero', 'sognatore', 'visionario', 'creativo', 'innovador', 'original', 'único', 'speciale',
+  'mágico'
 ]
 
 export default function LoadingText ({ finalText = null }: { finalText?: string | null }) {
@@ -166,7 +167,7 @@ export default function LoadingText ({ finalText = null }: { finalText?: string 
             <hr className='w-[85%] border-t border-gray-100 my-4' />
             <style jsx>{`
         .animate-gradient {
-          background-image: linear-gradient(to right, #0ea5e9, #6B21A8, #0ea5e9);
+          background-image: linear-gradient(to right, #0ea5e9, #B4187F, #0ea5e9);
           background-size: 200% auto;
           animation: gradient-move 6s linear infinite;
         }

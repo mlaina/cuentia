@@ -130,19 +130,16 @@ export default function Characters () {
     // @ts-ignore
     const newProtagonist: Protagonist = {
       author_id: user.id,
-      name: '',
-      physical_description: '',
-      likes: '',
-      dislikes: ''
+      name: ''
     }
     try {
       setError(null)
       const { data, error } = await supabase.from('protagonists').insert([newProtagonist]).select()
       if (error) throw error
       if (data) {
+        router.push(`/character/${data[0].id}`)
         setProtagonists([...protagonists, data[0]])
         setCurrentIndex(protagonists.length)
-        router.push(`/character/${data[0].id}`)
       }
     } catch (error) {
       console.error('Error adding protagonist:', error)

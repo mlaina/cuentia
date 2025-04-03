@@ -42,8 +42,9 @@ export default function CrearCuentoPage () {
           .eq('user_id', user.id)
           .single()
         const lang = data?.lang || getLocaleCookie()
-        const { default: importedIdeas } = await import(`@/types/ideas/${lang}.json`)
-        setIdeas(importedIdeas)
+        const response = await fetch(`/ideas/${lang}.json`)
+        const ideas = await response.json()
+        setIdeas(ideas)
       } catch (error) {
         console.error(t('error_loading_ideas'), error)
       }
