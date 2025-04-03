@@ -81,7 +81,7 @@ export async function POST (req: { json: () => PromiseLike<{ length: any; story:
 
     const completion = await openai.chat.completions.create({
       ...storyIndexTemplate,
-      max_tokens: 20000,
+      max_tokens: 16384,
       messages
     })
 
