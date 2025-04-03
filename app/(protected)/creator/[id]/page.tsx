@@ -527,7 +527,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
         </Head>
 
         {indice.length > 0 &&
-          <div className='overflow-hidden h-full pt-6'>
+          <div className='container mx-auto px-4 py-8'>
              <StoryViewer pages={indice} stream />
           </div>}
 
