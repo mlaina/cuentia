@@ -101,13 +101,13 @@ export default function Home () {
                         <p className='text-secondary text-4xl font-bold'>{t('app_name')}</p>
                     </Link>
                     <div className='hidden md:flex space-x-8 text-md'>
-                        <LanguageSelector />
                         <a href='#library' className='text-primary font-bold hover:text-secondary'>
                             {t('library')}
                         </a>
                         <a href='#pricing' className='text-primary font-bold hover:text-secondary'>
                             {t('welcome')}
                         </a>
+                        <LanguageSelector />
                     </div>
                 </nav>
             </header>
