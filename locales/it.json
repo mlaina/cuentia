@@ -334,5 +334,12 @@
   "generate_image": "Genera immagine",
   "upload_image": "Carica immagine",
   "no_protagonists_yet": "Ancora nessun protagonista",
-  "create_first_protagonist_instruction": "Crea il tuo primo protagonista"
+  "create_first_protagonist_instruction": "Crea il tuo primo protagonista",
+  "confirm_save_title": "Salvare Modifiche",
+  "confirm_save_message": "Sei sicuro di voler salvare le modifiche apportate alla tua storia?",
+  "save": "Salvare",
+  "confirm_cancel_title": "Scartare Modifiche",
+  "confirm_cancel_message": "Sei sicuro di voler annullare? Tutte le modifiche non salvate andranno perse.",
+  "continue_editing": "Continua a modificare",
+  "discard_changes": "Scarta modifiche"
 }

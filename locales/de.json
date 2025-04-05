@@ -335,7 +335,14 @@
   "generate_image": "Bild generieren",
   "upload_image": "Bild hochladen",
   "no_protagonists_yet": "Noch keine Protagonisten",
-  "create_first_protagonist_instruction": "Erstelle deinen ersten Protagonisten"
+  "create_first_protagonist_instruction": "Erstelle deinen ersten Protagonisten",
+  "confirm_save_title": "Änderungen Speichern",
+  "confirm_save_message": "Sind Sie sicher, dass Sie die Änderungen an Ihrer Geschichte speichern möchten?",
+  "save": "Speichern",
+  "confirm_cancel_title": "Änderungen Verwerfen",
+  "confirm_cancel_message": "Sind Sie sicher, dass Sie abbrechen möchten? Alle nicht gespeicherten Änderungen gehen verloren.",
+  "continue_editing": "Weiter bearbeiten",
+  "discard_changes": "Änderungen verwerfen"
 
 }
 

@@ -336,6 +336,13 @@
   "generate_image": "Générer image",
   "upload_image": "Téléverser image",
   "no_protagonists_yet": "Pas encore de protagonistes",
-  "create_first_protagonist_instruction": "Créez votre premier protagoniste"
+  "create_first_protagonist_instruction": "Créez votre premier protagoniste",
+  "confirm_save_title": "Enregistrer les Modifications",
+  "confirm_save_message": "Êtes-vous sûr de vouloir enregistrer les modifications apportées à votre histoire ?",
+  "save": "Enregistrer",
+  "confirm_cancel_title": "Abandonner les Modifications",
+  "confirm_cancel_message": "Êtes-vous sûr de vouloir annuler ? Toutes les modifications non enregistrées seront perdues.",
+  "continue_editing": "Continuer l'édition",
+  "discard_changes": "Abandonner les modifications"
 }
 

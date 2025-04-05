@@ -10,7 +10,7 @@ import { marked } from 'marked'
 import he from 'he'
 import { useTranslations } from 'next-intl'
 import DownloadMenu from '@/components/DownloadMenu'
-import { Pencil, Save, X, Share2 } from 'lucide-react'
+import { Pencil, Save, X, Share2, AlertTriangle } from 'lucide-react'
 import StoryEditViewer from '@/components/StoryEditViewer'
 import { useUser } from '@supabase/auth-helpers-react'
 
@@ -20,10 +20,7 @@ Font.register({
 })
 
 const MyDocument = ({ story }) => {
-  const pages =
-      typeof story.content === 'string'
-        ? JSON.parse(story.content)
-        : story.content
+  const pages = typeof story.content === 'string' ? JSON.parse(story.content) : story.content
 
   return (
       <Document>
@@ -53,14 +50,13 @@ const MyDocument = ({ story }) => {
                     alignItems: 'center'
                   }}
                 >
-
                   {/* eslint-disable-next-line multiline-ternary */}
-                  {isBackCover ? (
-                  // Contraportada: se pinta la imagen en la izquierda
+                  {isBackCover
+                    ? // Contraportada: se pinta la imagen en la izquierda
                     page.imageUrl && (
                           <Image
                             alt='Contraportada'
-                            src={page.imageUrl}
+                            src={page.imageUrl || '/placeholder.svg'}
                             style={{
                               left: '5%',
                               width: '110%',
@@ -71,9 +67,8 @@ const MyDocument = ({ story }) => {
                             }}
                           />
                     )
-                  ) : (
-                  // Páginas intermedias: se pinta el texto en la izquierda
-                    !isCover &&
+                    : // Páginas intermedias: se pinta el texto en la izquierda
+                      !isCover &&
                       page.content && (
                           <Text
                             style={{
@@ -88,8 +83,7 @@ const MyDocument = ({ story }) => {
                           >
                             {he.decode(marked(page.content).replace(/<[^>]*>/g, ''))}
                           </Text>
-                    )
-                  )}
+                      )}
                 </View>
 
                 {/* Mitad derecha */}
@@ -102,12 +96,12 @@ const MyDocument = ({ story }) => {
                   }}
                 >
                   {/* eslint-disable-next-line multiline-ternary */}
-                  {isCover ? (
-                  // Portada: se pinta la imagen en la derecha
+                  {isCover
+                    ? // Portada: se pinta la imagen en la derecha
                     page.imageUrl && (
                           <Image
                             alt='Portada'
-                            src={page.imageUrl}
+                            src={page.imageUrl || '/placeholder.svg'}
                             style={{
                               width: '100%',
                               height: '100%',
@@ -116,13 +110,12 @@ const MyDocument = ({ story }) => {
                             }}
                           />
                     )
-                  ) : (
-                  // Páginas intermedias: se pinta la imagen en la derecha
-                    !isBackCover &&
+                    : // Páginas intermedias: se pinta la imagen en la derecha
+                      !isBackCover &&
                       page.imageUrl && (
                           <Image
                             alt='Imagen de página'
-                            src={page.imageUrl}
+                            src={page.imageUrl || '/placeholder.svg'}
                             style={{
                               width: '100%',
                               height: '100%',
@@ -130,8 +123,7 @@ const MyDocument = ({ story }) => {
                               display: 'block'
                             }}
                           />
-                    )
-                  )}
+                      )}
                 </View>
               </Page>
           )
@@ -149,38 +141,41 @@ export default function StoryPage ({ params }) {
   const [editing, setEditing] = useState(false)
   // Controla la visibilidad del popup
   const [showModal, setShowModal] = useState(false)
+  // Nuevos estados para los modales de confirmación
+  const [showSaveConfirmModal, setShowSaveConfirmModal] = useState(false)
+  const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false)
 
   const router = useRouter()
   const user = useUser()
   const supabase = createClientComponentClient()
 
-  useEffect(() => {
-    async function loadStory () {
-      if (!user) {
-        router.push('/login')
-        return
-      }
-
-      const { data: loadedStory, error } = await supabase
-        .from('stories')
-        .select('*')
-        .eq('author_id', user.id)
-        .eq('id', Number(params.slug))
-        .single()
-
-      if (error) {
-        console.error(t('error_fetching_story'), error)
-        return
-      }
-
-      if (!loadedStory) {
-        console.error(t('story_not_found'))
-        return
-      }
-
-      setStory(loadedStory)
+  const loadStory = async () => {
+    if (!user) {
+      router.push('/login')
+      return
     }
 
+    const { data: loadedStory, error } = await supabase
+      .from('stories')
+      .select('*')
+      .eq('author_id', user.id)
+      .eq('id', Number(params.slug))
+      .single()
+
+    if (error) {
+      console.error(t('error_fetching_story'), error)
+      return
+    }
+
+    if (!loadedStory) {
+      console.error(t('story_not_found'))
+      return
+    }
+
+    setStory(loadedStory)
+  }
+
+  useEffect(() => {
     loadStory()
   }, [params.slug, router, supabase, t])
 
@@ -219,14 +214,29 @@ export default function StoryPage ({ params }) {
     }
   }
 
-  const handleSave = async () => {
+  const handleSaveClick = () => {
+    setShowSaveConfirmModal(true)
+  }
+
+  const handleSaveConfirm = async () => {
     if (!story) return
     try {
       setEditing(false)
       await supabase.from('stories').update(story).eq('id', story.id)
+      setShowSaveConfirmModal(false)
     } catch (error) {
       console.error(t('error_saving_story'), error)
     }
+  }
+
+  const handleCancelClick = () => {
+    setShowCancelConfirmModal(true)
+  }
+
+  const handleCancelConfirm = () => {
+    setEditing(false)
+    loadStory()
+    setShowCancelConfirmModal(false)
   }
 
   const handleChanges = (page, newContent) => {
@@ -327,13 +337,13 @@ export default function StoryPage ({ params }) {
         {editing && (
             <div className='mb-4 max-w-6xl mx-auto hidden md:flex justify-end gap-4 pr-4'>
               <button
-                onClick={() => setEditing(false)}
+                onClick={handleCancelClick}
                 className='flex items-center justify-center w-10 h-10 border border-gray-600 text-gray-600 rounded-full hover:bg-gray-200 transition-colors'
               >
                 <X className='w-5 h-5' />
               </button>
               <button
-                onClick={handleSave}
+                onClick={handleSaveClick}
                 className='flex items-center justify-center w-10 h-10 text-white rounded-full bg-secondary transition-colors'
               >
                 <Save className='w-5 h-5' />
@@ -351,7 +361,11 @@ export default function StoryPage ({ params }) {
         {/* Vista edición (StoryEditViewer) */}
         {editing && (
             <div className='max-w-6xl mx-auto'>
-              <StoryEditViewer pages={story.content} handleImageChanges={handleImageChanges} handleChanges={handleChanges} />
+              <StoryEditViewer
+                pages={story.content}
+                handleImageChanges={handleImageChanges}
+                handleChanges={handleChanges}
+              />
             </div>
         )}
 
@@ -379,42 +393,80 @@ export default function StoryPage ({ params }) {
             <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
               {/* Contenedor del popup */}
               <div className='bg-white p-6 rounded-lg shadow-md max-w-5xl w-full'>
-                <h2 className='text-xl font-semibold mb-10'>
-                  {t('customize_story_title')}
-                </h2>
+                <h2 className='text-xl font-semibold mb-10'>{t('customize_story_title')}</h2>
                 <div className='flex gap-4'>
                   {/* Columna izquierda */}
                   <div className='flex-1 text-secondary p-4 rounded flex justify-center items-center'>
-                    <p className='font-medium mb-2'>
-                      {t('customize_story_edit_text')}
-                    </p>
+                    <p className='font-medium mb-2'>{t('customize_story_edit_text')}</p>
                   </div>
                   <div className='flex justify-center items-center'>
-                    <img
-                      src='/popup-edit.svg'
-                      alt={t('ai_alt') || 'Inteligencia Artificial'}
-                      className='w-full'
-                    />
+                    <img src='/popup-edit.svg' alt={t('ai_alt') || 'Inteligencia Artificial'} className='w-full' />
                   </div>
                   {/* Columna derecha */}
                   <div className='flex-1 text-accent-700 p-4 rounded flex justify-center items-center'>
-                    <p className='font-medium mb-2'>
-                      {t('customize_story_replace_images')}
-                    </p>
+                    <p className='font-medium mb-2'>{t('customize_story_replace_images')}</p>
                   </div>
                 </div>
                 <div className='mt-4 flex justify-end gap-2'>
+                  <button onClick={handleCancelModal} className='border border-gray-300 px-4 py-2 rounded'>
+                    {t('cancel')}
+                  </button>
+                  <button onClick={handleNextModal} className='bg-secondary text-white px-4 py-2 rounded'>
+                    {t('next')}
+                  </button>
+                </div>
+              </div>
+            </div>
+        )}
+
+        {/* Modal de confirmación para guardar */}
+        {showSaveConfirmModal && (
+            <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
+              <div className='bg-white p-6 rounded-lg shadow-md max-w-md w-full'>
+                <div className='flex items-center gap-3 mb-4'>
+                  <Save className='w-6 h-6 text-secondary' />
+                  <h2 className='text-xl font-semibold'>{t('confirm_save_title') || 'Save Changes'}</h2>
+                </div>
+                <p className='mb-6'>
+                  {t('confirm_save_message') ||
+                      '¿Estás seguro de que quieres guardar los cambios realizados en tu historia?'}
+                </p>
+                <div className='flex justify-end gap-2'>
                   <button
-                    onClick={handleCancelModal}
+                    onClick={() => setShowSaveConfirmModal(false)}
                     className='border border-gray-300 px-4 py-2 rounded'
                   >
                     {t('cancel')}
                   </button>
+                  <button onClick={handleSaveConfirm} className='bg-secondary text-white px-4 py-2 rounded'>
+                    {t('save') || 'Guardar'}
+                  </button>
+                </div>
+              </div>
+            </div>
+        )}
+
+        {/* Modal de confirmación para cancelar */}
+        {showCancelConfirmModal && (
+            <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
+              <div className='bg-white p-6 rounded-lg shadow-md max-w-md w-full'>
+                <div className='flex items-center gap-3 mb-4'>
+                  <AlertTriangle className='w-6 h-6 text-orange-500' />
+                  <h2 className='text-xl font-semibold'>{t('confirm_cancel_title') || 'Descartar Cambios'}</h2>
+                </div>
+                <p className='mb-6'>
+                  {t('confirm_cancel_message') ||
+                      '¿Estás seguro de que quieres cancelar? Se perderán todos los cambios no guardados.'}
+                </p>
+                <div className='flex justify-end gap-2'>
                   <button
-                    onClick={handleNextModal}
-                    className='bg-secondary text-white px-4 py-2 rounded'
+                    onClick={() => setShowCancelConfirmModal(false)}
+                    className='border border-gray-300 px-4 py-2 rounded'
                   >
-                    {t('next')}
+                    {t('continue_editing') || 'Seguir editando'}
+                  </button>
+                  <button onClick={handleCancelConfirm} className='bg-orange-500 text-white px-4 py-2 rounded'>
+                    {t('discard_changes') || 'Descartar cambios'}
                   </button>
                 </div>
               </div>

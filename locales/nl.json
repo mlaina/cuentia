@@ -334,5 +334,12 @@
   "generate_image": "Afbeelding genereren",
   "upload_image": "Afbeelding uploaden",
   "no_protagonists_yet": "Nog geen hoofdrolspelers",
-  "create_first_protagonist_instruction": "Maak je eerste hoofdrolspeler"
+  "create_first_protagonist_instruction": "Maak je eerste hoofdrolspeler",
+  "confirm_save_title": "Wijzigingen Opslaan",
+  "confirm_save_message": "Weet je zeker dat je de wijzigingen in je verhaal wilt opslaan?",
+  "save": "Opslaan",
+  "confirm_cancel_title": "Wijzigingen Weggooien",
+  "confirm_cancel_message": "Weet je zeker dat je wilt annuleren? Alle niet-opgeslagen wijzigingen gaan verloren.",
+  "continue_editing": "Doorgaan met bewerken",
+  "discard_changes": "Wijzigingen weggooien"
 }

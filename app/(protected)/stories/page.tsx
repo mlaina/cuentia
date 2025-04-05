@@ -102,68 +102,74 @@ export default function DashboardComponent () {
       <div className='flex background-section-3 min-h-screen'>
         <main className='flex-1 max-w-7xl m-auto'>
           <div className='mx-auto py-6 px-6 md:px-24'>
-            <div className='mb-6'>
-              <Link href='/create'>
-                <Button className='bg-gradient-to-r bg-secondary text-white border-none transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg'>
-                  <PlusCircle className='w-5 h-5 mr-2' />
-                  {t('create_new_story')}
-                </Button>
-              </Link>
-            </div>
 
             {stories.length === 0 && !loading
               ? (
                 <p className='text-center text-gray-600'>{t('no_stories_yet')}</p>
                 )
               : (
-                <>
-                  <div className='hidden md:grid md:grid-cols-3 lg:grid-cols-4 gap-10'>
-                    {stories.map((story) => (
-                        <Link key={story.id} href={`/story/${story.id}`} passHref>
-                          <div className='relative w-26'>
-                            <img
-                              src={
-                                  story.images && story.images[0] !== ''
-                                    ? story.images[0]
-                                    : 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'
-                                }
-                              alt={t('cover_image')}
-                              className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
-                            />
-                            <div className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none' />
-                          </div>
+                    <>
+                      <div className='mb-6'>
+                        <Link href='/create'>
+                          <Button
+                            className='bg-gradient-to-r bg-secondary text-white border-none transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg'
+                          >
+                            <PlusCircle className='w-5 h-5 mr-2' />
+                            {t('create_new_story')}
+                          </Button>
                         </Link>
-                    ))}
-                  </div>
+                      </div>
+                      <div className='hidden md:grid md:grid-cols-3 lg:grid-cols-4 gap-10'>
+                        {stories.map((story) => (
+                            <Link key={story.id} href={`/story/${story.id}`} passHref>
+                              <div className='relative w-26'>
+                                <img
+                                  src={
+                                      story.images && story.images[0] !== ''
+                                        ? story.images[0]
+                                        : 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'
+                                    }
+                                  alt={t('cover_image')}
+                                  className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
+                                />
+                                <div
+                                  className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none'
+                                />
+                              </div>
+                            </Link>
+                        ))}
+                      </div>
 
-                  <div className='grid md:hidden gap-4 grid-cols-2'>
-                    {stories.map((story) => (
-                        <Link key={story.id} href={`/story/${story.id}`} passHref>
-                          <div className='relative w-26'>
-                            <img
-                              src={
-                                  story.images && story.images[0] !== ''
-                                    ? story.images[0]
-                                    : 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'
-                                }
-                              alt={t('cover_image')}
-                              className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
-                            />
-                            <div className='absolute inset-y-0 left-0 w-1 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none' />
-                          </div>
-                        </Link>
-                    ))}
-                  </div>
-                </>
+                      <div className='grid md:hidden gap-4 grid-cols-2'>
+                        {stories.map((story) => (
+                            <Link key={story.id} href={`/story/${story.id}`} passHref>
+                              <div className='relative w-26'>
+                                <img
+                                  src={
+                                      story.images && story.images[0] !== ''
+                                        ? story.images[0]
+                                        : 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'
+                                    }
+                                  alt={t('cover_image')}
+                                  className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
+                                />
+                                <div
+                                  className='absolute inset-y-0 left-0 w-1 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none'
+                                />
+                              </div>
+                            </Link>
+                        ))}
+                      </div>
+                    </>
                 )}
 
             {/* Elemento de carga y trigger para más contenido */}
             <div ref={loadingRef} className='w-full flex justify-center py-8'>
               {loading
                 ? (
-                  <div className='flex items-center'>
-                    <Loader2 className='animate-spin mr-2 h-5 w-5' />
-                    <span>{t('loading') || 'Cargando'}...</span>
+                      <div className='flex items-center'>
+                        <Loader2 className='animate-spin mr-2 h-5 w-5' />
+                        <span>{t('loading') || 'Cargando'}...</span>
                   </div>
                   )
                 : hasMore
