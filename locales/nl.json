@@ -357,5 +357,8 @@
   "error_reading_image": "Fout bij het lezen van afbeeldingsbestand.",
   "image_generation_error": "Fout bij het genereren van de afbeelding. Probeer het opnieuw.",
   "supported_formats": "Ondersteunde formaten: JPEG, PNG, WebP",
+  "reference_image": "Referentieafbeelding",
+  "upload_reference": "Uploaden",
+  "no_reference_image": "Geen referentieafbeelding geselecteerd (optioneel)",
   "editcontent": "Je bent een creatieve schrijfassistent. Je bewerkt een verhaal. Hier is de volledige context van het verhaal: {contents}\n\nDe inhoud van de huidige pagina is: {current}\n\nDe gebruiker wil: {prompt}\n\nHerschrijf ALLEEN de inhoud van de huidige pagina op basis van het verzoek van de gebruiker. Behoud dezelfde stijl en toon van het verhaal. Houd de lengte vergelijkbaar met de originele pagina. Retourneer alleen de nieuwe inhoud zonder uitleg of aanvullende tekst."
 }

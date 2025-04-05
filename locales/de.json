@@ -358,6 +358,9 @@
   "error_reading_image": "Fehler beim Lesen der Bilddatei.",
   "image_generation_error": "Fehler bei der Bilderzeugung. Bitte versuchen Sie es erneut.",
   "supported_formats": "Unterstützte Formate: JPEG, PNG, WebP",
+  "reference_image": "Referenzbild",
+  "upload_reference": "Hochladen",
+  "no_reference_image": "Kein Referenzbild ausgewählt (optional)",
   "editcontent": "Sie sind ein kreativer Schreibassistent. Sie bearbeiten eine Geschichte. Hier ist der vollständige Kontext der Geschichte: {contents}\n\nDer Inhalt der aktuellen Seite ist: {current}\n\nDer Benutzer möchte: {prompt}\n\nBitte schreiben Sie NUR den Inhalt der aktuellen Seite basierend auf der Anfrage des Benutzers um. Behalten Sie den gleichen Stil und Ton der Geschichte bei. Halten Sie die Länge ähnlich wie die Originalseite. Geben Sie nur den neuen Inhalt ohne Erklärungen oder zusätzlichen Text zurück."
 
 }

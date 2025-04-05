@@ -359,6 +359,9 @@
   "error_reading_image": "Erreur lors de la lecture du fichier image.",
   "image_generation_error": "Erreur lors de la génération de l'image. Veuillez réessayer.",
   "supported_formats": "Formats pris en charge : JPEG, PNG, WebP",
+  "reference_image": "Image de référence",
+  "upload_reference": "Importer",
+  "no_reference_image": "Aucune image de référence sélectionnée (facultatif)",
   "editcontent": "Vous êtes un assistant d'écriture créative. Vous éditez une histoire. Voici le contexte complet de l'histoire : {contents}\n\nLe contenu de la page actuelle est : {current}\n\nL'utilisateur souhaite : {prompt}\n\nVeuillez réécrire UNIQUEMENT le contenu de la page actuelle en fonction de la demande de l'utilisateur. Maintenez le même style et ton de l'histoire. Gardez une longueur similaire à la page originale. Retournez uniquement le nouveau contenu sans explications ni texte supplémentaire."
 
 }

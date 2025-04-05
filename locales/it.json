@@ -357,5 +357,8 @@
   "error_reading_image": "Errore durante la lettura del file immagine.",
   "image_generation_error": "Errore durante la generazione dell'immagine. Riprova.",
   "supported_formats": "Formati supportati: JPEG, PNG, WebP",
+  "reference_image": "Immagine di riferimento",
+  "upload_reference": "Carica",
+  "no_reference_image": "Nessuna immagine di riferimento selezionata (opzionale)",
   "editcontent": "Sei un assistente di scrittura creativa. Stai modificando una storia. Ecco il contesto completo della storia: {contents}\n\nIl contenuto della pagina attuale è: {current}\n\nL'utente desidera: {prompt}\n\nRiscrivi SOLO il contenuto della pagina attuale in base alla richiesta dell'utente. Mantieni lo stesso stile e tono della storia. Mantieni una lunghezza simile alla pagina originale. Restituisci solo il nuovo contenuto senza spiegazioni o testo aggiuntivo."
 }

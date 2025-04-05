@@ -358,6 +358,9 @@
   "error_reading_image": "Erro ao ler o arquivo de imagem.",
   "image_generation_error": "Erro ao gerar a imagem. Por favor, tente novamente.",
   "supported_formats": "Formatos suportados: JPEG, PNG, WebP",
+  "reference_image": "Imagem de referência",
+  "upload_reference": "Carregar",
+  "no_reference_image": "Nenhuma imagem de referência selecionada (opcional)",
   "editcontent": "Você é um assistente de escrita criativa. Você está editando uma história. Aqui está o contexto completo da história: {contents}\n\nO conteúdo da página atual é: {current}\n\nO usuário deseja: {prompt}\n\nPor favor, reescreva APENAS o conteúdo da página atual com base na solicitação do usuário. Mantenha o mesmo estilo e tom da história. Mantenha um comprimento semelhante à página original. Retorne apenas o novo conteúdo sem explicações ou texto adicional."
 }
 
