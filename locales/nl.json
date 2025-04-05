@@ -341,5 +341,21 @@
   "confirm_cancel_title": "Wijzigingen Weggooien",
   "confirm_cancel_message": "Weet je zeker dat je wilt annuleren? Alle niet-opgeslagen wijzigingen gaan verloren.",
   "continue_editing": "Doorgaan met bewerken",
-  "discard_changes": "Wijzigingen weggooien"
+  "discard_changes": "Wijzigingen weggooien",
+  "edit_with_ai": "Bewerken met AI",
+  "ai_edit_prompt": "Hoe wil je deze inhoud bewerken?",
+  "enter_ai_prompt_placeholder": "Bijv., Maak het beschrijvender, verander de toon om vrolijker te zijn...",
+  "cancel": "Annuleren",
+  "apply_ai_edit": "Toepassen",
+  "generate_ai_image_prompt": "Beschrijf de afbeelding die je wilt genereren",
+  "enter_ai_image_prompt_placeholder": "Bijv., Een magisch bos met hoge bomen, zonlicht dat door de bladeren filtert en een klein huisje in de verte...",
+  "generating_image": "Genereren...",
+  "generate": "Genereren",
+  "generate_ai_image": "Genereren met AI",
+  "invalid_image_format": "Ongeldig afbeeldingsformaat. Gebruik JPEG, PNG of WebP.",
+  "image_too_large": "Afbeelding is te groot. Maximale grootte is 4MB.",
+  "error_reading_image": "Fout bij het lezen van afbeeldingsbestand.",
+  "image_generation_error": "Fout bij het genereren van de afbeelding. Probeer het opnieuw.",
+  "supported_formats": "Ondersteunde formaten: JPEG, PNG, WebP",
+  "editcontent": "Je bent een creatieve schrijfassistent. Je bewerkt een verhaal. Hier is de volledige context van het verhaal: {contents}\n\nDe inhoud van de huidige pagina is: {current}\n\nDe gebruiker wil: {prompt}\n\nHerschrijf ALLEEN de inhoud van de huidige pagina op basis van het verzoek van de gebruiker. Behoud dezelfde stijl en toon van het verhaal. Houd de lengte vergelijkbaar met de originele pagina. Retourneer alleen de nieuwe inhoud zonder uitleg of aanvullende tekst."
 }

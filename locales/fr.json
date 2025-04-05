@@ -343,6 +343,23 @@
   "confirm_cancel_title": "Abandonner les Modifications",
   "confirm_cancel_message": "Êtes-vous sûr de vouloir annuler ? Toutes les modifications non enregistrées seront perdues.",
   "continue_editing": "Continuer l'édition",
-  "discard_changes": "Abandonner les modifications"
+  "discard_changes": "Abandonner les modifications",
+  "edit_with_ai": "Éditer avec l'IA",
+  "ai_edit_prompt": "Comment souhaitez-vous modifier ce contenu ?",
+  "enter_ai_prompt_placeholder": "Ex., Rendez-le plus descriptif, changez le ton pour qu'il soit plus joyeux...",
+  "cancel": "Annuler",
+  "apply_ai_edit": "Appliquer",
+  "generate_ai_image_prompt": "Décrivez l'image que vous souhaitez générer",
+  "enter_ai_image_prompt_placeholder": "Ex., Une forêt magique avec de grands arbres, la lumière du soleil filtrant à travers les feuilles et un petit chalet au loin...",
+  "generating_image": "Génération en cours...",
+  "generate": "Générer",
+  "generate_ai_image": "Générer une image avec l'IA",
+  "invalid_image_format": "Format d'image invalide. Veuillez utiliser JPEG, PNG ou WebP.",
+  "image_too_large": "L'image est trop volumineuse. La taille maximale est de 4 Mo.",
+  "error_reading_image": "Erreur lors de la lecture du fichier image.",
+  "image_generation_error": "Erreur lors de la génération de l'image. Veuillez réessayer.",
+  "supported_formats": "Formats pris en charge : JPEG, PNG, WebP",
+  "editcontent": "Vous êtes un assistant d'écriture créative. Vous éditez une histoire. Voici le contexte complet de l'histoire : {contents}\n\nLe contenu de la page actuelle est : {current}\n\nL'utilisateur souhaite : {prompt}\n\nVeuillez réécrire UNIQUEMENT le contenu de la page actuelle en fonction de la demande de l'utilisateur. Maintenez le même style et ton de l'histoire. Gardez une longueur similaire à la page originale. Retournez uniquement le nouveau contenu sans explications ni texte supplémentaire."
+
 }
 

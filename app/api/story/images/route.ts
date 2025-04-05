@@ -6,7 +6,7 @@ import { uploadImageUrl } from '@/lib/cloudflare'
 
 const replicate = new Replicate()
 
-export async function POST (req: { json: () => PromiseLike<{ description: any }> | { description: any } }) {
+export async function POST (req) {
   const supabase = createRouteHandlerClient({ cookies })
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -14,29 +14,36 @@ export async function POST (req: { json: () => PromiseLike<{ description: any }>
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
   }
 
-  const { description } = await req.json()
+  // eslint-disable-next-line camelcase
+  const { description, image_prompt } = await req.json()
 
-  const prompt = `Vivid animation style modern animation. ${description}  Vibrant colors, expansive storyworlds, stylized characters, flowing motion. No comics, no watermarks. Disney Style.`
+  const prompt = `Vivid animation style modern animation. ${description} Vibrant colors, expansive storyworlds, stylized characters, flowing motion. No comics, no watermarks. Disney Style.`
 
   try {
     let output
+    const input = {
+      prompt,
+      aspect_ratio: '4:5',
+      seed: 333
+    }
+
+    // Add image_prompt if provided
+    // eslint-disable-next-line camelcase
+    if (image_prompt) {
+      // eslint-disable-next-line camelcase
+      input.image_prompt = image_prompt
+    }
+
     try {
       // @ts-ignore
       output = await replicate.run(process.env.IMAGE_MODEL, {
-        input: {
-          prompt,
-          aspect_ratio: '4:5',
-          seed: 333
-        }
+        input
       })
     } catch (err) {
+      // Retry once if it fails
       // @ts-ignore
       output = await replicate.run(process.env.IMAGE_MODEL, {
-        input: {
-          prompt,
-          aspect_ratio: '4:5',
-          seed: 333
-        }
+        input
       })
     }
 
