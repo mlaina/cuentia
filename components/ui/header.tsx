@@ -11,11 +11,17 @@ import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import LanguageSelector from '@/components/LanguageSelector'
 
+// Importamos el contexto
+import { useCredits } from '@/context/CreditsContext'
+
 export default function Header () {
   const t = useTranslations()
   const router = useRouter()
   const supabase = useSupabaseClient()
   const user = useUser()
+
+  const { credits } = useCredits() // <-- sacamos los créditos del contexto
+
   const [isPopoverOpen, setPopoverOpen] = useState(false)
   const [isSuperAdmin, setIsSuperAdmin] = useState(false)
   const [isComingSoon, setIsComingSoon] = useState(true)
@@ -25,14 +31,19 @@ export default function Header () {
       if (!user) return
 
       try {
-        const { data: dataUser } = await supabase.from('users').select('plan, credits')
+        // Buscar el plan y los créditos desde tu nueva tabla de 'users'
+        const { data: dataUser } = await supabase
+          .from('users')
+          .select('plan, credits')
           .eq('user_id', user.id)
           .single()
 
-        setIsComingSoon(dataUser.plan === 'WAITING')
+        if (dataUser) {
+          setIsComingSoon(dataUser.plan === 'WAITING')
+        }
 
+        // Llamada RPC para checkear super admin
         const { data, error } = await supabase.rpc('check_is_super_admin')
-
         if (error) throw error
 
         setIsSuperAdmin(data)
@@ -51,7 +62,6 @@ export default function Header () {
     }
 
     const { error } = await supabase.auth.signOut()
-
     if (error) {
       console.error(t('error_logging_out'), error)
     } else {
@@ -62,34 +72,42 @@ export default function Header () {
   return (
       <header className='fixed z-50 top-0 w-full bg-white bg-opacity-80 border-b-1 border-white'>
         <div className='max-w-7xl px-8 mx-auto py-4 flex justify-between items-center'>
+
+          {/* Enlace a create o pricing según créditos */}
           <div className='flex justify-between w-full items-center mr-10'>
-            <Link href={user && user.user_metadata.credits > 0 ? '/create' : '/pricing'} className='flex items-center'>
+            <Link href={user && credits > 0 ? '/create' : '/pricing'} className='flex items-center'>
               <BookOpen className='w-10 h-10 mr-2 text-secondary' />
             </Link>
-            {!isComingSoon &&
-            <div className='gap-4 hidden md:flex'>
-              <Link href='/characters' className='text-primary text-md hover:text-secondary'>
-                {t('characters')}
-              </Link>
-              <Link href='/stories' className='text-primary text-md hover:text-secondary'>
-                {t('library')}
-              </Link>
-              {isSuperAdmin &&
-                <Link href='/all-stories' className='text-primary text-md hover:text-secondary'>
-                    Admin
-                </Link>}
-            </div>}
+
+            {!isComingSoon && (
+                <div className='gap-4 hidden md:flex'>
+                  <Link href='/characters' className='text-primary text-md hover:text-secondary'>
+                    {t('characters')}
+                  </Link>
+                  <Link href='/stories' className='text-primary text-md hover:text-secondary'>
+                    {t('library')}
+                  </Link>
+                  {isSuperAdmin && (
+                      <Link href='/all-stories' className='text-primary text-md hover:text-secondary'>
+                        Admin
+                      </Link>
+                  )}
+                </div>
+            )}
           </div>
-          {user && user.user_metadata.credits > 0 && (
+
+          {/* Mostramos créditos del contexto */}
+          {user && credits > 0 && (
               <Link href='/pricing' className='text-primary flex hover:text-secondary'>
-                {user.user_metadata.credits}
+                {credits}
                 <Coins className='w-5 h-5 mr-1 text-accent' />
               </Link>
           )}
-          <div className=' mr-4'>
-          <LanguageSelector />
+
+          <div className='mr-4'>
+            <LanguageSelector />
           </div>
-          <div />
+
           {user
             ? (
               <Popover open={isPopoverOpen} onOpenChange={setPopoverOpen}>
@@ -112,38 +130,45 @@ export default function Header () {
                     <div className='text-secondary font-bold'>
                       {user.user_metadata?.name || user.email}
                     </div>
+
                     <div className='block md:hidden'>
                       <LanguageSelector />
                     </div>
-                    {!isComingSoon &&
-                    <div className='gap-4 flex flex-col md:hidden'>
-                      <Link href='/characters' className='text-md hover:text-secondary'>
-                        <Button variant='outline' className='w-full justify-start'>
-                          <PersonStanding className='mr-2 h-4 w-4' />
-                          {t('characters')}
-                        </Button>
-                      </Link>
-                      <Link href='/stories' className='text-md hover:text-secondary'>
-                        <Button variant='outline' className='w-full justify-start'>
-                          <Library className='mr-2 h-4 w-4' />
-                          {t('library')}
-                        </Button>
-                      </Link>
-                      {isSuperAdmin &&
-                        <Link href='/all-stories' className='text-md hover:text-secondary'>
+
+                    {!isComingSoon && (
+                        <div className='gap-4 flex flex-col md:hidden'>
+                          <Link href='/characters' className='text-md hover:text-secondary'>
+                            <Button variant='outline' className='w-full justify-start'>
+                              <PersonStanding className='mr-2 h-4 w-4' />
+                              {t('characters')}
+                            </Button>
+                          </Link>
+                          <Link href='/stories' className='text-md hover:text-secondary'>
+                            <Button variant='outline' className='w-full justify-start'>
+                              <Library className='mr-2 h-4 w-4' />
+                              {t('library')}
+                            </Button>
+                          </Link>
+                          {isSuperAdmin && (
+                              <Link href='/all-stories' className='text-md hover:text-secondary'>
+                                <Button variant='outline' className='w-full justify-start'>
+                                  <Library className='mr-2 h-4 w-4' />
+                                  Admin
+                                </Button>
+                              </Link>
+                          )}
+                        </div>
+                    )}
+
+                    {!isComingSoon && (
+                        <Link href='/profile'>
                           <Button variant='outline' className='w-full justify-start'>
-                            <Library className='mr-2 h-4 w-4' />
-                            Admin
+                            <UserIcon className='mr-2 h-4 w-4' />
+                            {t('profile')}
                           </Button>
-                        </Link>}
-                    </div>}
-                    {!isComingSoon &&
-                    <Link href='/profile'>
-                      <Button variant='outline' className='w-full justify-start'>
-                        <UserIcon className='mr-2 h-4 w-4' />
-                        {t('profile')}
-                      </Button>
-                    </Link>}
+                        </Link>
+                    )}
+
                     <Button
                       variant='outline'
                       className='w-full justify-start'

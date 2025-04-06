@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl'
 import LoadingImageAnimation from '@/components/loading-image-animation'
 import StoryStepper, { type Step } from '@/components/story-stepper'
 import { useRouter } from 'next/navigation'
+import { useCredits } from '@/context/CreditsContext'
 
 export const runtime = 'edge'
 
@@ -122,6 +123,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   const [steps, setSteps] = useState<Step[]>(STORY_STEPS(t))
   const [totalPages, setTotalPages] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
+  const { decreaseCredits } = useCredits()
 
   useEffect(() => {
     const fetchStory = async () => {
@@ -168,27 +170,6 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     fetchStory()
   }, [user, supabase, params.id, t])
 
-  const updateCredits = async (cost: number) => {
-    if (!user) return
-
-    const { data, error } = await supabase.auth.getUser()
-    if (error || !data?.user) {
-      console.error('Error fetching user:', error)
-      return
-    }
-
-    const currentCredits = data.user.user_metadata.credits || 0
-    const newCredits = currentCredits - cost
-
-    const { error: updateError } = await supabase.auth.updateUser({
-      data: { credits: newCredits }
-    })
-
-    if (updateError) {
-      console.error('Error updating credits:', updateError)
-    }
-  }
-
   useEffect(() => {
     if (indice.length > 0) return
 
@@ -209,7 +190,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   const createStoryIndex = async (story: any, description: string, length: number) => {
     try {
       setCurrentStep('structure')
-      await updateCredits(1)
+      await decreaseCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/index', {
           method: 'POST',
@@ -244,7 +225,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   const createPageFront = async (description: string, title: string) => {
     try {
       setCurrentStep('covers')
-      await updateCredits(5)
+      await decreaseCredits(7)
       await withRetry(async () => {
         const response = await fetch('/api/story/front-page', {
           method: 'POST',
@@ -268,7 +249,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const createPageBack = async (description: string, idea: string, length: number) => {
     try {
-      await updateCredits(5)
+      await decreaseCredits(7)
       await withRetry(async () => {
         const response = await fetch('/api/story/back-page', {
           method: 'POST',
@@ -295,7 +276,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const createImagePage = async (description: string, number: number) => {
     try {
-      await updateCredits(4)
+      await decreaseCredits(6)
       await withRetry(async () => {
         const response = await fetch('/api/story/images', {
           method: 'POST',
@@ -319,7 +300,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const buildPromptCover = async (text: string | null, mainElements: any, characters: string) => {
     try {
-      await updateCredits(1)
+      await decreaseCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/prompt-image-front', {
           method: 'POST',
@@ -339,7 +320,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const buildPromptImage = async (text: string | null, characters: string) => {
     try {
-      await updateCredits(1)
+      await decreaseCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/prompt-image', {
           method: 'POST',
@@ -360,7 +341,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   const developIdea = async (length: number, idea: string | undefined, characters: string | undefined) => {
     try {
       setCurrentStep('ideation')
-      await updateCredits(1)
+      await decreaseCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/idea', {
           method: 'POST',

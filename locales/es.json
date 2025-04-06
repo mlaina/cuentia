@@ -255,7 +255,7 @@
   "error_loading_protagonists": "Error al cargar los protagonistas",
   "error_creating_story": "Error al crear el cuento",
   "ready_to_dream": "¿Listo para soñar?",
-  "story_description_instruction": "Escribe una descripción breve de tu cuento. Recuerda añadir a los protagonistas que creaste anteriormente con @nombre o pulsando sobre ellos.",
+  "story_description_instruction": "Escribe una descripción breve de tu cuento. Recuerda añadir a los protagonistas que creaste anteriormente pulsando sobre ellos.",
   "no_protagonists_yet": "Aún no tienes protagonistas.",
   "create_one_here": "Crea uno aquí",
   "story_description_placeholder": "Inicia tu cuento y deja que empiece la magia...",

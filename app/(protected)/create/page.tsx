@@ -7,6 +7,7 @@ import { Slider } from '@/components/ui/slider'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { MentionsEditor } from '@/components/MentionsEditor'
+import { useCredits } from '@/context/CreditsContext'
 
 function getLocaleCookie () {
   if (typeof document === 'undefined') return 'en'
@@ -28,6 +29,7 @@ export default function CrearCuentoPage () {
   const router = useRouter()
   const supabase = useSupabaseClient()
   const user = useUser()
+  const { checkCreditsBeforeOperation } = useCredits()
 
   // Función auxiliar para obtener las menciones de los protagonistas seleccionados.
   const getMentions = () =>
@@ -98,6 +100,10 @@ export default function CrearCuentoPage () {
     setDescripcion(`${idea.description} ${getMentions()}`.trim())
   }
 
+  const handleCheck = async () => {
+    await checkCreditsBeforeOperation(15 + longitud * 3, handleCrearCuento)
+  }
+
   const handleCrearCuento = async () => {
     setLoading(true)
     const characters = seletedProtagonists.map((protagonist) => protagonist.id)
@@ -135,19 +141,10 @@ export default function CrearCuentoPage () {
     (protagonist) => !seletedProtagonists.some((selected) => selected.id === protagonist.id)
   )
 
-  useEffect(() => {
-    const calculatePrice = (longitud) => {
-      if (user?.user_metadata?.credits) {
-        setDisabled(11 + 5 * longitud > user.user_metadata.credits)
-      }
-    }
-    calculatePrice(longitud)
-  }, [longitud, user])
-
   return (
       <div className='h-full flex flex-col md:flex-row background-section-4 [transform:scaleX(-1)]'>
         <div
-          className={` mx-auto flex flex-col md:flex-row [transform:scaleX(-1)] transition-opacity duration-300 ${
+          className={`max-w-7xl w-full mx-auto flex flex-col md:flex-row [transform:scaleX(-1)] transition-opacity duration-300 ${
                 loading ? 'opacity-50 pointer-events-none' : 'opacity-100 pointer-events-auto'
             }`}
         >
@@ -308,7 +305,7 @@ export default function CrearCuentoPage () {
                   className={`w-full mt-3 py-2 md:py-4 bg-secondary hover:bg-secondary-600 text-white font-medium rounded-lg transition-all duration-300 text-lg ${
                         disabled ? 'opacity-50 cursor-not-allowed' : 'hover:scale-[1.02] hover:shadow-md'
                     }`}
-                  onClick={handleCrearCuento}
+                  onClick={handleCheck}
                   disabled={loading || disabled}
                 >
                   {loading ? t('creating') : t('create_story')}

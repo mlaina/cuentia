@@ -4,6 +4,7 @@ import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, Edit, Upload, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { useCredits } from '@/context/CreditsContext'
 
 export default function StoryEditViewer ({ pages = [], storyId, handleChanges, handleImageChanges }) {
   const [currentPage, setCurrentPage] = useState(0)
@@ -19,6 +20,7 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
   const fileInputRef = useRef(null)
   const [isModifyingCurrentImage, setIsModifyingCurrentImage] = useState(false)
   const [keepEssence, setKeepEssence] = useState(true)
+  const { decreaseCredits, checkCreditsBeforeOperation } = useCredits()
 
   const goToPage = (index) => {
     setCurrentPage(index)
@@ -34,6 +36,8 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
 
   const editContent = async (index, prompt) => {
     setIsLoading(true)
+
+    await decreaseCredits(1)
     fetch('/api/edit/page', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -60,7 +64,7 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
   const generateImage = async (index, prompt) => {
     setIsImageLoading(true)
     setReferenceImageError('')
-
+    await decreaseCredits(7)
     try {
       // First get the enhanced prompt from the API
       const response1 = await fetch('/api/edit/prompt-image', {
@@ -106,18 +110,11 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
     setIsImageLoading(true)
     setReferenceImageError('')
 
+    await decreaseCredits(6)
     try {
-      // First get the enhanced prompt from the API
-      const response1 = await fetch('/api/edit/prompt-image', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, storyId, index })
-      })
-      const { description } = await response1.json()
-
       // Use current image as reference
       const requestBody = {
-        description,
+        description: prompt,
         image_prompt: current.imageUrl, // Use the current image URL
         seed: keepEssence // Add the seed parameter based on the checkbox
       }
@@ -341,9 +338,9 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                 onClick={() => {
                   if (imagePrompt.trim()) {
                     if (isModifyingCurrentImage) {
-                      modifyCurrentImage(currentPage, imagePrompt)
+                      checkCreditsBeforeOperation(6, async () => await modifyCurrentImage(currentPage, imagePrompt))
                     } else {
-                      generateImage(currentPage, imagePrompt)
+                      checkCreditsBeforeOperation(7, async () => await generateImage(currentPage, imagePrompt))
                     }
                   }
                 }}
@@ -534,7 +531,7 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                               <button
                                 onClick={() => {
                                   if (aiPrompt.trim()) {
-                                    editContent(currentPage, aiPrompt)
+                                    checkCreditsBeforeOperation(1, async () => await editContent(currentPage, aiPrompt))
                                   }
                                 }}
                                 disabled={!aiPrompt.trim() || isLoading}

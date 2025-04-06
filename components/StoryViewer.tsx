@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import HTMLFlipBook from 'react-pageflip'
 import LoadingText from '@/components/LoadingText'
-import AutoResizeText from '@/components/ResizeObserver'
 
 interface StoryPage {
   content: string

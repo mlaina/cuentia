@@ -257,7 +257,7 @@
   "error_loading_protagonists": "Erreur lors du chargement des protagonistes",
   "error_creating_story": "Erreur lors de la création de l'histoire",
   "ready_to_dream": "Prêt à rêver ?",
-  "story_description_instruction": "Écrivez une brève description de votre histoire. N'oubliez pas d'ajouter les protagonistes que vous avez créés précédemment avec @nom ou en cliquant dessus.",
+  "story_description_instruction": "Écrivez une brève description de votre histoire. N'oubliez pas d'ajouter les protagonistes que vous avez créés précédemment cliquant dessus.",
   "no_protagonists_yet": "Vous n'avez pas encore de protagonistes.",
   "create_one_here": "Créez-en un ici",
   "story_description_placeholder": "Commencez votre histoire et laissez la magie opérer...",
