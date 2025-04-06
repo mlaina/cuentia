@@ -109,8 +109,7 @@ export async function middleware (req: { nextUrl: { pathname: string; searchPara
   if (
     user &&
       req.nextUrl.pathname !== '/pricing' &&
-      !isPublicRoute &&
-      (!user?.user_metadata.credits || user?.user_metadata.credits === 0)
+      !isPublicRoute
   ) {
     res = NextResponse.redirect(new URL('/pricing', req.url), { status: 303 })
     res.headers.delete('x-middleware-set-cookie')
