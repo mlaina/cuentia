@@ -25,7 +25,7 @@ export default function CrearCuentoPage () {
   const [longitud, setLongitud] = useState(10)
   const [loading, setLoading] = useState(false)
   const [ld, setLd] = useState(false)
-  const [disabled, setDisabled] = useState(false)
+  const [disabled] = useState(false)
   const router = useRouter()
   const supabase = useSupabaseClient()
   const user = useUser()
