@@ -129,12 +129,7 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
         },
         onCancel: () => setModal({ open: false })
       })
-      return
     }
-
-    decreaseCredits(cost)
-      .then(onConfirm)
-      .catch((err) => console.error('Error en decreaseCredits:', err))
   }
 
   useEffect(() => {
