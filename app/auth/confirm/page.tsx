@@ -25,7 +25,6 @@ export default function ConfirmInvite () {
         const params = new URLSearchParams(hashFragment)
         const accessToken = params.get('access_token')
         const refreshToken = params.get('refresh_token')
-        const type = params.get('type')
 
         if (!accessToken || !refreshToken) {
           setError('Invalid authentication data')
