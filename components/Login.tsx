@@ -31,12 +31,12 @@ export default function Login () {
 
         // Insertar el nuevo registro en la tabla
         const { error } = await supabase
-          .from('profiles') // Reemplaza 'profiles' con el nombre real de tu tabla
+          .from('users') // Reemplaza 'profiles' con el nombre real de tu tabla
           .insert({
             user_id: userId,
             plan: 'WAITING',
             lang: locale,
-            credits: 10000, // Asumiendo que quieres inicializar con créditos como en tus ejemplos
+            credits: 0,
             email
           })
 
@@ -61,7 +61,7 @@ export default function Login () {
       } else {
         // Verificar si es un nuevo usuario
         const { data: userData, error: userError } = await supabase
-          .from('profiles') // Reemplaza 'profiles' con el nombre real de tu tabla
+          .from('users') // Reemplaza 'profiles' con el nombre real de tu tabla
           .select('user_id')
           .eq('email', email)
           .single()
