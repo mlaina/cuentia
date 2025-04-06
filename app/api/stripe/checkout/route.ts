@@ -17,9 +17,13 @@ export async function POST (request) {
 
   const credits = products[productId] || 0
 
-  await supabase.auth.updateUser({
-    data: { credits }
-  })
+  const { data: { user } } = await supabase.auth.getUser()
+  await supabase
+    .from('users')
+    .update({ credits, last_payment: new Date() })
+    .eq('user_id', user.id)
+    .select('credits')
+    .single()
 
   return NextResponse.json({ success: true })
 }
