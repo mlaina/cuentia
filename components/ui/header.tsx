@@ -127,7 +127,7 @@ export default function Header () {
                 </PopoverTrigger>
                 <PopoverContent className='w-56' onClick={() => setPopoverOpen(!isPopoverOpen)}>
                   <div className='grid gap-4'>
-                    <div className='text-secondary font-bold'>
+                    <div className='text-secondary font-bold truncate max-w-full overflow-hidden whitespace-nowrap'>
                       {user.user_metadata?.name || user.email}
                     </div>
 
@@ -182,7 +182,7 @@ export default function Header () {
               </Popover>
               )
             : (
-              <Button variant='outline' onClick={() => router.push('/login')}>
+                  <Button variant='outline' onClick={() => router.push('/login')}>
                 {t('login')}
               </Button>
               )}
