@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'use-intl'
 
 interface CreditsContextProps {
     credits: number
@@ -9,12 +10,9 @@ interface CreditsContextProps {
     fetchCredits: () => Promise<void>
     updateCredits: (newAmount: number) => Promise<void>
     decreaseCredits: (cost: number) => Promise<void>
-
-    // NUEVO: función para verificar créditos y mostrar modal si < 50
     checkCreditsBeforeOperation: (cost: number, onConfirm: () => Promise<void>) => void
 }
 
-// Para el modal:
 interface ModalInfo {
     open: boolean
     title?: string
@@ -38,14 +36,13 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
   const supabase = useSupabaseClient()
   const user = useUser()
   const router = useRouter()
+  const t = useTranslations()
 
   const [credits, setCredits] = useState<number>(0)
   const [isLoading, setIsLoading] = useState(true)
 
-  // Estado para manejar el modal de advertencia o error
   const [modal, setModal] = useState<ModalInfo>({ open: false })
 
-  // 1. Cargar los créditos desde tu tabla 'users'
   const fetchCredits = async () => {
     if (!user) {
       setCredits(0)
@@ -68,7 +65,6 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
     }
   }
 
-  // 2. Actualizar créditos directamente
   const updateCredits = async (newAmount: number) => {
     if (!user) return
     try {
@@ -86,7 +82,6 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
     }
   }
 
-  // 3. Disminuir créditos de forma atómica con RPC
   const decreaseCredits = async (cost: number) => {
     if (!user) return
     try {
@@ -95,70 +90,53 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
         cost
       })
       if (error) throw error
-      // 'data' es el valor de créditos tras la resta
       setCredits(data ?? 0)
     } catch (err) {
       console.error('Error al decrementar créditos:', err)
     }
   }
 
-  /**
-     * NUEVO:
-     * Verifica si al consumir `cost` créditos se quedará:
-     * - por debajo de 0 => no hay suficientes créditos => modal error => ir a /pricing
-     * - entre 0 y 50 => modal de alerta => continuar o cancelar
-     * - más de 50 => ejecuta `onConfirm` directamente
-     */
   const checkCreditsBeforeOperation = (cost: number, onConfirm: () => Promise<void>) => {
-    // Si no hay usuario, no podemos hacer nada
     if (!user) return
 
-    // Caso 1: No hay créditos suficientes
+    // Insuficientes
     if (credits < cost) {
       setModal({
         open: true,
-        title: 'Créditos insuficientes',
-        message: 'No tienes créditos suficientes para esta operación.',
-        confirmLabel: 'Ir a Pricing',
+        title: t('insufficient_credits_title'),
+        message: t('insufficient_credits_message'),
+        confirmLabel: t('insufficient_credits_confirm_label'),
+        cancelLabel: t('insufficient_credits_cancel_label'),
         onConfirm: () => {
           setModal({ open: false })
           router.push('/pricing')
         },
-        // No hay botón de cancelar, o si quieres lo pones
-        cancelLabel: 'Cancelar',
         onCancel: () => setModal({ open: false })
       })
       return
     }
 
-    // Caso 2: Se quedaría con menos de 50
     if (credits - cost < 50) {
       setModal({
         open: true,
-        title: 'Bajos créditos',
-        message: `Tras esta operación te quedarían ${credits - cost} créditos. ¿Quieres continuar?`,
-        confirmLabel: 'Sí, continuar',
-        cancelLabel: 'Cancelar',
+        title: t('low_credits_title'),
+        message: t('low_credits_message', { remaining: credits - cost }),
+        confirmLabel: t('low_credits_confirm_label'),
+        cancelLabel: t('low_credits_cancel_label'),
         onConfirm: async () => {
-          // Al confirmar, cerramos modal y hacemos la operación
           setModal({ open: false })
           await onConfirm()
         },
-        onCancel: () => {
-          setModal({ open: false })
-        }
+        onCancel: () => setModal({ open: false })
       })
       return
     }
 
-    // Caso 3: Quedan más de 50 => ejecutamos directo
-    //         Consumimos créditos y luego onConfirm
-    decreaseCredits(cost).then(onConfirm).catch((err) => {
-      console.error('Error en decreaseCredits:', err)
-    })
+    decreaseCredits(cost)
+      .then(onConfirm)
+      .catch((err) => console.error('Error en decreaseCredits:', err))
   }
 
-  // Cargar créditos cuando haya usuario
   useEffect(() => {
     if (user) {
       fetchCredits()
@@ -166,7 +144,6 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
       setCredits(0)
       setIsLoading(false)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
 
   return (
@@ -182,12 +159,8 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
         >
             {children}
 
-            {/** MODAL GLOBAL (simple) */}
             {modal.open && (
-                <div
-                  className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'
-                    // Ajusta tu estilo de overlay
-                >
+                <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
                     <div className='bg-white p-6 rounded shadow-md max-w-sm w-full'>
                         <h2 className='text-xl font-bold mb-4'>{modal.title}</h2>
                         <p className='mb-6'>{modal.message}</p>

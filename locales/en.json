@@ -370,6 +370,15 @@
   "modifying_image": "Modifying image...",
   "modify": "Modify",
   "keep_essence": "Keep essence",
+  "insufficient_credits_title": "Insufficient credits",
+  "insufficient_credits_message": "You don't have enough credits to perform this operation.",
+  "insufficient_credits_confirm_label": "Go to Pricing",
+  "insufficient_credits_cancel_label": "Cancel",
+
+  "low_credits_title": "Low credits",
+  "low_credits_message": "After this operation you'll have {remaining} credits left. Do you want to continue?",
+  "low_credits_confirm_label": "Yes, continue",
+  "low_credits_cancel_label": "Cancel",
   "status_generating_page": "Generating page {currentPageDoubled} of {totalPagesDoubled}",
   "edit_image": "Make only the minimal modifications to this prompt to generate a new image from {oldprompt}. Use the user's changes: {prompt}. Do not use character names; instead, refer to them as CHAR 1, CHAR 2, etc., and preserve the original format. Don't include any additional text or explanations. Just return the new prompt without the details of the changes.",
   "editcontent": "You are a creative writing assistant. You are editing a story. Here is the full story context: {contents}\n\nThe current page content is: {current}\n\nThe user wants to: {prompt}\n\nPlease rewrite ONLY the current page content based on the user's request. Maintain the same style and tone of the story. Keep the length similar to the original page. Only return the new content without any explanations or additional text."

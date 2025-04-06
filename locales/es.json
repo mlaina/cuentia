@@ -370,6 +370,15 @@
   "modifying_image": "Modificando imagen...",
   "modify": "Modificar",
   "keep_essence": "Mantener esencia",
+  "insufficient_credits_title": "Créditos insuficientes",
+  "insufficient_credits_message": "No tienes créditos suficientes para esta operación.",
+  "insufficient_credits_confirm_label": "Ir a Pricing",
+  "insufficient_credits_cancel_label": "Cancelar",
+
+  "low_credits_title": "Bajos créditos",
+  "low_credits_message": "Tras esta operación te quedarían {remaining} créditos. ¿Quieres continuar?",
+  "low_credits_confirm_label": "Sí, continuar",
+  "low_credits_cancel_label": "Cancelar",
   "no_reference_image": "Ninguna imagen de referencia seleccionada (opcional)",
   "editcontent": "Eres un asistente de escritura creativa. Estás editando una historia. Aquí está el contexto completo de la historia: {contents}\n\nEl contenido de la página actual es: {current}\n\nEl usuario quiere: {prompt}\n\nPor favor, reescribe SOLO el contenido de la página actual según la solicitud del usuario. Mantén el mismo estilo y tono de la historia. Mantén una longitud similar a la página original. Solo devuelve el nuevo contenido sin explicaciones o texto adicional."
 

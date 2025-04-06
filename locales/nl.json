@@ -371,5 +371,14 @@
   "modifying_image": "Afbeelding wijzigen...",
   "modify": "Wijzigen",
   "keep_essence": "Essentie behouden",
+  "insufficient_credits_title": "Onvoldoende credits",
+  "insufficient_credits_message": "Je hebt niet genoeg credits om deze bewerking uit te voeren.",
+  "insufficient_credits_confirm_label": "Ga naar Pricing",
+  "insufficient_credits_cancel_label": "Annuleren",
+
+  "low_credits_title": "Lage credits",
+  "low_credits_message": "Na deze bewerking houd je {remaining} credits over. Wil je doorgaan?",
+  "low_credits_confirm_label": "Ja, doorgaan",
+  "low_credits_cancel_label": "Annuleren",
   "editcontent": "Je bent een creatieve schrijfassistent. Je bewerkt een verhaal. Hier is de volledige context van het verhaal: {contents}\n\nDe inhoud van de huidige pagina is: {current}\n\nDe gebruiker wil: {prompt}\n\nHerschrijf ALLEEN de inhoud van de huidige pagina op basis van het verzoek van de gebruiker. Behoud dezelfde stijl en toon van het verhaal. Houd de lengte vergelijkbaar met de originele pagina. Retourneer alleen de nieuwe inhoud zonder uitleg of aanvullende tekst."
 }

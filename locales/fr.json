@@ -373,6 +373,15 @@
   "modifying_image": "Modification de l'image...",
   "modify": "Modifier",
   "keep_essence": "Conserver l'essence",
+  "insufficient_credits_title": "Crédits insuffisants",
+  "insufficient_credits_message": "Vous n'avez pas assez de crédits pour effectuer cette opération.",
+  "insufficient_credits_confirm_label": "Aller à la tarification",
+  "insufficient_credits_cancel_label": "Annuler",
+
+  "low_credits_title": "Crédits faibles",
+  "low_credits_message": "Après cette opération, il vous restera {remaining} crédits. Voulez-vous continuer ?",
+  "low_credits_confirm_label": "Oui, continuer",
+  "low_credits_cancel_label": "Annuler",
   "editcontent": "Vous êtes un assistant d'écriture créative. Vous éditez une histoire. Voici le contexte complet de l'histoire : {contents}\n\nLe contenu de la page actuelle est : {current}\n\nL'utilisateur souhaite : {prompt}\n\nVeuillez réécrire UNIQUEMENT le contenu de la page actuelle en fonction de la demande de l'utilisateur. Maintenez le même style et ton de l'histoire. Gardez une longueur similaire à la page originale. Retournez uniquement le nouveau contenu sans explications ni texte supplémentaire."
 
 }
