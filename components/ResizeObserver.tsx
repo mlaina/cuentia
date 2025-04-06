@@ -31,7 +31,7 @@ export default function AutoResizeText ({ children }) {
         <div
           ref={containerRef}
           className='overflow-hidden h-[300px] transition-all'
-          style={{ fontSize: `${fontSize + 4}px` }}
+          style={{ fontSize: `${fontSize}px` }}
         >
             {children}
         </div>

@@ -365,6 +365,11 @@
   "stepper_covers_label": "Omslagen genereren",
   "stepper_pages_label": "Pagina's genereren",
   "status_generating_page": "Pagina {currentPageDoubled} van {totalPagesDoubled} wordt gegenereerd",
-
+  "modify_current_image": "Huidige Afbeelding Wijzigen",
+  "enter_ai_image_modification_prompt": "Voer instructies in om deze afbeelding te wijzigen...",
+  "current_image": "Huidige Afbeelding",
+  "modifying_image": "Afbeelding wijzigen...",
+  "modify": "Wijzigen",
+  "keep_essence": "Essentie behouden",
   "editcontent": "Je bent een creatieve schrijfassistent. Je bewerkt een verhaal. Hier is de volledige context van het verhaal: {contents}\n\nDe inhoud van de huidige pagina is: {current}\n\nDe gebruiker wil: {prompt}\n\nHerschrijf ALLEEN de inhoud van de huidige pagina op basis van het verzoek van de gebruiker. Behoud dezelfde stijl en toon van het verhaal. Houd de lengte vergelijkbaar met de originele pagina. Retourneer alleen de nieuwe inhoud zonder uitleg of aanvullende tekst."
 }

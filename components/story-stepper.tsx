@@ -40,9 +40,6 @@ export default function StoryStepper ({ steps, currentStepId, onStepComplete }: 
     )
   }, [currentStepId, steps])
 
-  // Find the current step to access its progress
-  const currentStep = steps.find((step) => step.id === currentStepId)
-
   return (
         <div className='w-full max-w-3xl mx-auto my-8'>
             <div className='relative'>

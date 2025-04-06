@@ -120,11 +120,9 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
     const paragraphs = cleanText.split('\n\n')
 
     return paragraphs.map((paragraph, index) => (
-        <AutoResizeText key={index}>
-          <p className='text-justify leading-relaxed mb-4'>
-            {formatTextWithBoldQuotes(paragraph)}
-          </p>
-        </AutoResizeText>
+        <p key={index} className='text-justify leading-relaxed mb-4'>
+          {formatTextWithBoldQuotes(paragraph)}
+        </p>
     ))
   }
 
@@ -186,7 +184,7 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
                                 </div>
                                   )
                                 : (
-                                <LoadingText finalText={page.content} />
+                                <LoadingText finalText={page.content} stream />
                                   )
                             )
                           : (

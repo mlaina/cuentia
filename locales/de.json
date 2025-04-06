@@ -366,7 +366,12 @@
   "stepper_covers_label": "Cover werden erstellt",
   "stepper_pages_label": "Seiten werden erstellt",
   "status_generating_page": "Erzeuge Seite {currentPageDoubled} von {totalPagesDoubled}",
-
+  "modify_current_image": "Aktuelles Bild Bearbeiten",
+  "enter_ai_image_modification_prompt": "Anweisungen zur Bearbeitung dieses Bildes eingeben...",
+  "current_image": "Aktuelles Bild",
+  "modifying_image": "Bild wird bearbeitet...",
+  "modify": "Bearbeiten",
+  "keep_essence": "Wesentliches beibehalten",
   "editcontent": "Sie sind ein kreativer Schreibassistent. Sie bearbeiten eine Geschichte. Hier ist der vollständige Kontext der Geschichte: {contents}\n\nDer Inhalt der aktuellen Seite ist: {current}\n\nDer Benutzer möchte: {prompt}\n\nBitte schreiben Sie NUR den Inhalt der aktuellen Seite basierend auf der Anfrage des Benutzers um. Behalten Sie den gleichen Stil und Ton der Geschichte bei. Halten Sie die Länge ähnlich wie die Originalseite. Geben Sie nur den neuen Inhalt ohne Erklärungen oder zusätzlichen Text zurück."
 
 }

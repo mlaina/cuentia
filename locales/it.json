@@ -365,6 +365,11 @@
   "stepper_covers_label": "Generazione delle copertine",
   "stepper_pages_label": "Generazione delle pagine",
   "status_generating_page": "Generazione della pagina {currentPageDoubled} di {totalPagesDoubled}",
-
+  "modify_current_image": "Modifica Immagine Corrente",
+  "enter_ai_image_modification_prompt": "Inserisci istruzioni per modificare questa immagine...",
+  "current_image": "Immagine Corrente",
+  "modifying_image": "Modifica dell'immagine in corso...",
+  "modify": "Modifica",
+  "keep_essence": "Mantenere l'essenza",
   "editcontent": "Sei un assistente di scrittura creativa. Stai modificando una storia. Ecco il contesto completo della storia: {contents}\n\nIl contenuto della pagina attuale è: {current}\n\nL'utente desidera: {prompt}\n\nRiscrivi SOLO il contenuto della pagina attuale in base alla richiesta dell'utente. Mantieni lo stesso stile e tono della storia. Mantieni una lunghezza simile alla pagina originale. Restituisci solo il nuovo contenuto senza spiegazioni o testo aggiuntivo."
 }

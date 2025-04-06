@@ -15,16 +15,16 @@ export async function POST (req) {
   }
 
   // eslint-disable-next-line camelcase
-  const { description, image_prompt } = await req.json()
+  const { description, image_prompt, seed } = await req.json()
 
-  const prompt = `Vivid animation style modern animation. ${description} Vibrant colors, expansive storyworlds, stylized characters, flowing motion. No comics, no watermarks. Disney Style.`
+  const prompt = `Vivid animation style modern animation. ${description} Vibrant colors, expansive storyworlds, stylized characters, flowing motion.`
 
   try {
     let output
     const input = {
       prompt,
       aspect_ratio: '4:5',
-      seed: 333
+      seed: seed ? 333 : undefined
     }
 
     // Add image_prompt if provided

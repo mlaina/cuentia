@@ -367,7 +367,12 @@
   "stepper_covers_label": "Génération des couvertures",
   "stepper_pages_label": "Génération des pages",
   "status_generating_page": "Génération de la page {currentPageDoubled} sur {totalPagesDoubled}",
-
+  "modify_current_image": "Modifier l'Image Actuelle",
+  "enter_ai_image_modification_prompt": "Entrez des instructions pour modifier cette image...",
+  "current_image": "Image Actuelle",
+  "modifying_image": "Modification de l'image...",
+  "modify": "Modifier",
+  "keep_essence": "Conserver l'essence",
   "editcontent": "Vous êtes un assistant d'écriture créative. Vous éditez une histoire. Voici le contexte complet de l'histoire : {contents}\n\nLe contenu de la page actuelle est : {current}\n\nL'utilisateur souhaite : {prompt}\n\nVeuillez réécrire UNIQUEMENT le contenu de la page actuelle en fonction de la demande de l'utilisateur. Maintenez le même style et ton de l'histoire. Gardez une longueur similaire à la page originale. Retournez uniquement le nouveau contenu sans explications ni texte supplémentaire."
 
 }

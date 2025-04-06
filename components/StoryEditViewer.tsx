@@ -17,6 +17,8 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
   const [referenceImage, setReferenceImage] = useState(null)
   const [referenceImageError, setReferenceImageError] = useState('')
   const fileInputRef = useRef(null)
+  const [isModifyingCurrentImage, setIsModifyingCurrentImage] = useState(false)
+  const [keepEssence, setKeepEssence] = useState(true)
 
   const goToPage = (index) => {
     setCurrentPage(index)
@@ -100,6 +102,50 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
     }
   }
 
+  const modifyCurrentImage = async (index, prompt) => {
+    setIsImageLoading(true)
+    setReferenceImageError('')
+
+    try {
+      // First get the enhanced prompt from the API
+      const response1 = await fetch('/api/edit/prompt-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, storyId, index })
+      })
+      const { description } = await response1.json()
+
+      // Use current image as reference
+      const requestBody = {
+        description,
+        image_prompt: current.imageUrl, // Use the current image URL
+        seed: keepEssence // Add the seed parameter based on the checkbox
+      }
+
+      // Generate the modified image
+      const response2 = await fetch('/api/story/images', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+      })
+
+      const data2 = await response2.json()
+      if (data2.error) {
+        throw new Error(data2.error)
+      } else {
+        handleImageChanges(currentPage, data2.image)
+        setImagePrompt('')
+        setShowImagePrompt(false)
+        setIsModifyingCurrentImage(false)
+      }
+    } catch (error) {
+      console.error('Error modifying image:', error)
+      setReferenceImageError(t('image_generation_error'))
+    } finally {
+      setIsImageLoading(false)
+    }
+  }
+
   const uploadImage = async () => {
     // Crea un input file de forma dinámica
     const fileInput = document.createElement('input')
@@ -175,7 +221,9 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
     return (
         <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/70 transition-opacity rounded-md p-6'>
           <div className='bg-white rounded-lg p-4 w-full max-w-md'>
-            <h3 className='text-lg font-medium text-gray-900 mb-2'>{t('generate_ai_image_prompt')}</h3>
+            <h3 className='text-lg font-medium text-gray-900 mb-2'>
+              {isModifyingCurrentImage ? t('modify_current_image') : t('generate_ai_image_prompt')}
+            </h3>
 
             {/* Text prompt input */}
             <textarea
@@ -184,62 +232,96 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
               rows={4}
               value={imagePrompt}
               onChange={(e) => setImagePrompt(e.target.value)}
-              placeholder={t('enter_ai_image_prompt_placeholder')}
+              placeholder={
+                  isModifyingCurrentImage ? t('enter_ai_image_modification_prompt') : t('enter_ai_image_prompt_placeholder')
+                }
             />
 
-            {/* Reference image section */}
-            <div className='mb-4'>
-              <div className='flex items-center justify-between mb-2'>
-                <label className='text-sm font-medium text-gray-700'>{t('reference_image')}</label>
-                <button
-                  type='button'
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={isImageLoading}
-                  className='text-xs px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded flex items-center gap-1'
-                >
-                  <Upload size={14} />
-                  {t('upload_reference')}
-                </button>
-                <input
-                  ref={fileInputRef}
-                  type='file'
-                  accept='image/jpeg,image/png,image/webp,image/jpg'
-                  className='hidden'
-                  onChange={handleReferenceImageUpload}
-                  disabled={isImageLoading}
-                />
-              </div>
-
-              {referenceImageError && <div className='text-red-500 text-xs mb-2'>{referenceImageError}</div>}
-
-              {referenceImage
-                ? (
-                  <div className='relative h-32 bg-gray-100 rounded-md overflow-hidden'>
-                    <img
-                      src={referenceImage || '/placeholder.svg'}
-                      alt={t('reference_image')}
-                      className='h-full w-auto mx-auto object-contain'
-                    />
+            {/* Reference image section - only show when not modifying current image */}
+            {!isModifyingCurrentImage && (
+                <div className='mb-4'>
+                  <div className='flex items-center justify-between mb-2'>
+                    <label className='text-sm font-medium text-gray-700'>{t('reference_image')}</label>
                     <button
                       type='button'
-                      onClick={() => setReferenceImage(null)}
-                      className='absolute top-1 right-1 bg-black/60 text-white rounded-full p-1 hover:bg-black/80'
+                      onClick={() => fileInputRef.current?.click()}
                       disabled={isImageLoading}
+                      className='text-xs px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded flex items-center gap-1'
                     >
-                      <X size={14} />
+                      <Upload size={14} />
+                      {t('upload_reference')}
                     </button>
+                    <input
+                      ref={fileInputRef}
+                      type='file'
+                      accept='image/jpeg,image/png,image/webp,image/jpg'
+                      className='hidden'
+                      onChange={handleReferenceImageUpload}
+                      disabled={isImageLoading}
+                    />
                   </div>
-                  )
-                : (
-                  <div className='h-16 border border-dashed border-gray-300 rounded-md flex items-center justify-center text-gray-400 text-sm'>
-                <span className='text-center px-4'>
-                  {t('no_reference_image')}
-                  <br />
-                  <span className='text-xs'>{t('supported_formats')}</span>
-                </span>
+
+                  {referenceImageError && <div className='text-red-500 text-xs mb-2'>{referenceImageError}</div>}
+
+                  {referenceImage
+                    ? (
+                      <div className='relative h-32 bg-gray-100 rounded-md overflow-hidden'>
+                        <img
+                          src={referenceImage || '/placeholder.svg'}
+                          alt={t('reference_image')}
+                          className='h-full w-auto mx-auto object-contain'
+                        />
+                        <button
+                          type='button'
+                          onClick={() => setReferenceImage(null)}
+                          className='absolute top-1 right-1 bg-black/60 text-white rounded-full p-1 hover:bg-black/80'
+                          disabled={isImageLoading}
+                        >
+                          <X size={14} />
+                        </button>
+                      </div>
+                      )
+                    : (
+                      <div className='h-16 border border-dashed border-gray-300 rounded-md flex items-center justify-center text-gray-400 text-sm'>
+                  <span className='text-center px-4'>
+                    {t('no_reference_image')}
+                    <br />
+                    <span className='text-xs'>{t('supported_formats')}</span>
+                  </span>
+                      </div>
+                      )}
+                </div>
+            )}
+
+            {/* If modifying current image, show a preview of the current image */}
+            {isModifyingCurrentImage && (
+                <div className='mb-4'>
+                  <div className='flex items-center justify-between mb-2'>
+                    <label className='text-sm font-medium text-gray-700'>{t('current_image')}</label>
                   </div>
-                  )}
-            </div>
+                  <div className='relative h-32 bg-gray-100 rounded-md overflow-hidden'>
+                    <img
+                      src={current.imageUrl || '/placeholder.svg'}
+                      alt={t('current_image')}
+                      className='h-full w-auto mx-auto object-contain'
+                    />
+                  </div>
+                  <div className='flex items-center mt-3'>
+                    <input
+                      type='checkbox'
+                      id='keep-essence'
+                      checked={keepEssence}
+                      onChange={(e) => setKeepEssence(e.target.checked)}
+                      className='h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300 rounded'
+                    />
+                    <label htmlFor='keep-essence' className='ml-2 block text-sm text-gray-700'>
+                      {t('keep_essence')}
+                    </label>
+                  </div>
+                </div>
+            )}
+
+            {referenceImageError && <div className='text-red-500 text-xs mb-2'>{referenceImageError}</div>}
 
             {/* Action buttons */}
             <div className='flex justify-end space-x-2'>
@@ -248,6 +330,8 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                   setShowImagePrompt(false)
                   setReferenceImage(null)
                   setReferenceImageError('')
+                  setIsModifyingCurrentImage(false)
+                  setKeepEssence(true) // Reset to default value
                 }}
                 className='px-3 py-1.5 text-sm border border-gray-300 rounded-md hover:bg-gray-100'
               >
@@ -256,7 +340,11 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
               <button
                 onClick={() => {
                   if (imagePrompt.trim()) {
-                    generateImage(currentPage, imagePrompt)
+                    if (isModifyingCurrentImage) {
+                      modifyCurrentImage(currentPage, imagePrompt)
+                    } else {
+                      generateImage(currentPage, imagePrompt)
+                    }
                   }
                 }}
                 disabled={!imagePrompt.trim() || isImageLoading}
@@ -278,12 +366,16 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                       d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
                     />
                   </svg>
-                      {t('generating_image')}
+                      {isModifyingCurrentImage ? t('modifying_image') : t('generating_image')}
                 </span>
                     )
-                  : (
-                      t('generate')
-                    )}
+                  : isModifyingCurrentImage
+                    ? (
+                        t('modify')
+                      )
+                    : (
+                        t('generate')
+                      )}
               </button>
             </div>
           </div>
@@ -314,6 +406,16 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                           <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity'>
                             <button onClick={uploadImage} className='bg-white w-[300px] text-black px-4 py-2 rounded-md mb-4'>
                               {t('upload_image')}
+                            </button>
+                            <button
+                              onClick={() => {
+                                setIsModifyingCurrentImage(true)
+                                setShowImagePrompt(true)
+                              }}
+                              className='bg-blue-600 w-[300px] text-white px-4 py-2 rounded-md mb-4 flex items-center justify-center gap-2'
+                            >
+                              <Edit className='h-5 w-5' />
+                              {t('modify_current_image')}
                             </button>
                             <button
                               onClick={() => setShowImagePrompt(true)}
@@ -359,6 +461,16 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                           <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity'>
                             <button onClick={uploadImage} className='bg-white w-[300px] text-black px-4 py-2 rounded-md mb-4'>
                               {t('upload_image')}
+                            </button>
+                            <button
+                              onClick={() => {
+                                setIsModifyingCurrentImage(true)
+                                setShowImagePrompt(true)
+                              }}
+                              className='bg-blue-600 w-[300px] text-white px-4 py-2 rounded-md mb-4 flex items-center justify-center gap-2'
+                            >
+                              <Edit className='h-5 w-5' />
+                              {t('modify_current_image')}
                             </button>
                             <button
                               onClick={() => setShowImagePrompt(true)}
@@ -503,6 +615,16 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                                   className='bg-white w-[300px] text-black px-4 py-2 rounded-md mb-4'
                                 >
                                   {t('upload_image')}
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setIsModifyingCurrentImage(true)
+                                    setShowImagePrompt(true)
+                                  }}
+                                  className='bg-blue-600 w-[300px] text-white px-4 py-2 rounded-md mb-4 flex items-center justify-center gap-2'
+                                >
+                                  <Edit className='h-5 w-5' />
+                                  {t('modify_current_image')}
                                 </button>
                                 <button
                                   onClick={() => setShowImagePrompt(true)}

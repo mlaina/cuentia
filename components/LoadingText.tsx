@@ -185,7 +185,7 @@ export default function LoadingText ({ finalText = null }: { finalText?: string 
         }
       `}</style>
             <div
-              className='w-full max-w-4xl text-md whitespace-pre-wrap overflow-hidden'
+              className='w-full max-w-4xl text-sm whitespace-pre-wrap overflow-hidden'
               style={{ height: containerHeight }}
             >
                 {currentText.map((line, lineIndex) => (
@@ -202,7 +202,7 @@ export default function LoadingText ({ finalText = null }: { finalText?: string 
                                 <span
                                   key={wordIndex}
                                   className={`transition-all duration-500 ease-in-out
-                        ${isHighlighted ? 'text-sky-500 scale-110' : ''}
+                        ${isHighlighted ? 'text-secondary scale-110' : ''}
                         ${isFinal ? 'text-black' : ''}
                         ${!isHighlighted && !isFinal ? 'text-gray-300' : ''}`}
                                   style={{

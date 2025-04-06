@@ -364,6 +364,12 @@
   "supported_formats": "Formatos soportados: JPEG, PNG, WebP",
   "reference_image": "Imagen de referencia",
   "upload_reference": "Subir",
+  "modify_current_image": "Modificar Imagen Actual",
+  "enter_ai_image_modification_prompt": "Ingresa instrucciones para modificar esta imagen...",
+  "current_image": "Imagen Actual",
+  "modifying_image": "Modificando imagen...",
+  "modify": "Modificar",
+  "keep_essence": "Mantener esencia",
   "no_reference_image": "Ninguna imagen de referencia seleccionada (opcional)",
   "editcontent": "Eres un asistente de escritura creativa. Estás editando una historia. Aquí está el contexto completo de la historia: {contents}\n\nEl contenido de la página actual es: {current}\n\nEl usuario quiere: {prompt}\n\nPor favor, reescribe SOLO el contenido de la página actual según la solicitud del usuario. Mantén el mismo estilo y tono de la historia. Mantén una longitud similar a la página original. Solo devuelve el nuevo contenido sin explicaciones o texto adicional."
 

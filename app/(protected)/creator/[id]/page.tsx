@@ -192,12 +192,11 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   useEffect(() => {
     if (indice.length > 0) return
 
-    let isCancelled = false
     const delay = 3000
 
     const loopLoading = async () => {
       let step = 1
-      while (!isCancelled && indice.length === 0) {
+      while (indice.length === 0) {
         setLoading(step)
         step = step === 5 ? 1 : step + 1
         await new Promise((resolve) => setTimeout(resolve, delay))
@@ -205,10 +204,6 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     }
 
     loopLoading()
-
-    return () => {
-      isCancelled = true
-    }
   }, [indice])
 
   const createStoryIndex = async (story: any, description: string, length: number) => {
@@ -516,10 +511,12 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
                         } flex justify-center items-center`}
                     >
                       <p className='text-2xl md:text-5xl flex items-center'>
-                  <span className={`underline decoration-${t(`loading_step_${step}_color`)}`}>
-                    {t(`loading_step_${step}_action`)}
-                  </span>
-                        {t(`loading_step_${step}_object`)}
+                        <span className={`underline decoration-${t(`loading_step_${step}_color`)}`}>
+                          {t(`loading_step_${step}_action`)}
+                        </span>
+                        <span className='ml-2'>
+                          {t(`loading_step_${step}_object`)}
+                        </span>
                       </p>
                     </section>
                 ))}
