@@ -342,6 +342,31 @@
   "confirm_cancel_title": "Descartar Alterações",
   "confirm_cancel_message": "Tem certeza de que deseja cancelar? Todas as alterações não salvas serão perdidas.",
   "continue_editing": "Continuar editando",
-  "discard_changes": "Descartar alterações"
+  "discard_changes": "Descartar alterações",
+  "edit_with_ai": "Editar com IA",
+  "ai_edit_prompt": "Como gostaria de editar este conteúdo?",
+  "enter_ai_prompt_placeholder": "Ex., Torne-o mais descritivo, mude o tom para ser mais alegre...",
+  "cancel": "Cancelar",
+  "apply_ai_edit": "Aplicar Edição",
+  "generate_ai_image_prompt": "Descreva a imagem que você quer gerar",
+  "enter_ai_image_prompt_placeholder": "Ex., Uma floresta mágica com árvores altas, luz solar filtrando através das folhas e uma pequena cabana à distância...",
+  "generating_image": "Gerando...",
+  "generate": "Gerar",
+  "generate_ai_image": "Gerar Imagem com IA",
+  "invalid_image_format": "Formato de imagem inválido. Por favor, use JPEG, PNG ou WebP.",
+  "image_too_large": "A imagem é muito grande. O tamanho máximo é 4MB.",
+  "error_reading_image": "Erro ao ler o arquivo de imagem.",
+  "image_generation_error": "Erro ao gerar a imagem. Por favor, tente novamente.",
+  "supported_formats": "Formatos suportados: JPEG, PNG, WebP",
+  "reference_image": "Imagem de referência",
+  "upload_reference": "Carregar",
+  "no_reference_image": "Nenhuma imagem de referência selecionada (opcional)",
+  "stepper_ideation_label": "Idealizando o conto",
+  "stepper_structure_label": "Estruturando a história",
+  "stepper_covers_label": "Gerando capas",
+  "stepper_pages_label": "Gerando páginas",
+  "status_generating_page": "Gerando página {currentPageDoubled} de {totalPagesDoubled}",
+
+  "editcontent": "Você é um assistente de escrita criativa. Você está editando uma história. Aqui está o contexto completo da história: {contents}\n\nO conteúdo da página atual é: {current}\n\nO usuário deseja: {prompt}\n\nPor favor, reescreva APENAS o conteúdo da página atual com base na solicitação do usuário. Mantenha o mesmo estilo e tom da história. Mantenha um comprimento semelhante à página original. Retorne apenas o novo conteúdo sem explicações ou texto adicional."
 }
 

@@ -51,9 +51,8 @@ const MyDocument = ({ story }) => {
                   }}
                 >
                   {/* eslint-disable-next-line multiline-ternary */}
-                  {isBackCover
-                    ? // Contraportada: se pinta la imagen en la izquierda
-                    page.imageUrl && (
+                  {isBackCover // Contraportada: se pinta la imagen en la izquierda
+                    ? page.imageUrl && (
                           <Image
                             alt='Contraportada'
                             src={page.imageUrl || '/placeholder.svg'}
@@ -66,9 +65,8 @@ const MyDocument = ({ story }) => {
                               display: 'block'
                             }}
                           />
-                    )
-                    : // Páginas intermedias: se pinta el texto en la izquierda
-                      !isCover &&
+                    ) // Páginas intermedias: se pinta el texto en la izquierda
+                    : !isCover &&
                       page.content && (
                           <Text
                             style={{
@@ -96,9 +94,8 @@ const MyDocument = ({ story }) => {
                   }}
                 >
                   {/* eslint-disable-next-line multiline-ternary */}
-                  {isCover
-                    ? // Portada: se pinta la imagen en la derecha
-                    page.imageUrl && (
+                  {isCover // Portada: se pinta la imagen en la derecha
+                    ? page.imageUrl && (
                           <Image
                             alt='Portada'
                             src={page.imageUrl || '/placeholder.svg'}
@@ -109,9 +106,8 @@ const MyDocument = ({ story }) => {
                               display: 'block'
                             }}
                           />
-                    )
-                    : // Páginas intermedias: se pinta la imagen en la derecha
-                      !isBackCover &&
+                    ) // Páginas intermedias: se pinta la imagen en la derecha
+                    : !isBackCover &&
                       page.imageUrl && (
                           <Image
                             alt='Imagen de página'
@@ -362,6 +358,7 @@ export default function StoryPage ({ params }) {
         {editing && (
             <div className='max-w-6xl mx-auto'>
               <StoryEditViewer
+                storyId={story.id}
                 pages={story.content}
                 handleImageChanges={handleImageChanges}
                 handleChanges={handleChanges}

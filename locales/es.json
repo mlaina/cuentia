@@ -346,5 +346,25 @@
   "stepper_structure_label": "Estructurando la historia",
   "stepper_covers_label": "Generando portadas",
   "stepper_pages_label": "Generando páginas",
-  "status_generating_page": "Generando página {currentPageDoubled} de {totalPagesDoubled}"
+  "status_generating_page": "Generando página {currentPageDoubled} de {totalPagesDoubled}",
+  "edit_with_ai": "Editar con IA",
+  "ai_edit_prompt": "¿Cómo te gustaría editar este contenido?",
+  "enter_ai_prompt_placeholder": "Ej., Hazlo más descriptivo, cambia el tono para que sea más alegre...",
+  "cancel": "Cancelar",
+  "apply_ai_edit": "Aplicar Edición",
+  "generate_ai_image_prompt": "Describe la imagen que quieres generar",
+  "enter_ai_image_prompt_placeholder": "Ej., Un bosque mágico con árboles altos, luz solar filtrándose a través de las hojas y una pequeña cabaña en la distancia...",
+  "generating_image": "Generando...",
+  "generate": "Generar",
+  "generate_ai_image": "Genar imagen con IA",
+  "invalid_image_format": "Formato de imagen no válido. Por favor, usa JPEG, PNG o WebP.",
+  "image_too_large": "La imagen es demasiado grande. El tamaño máximo es 4MB.",
+  "error_reading_image": "Error al leer el archivo de imagen.",
+  "image_generation_error": "Error al generar la imagen. Por favor, inténtalo de nuevo.",
+  "supported_formats": "Formatos soportados: JPEG, PNG, WebP",
+  "reference_image": "Imagen de referencia",
+  "upload_reference": "Subir",
+  "no_reference_image": "Ninguna imagen de referencia seleccionada (opcional)",
+  "editcontent": "Eres un asistente de escritura creativa. Estás editando una historia. Aquí está el contexto completo de la historia: {contents}\n\nEl contenido de la página actual es: {current}\n\nEl usuario quiere: {prompt}\n\nPor favor, reescribe SOLO el contenido de la página actual según la solicitud del usuario. Mantén el mismo estilo y tono de la historia. Mantén una longitud similar a la página original. Solo devuelve el nuevo contenido sin explicaciones o texto adicional."
+
 }

@@ -342,7 +342,32 @@
   "confirm_cancel_title": "Änderungen Verwerfen",
   "confirm_cancel_message": "Sind Sie sicher, dass Sie abbrechen möchten? Alle nicht gespeicherten Änderungen gehen verloren.",
   "continue_editing": "Weiter bearbeiten",
-  "discard_changes": "Änderungen verwerfen"
+  "discard_changes": "Änderungen verwerfen",
+  "edit_with_ai": "Mit KI bearbeiten",
+  "ai_edit_prompt": "Wie möchten Sie diesen Inhalt bearbeiten?",
+  "enter_ai_prompt_placeholder": "Z.B., Machen Sie es beschreibender, ändern Sie den Ton, um fröhlicher zu sein...",
+  "cancel": "Abbrechen",
+  "apply_ai_edit": "Anwenden",
+  "generate_ai_image_prompt": "Beschreiben Sie das Bild, das Sie generieren möchten",
+  "enter_ai_image_prompt_placeholder": "Z.B., Ein magischer Wald mit hohen Bäumen, Sonnenlicht, das durch die Blätter filtert, und einer kleinen Hütte in der Ferne...",
+  "generating_image": "Generierung...",
+  "generate": "Generieren",
+  "generate_ai_image": "KI-Bild generieren",
+  "invalid_image_format": "Ungültiges Bildformat. Bitte verwenden Sie JPEG, PNG oder WebP.",
+  "image_too_large": "Bild ist zu groß. Maximale Größe ist 4MB.",
+  "error_reading_image": "Fehler beim Lesen der Bilddatei.",
+  "image_generation_error": "Fehler bei der Bilderzeugung. Bitte versuchen Sie es erneut.",
+  "supported_formats": "Unterstützte Formate: JPEG, PNG, WebP",
+  "reference_image": "Referenzbild",
+  "upload_reference": "Hochladen",
+  "no_reference_image": "Kein Referenzbild ausgewählt (optional)",
+  "stepper_ideation_label": "Ideenfindung für die Geschichte",
+  "stepper_structure_label": "Strukturierung der Geschichte",
+  "stepper_covers_label": "Cover werden erstellt",
+  "stepper_pages_label": "Seiten werden erstellt",
+  "status_generating_page": "Erzeuge Seite {currentPageDoubled} von {totalPagesDoubled}",
+
+  "editcontent": "Sie sind ein kreativer Schreibassistent. Sie bearbeiten eine Geschichte. Hier ist der vollständige Kontext der Geschichte: {contents}\n\nDer Inhalt der aktuellen Seite ist: {current}\n\nDer Benutzer möchte: {prompt}\n\nBitte schreiben Sie NUR den Inhalt der aktuellen Seite basierend auf der Anfrage des Benutzers um. Behalten Sie den gleichen Stil und Ton der Geschichte bei. Halten Sie die Länge ähnlich wie die Originalseite. Geben Sie nur den neuen Inhalt ohne Erklärungen oder zusätzlichen Text zurück."
 
 }
 
