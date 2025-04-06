@@ -1,72 +1,91 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, Edit, Upload, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useCredits } from '@/context/CreditsContext'
 
-export default function StoryEditViewer ({ pages = [], storyId, handleChanges, handleImageChanges }) {
+export default function StoryEditViewer ({
+  pages = [],
+  storyId,
+  handleChanges,
+  handleImageChanges
+}: {
+  pages: any[]
+  storyId: string
+  handleChanges: (index: number, newContent: string) => void
+  handleImageChanges: (index: number, newImageUrl: string) => void
+}) {
   const [currentPage, setCurrentPage] = useState(0)
   const t = useTranslations()
+
+  // Estados para prompt de texto
   const [showAIPrompt, setShowAIPrompt] = useState(false)
   const [aiPrompt, setAIPrompt] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  // Estados para prompt de imagen
   const [showImagePrompt, setShowImagePrompt] = useState(false)
   const [imagePrompt, setImagePrompt] = useState('')
   const [isImageLoading, setIsImageLoading] = useState(false)
-  const [referenceImage, setReferenceImage] = useState(null)
+  const [referenceImage, setReferenceImage] = useState<string | null>(null)
   const [referenceImageError, setReferenceImageError] = useState('')
-  const fileInputRef = useRef(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [isModifyingCurrentImage, setIsModifyingCurrentImage] = useState(false)
   const [keepEssence, setKeepEssence] = useState(true)
+
+  // Créditos
   const { decreaseCredits, checkCreditsBeforeOperation } = useCredits()
 
-  const goToPage = (index) => {
+  // Navegación de páginas
+  const goToPage = (index: number) => {
     setCurrentPage(index)
   }
-
   const nextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, pages.length - 1))
   }
-
   const prevPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 0))
   }
 
-  const editContent = async (index, prompt) => {
+  // === FUNCIONES DE EDICIÓN DE TEXTO (páginas intermedias) ===
+  const editContent = async (index: number, prompt: string) => {
     setIsLoading(true)
+    try {
+      // Restar créditos inmediatamente (si no usas checkCreditsBeforeOperation)
+      await decreaseCredits(1)
 
-    await decreaseCredits(1)
-    fetch('/api/edit/page', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt, index, storyId })
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setIsLoading(false)
-        if (data.error) {
-          console.error('Error:', data.error)
-        } else {
-          handleChanges(index, data.newContent)
-          // Only hide the prompt area after successful completion
-          setAIPrompt('')
-          setShowAIPrompt(false)
-        }
+      const response = await fetch('/api/edit/page', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, index, storyId })
       })
-      .catch((error) => {
-        setIsLoading(false)
-        console.error('Error:', error)
-      })
+      const data = await response.json()
+
+      if (data.error) {
+        console.error('Error:', data.error)
+      } else {
+        handleChanges(index, data.newContent)
+        setAIPrompt('')
+        setShowAIPrompt(false)
+      }
+    } catch (error) {
+      console.error('Error:', error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const generateImage = async (index, prompt) => {
+  // === FUNCIONES DE EDICIÓN DE IMÁGENES (páginas intermedias) ===
+  const generateImage = async (index: number, prompt: string) => {
     setIsImageLoading(true)
     setReferenceImageError('')
-    await decreaseCredits(7)
     try {
-      // First get the enhanced prompt from the API
+      // Restar créditos
+      await decreaseCredits(7)
+
+      // Primero, conseguir un "prompt" mejorado
       const response1 = await fetch('/api/edit/prompt-image', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -74,15 +93,13 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
       })
       const { description } = await response1.json()
 
-      // Prepare the request body
-      const requestBody = { description }
-
-      // Add reference image if available
+      // Preparar body
+      const requestBody: any = { description }
       if (referenceImage) {
         requestBody.image_prompt = referenceImage
       }
 
-      // Generate the image
+      // Generar imagen
       const response2 = await fetch('/api/story/images', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -93,7 +110,7 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
       if (data2.error) {
         throw new Error(data2.error)
       } else {
-        handleImageChanges(currentPage, data2.image)
+        handleImageChanges(index, data2.image)
         setImagePrompt('')
         setReferenceImage(null)
         setShowImagePrompt(false)
@@ -106,20 +123,20 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
     }
   }
 
-  const modifyCurrentImage = async (index, prompt) => {
+  const modifyCurrentImage = async (index: number, prompt: string) => {
     setIsImageLoading(true)
     setReferenceImageError('')
-
-    await decreaseCredits(6)
     try {
-      // Use current image as reference
+      // Restar créditos
+      await decreaseCredits(6)
+
+      const current = pages[index]
       const requestBody = {
         description: prompt,
-        image_prompt: current.imageUrl, // Use the current image URL
-        seed: keepEssence // Add the seed parameter based on the checkbox
+        image_prompt: current.imageUrl,
+        seed: keepEssence
       }
 
-      // Generate the modified image
       const response2 = await fetch('/api/story/images', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -130,7 +147,7 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
       if (data2.error) {
         throw new Error(data2.error)
       } else {
-        handleImageChanges(currentPage, data2.image)
+        handleImageChanges(index, data2.image)
         setImagePrompt('')
         setShowImagePrompt(false)
         setIsModifyingCurrentImage(false)
@@ -143,21 +160,21 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
     }
   }
 
+  // Subir imagen manual
   const uploadImage = async () => {
-    // Crea un input file de forma dinámica
     const fileInput = document.createElement('input')
     fileInput.type = 'file'
     fileInput.accept = 'image/*'
     fileInput.style.display = 'none'
 
-    fileInput.onchange = async (event) => {
-      const file = event.target.files[0]
+    fileInput.onchange = async (event: any) => {
+      const file = event.target.files?.[0]
       if (!file) return
 
-      // Lee el archivo como Data URL para enviarlo en el body
       const reader = new FileReader()
       reader.onload = async (e) => {
-        const dataURL = e.target.result
+        const dataURL = e.target?.result
+        if (!dataURL) return
 
         try {
           const response = await fetch('/api/images', {
@@ -167,7 +184,6 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
           })
           const result = await response.json()
           if (result.image) {
-            // Actualiza el estado del page actual con la nueva URL
             handleImageChanges(currentPage, result.image)
           } else {
             console.error('Error uploading image:', result.error)
@@ -184,19 +200,17 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
     document.body.removeChild(fileInput)
   }
 
-  const handleReferenceImageUpload = (event) => {
+  // Manejo de imagen de referencia
+  const handleReferenceImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     setReferenceImageError('')
-    const file = event.target.files[0]
+    const file = event.target.files?.[0]
     if (!file) return
 
-    // Check file type - only allow common raster formats
     const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg']
     if (!validTypes.includes(file.type)) {
       setReferenceImageError(t('invalid_image_format'))
       return
     }
-
-    // Check file size (limit to 4MB)
     if (file.size > 4 * 1024 * 1024) {
       setReferenceImageError(t('image_too_large'))
       return
@@ -204,7 +218,8 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
 
     const reader = new FileReader()
     reader.onload = (e) => {
-      setReferenceImage(e.target.result)
+      if (!e.target?.result) return
+      setReferenceImage(e.target.result as string)
     }
     reader.onerror = () => {
       setReferenceImageError(t('error_reading_image'))
@@ -212,9 +227,10 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
     reader.readAsDataURL(file)
   }
 
-  const current = pages[currentPage]
-
+  // Renderiza el prompt emergente para AI de imagen
   const renderImagePromptUI = () => {
+    const current = pages[currentPage]
+
     return (
         <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/70 transition-opacity rounded-md p-6'>
           <div className='bg-white rounded-lg p-4 w-full max-w-md'>
@@ -230,11 +246,13 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
               value={imagePrompt}
               onChange={(e) => setImagePrompt(e.target.value)}
               placeholder={
-                  isModifyingCurrentImage ? t('enter_ai_image_modification_prompt') : t('enter_ai_image_prompt_placeholder')
+                  isModifyingCurrentImage
+                    ? t('enter_ai_image_modification_prompt')
+                    : t('enter_ai_image_prompt_placeholder')
                 }
             />
 
-            {/* Reference image section - only show when not modifying current image */}
+            {/* Solo mostramos la referencia si NO estamos modificando la imagen actual */}
             {!isModifyingCurrentImage && (
                 <div className='mb-4'>
                   <div className='flex items-center justify-between mb-2'>
@@ -258,13 +276,15 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                     />
                   </div>
 
-                  {referenceImageError && <div className='text-red-500 text-xs mb-2'>{referenceImageError}</div>}
+                  {referenceImageError && (
+                      <div className='text-red-500 text-xs mb-2'>{referenceImageError}</div>
+                  )}
 
                   {referenceImage
                     ? (
                       <div className='relative h-32 bg-gray-100 rounded-md overflow-hidden'>
                         <img
-                          src={referenceImage || '/placeholder.svg'}
+                          src={referenceImage}
                           alt={t('reference_image')}
                           className='h-full w-auto mx-auto object-contain'
                         />
@@ -290,7 +310,7 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                 </div>
             )}
 
-            {/* If modifying current image, show a preview of the current image */}
+            {/* Si modificamos la imagen actual, mostramos previsualización y checkbox "mantener esencia" */}
             {isModifyingCurrentImage && (
                 <div className='mb-4'>
                   <div className='flex items-center justify-between mb-2'>
@@ -318,9 +338,11 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                 </div>
             )}
 
-            {referenceImageError && <div className='text-red-500 text-xs mb-2'>{referenceImageError}</div>}
+            {referenceImageError && (
+                <div className='text-red-500 text-xs mb-2'>{referenceImageError}</div>
+            )}
 
-            {/* Action buttons */}
+            {/* Botones de acción */}
             <div className='flex justify-end space-x-2'>
               <button
                 onClick={() => {
@@ -328,7 +350,7 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                   setReferenceImage(null)
                   setReferenceImageError('')
                   setIsModifyingCurrentImage(false)
-                  setKeepEssence(true) // Reset to default value
+                  setKeepEssence(true)
                 }}
                 className='px-3 py-1.5 text-sm border border-gray-300 rounded-md hover:bg-gray-100'
               >
@@ -336,12 +358,12 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
               </button>
               <button
                 onClick={() => {
-                  if (imagePrompt.trim()) {
-                    if (isModifyingCurrentImage) {
-                      checkCreditsBeforeOperation(6, async () => await modifyCurrentImage(currentPage, imagePrompt))
-                    } else {
-                      checkCreditsBeforeOperation(7, async () => await generateImage(currentPage, imagePrompt))
-                    }
+                  if (!imagePrompt.trim()) return
+                  if (isModifyingCurrentImage) {
+                    // Primero checkCreditsBeforeOperation(6)...
+                    checkCreditsBeforeOperation(6, async () => await modifyCurrentImage(currentPage, imagePrompt))
+                  } else {
+                    checkCreditsBeforeOperation(7, async () => await generateImage(currentPage, imagePrompt))
                   }
                 }}
                 disabled={!imagePrompt.trim() || isImageLoading}
@@ -380,122 +402,51 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
     )
   }
 
+  // Página actual
+  const current = pages[currentPage] || {}
+
   return (
       <div className='mx-auto p-4 py-2 md:py-4 max-w-6xl'>
         {/* Contenedor de la página */}
         <div className='relative bg-white shadow-md w-[1120px] h-[700px] flex justify-center items-center'>
           {/* eslint-disable-next-line multiline-ternary */}
           {currentPage === 0 ? (
-              // Primera página: solo imagen alineada a la derecha
+              // ================
+              // PÁGINA 0 (PORTADA) => SIN EDICIÓN
+              // ================
               <div className='w-full h-full flex justify-end items-center'>
                 {current.imageUrl && (
-                    <div className='group w-full h-full flex justify-end items-center p-6'>
+                    <div className='w-full h-full flex justify-end items-center p-6'>
                       <img
                         src={current.imageUrl || '/placeholder.svg'}
                         alt='Portada'
                         className='max-h-full max-w-full object-cover rounded-md'
                       />
-                      {showImagePrompt
-                        ? (
-                            renderImagePromptUI()
-                          )
-                        : (
-                          <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity'>
-                            <button onClick={uploadImage} className='bg-white w-[300px] text-black px-4 py-2 rounded-md mb-4'>
-                              {t('upload_image')}
-                            </button>
-                            <button
-                              onClick={() => {
-                                setIsModifyingCurrentImage(true)
-                                setShowImagePrompt(true)
-                              }}
-                              className='bg-blue-600 w-[300px] text-white px-4 py-2 rounded-md mb-4 flex items-center justify-center gap-2'
-                            >
-                              <Edit className='h-5 w-5' />
-                              {t('modify_current_image')}
-                            </button>
-                            <button
-                              onClick={() => setShowImagePrompt(true)}
-                              className='bg-pink-600 w-[300px] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2'
-                            >
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                className='h-5 w-5'
-                                viewBox='0 0 24 24'
-                                fill='none'
-                                stroke='currentColor'
-                                strokeWidth='2'
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                              >
-                                <path d='M12 2v6.5M12 13v9' />
-                                <path d='M19 9c0 3.5-3 3.5-3 3.5s-3 0-3-3.5 3-3.5 3-3.5 3 0 3 3.5z' />
-                                <path d='M5 13c0 3.5 3 3.5 3 3.5s3 0 3-3.5-3-3.5-3-3.5-3 0-3 3.5z' />
-                              </svg>
-                              {t('generate_ai_image')}
-                            </button>
-                          </div>
-                          )}
+                      {/* NO overlay de edición para portada */}
                     </div>
                 )}
               </div>
               // eslint-disable-next-line multiline-ternary
           ) : currentPage === pages.length - 1 ? (
-              // Última página: solo imagen alineada a la izquierda
+              // ====================
+              // ÚLTIMA PÁGINA (CONTRAPORTADA) => SIN EDICIÓN
+              // ====================
               <div className='w-full h-full flex justify-start items-center p-4'>
                 {current.imageUrl && (
-                    <div className='group w-full h-full flex justify-end items-center p-6'>
+                    <div className='w-full h-full flex justify-end items-center p-6'>
                       <img
                         src={current.imageUrl || '/placeholder.svg'}
                         alt='Contraportada'
                         className='max-h-full max-w-full object-cover rounded-md'
                       />
-                      {showImagePrompt
-                        ? (
-                            renderImagePromptUI()
-                          )
-                        : (
-                          <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity'>
-                            <button onClick={uploadImage} className='bg-white w-[300px] text-black px-4 py-2 rounded-md mb-4'>
-                              {t('upload_image')}
-                            </button>
-                            <button
-                              onClick={() => {
-                                setIsModifyingCurrentImage(true)
-                                setShowImagePrompt(true)
-                              }}
-                              className='bg-blue-600 w-[300px] text-white px-4 py-2 rounded-md mb-4 flex items-center justify-center gap-2'
-                            >
-                              <Edit className='h-5 w-5' />
-                              {t('modify_current_image')}
-                            </button>
-                            <button
-                              onClick={() => setShowImagePrompt(true)}
-                              className='bg-pink-600 w-[300px] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2'
-                            >
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                className='h-5 w-5'
-                                viewBox='0 0 24 24'
-                                fill='none'
-                                stroke='currentColor'
-                                strokeWidth='2'
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                              >
-                                <path d='M12 2v6.5M12 13v9' />
-                                <path d='M19 9c0 3.5-3 3.5-3 3.5s-3 0-3-3.5 3-3.5 3-3.5 3 0 3 3.5z' />
-                                <path d='M5 13c0 3.5 3 3.5 3 3.5s3 0 3-3.5-3-3.5-3-3.5-3 0-3 3.5z' />
-                              </svg>
-                              {t('generate_ai_image')}
-                            </button>
-                          </div>
-                          )}
+                      {/* NO overlay de edición para contraportada */}
                     </div>
                 )}
               </div>
           ) : (
-              // Páginas intermedias: dos columnas (texto e imagen)
+              // =====================
+              // PÁGINAS INTERMEDIAS => SE PUEDE EDITAR
+              // =====================
               <div className='w-full h-full flex'>
                 {/* Columna de texto */}
                 <div className='w-1/2 flex flex-col justify-between p-4'>
@@ -573,9 +524,9 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                     )}
                     {!showAIPrompt && (
                         <div className='mb-4 max-w-6xl mx-auto hidden md:flex justify-end gap-4 pr-4'>
-                          {/* AI edition */}
+                          {/* Botón para abrir prompt de edición con IA */}
                           <button
-                            onClick={() => setShowAIPrompt((prev) => !prev)}
+                            onClick={() => setShowAIPrompt(true)}
                             className='flex items-center justify-center gap-2 px-4 py-2 text-white rounded-md bg-secondary transition-colors hover:bg-secondary/90'
                           >
                             <Edit className='w-4 h-4' />
@@ -587,11 +538,12 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                   <span className='text-sm text-gray-500 font-bold'>{currentPage * 2 - 1}</span>
                 </div>
 
+                {/* Columna de imagen */}
                 <div className='w-1/2 flex flex-col justify-between p-4'>
                   <div className='relative group'>
                     {current.imageUrl && (
                         <>
-                          {/* Imagen de la página */}
+                          {/* Imagen */}
                           <div className='relative max-h-full max-w-full rounded-md overflow-hidden'>
                             <img
                               src={current.imageUrl || '/placeholder.svg'}
@@ -600,7 +552,7 @@ export default function StoryEditViewer ({ pages = [], storyId, handleChanges, h
                             />
                             <div className='absolute bottom-0 left-0 w-full h-[6%] bg-gradient-to-t from-black/90 to-transparent pointer-events-none rounded-b-md' />
                           </div>
-                          {/* Overlay al hover o cuando se muestra el prompt */}
+                          {/* Overlay de edición al hover */}
                           {showImagePrompt
                             ? (
                                 renderImagePromptUI()
