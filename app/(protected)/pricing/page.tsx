@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react'
-import Link from 'next/link'
 import PricingTable from '@/components/PricingTable'
 import Accordion from '@/components/Accordion'
 import { useUser } from '@supabase/auth-helpers-react'

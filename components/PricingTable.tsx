@@ -242,6 +242,7 @@ export default function PricingTable ({
 
           {/* -- MOBILE (carrusel) -- */}
           <div className='lg:hidden'>
+            {/* eslint-disable-next-line multiline-ternary */}
             {pricingPlans.length === 0 ? (
                 <div className='flex flex-col items-center justify-center bg-secondary-50 rounded-xl border-2 border-dashed border-secondary-200 p-8 text-center h-[400px] max-w-md mx-auto'>
                   <h3 className='text-xl font-bold text-gray-800 mb-4'>
@@ -303,8 +304,6 @@ export default function PricingTable ({
                               ? Math.round(plan.annual / 12)
                               : plan.price
 
-                        // Ejemplo de color
-                        const secondaryColor = '#B4187F'
                         const isDarkText = plan.textColor === '#1F2937'
 
                         return (
