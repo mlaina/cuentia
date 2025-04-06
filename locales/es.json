@@ -341,6 +341,10 @@
   "confirm_cancel_title": "Descartar Cambios",
   "confirm_cancel_message": "¿Estás seguro de que quieres cancelar? Se perderán todos los cambios no guardados.",
   "continue_editing": "Seguir editando",
-  "discard_changes": "Descartar cambios"
-
+  "discard_changes": "Descartar cambios",
+  "stepper_ideation_label": "Ideando el cuento",
+  "stepper_structure_label": "Estructurando la historia",
+  "stepper_covers_label": "Generando portadas",
+  "stepper_pages_label": "Generando páginas",
+  "status_generating_page": "Generando página {currentPageDoubled} de {totalPagesDoubled}"
 }

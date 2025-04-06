@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import HTMLFlipBook from 'react-pageflip'
 import LoadingText from '@/components/LoadingText'
+import AutoResizeText from '@/components/ResizeObserver'
 
 interface StoryPage {
   content: string
@@ -119,9 +120,11 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
     const paragraphs = cleanText.split('\n\n')
 
     return paragraphs.map((paragraph, index) => (
-        <p key={index} className='text-justify leading-relaxed mb-4 text-sm md:text-lg'>
-          {formatTextWithBoldQuotes(paragraph)}
-        </p>
+        <AutoResizeText key={index}>
+          <p className='text-justify leading-relaxed mb-4'>
+            {formatTextWithBoldQuotes(paragraph)}
+          </p>
+        </AutoResizeText>
     ))
   }
 

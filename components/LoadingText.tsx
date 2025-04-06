@@ -162,7 +162,7 @@ export default function LoadingText ({ finalText = null }: { finalText?: string 
   return (
         <div className='min-h-screen flex flex-col  justify-center'>
             <p className='w-full justify-start font-bold text-transparent bg-clip-text animate-gradient'>
-                Tejiendo sueños... Estamos creando tu cuento.
+                Tejiendo sueños...
             </p>
             <hr className='w-[85%] border-t border-gray-100 my-4' />
             <style jsx>{`

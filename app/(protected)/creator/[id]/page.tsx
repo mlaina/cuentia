@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
-// import AnimatedParticlesBackground from '@/components/ui/AnimatedParticlesBackground'
 import Head from 'next/head'
 import StoryViewer from '@/components/StoryViewer'
 import { useTranslations } from 'next-intl'
 import LoadingImageAnimation from '@/components/loading-image-animation'
+import StoryStepper, { type Step } from '@/components/story-stepper'
+import { useRouter } from 'next/navigation'
 
 export const runtime = 'edge'
 
@@ -35,7 +36,14 @@ const IMAGES = [
   'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/c376454c-b3ce-4a59-2c0c-9faee460d000/public'
 ]
 
-function sanitizeText (text: string) {
+const STORY_STEPS = (t: (key: string) => string): Step[] => [
+  { id: 'ideation', label: t('stepper_ideation_label'), status: 'pending' },
+  { id: 'structure', label: t('stepper_structure_label'), status: 'pending' },
+  { id: 'covers', label: t('stepper_covers_label'), status: 'pending' },
+  { id: 'pages', label: t('stepper_pages_label'), status: 'pending', progress: { current: 0, total: 0 } }
+]
+
+function sanitizeText (text: string): string {
   let sanitized = text.replace(/"([^"]*)$/g, '"' + '$1' + '"')
 
   const openBrackets = (sanitized.match(/\[/g) || []).length
@@ -58,7 +66,6 @@ function sanitizeText (text: string) {
   }
 
   sanitized = sanitized.replace(/["""]+$/g, '')
-
   sanitized = sanitized.replace(/["}]+$/g, '')
 
   return sanitized
@@ -79,41 +86,42 @@ async function withRetry (operation: () => Promise<any>, operationName: string) 
       if (attempts === MAX_RETRIES) {
         throw new Error(`${operationName} failed after ${MAX_RETRIES} attempts`)
       }
-
-      // Wait before retrying (exponential backoff)
-      await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempts) * 1000))
+      await new Promise((resolve) => setTimeout(resolve, Math.pow(2, attempts) * 1000))
     }
   }
 }
 
-function formatProtagonistDescription (
-  protagonist: any,
-  t: (key: string) => string
-): string {
+function formatProtagonistDescription (protagonist: any, t: (key: string) => string): string {
   const parts: string[] = []
   if (protagonist.name) parts.push(protagonist.name)
-  if (protagonist.age) parts.push(`${t('age')}: ${protagonist.age}`)
-  if (protagonist.height) parts.push(`${t('height')}: ${t(protagonist.height)}`)
-  if (protagonist.skin_color) parts.push(`${t('skin')}: ${t(protagonist.skin_color)}`)
-  if (protagonist.hair_color) parts.push(`${t('hair_color')}: ${t(protagonist.hair_color)}`)
-  if (protagonist.hair_type) parts.push(`${t('hair_type')}: ${t(protagonist.hair_type)}`)
+  if (protagonist.age) parts.push(`${t('protagonist_age_label')}: ${protagonist.age}`)
+  if (protagonist.height) parts.push(`${t('protagonist_height_label')}: ${t(protagonist.height)}`)
+  if (protagonist.skin_color) parts.push(`${t('protagonist_skin_color_label')}: ${t(protagonist.skin_color)}`)
+  if (protagonist.hair_color) parts.push(`${t('protagonist_hair_color_label')}: ${t(protagonist.hair_color)}`)
+  if (protagonist.hair_type) parts.push(`${t('protagonist_hair_type_label')}: ${t(protagonist.hair_type)}`)
   if (protagonist.accessories && protagonist.accessories.length > 0) {
-    const accessories = protagonist.accessories?.map(accessory => t(accessory))
-    parts.push(`${t('accessories')}: ${accessories.join(', ')}`)
+    const accessories = protagonist.accessories?.map((accessory: string) => t(accessory))
+    parts.push(`${t('protagonist_accessories_label')}: ${accessories.join(', ')}`)
   }
-
   return parts.join(', ')
 }
 
 export default function CrearCuentoPage ({ params }: { params: { id: string } }) {
-  const [title, setTitle] = useState(null)
-  const [indice, setIndice] = useState([])
-  const [prompts, setPrompts] = useState([])
+  const t = useTranslations()
+  const [title, setTitle] = useState<string | null>(null)
+  const [indice, setIndice] = useState<any[]>([])
+  const [prompts, setPrompts] = useState<string[]>([])
   const [loading, setLoading] = useState(0)
-  const [, setDescription] = useState(null)
+  const [, setDescription] = useState<string | null>(null)
   const supabase = useSupabaseClient()
   const user = useUser()
   const hasExecutedRef = useRef(false)
+  const router = useRouter()
+
+  const [currentStep, setCurrentStep] = useState<string>('ideation')
+  const [steps, setSteps] = useState<Step[]>(STORY_STEPS(t))
+  const [totalPages, setTotalPages] = useState(0)
+  const [currentPage, setCurrentPage] = useState(0)
 
   useEffect(() => {
     const fetchStory = async () => {
@@ -127,36 +135,40 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
           .eq('id', params.id)
           .single()
 
+        if (error) throw error
+        if (!data) {
+          console.error('Story not found')
+          return
+        }
+
         let characters = ''
-        for (const protagonist of data.protagonists) {
-          const { data: protagonistsData } = await supabase
+        for (const protagonistId of data.protagonists) {
+          const { data: protagonistsData, error: protError } = await supabase
             .from('protagonists')
             .select('*')
-            .eq('id', protagonist)
+            .eq('id', protagonistId)
             .single()
-          console.log(protagonistsData)
-          characters += formatProtagonistDescription(protagonistsData, t) + '\n'
+
+          if (protError) {
+            console.error('Error fetching protagonist:', protError)
+            continue
+          }
+          if (protagonistsData) {
+            characters += formatProtagonistDescription(protagonistsData, t) + '\n'
+          }
         }
 
-        console.log(characters)
-        if (error) {
-          throw error
-        }
-
-        if (data) {
-          await handleCrearCuento({ ...data, protagonists: characters })
-        } else {
-          console.error('Story not found')
-        }
+        console.log('Fetched characters description:', characters)
+        await handleCrearCuento({ ...data, protagonists: characters })
       } catch (error) {
         console.error('Error al cargar la historia:', error)
       }
     }
 
     fetchStory()
-  }, [user, supabase, params.id])
+  }, [user, supabase, params.id, t])
 
-  const updateCredits = async (cost) => {
+  const updateCredits = async (cost: number) => {
     if (!user) return
 
     const { data, error } = await supabase.auth.getUser()
@@ -178,18 +190,17 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   }
 
   useEffect(() => {
-    if (indice.length > 0) return // si ya hay índice, no hacer nada
+    if (indice.length > 0) return
 
     let isCancelled = false
     const delay = 3000
 
     const loopLoading = async () => {
       let step = 1
-      // eslint-disable-next-line no-unmodified-loop-condition
       while (!isCancelled && indice.length === 0) {
         setLoading(step)
         step = step === 5 ? 1 : step + 1
-        await new Promise(resolve => setTimeout(resolve, delay))
+        await new Promise((resolve) => setTimeout(resolve, delay))
       }
     }
 
@@ -200,295 +211,249 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     }
   }, [indice])
 
-  const createStoryIndex = async (story, description, length) => {
+  const createStoryIndex = async (story: any, description: string, length: number) => {
     try {
+      setCurrentStep('structure')
       await updateCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/index', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ story, description, length, storyId: params.id })
         })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
         const respIndex = await response.json()
         const index = JSON.parse(respIndex.index)
         const content = respIndex.content
-
         setTitle(index.title)
         setIndice(content)
-
+        const pageCount = index.index.length
+        setTotalPages(pageCount)
+        console.log(`Total pages: ${pageCount}`)
+        setSteps((prevSteps) =>
+          prevSteps.map((step) =>
+            step.id === 'pages'
+              ? { ...step, progress: { current: 0, total: pageCount } }
+              : step
+          )
+        )
         return index
       }, 'Create Story Index')
     } catch (error) {
       console.error('Error creating story index:', error)
-      alert('No se pudo crear el índice de la historia después de varios intentos. Por favor, inténtelo de nuevo.')
+      alert(t('error_create_index_failed'))
       throw error
     }
   }
 
-  const createPageFront = async (description, title) => {
+  const createPageFront = async (description: string, title: string) => {
     try {
+      setCurrentStep('covers')
       await updateCredits(5)
       await withRetry(async () => {
         const response = await fetch('/api/story/front-page', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ description, title, storyId: params.id })
         })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
         const { image: frontCoverImage } = await response.json()
-        setIndice(prev => {
+        setIndice((prev) => {
           const newIndice = [...prev]
-          newIndice[0].imageUrl = frontCoverImage
+          if (newIndice[0]) newIndice[0].imageUrl = frontCoverImage
           return newIndice
         })
       }, 'Create Front Page')
     } catch (error) {
       console.error('Error creating front page:', error)
-      alert('No se pudo crear la portada después de varios intentos. Por favor, inténtelo de nuevo.')
+      alert(t('error_create_front_cover_failed'))
       throw error
     }
   }
 
-  const createPageBack = async (description, idea, length) => {
+  const createPageBack = async (description: string, idea: string, length: number) => {
     try {
       await updateCredits(5)
       await withRetry(async () => {
         const response = await fetch('/api/story/back-page', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ description, idea, length, storyId: params.id })
         })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
         const { image: backCoverImage } = await response.json()
-        setIndice(prev => {
+        setIndice((prev) => {
           const newIndice = [...prev]
-          newIndice[newIndice.length - 1].content = description
-          newIndice[newIndice.length - 1].imageUrl = backCoverImage
+          if (newIndice.length > 0) {
+            newIndice[newIndice.length - 1].content = description
+            newIndice[newIndice.length - 1].imageUrl = backCoverImage
+          }
           return newIndice
         })
       }, 'Create Back Page')
     } catch (error) {
       console.error('Error creating back page:', error)
-      alert('No se pudo crear la contraportada después de varios intentos. Por favor, inténtelo de nuevo.')
+      alert(t('error_create_back_cover_failed'))
       throw error
     }
   }
 
-  /*
-  const createTextPage = async (index, number, protagonists) => {
-    try {
-      await updateCredits(1)
-      return await withRetry(async () => {
-        const response = await fetch('/api/story/pages', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ index, number, historic: indice, storyId: params.id, protagonists })
-        })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
-        const { page } = await response.json()
-
-        setIndice(prev => {
-          const newIndice = [...prev]
-          newIndice[number].content = sanitizeText(page.text)
-          return newIndice
-        })
-
-        return page
-      }, 'Create Text Page')
-    } catch (error) {
-      console.error('Error creating text page:', error)
-      alert('No se pudo crear el texto de la página después de varios intentos. Por favor, inténtelo de nuevo.')
-      throw error
-    }
-  }
-   */
-
-  const createImagePage = async (description: any, number: number) => {
+  const createImagePage = async (description: string, number: number) => {
     try {
       await updateCredits(4)
       await withRetry(async () => {
         const response = await fetch('/api/story/images', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ description })
         })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
         const { image: pageImage } = await response.json()
-        setIndice(prev => {
+        setIndice((prev) => {
           const newIndice = [...prev]
-          // @ts-ignore
-          newIndice[number].imageUrl = pageImage
+          if (newIndice[number]) newIndice[number].imageUrl = pageImage
           return newIndice
         })
       }, 'Create Image Page')
     } catch (error) {
       console.error('Error creating image page:', error)
-      alert('No se pudo crear la imagen después de varios intentos. Por favor, inténtelo de nuevo.')
+      alert(t('error_create_image_failed'))
       throw error
     }
   }
 
-  const buildPromptCover = async (text: null, mainElements : any, characters) => {
+  const buildPromptCover = async (text: string | null, mainElements: any, characters: string) => {
     try {
       await updateCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/prompt-image-front', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text, mainElements, characters })
         })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
         const { prompt } = await response.json()
         return prompt
-      }, 'Create Image Page')
+      }, 'Build Prompt Cover')
     } catch (error) {
-      console.error('Error creating image page:', error)
-      alert('No se pudo crear la imagen después de varios intentos. Por favor, inténtelo de nuevo.')
+      console.error('Error building cover prompt:', error)
+      alert(t('error_build_cover_prompt_failed'))
       throw error
     }
   }
 
-  const buildPromptImage = async (text: null, characters: any) => {
+  const buildPromptImage = async (text: string | null, characters: string) => {
     try {
       await updateCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/prompt-image', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text, characters })
         })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
         const { prompt } = await response.json()
         return prompt
-      }, 'Create Image Page')
+      }, 'Build Prompt Image')
     } catch (error) {
-      console.error('Error creating image page:', error)
-      alert('No se pudo crear la imagen después de varios intentos. Por favor, inténtelo de nuevo.')
+      console.error('Error building image prompt:', error)
+      alert(t('error_build_image_prompt_failed'))
       throw error
     }
   }
 
-  const developIdea = async (length: any, idea: undefined, characters: undefined) => {
+  const developIdea = async (length: number, idea: string | undefined, characters: string | undefined) => {
     try {
+      setCurrentStep('ideation')
       await updateCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/idea', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ length, idea, characters, storyId: params.id })
         })
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
         const { idea: text } = await response.json()
         return text
-      }, 'Create Image Page')
+      }, 'Develop Idea')
     } catch (error) {
-      console.error('Error creating image page:', error)
-      alert('No se pudo crear la imagen después de varios intentos. Por favor, inténtelo de nuevo.')
+      console.error('Error developing idea:', error)
+      alert(t('error_develop_idea_failed'))
       throw error
     }
   }
 
-  const handleCrearCuento = async (story: { id: any; title: any; content: any; images: any; idea: any; length: any; protagonists: any }) => {
+  const handleCrearCuento = async (story: {
+    id: string
+    title: string | null
+    content: any
+    images: any
+    idea: string
+    length: number
+    protagonists: string
+  }) => {
     if (hasExecutedRef.current) return
     hasExecutedRef.current = true
 
     console.log('Creating story...')
 
-    // 1. Ejecutar en paralelo lo que no sea dependiente
-    const descriptiona = await developIdea(story.length / 2, story.idea, story.protagonists)
+    try {
+      const description = await developIdea(story.length / 2, story.idea, story.protagonists)
+      setDescription(description)
 
-    setDescription(descriptiona)
+      const ind = await createStoryIndex(story, description, story.length / 2)
 
-    // 2. Ahora sí, una vez tenemos 'description', podemos crear el índice
-    const ind = await createStoryIndex(story, descriptiona, story.length / 2)
+      const promptCover = await buildPromptCover(story.idea, ind.main_elements, story.protagonists)
+      await Promise.all([
+        createPageFront(promptCover, ind.title),
+        createPageBack(promptCover, story.idea, story.length / 2)
+      ])
 
-    const promptCover = await buildPromptCover(story.idea, ind.main_elements, story.protagonists)
-    // 3. Estas llamadas necesitan el resultado de promptCover e ind, se hacen secuencialmente
-    await Promise.all([
-      createPageFront(promptCover, ind.title),
-      createPageBack(promptCover, story.idea, story.length / 2)
-    ])
+      setCurrentStep('pages')
 
-    for (let i = 0; i < ind.index.length; i++) {
-      const page = ind.index[i]
-      let charactersDescription = ''
+      const imageCreationPromises = []
 
-      for (const characterName of page.characters_appear) {
-        for (const character of ind.characters) {
-          if (character.name === characterName) {
-            charactersDescription += `${character.description}\n`
+      for (let i = 0; i < ind.index.length; i++) {
+        const page = ind.index[i]
+        let charactersDescription = ''
+
+        for (const characterName of page.characters_appear) {
+          for (const character of ind.characters) {
+            if (character.name === characterName) {
+              charactersDescription += `${character.description}\n`
+            }
           }
         }
+
+        setCurrentPage(i + 1)
+
+        setIndice((prev) => {
+          const newIndice = [...prev]
+          if (newIndice[i + 1]) {
+            newIndice[i + 1].content = sanitizeText(page.text)
+          }
+          return newIndice
+        })
+
+        const prompt = await buildPromptImage(page.text, charactersDescription)
+        setPrompts((prev) => [...prev, prompt])
+        imageCreationPromises.push(createImagePage(prompt, i + 1))
       }
 
-      // Actualizar el estado con la información de la página
-      setIndice((prev) => {
-        const newIndice = [...prev]
-        newIndice[i + 1].content = sanitizeText(page.text)
-        return newIndice
-      })
+      await Promise.all(imageCreationPromises)
 
-      // Construir el prompt y generar la página de manera asíncrona
-      const prompt = await buildPromptImage(page.text, charactersDescription)
-      setPrompts((prev) => [...prev, prompt])
-      // Guardamos la promesa de creación de imagen
-      await createImagePage(prompt, i + 1)
+      console.log('All pages generated. Redirecting...')
+      router.push(`/story/${params.id}`)
+    } catch (error) {
+      console.error('Failed to create story:', error)
+      alert(t('error_story_creation_failed'))
     }
   }
 
   useEffect(() => {
-    const fetchStory = async () => {
-      if (indice.length > 0) {
-        const images = [indice[0]?.imageUrl] || []
+    const updateStoryInDB = async () => {
+      if (indice.length > 0 && user && params.id && title) {
+        const images = indice[0]?.imageUrl ? [indice[0].imageUrl] : []
         await supabase
           .from('stories')
           .update({
@@ -500,12 +465,12 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
           .eq('id', params.id)
       }
     }
-    fetchStory()
-  }, [indice])
+    updateStoryInDB()
+  }, [indice, title, user, supabase, params.id])
 
   useEffect(() => {
-    const fetchStory = async () => {
-      if (prompts.length > 0) {
+    const updatePromptsInDB = async () => {
+      if (prompts.length > 0 && user && params.id) {
         await supabase
           .from('stories')
           .update({
@@ -515,25 +480,34 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
           .eq('id', params.id)
       }
     }
-    fetchStory()
-  }, [prompts])
-
-  const t = useTranslations()
+    updatePromptsInDB()
+  }, [prompts, user, supabase, params.id])
 
   return (
       <div className='background-section-4 h-full'>
         <Head>
-          <title>{title || t('creating_story')}</title>
+          <title>{title || t('page_title_creating')}</title>
         </Head>
 
-        {indice.length > 0 &&
-          <div className='container mx-auto px-4 py-8'>
-             <StoryViewer pages={indice} stream />
-          </div>}
+        <div className='container mx-auto px-4 pt-6'>
+          <StoryStepper steps={steps} currentStepId={currentStep} />
 
-        {indice.length <= 0 &&
-            <div className='flex flex-col h-full w-full '>
-              <div className='flex flex-col justify-center items-center w-full mt-[15%] text-gray-500 relative'>
+          {currentStep === 'pages' && totalPages > 0 && (
+              <div className='text-center mt-2 text-secondary font-bold text-lg'>
+                {t('status_generating_page', { currentPageDoubled: currentPage * 2, totalPagesDoubled: totalPages * 2 })}
+              </div>
+          )}
+        </div>
+
+        {indice.length > 0 && (
+            <div className='container mx-auto max-w-4xl px-4 py-8'>
+              <StoryViewer pages={indice} stream />
+            </div>
+        )}
+
+        {indice.length <= 0 && (
+            <div className='flex flex-col w-full '>
+              <div className='flex flex-col justify-center items-center w-full mt-16 text-gray-500 relative'>
                 {[1, 2, 3, 4, 5].map((step) => (
                     <section
                       key={step}
@@ -542,22 +516,19 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
                         } flex justify-center items-center`}
                     >
                       <p className='text-2xl md:text-5xl flex items-center'>
-                        <span className={`underline decoration-${t(`loading_step_${step}_color`)}`}>
-                          {t(`loading_step_${step}_action`)}
-                        </span>
-                        &nbsp;{t(`loading_step_${step}_object`)}
-                        <span role='img' aria-label={t(`loading_step_${step}_emoji_label`)} className='mr-2'>
-                          {t(`loading_step_${step}_emoji`)}
-                        </span>
+                  <span className={`underline decoration-${t(`loading_step_${step}_color`)}`}>
+                    {t(`loading_step_${step}_action`)}
+                  </span>
+                        {t(`loading_step_${step}_object`)}
                       </p>
                     </section>
                 ))}
-
               </div>
               <div>
                 <LoadingImageAnimation images={IMAGES} maxVisibleImages={5} />
               </div>
-            </div>}
+            </div>
+        )}
       </div>
   )
 }
