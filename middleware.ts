@@ -1,13 +1,17 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 
-const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/image', '/validation', '/auth/callback', '/preview/*', '/my-story/*']
+const publicRoutes = ['/', '/legal', '/s/', '/api/webhook', '/image', '/validation', '/auth/callback', '/auth/confirm', '/preview/*', '/my-story/*']
 
 // Rutas permitidas para usuarios con plan WAITING
 const waitingAllowedRoutes = ['/coming-soon', '/story-view/']
 
 export async function middleware (req: { nextUrl: { pathname: string; searchParams: { has: (arg0: string) => any } }; url: string | URL | undefined; headers: { get: (arg0: string) => string } }) {
   let res = NextResponse.next()
+
+  if (req.nextUrl.pathname === '/auth/confirm') {
+    return res
+  }
 
   if (req.nextUrl.pathname.startsWith('/images')) {
     return res
