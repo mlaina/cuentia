@@ -169,8 +169,8 @@ export default function StoryPage ({ params }) {
     }
 
     // Validar el contenido de la historia
-    const content = typeof loadedStory.content === 'string' 
-      ? JSON.parse(loadedStory.content) 
+    const content = typeof loadedStory.content === 'string'
+      ? JSON.parse(loadedStory.content)
       : loadedStory.content
 
     // Verificar si hay páginas incompletas (excluyendo la portada)
@@ -283,18 +283,18 @@ export default function StoryPage ({ params }) {
   if (!story) {
     return <div />
   }
-  function encodeId(id) {
+  function encodeId (id) {
     return Buffer.from(String(id), 'utf8').toString('base64')
   }
-  
+
   const handleShare = async () => {
     const encodedId = encodeId(story.id)
     const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/my-story/${encodedId}`
     const shareText = `${story.title} | Imagins`
-  
+
     // Aseguramos que la historia sea pública antes de compartir
     await supabase.from('stories').update({ public: true }).eq('id', story.id)
-  
+
     // 1. Intentar compartir con imagen (si el navegador soporta navigator.canShare({ files }))
     if (
       typeof navigator !== 'undefined' &&
@@ -306,7 +306,7 @@ export default function StoryPage ({ params }) {
         const response = await fetch(story.content[0].imageUrl)
         const blob = await response.blob()
         const file = new File([blob], 'cover.jpg', { type: blob.type })
-  
+
         if (navigator.canShare({ files: [file] })) {
           await navigator.share({
             title: shareText,
@@ -322,7 +322,7 @@ export default function StoryPage ({ params }) {
         // Si falla, continuamos con el modo de compartir estándar
       }
     }
-  
+
     // 2. Fallback: compartir sin imagen
     if (typeof navigator !== 'undefined' && navigator.share) {
       try {

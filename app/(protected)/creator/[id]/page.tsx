@@ -399,7 +399,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
         const promptCover = await buildPromptCover(story.idea, ind.main_elements, story.protagonists)
         await createPageFront(promptCover, ind.title)
       }
-      
+
       if (!story.content?.[story.content.length - 1]?.imageUrl) {
         const promptCover = await buildPromptCover(story.idea, ind.main_elements, story.protagonists)
         await createPageBack(promptCover, story.idea, story.length / 2)
@@ -407,9 +407,11 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
       setCurrentStep('pages')
 
-      const startIndex = story.content ? story.content.findIndex((page, idx) => 
-        idx > 0 && idx < story.content.length - 1 && (!page.content || !page.imageUrl)
-      ) : 1
+      const startIndex = story.content
+        ? story.content.findIndex((page, idx) =>
+          idx > 0 && idx < story.content.length - 1 && (!page.content || !page.imageUrl)
+        )
+        : 1
 
       const imageCreationPromises = []
 
