@@ -157,44 +157,41 @@ export default function LoadingImageAnimation ({ images, maxVisibleImages = 5 }:
   }
 
   return (
-        <div className='flex flex-col items-center justify-center w-full h-full'>
-            <div
-              ref={containerRef}
-              className='relative w-full max-w-[700px] h-[500px] flex flex-col justify-center items-center overflow-hidden mx-auto'
-            >
-                {visibleImages.map((image) => {
-                  // Calculate width based on scale and number of images
-                  const maxWidth = calculateMaxWidth(image.scale, visibleImages.length)
+    <div className='flex flex-col items-center justify-center w-full min-h-[300px]'>
+        <div
+          ref={containerRef}
+          className='relative w-full max-w-[700px] h-[100px] md:h-[300px] flex flex-col justify-center items-center overflow-hidden mx-auto'
+        >
+            {visibleImages.map((image) => {
+              const maxWidth = calculateMaxWidth(image.scale, visibleImages.length)
+              const opacity = getOpacityForPosition(image.position)
 
-                  // Calculate opacity based on position
-                  const opacity = getOpacityForPosition(image.position)
-
-                  return (
-                        <div
-                          key={image.id}
-                          className='absolute transition-all duration-300 ease-out'
-                          style={{
-                            width: `${maxWidth}%`,
-                            height: `${image.scale * 60}%`,
-                            left: `${image.position}%`,
-                            top: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            opacity
-                          }}
-                        >
-                            <div className='relative w-full h-full rounded-lg overflow-hidden shadow-lg'>
-                                <Image
-                                  src={image.src || '/placeholder.svg'}
-                                  alt='Loading image'
-                                  fill
-                                  sizes='(max-width: 768px) 30vw, 20vw'
-                                  className='object-cover'
-                                />
-                            </div>
+              return (
+                    <div
+                      key={image.id}
+                      className='absolute transition-all duration-300 ease-out'
+                      style={{
+                        width: `${maxWidth}%`,
+                        height: `${image.scale * 45}%`,
+                        left: `${image.position}%`,
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        opacity
+                      }}
+                    >
+                        <div className='relative w-full h-full rounded-lg overflow-hidden shadow-lg'>
+                            <Image
+                              src={image.src || '/placeholder.svg'}
+                              alt='Loading image'
+                              fill
+                              sizes='(max-width: 768px) 30vw, 20vw'
+                              className='object-cover'
+                            />
                         </div>
-                  )
-                })}
-            </div>
+                    </div>
+              )
+            })}
         </div>
+    </div>
   )
 }

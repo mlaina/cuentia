@@ -168,6 +168,22 @@ export default function StoryPage ({ params }) {
       return
     }
 
+    // Validar el contenido de la historia
+    const content = typeof loadedStory.content === 'string' 
+      ? JSON.parse(loadedStory.content) 
+      : loadedStory.content
+
+    // Verificar si hay páginas incompletas (excluyendo la portada)
+    const hasIncompletePages = content.some((page, index) => {
+      if (index === 0) return false // Ignorar la portada
+      return !page.content && !page.imageUrl
+    })
+
+    if (hasIncompletePages) {
+      router.push(`/creator/${loadedStory.id}`)
+      return
+    }
+
     setStory(loadedStory)
   }
 
