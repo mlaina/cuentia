@@ -90,6 +90,12 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
         cost
       })
       if (error) throw error
+
+      if (data < 0 || cost > credits) {
+        router.push('/pricing')
+        return
+      }
+
       setCredits(data ?? 0)
     } catch (err) {
       console.error('Error al decrementar créditos:', err)

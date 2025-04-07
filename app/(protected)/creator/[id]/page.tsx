@@ -374,22 +374,48 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     console.log('Creating story...')
 
     try {
+      if (story.content && Array.isArray(story.content)) {
+        setIndice(story.content)
+        setTitle(story.title)
+      }
+
       const description = await developIdea(story.length / 2, story.idea, story.protagonists)
       setDescription(description)
 
-      const ind = await createStoryIndex(story, description, story.length / 2)
+      let ind
+      if (!story.content || !Array.isArray(story.content)) {
+        ind = await createStoryIndex(story, description, story.length / 2)
+      } else {
+        ind = {
+          title: story.title,
+          index: story.content.slice(1, -1).map(page => ({
+            text: page.content,
+            characters_appear: []
+          }))
+        }
+      }
 
-      const promptCover = await buildPromptCover(story.idea, ind.main_elements, story.protagonists)
-      await Promise.all([
-        createPageFront(promptCover, ind.title),
-        createPageBack(promptCover, story.idea, story.length / 2)
-      ])
+      if (!story.content?.[0]?.imageUrl) {
+        const promptCover = await buildPromptCover(story.idea, ind.main_elements, story.protagonists)
+        await createPageFront(promptCover, ind.title)
+      }
+
+      if (!story.content?.[story.content.length - 1]?.imageUrl) {
+        const promptCover = await buildPromptCover(story.idea, ind.main_elements, story.protagonists)
+        await createPageBack(promptCover, story.idea, story.length / 2)
+      }
 
       setCurrentStep('pages')
 
+      const startIndex = story.content
+        ? story.content.findIndex((page, idx) =>
+          idx > 0 && idx < story.content.length - 1 && (!page.content || !page.imageUrl)
+        )
+        : 1
+
       const imageCreationPromises = []
 
-      for (let i = 0; i < ind.index.length; i++) {
+      for (let i = startIndex - 1; i < ind.index.length; i++) {
         const page = ind.index[i]
         let charactersDescription = ''
 
@@ -403,17 +429,21 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
         setCurrentPage(i + 1)
 
-        setIndice((prev) => {
-          const newIndice = [...prev]
-          if (newIndice[i + 1]) {
-            newIndice[i + 1].content = sanitizeText(page.text)
-          }
-          return newIndice
-        })
+        if (!story.content?.[i + 1]?.content) {
+          setIndice((prev) => {
+            const newIndice = [...prev]
+            if (newIndice[i + 1]) {
+              newIndice[i + 1].content = sanitizeText(page.text)
+            }
+            return newIndice
+          })
+        }
 
-        const prompt = await buildPromptImage(page.text, charactersDescription)
-        setPrompts((prev) => [...prev, prompt])
-        imageCreationPromises.push(createImagePage(prompt, i + 1))
+        if (!story.content?.[i + 1]?.imageUrl) {
+          const prompt = await buildPromptImage(page.text, charactersDescription)
+          setPrompts((prev) => [...prev, prompt])
+          imageCreationPromises.push(createImagePage(prompt, i + 1))
+        }
       }
 
       await Promise.all(imageCreationPromises)

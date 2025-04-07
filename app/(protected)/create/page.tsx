@@ -255,7 +255,7 @@ export default function CrearCuentoPage () {
                         value={[longitud]}
                         onValueChange={(value) => setLongitud(value[0])}
                         min={6}
-                        max={26}
+                        max={20}
                         step={2}
                         className='w-full'
                       />
