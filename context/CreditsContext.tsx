@@ -96,7 +96,7 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
     }
   }
 
-  const checkCreditsBeforeOperation = (cost: number, onConfirm: () => Promise<void>) => {
+  const checkCreditsBeforeOperation = async (cost: number, onConfirm: () => Promise<void>) => {
     if (!user) return
 
     // Insuficientes
@@ -129,6 +129,8 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
         },
         onCancel: () => setModal({ open: false })
       })
+    } else {
+      await onConfirm()
     }
   }
 
