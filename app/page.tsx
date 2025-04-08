@@ -82,8 +82,12 @@ export default function Home () {
     { question: t('edit_story'), answer: t('edit_story_description') }
   ]
 
+  function encodeId (id: string | number) {
+    return Buffer.from(String(id), 'utf8').toString('base64')
+  }
+
   const handleStoryClick = (storyId: string) => {
-    router.push(`/preview/${storyId}`)
+    router.push(`/preview/${encodeId(storyId)}`)
   }
 
   // Calculate total pages for stories

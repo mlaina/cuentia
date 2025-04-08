@@ -15,7 +15,7 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'Imagins AI',
+  title: 'Imagins',
   description: 'Cuentos personalizados para niños',
   icons: {
     icon: '/favicon.ico',

@@ -374,7 +374,9 @@
   "insufficient_credits_message": "You don't have enough credits to perform this operation.",
   "insufficient_credits_confirm_label": "Go to Pricing",
   "insufficient_credits_cancel_label": "Cancel",
-
+  "error_popup_title": "Error creating story",
+  "error_popup_message": "An error occurred while creating your story. Credits will be refunded. Please try again.",
+  "error_popup_close": "Close",
   "low_credits_title": "Low credits",
   "low_credits_message": "After this operation you'll have {remaining} credits left. Do you want to continue?",
   "low_credits_confirm_label": "Yes, continue",

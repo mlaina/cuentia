@@ -14,6 +14,15 @@ export async function POST (req) {
       return NextResponse.json({ error: 'Falta el email en el body' }, { status: 400 })
     }
 
+    const { data: dataUser } = await supabaseAdmin
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .single()
+
+    if (dataUser) {
+      return NextResponse.json({ error: 'El usuario ya existe' }, { status: 400 })
+    }
     // 2. Enviamos la invitación por email
     const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
       redirectTo: 'https://imagins.ai'

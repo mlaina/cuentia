@@ -374,7 +374,9 @@
   "insufficient_credits_message": "No tienes créditos suficientes para esta operación.",
   "insufficient_credits_confirm_label": "Ir a Pricing",
   "insufficient_credits_cancel_label": "Cancelar",
-
+  "error_popup_title": "Error creando el cuento",
+  "error_popup_message": "Ha ocurrido un error creando tu cuento. Se reembolsarán los créditos. Inténtalo de nuevo.",
+  "error_popup_close": "Cerrar",
   "low_credits_title": "Bajos créditos",
   "low_credits_message": "Tras esta operación te quedarían {remaining} créditos. ¿Quieres continuar?",
   "low_credits_confirm_label": "Sí, continuar",

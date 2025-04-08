@@ -158,6 +158,7 @@ export default function StoryPage ({ params }) {
       .eq('id', Number(params.slug))
       .single()
 
+    document.title = loadedStory?.title + ' - Imagins'
     if (error) {
       console.error(t('error_fetching_story'), error)
       return
@@ -290,45 +291,13 @@ export default function StoryPage ({ params }) {
   const handleShare = async () => {
     const encodedId = encodeId(story.id)
     const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/my-story/${encodedId}`
-    const shareText = `${story.title} | Imagins`
 
-    // Aseguramos que la historia sea pública antes de compartir
     await supabase.from('stories').update({ public: true }).eq('id', story.id)
 
-    // 1. Intentar compartir con imagen (si el navegador soporta navigator.canShare({ files }))
-    if (
-      typeof navigator !== 'undefined' &&
-      navigator.canShare &&
-      story.content[0]?.imageUrl
-    ) {
-      try {
-        // Descargamos la imagen y creamos un archivo File para compartir
-        const response = await fetch(story.content[0].imageUrl)
-        const blob = await response.blob()
-        const file = new File([blob], 'cover.jpg', { type: blob.type })
-
-        if (navigator.canShare({ files: [file] })) {
-          await navigator.share({
-            title: shareText,
-            text: shareText,
-            files: [file]
-            // NOTA: En 'files' no podemos añadir la 'url' directamente,
-            //       pero sí podemos incluir la url aparte (ver más abajo) si quisieras
-          })
-          return
-        }
-      } catch (error) {
-        console.error('Error al compartir con imagen:', error)
-        // Si falla, continuamos con el modo de compartir estándar
-      }
-    }
-
-    // 2. Fallback: compartir sin imagen
-    if (typeof navigator !== 'undefined' && navigator.share) {
+    if (navigator.share) {
       try {
         await navigator.share({
-          title: shareText,
-          text: shareText,
+          title: story.title,
           url: shareUrl
         })
       } catch (error) {
@@ -336,7 +305,6 @@ export default function StoryPage ({ params }) {
         copyToClipboard(shareUrl)
       }
     } else {
-      // 3. Fallback final: copiar enlace al portapapeles (por si no hay Web Share API)
       copyToClipboard(shareUrl)
     }
   }
@@ -351,6 +319,7 @@ export default function StoryPage ({ params }) {
   }
 
   return (
+      <>
       <div className='background-section-4 h-full relative pt-6'>
         {/* Botonera superior (cuando NO estás editando) */}
         {!editing && (
@@ -518,5 +487,6 @@ export default function StoryPage ({ params }) {
             </div>
         )}
       </div>
+      </>
   )
 }

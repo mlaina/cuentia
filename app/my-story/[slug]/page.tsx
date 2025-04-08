@@ -55,6 +55,8 @@ export default function PreviewPage ({ params }) {
           .eq('public', true)
           .single()
 
+        document.title = storyData?.title + ' - Imagins'
+
         if (storyError) {
           console.error('Error fetching story:', storyError)
         } else {

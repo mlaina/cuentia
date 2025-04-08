@@ -123,7 +123,26 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   const [steps, setSteps] = useState<Step[]>(STORY_STEPS(t))
   const [totalPages, setTotalPages] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
-  const { decreaseCredits } = useCredits()
+  const { decreaseCredits, updateCredits, credits } = useCredits()
+  const [showErrorPopup, setShowErrorPopup] = useState(false)
+  const [creditsSpent, setCreditsSpent] = useState(0)
+
+  const refundCredits = async (amount: number) => {
+    if (!user) return
+    try {
+      // Sumarle a 'credits' el monto refund
+      const newTotal = credits + amount
+      await updateCredits(newTotal)
+      setCreditsSpent(0)
+    } catch (err) {
+      console.error('Error refunding credits:', err)
+    }
+  }
+
+  const spendCredits = async (cost: number) => {
+    await decreaseCredits(cost)
+    setCreditsSpent((prev) => prev + cost)
+  }
 
   useEffect(() => {
     const fetchStory = async () => {
@@ -190,7 +209,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   const createStoryIndex = async (story: any, description: string, length: number) => {
     try {
       setCurrentStep('structure')
-      await decreaseCredits(1)
+      await spendCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/index', {
           method: 'POST',
@@ -225,7 +244,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   const createPageFront = async (description: string, title: string) => {
     try {
       setCurrentStep('covers')
-      await decreaseCredits(7)
+      await spendCredits(7)
       await withRetry(async () => {
         const response = await fetch('/api/story/front-page', {
           method: 'POST',
@@ -249,7 +268,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const createPageBack = async (description: string, idea: string, length: number) => {
     try {
-      await decreaseCredits(7)
+      await spendCredits(7)
       await withRetry(async () => {
         const response = await fetch('/api/story/back-page', {
           method: 'POST',
@@ -276,7 +295,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const createImagePage = async (description: string, number: number) => {
     try {
-      await decreaseCredits(6)
+      await spendCredits(6)
       await withRetry(async () => {
         const response = await fetch('/api/story/images', {
           method: 'POST',
@@ -300,7 +319,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const buildPromptCover = async (text: string | null, mainElements: any, characters: string) => {
     try {
-      await decreaseCredits(1)
+      await spendCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/prompt-image-front', {
           method: 'POST',
@@ -320,7 +339,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
   const buildPromptImage = async (text: string | null, characters: string) => {
     try {
-      await decreaseCredits(1)
+      await spendCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/prompt-image', {
           method: 'POST',
@@ -341,7 +360,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   const developIdea = async (length: number, idea: string | undefined, characters: string | undefined) => {
     try {
       setCurrentStep('ideation')
-      await decreaseCredits(1)
+      await spendCredits(1)
       return await withRetry(async () => {
         const response = await fetch('/api/story/idea', {
           method: 'POST',
@@ -452,7 +471,10 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
       router.push(`/story/${params.id}`)
     } catch (error) {
       console.error('Failed to create story:', error)
-      alert(t('error_story_creation_failed'))
+      // Nuevo: mostramos popup de error
+      setShowErrorPopup(true)
+      // Nuevo: reembolsar los créditos gastados
+      await refundCredits(creditsSpent)
     }
   }
 
@@ -537,6 +559,29 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
               </div>
             </div>
         )}
+
+        {showErrorPopup && (
+            <div className='fixed inset-0 flex items-center justify-center bg-black/50 z-50'>
+              <div className='bg-white p-6 rounded shadow-md max-w-md w-full'>
+                <h2 className='text-xl font-bold mb-4 text-red-600'>
+                  {t('error_popup_title')}
+                </h2>
+                <p className='mb-4'>
+                  {t('error_popup_message')}
+                </p>
+                <button
+                  className='bg-secondary text-white px-4 py-2 rounded'
+                  onClick={() => {
+                    setShowErrorPopup(false)
+                    router.push('/create')
+                  }}
+                >
+                  {t('error_popup_close')}
+                </button>
+              </div>
+            </div>
+        )}
+
       </div>
   )
 }

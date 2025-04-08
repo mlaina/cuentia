@@ -375,7 +375,9 @@
   "insufficient_credits_message": "Je hebt niet genoeg credits om deze bewerking uit te voeren.",
   "insufficient_credits_confirm_label": "Ga naar Pricing",
   "insufficient_credits_cancel_label": "Annuleren",
-
+  "error_popup_title": "Fout bij het maken van het verhaal",
+  "error_popup_message": "Er is een fout opgetreden bij het maken van je verhaal. Je credits worden terugbetaald. Probeer het alstublieft opnieuw.",
+  "error_popup_close": "Sluiten",
   "low_credits_title": "Lage credits",
   "low_credits_message": "Na deze bewerking houd je {remaining} credits over. Wil je doorgaan?",
   "low_credits_confirm_label": "Ja, doorgaan",

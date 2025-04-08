@@ -376,7 +376,9 @@
   "insufficient_credits_message": "Você não tem créditos suficientes para realizar esta operação.",
   "insufficient_credits_confirm_label": "Ir para o Pricing",
   "insufficient_credits_cancel_label": "Cancelar",
-
+  "error_popup_title": "Erro ao criar a história",
+  "error_popup_message": "Ocorreu um erro ao criar sua história. Seus créditos serão reembolsados. Por favor, tente novamente.",
+  "error_popup_close": "Fechar",
   "low_credits_title": "Créditos baixos",
   "low_credits_message": "Após esta operação, você terá {remaining} créditos restantes. Deseja continuar?",
   "low_credits_confirm_label": "Sim, continuar",

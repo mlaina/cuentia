@@ -376,7 +376,9 @@
   "insufficient_credits_message": "Sie haben nicht genügend Credits für diesen Vorgang.",
   "insufficient_credits_confirm_label": "Zum Pricing",
   "insufficient_credits_cancel_label": "Abbrechen",
-
+  "error_popup_title": "Fehler beim Erstellen der Geschichte",
+  "error_popup_message": "Beim Erstellen deiner Geschichte ist ein Fehler aufgetreten. Deine Credits werden zurückerstattet. Bitte versuche es erneut.",
+  "error_popup_close": "Schließen",
   "low_credits_title": "Niedrige Credits",
   "low_credits_message": "Nach diesem Vorgang bleiben Ihnen {remaining} Credits. Möchten Sie fortfahren?",
   "low_credits_confirm_label": "Ja, fortfahren",

@@ -3,7 +3,7 @@
 import Preview from '@/components/Preview'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
-import { BookOpen } from 'lucide-react'
+import { BookOpen, Share2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 
@@ -38,20 +38,20 @@ export default function PreviewPage ({ params }: PreviewPageProps) {
       try {
         setIsLoading(true)
 
+        const realId = decodeId(slug)
+
         // 1) Fetch de las historias favoritas
         const { data: favData, error: favError } = await supabase
           .from('stories')
           .select('id, content')
           .eq('fav', true)
+          .neq('id', realId)
 
         if (favError) {
           console.error('Error fetching favorite stories:', favError)
         } else {
           setFavoriteStories(favData || [])
         }
-
-        // 2) Decodificamos el slug de la URL para obtener el ID real
-        const realId = decodeId(slug)
 
         // 3) Fetch de la historia actual usando su ID real
         const { data: storyData, error: storyError } = await supabase
@@ -60,6 +60,7 @@ export default function PreviewPage ({ params }: PreviewPageProps) {
           .eq('id', realId)
           .single()
 
+        document.title = storyData?.title + ' - Imagins'
         if (storyError) {
           console.error('Error fetching story:', storyError)
         } else {
@@ -74,6 +75,36 @@ export default function PreviewPage ({ params }: PreviewPageProps) {
 
     fetchData()
   }, [supabase, slug])
+
+  const handleShare = async () => {
+    const encodedId = encodeId(story.id)
+    const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/my-story/${encodedId}`
+
+    await supabase.from('stories').update({ public: true }).eq('id', story.id)
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: story.title,
+          url: shareUrl
+        })
+      } catch (error) {
+        console.error(t('error_sharing'), error)
+        copyToClipboard(shareUrl)
+      }
+    } else {
+      copyToClipboard(shareUrl)
+    }
+  }
+
+  const copyToClipboard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      console.log(t('text_copied'))
+    } catch (err) {
+      console.error(t('error_copying'), err)
+    }
+  }
 
   return (
       <div className='relative min-h-screen overflow-hidden bg-white'>
@@ -95,15 +126,23 @@ export default function PreviewPage ({ params }: PreviewPageProps) {
         </header>
 
         <main className='lg:background-section-1'>
+          <div className='flex justify-end items-center max-w-7xl px-8'>
+            <button
+              onClick={handleShare}
+              className='flex items-center justify-center w-10 h-10 border border-secondary text-secondary rounded-full hover:bg-gray-200 transition-colors'
+            >
+              <Share2 className='w-5 h-5' />
+            </button>
+          </div>
           <div className='container mx-auto px-4 py-8'>
             {isLoading
               ? (
-                <div className='flex justify-center items-center h-64'>
-                  <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-secondary' />
-                </div>
+                    <div className='flex justify-center items-center h-64'>
+                      <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-secondary' />
+                    </div>
                 )
               : (
-                <Preview pages={story.content} hiddenPageText={IMAGINS} />
+                    <Preview pages={story.content} hiddenPageText={IMAGINS} />
                 )}
           </div>
 
@@ -129,7 +168,9 @@ export default function PreviewPage ({ params }: PreviewPageProps) {
                               alt='Cover Image'
                               className='w-full object-cover rounded-r-md drop-shadow-xl shadow-lg'
                             />
-                            <div className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none' />
+                            <div
+                              className='absolute inset-y-0 left-0 w-4 bg-gradient-to-l from-black/30 via-transparent to-transparent pointer-events-none'
+                            />
                           </div>
                         </Link>
                     )

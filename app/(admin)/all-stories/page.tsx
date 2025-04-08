@@ -17,6 +17,7 @@ export default function DashboardComponent () {
   const [credits, setCredits] = useState('')
   const [lang, setLang] = useState('')
   const loadingRef = useRef(null)
+  const [sendeds, setSendeds] = useState([])
   // Ref para mantener actualizado el número de historias
   const storiesRef = useRef([])
   const supabase = useSupabaseClient()
@@ -100,13 +101,24 @@ export default function DashboardComponent () {
     }
   }, [hasMore, loading, initialized, loadMoreStories])
 
-  const handleInvite = async () => {
+  const handleInvite = () => {
     if (!email) return
 
-    await fetch('/api/invite', {
+    fetch('/api/invite', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, lang, credits })
+    }).then((data) => {
+      if (data.status !== 200) {
+        data.json().then((data) => {
+          setSendeds((prev) => [...prev, { email, error: data?.error }])
+        })
+      } else {
+        setSendeds((prev) => [...prev, { email, lang, credits, error: null }])
+      }
+      setTimeout(() => {
+        setSendeds((prev) => prev.filter((sended) => sended.email !== email))
+      }, 4000)
     })
 
     setEmail('')
@@ -115,7 +127,7 @@ export default function DashboardComponent () {
   }
 
   return (
-      <div className='flex background-section-3 min-h-screen'>
+      <div className='flex background-section-3 min-h-screen mt-12'>
         <main className='flex-1 m-auto'>
           <div className='mx-auto py-6 px-6 md:px-24'>
             <div className='mb-6'>
@@ -124,16 +136,19 @@ export default function DashboardComponent () {
                 <input
                   className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-primary focus:border-primary'
                   onChange={(e) => setEmail(e.target.value)}
+                  value={email}
                   placeholder='Correo electrónico'
                 />
                 <input
                   className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-primary focus:border-primary'
                   onChange={(e) => setCredits(e.target.value)}
+                  value={credits}
                   placeholder='creditos'
                 />
                 <input
                   className='w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-primary focus:border-primary'
                   onChange={(e) => setLang(e.target.value)}
+                  value={lang}
                   placeholder='idioma'
                 />
                 <Button
@@ -142,6 +157,22 @@ export default function DashboardComponent () {
                 >
                   Enviar
                 </Button>
+              </div>
+              <div>
+                {sendeds.map((sended) => (
+                  <div key={sended.email} className={`flex gap-4 rounded-md w-1/2 ${sended.error ? 'bg-red-50' : 'bg-green-50'} mt-2 p-3`}>
+                    {sended.error
+                      ? (
+                      <p className='text-red-500'>{sended.error}</p>
+                        )
+                      : (
+                        <p>Invitación enviada a:</p>
+                        )}
+                    <p className='font-bold'>{sended.email}</p>
+                    <p>{sended.credits}</p>
+                    <p>{sended.lang}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
