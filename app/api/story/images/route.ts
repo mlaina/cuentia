@@ -32,8 +32,13 @@ export async function POST (req) {
     if (image_prompt) {
       // eslint-disable-next-line camelcase
       input.image_prompt = image_prompt
+      input.prompt = description
+      if (seed) {
+        input.image_prompt_strength = 0.6
+      }
     }
 
+    console.log('Input:', input)
     try {
       // @ts-ignore
       output = await replicate.run(process.env.IMAGE_MODEL, {

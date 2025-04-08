@@ -119,7 +119,7 @@ export default function Home () {
                 <section className='background-section-1-small md:background-section-1'>
                     <div className='mx-auto my-8'>
                         <div className='lg:relative'>
-                            <div className='hidden lg:block'>
+                            <div className='hidden lg:block overflow-hidden'>
                                 <HTMLFlipBook
                                   width={550}
                                   height={700}

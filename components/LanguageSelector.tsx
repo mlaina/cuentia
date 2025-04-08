@@ -1,21 +1,14 @@
-import { Globe } from 'lucide-react'
-import React, { useEffect, useRef, useState } from 'react'
+'use client'
+
+import { Globe, Check } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { useUser } from '@supabase/auth-helpers-react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-
-function getLocaleCookie () {
-  if (typeof document === 'undefined') return 'en'
-  const match = document.cookie.match(/(^|;\s*)locale=([^;]+)/)
-  return match?.[2] || 'en'
-}
+import { useLanguage } from '@/context/LanguageContext'
 
 export default function LanguageSelector () {
-  const [locale, setLocale] = useState<string>('en')
-  const supabase = createClientComponentClient()
-  const user = useUser()
+  const { locale, setLocale } = useLanguage()
   const t = useTranslations()
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
@@ -31,42 +24,9 @@ export default function LanguageSelector () {
     { value: 'nl', label: t('language_dutch') }
   ]
 
-  useEffect(() => {
-    const fetchLang = async () => {
-      if (user) {
-        const { data } = await supabase
-          .from('users')
-          .select('lang')
-          .eq('user_id', user.id)
-          .single()
-        setLocale(data?.lang || getLocaleCookie())
-      } else {
-        setLocale(getLocaleCookie())
-      }
-    }
-    fetchLang()
-  }, [user])
-
   const handleLocaleChange = async (newLocale: string) => {
-    setLocale(newLocale)
-    document.cookie = `locale=${newLocale}; Path=/;`
-
-    if (user) {
-      try {
-        const { error } = await supabase
-          .from('users')
-          .update({ lang: newLocale })
-          .eq('user_id', user.id)
-          .select()
-
-        if (error) {
-          console.error('Error al actualizar el idioma en la base de datos:', error)
-        }
-      } catch (err) {
-        console.error('Error al actualizar el idioma:', err)
-      }
-    }
-    router.refresh()
+    await setLocale(newLocale)
+    router.refresh() // Still refresh for page-level translations
   }
 
   useEffect(() => {
@@ -105,22 +65,7 @@ export default function LanguageSelector () {
                             >
                                 <div className='flex items-center justify-between'>
                                     {language.label}
-                                    {locale === language.value && (
-                                        <svg
-                                          xmlns='http://www.w3.org/2000/svg'
-                                          width='16'
-                                          height='16'
-                                          viewBox='0 0 24 24'
-                                          fill='none'
-                                          stroke='currentColor'
-                                          strokeWidth='2'
-                                          strokeLinecap='round'
-                                          strokeLinejoin='round'
-                                          className='ml-2'
-                                        >
-                                            <polyline points='20 6 9 17 4 12' />
-                                        </svg>
-                                    )}
+                                    {locale === language.value && <Check className='h-4 w-4 ml-2' />}
                                 </div>
                             </li>
                         ))}
@@ -161,22 +106,7 @@ export default function LanguageSelector () {
                             >
                                 <div className='flex items-center justify-between'>
                                     {language.label}
-                                    {locale === language.value && (
-                                        <svg
-                                          xmlns='http://www.w3.org/2000/svg'
-                                          width='16'
-                                          height='16'
-                                          viewBox='0 0 24 24'
-                                          fill='none'
-                                          stroke='currentColor'
-                                          strokeWidth='2'
-                                          strokeLinecap='round'
-                                          strokeLinejoin='round'
-                                          className='ml-2'
-                                        >
-                                            <polyline points='20 6 9 17 4 12' />
-                                        </svg>
-                                    )}
+                                    {locale === language.value && <Check className='h-4 w-4 ml-2' />}
                                 </div>
                             </li>
                         ))}

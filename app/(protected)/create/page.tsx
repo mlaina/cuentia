@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { MentionsEditor } from '@/components/MentionsEditor'
 import { useCredits } from '@/context/CreditsContext'
+import { useLanguage } from '@/context/LanguageContext'
 
 function getLocaleCookie () {
   if (typeof document === 'undefined') return 'en'
@@ -30,6 +31,7 @@ export default function CrearCuentoPage () {
   const supabase = useSupabaseClient()
   const user = useUser()
   const { checkCreditsBeforeOperation } = useCredits()
+  const { locale } = useLanguage()
 
   // Función auxiliar para obtener las menciones de los protagonistas seleccionados.
   const getMentions = () =>
@@ -43,7 +45,7 @@ export default function CrearCuentoPage () {
           .select('lang')
           .eq('user_id', user.id)
           .single()
-        const lang = data?.lang || getLocaleCookie()
+        const lang = locale || data?.lang || getLocaleCookie()
         const response = await fetch(`/ideas/${lang}.json`)
         const ideas = await response.json()
         setIdeas(ideas)
@@ -52,7 +54,7 @@ export default function CrearCuentoPage () {
       }
     }
     loadIdeas()
-  }, [user])
+  }, [user, locale])
 
   useEffect(() => {
     const fetchProtagonists = async () => {

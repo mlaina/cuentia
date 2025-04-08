@@ -128,15 +128,23 @@ export default function StoryEditViewer ({
     setReferenceImageError('')
     try {
       // Restar créditos
-      await decreaseCredits(6)
+      await decreaseCredits(7)
 
       const current = pages[index]
+
+      const response1 = await fetch('/api/edit/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      })
+      const { description } = await response1.json()
+
+      console.log('description', description)
       const requestBody = {
-        description: prompt,
+        description,
         image_prompt: current.imageUrl,
         seed: keepEssence
       }
-
       const response2 = await fetch('/api/story/images', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -8,6 +8,7 @@ import SupabaseProvider from '@/components/SupabaseProvider'
 import { Poppins } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { CreditsProvider } from '@/context/CreditsContext'
+import { LanguageProvider } from '@/context/LanguageContext'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -66,9 +67,11 @@ export default async function RootLayout ({
             <body className={`${poppins.className} antialiased text-black`}>
                 <NextIntlClientProvider locale={locale} messages={messages}>
                     <SupabaseProvider session={{ user }}>
-                        <CreditsProvider>
-                            {children}
-                        </CreditsProvider>
+                        <LanguageProvider>
+                            <CreditsProvider>
+                                {children}
+                            </CreditsProvider>
+                        </LanguageProvider>
                     </SupabaseProvider>
                 </NextIntlClientProvider>
             </body>

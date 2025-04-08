@@ -142,7 +142,7 @@ export default function Component ({ pages = [], stream = false, hiddenPageText 
 
   return (
       <div className='mx-auto p-4 py-2 md:py-4 max-w-6xl'>
-        <div className='relative'>
+        <div className='relative overflow-hidden'>
           <HTMLFlipBook
             width={550}
             height={700}

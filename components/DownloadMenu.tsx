@@ -29,7 +29,6 @@ export default function DownloadMenu ({
             <button
               onClick={() => setOpen(!open)}
               className='flex items-center justify-center w-10 h-10 bg-secondary text-white rounded-full hover:bg-secondary-700 transition-colors'
-              aria-label={t('download')}
             >
                 <Download className='w-5 h-5' />
             </button>
