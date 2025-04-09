@@ -198,6 +198,11 @@
   "payment_success": "Deine Zahlung wurde erfolgreich verarbeitet.",
   "error_fetching_session": "Fehler beim Abrufen der Sitzung:",
 
+  "CHANGES_NOT_SAVED": "Nicht gespeicherte Änderungen",
+  "CHANGES_ARE_YOU_SURE": "Beim Verlassen könnten Daten verloren gehen. Möchtest du wirklich fortfahren?",
+  "YES": "Verlassen",
+  "NO": "Abbrechen",
+
   "creating_story": "Geschichte wird erstellt...",
   "loading_step_1_action": "Erwecken",
   "loading_step_1_object": "der Drachen",
@@ -264,7 +269,7 @@
   "characters_available": "Deine Protagonisten",
   "story_length": "Geschichtslänge",
   "min_pages": "6 Seiten",
-  "max_pages": "26 Seiten",
+  "max_pages": "20 Seiten",
   "creating": "Erstelle...",
   "create_story": "Geschichte erstellen",
   "inspirational_title_line1": "Fang an",

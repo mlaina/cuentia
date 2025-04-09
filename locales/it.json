@@ -192,11 +192,17 @@
   "error_400_description": "Sembra che ci sia stato un problema con la tua richiesta. Per favore, controlla e riprova.",
   "go_back_home": "Torna alla home",
 
+
   "loading": "Caricamento...",
   "session_not_found": "Sessione non trovata.",
   "thank_you": "Grazie per il tuo acquisto!",
   "payment_success": "Il tuo pagamento è stato elaborato con successo.",
   "error_fetching_session": "Errore durante il recupero della sessione:",
+
+  "CHANGES_NOT_SAVED": "Modifiche non salvate",
+  "CHANGES_ARE_YOU_SURE": "Potresti perdere alcuni dati se continui. Vuoi davvero uscire?",
+  "YES": "Esci",
+  "NO": "Annulla",
 
   "creating_story": "Creazione della storia in corso...",
   "loading_step_1_action": "Risvegliando",
@@ -264,7 +270,7 @@
   "characters_available": "I tuoi protagonisti",
   "story_length": "Lunghezza della storia",
   "min_pages": "6 pagine",
-  "max_pages": "26 pagine",
+  "max_pages": "20 pagine",
   "creating": "Creazione in corso...",
   "create_story": "Crea la storia",
   "inspirational_title_line1": "Inizia",

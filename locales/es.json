@@ -198,6 +198,11 @@
   "payment_success": "Tu pago ha sido procesado con éxito.",
   "error_fetching_session": "Error al obtener la sesión:",
 
+  "CHANGES_NOT_SAVED": "Cambios no guardados",
+  "CHANGES_ARE_YOU_SURE": "Podrías perder algunos datos si continúas. ¿Deseas salir de todos modos?",
+  "YES": "Salir",
+  "NO": "Cancelar",
+
   "creating_story": "Creando cuento...",
   "loading_step_1_action": "Despertando",
   "loading_step_1_object": "a dragones",

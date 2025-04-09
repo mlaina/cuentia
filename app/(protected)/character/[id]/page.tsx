@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import React, { useState, useEffect } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { useEditContext } from '@/context/EditContext'
 
 interface Protagonist {
   id?: number
@@ -32,6 +33,7 @@ export default function EditProtagonistPage () {
   const [loading, setLoading] = useState(false)
   const [, setError] = useState<string | null>(null)
   const t = useTranslations()
+  const { setIsEditing } = useEditContext()
   const protagonistId = params.id ? Number.parseInt(params.id as string) : undefined
 
   const [protagonist, setProtagonist] = useState<Protagonist>({
@@ -90,6 +92,7 @@ export default function EditProtagonistPage () {
   useEffect(() => {
     if (protagonistId && user) {
       fetchProtagonist()
+      setIsEditing(true)
     }
   }, [protagonistId, user])
 
@@ -122,6 +125,7 @@ export default function EditProtagonistPage () {
   async function saveProtagonist () {
     if (!user) return
     try {
+      setIsEditing(false)
       setLoading(true)
       const protagonistData = {
         ...protagonist,

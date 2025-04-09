@@ -198,6 +198,11 @@
   "payment_success": "Votre paiement a été traité avec succès.",
   "error_fetching_session": "Erreur lors de la récupération de la session :",
 
+  "CHANGES_NOT_SAVED": "Modifications non enregistrées",
+  "CHANGES_ARE_YOU_SURE": "Vous risquez de perdre certaines données. Voulez-vous vraiment quitter ?",
+  "YES": "Quitter",
+  "NO": "Annuler",
+
   "creating_story": "Création du conte en cours...",
   "loading_step_1_action": "Réveiller",
   "loading_step_1_object": "les dragons",
@@ -265,7 +270,7 @@
   "characters_available": "Vos protagonistes",
   "story_length": "Longueur de l'histoire",
   "min_pages": "6 pages",
-  "max_pages": "26 pages",
+  "max_pages": "20 pages",
   "creating": "Création en cours...",
   "create_story": "Créer l'histoire",
   "inspirational_title_line1": "Commencez",

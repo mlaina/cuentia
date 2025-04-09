@@ -9,6 +9,7 @@ import { Poppins } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { CreditsProvider } from '@/context/CreditsContext'
 import { LanguageProvider } from '@/context/LanguageContext'
+import { EditProvider } from '@/context/EditContext'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -69,7 +70,9 @@ export default async function RootLayout ({
                     <SupabaseProvider session={{ user }}>
                         <LanguageProvider>
                             <CreditsProvider>
-                                {children}
+                                <EditProvider>
+                                    {children}
+                                </EditProvider>
                             </CreditsProvider>
                         </LanguageProvider>
                     </SupabaseProvider>

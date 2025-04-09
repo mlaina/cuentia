@@ -9,6 +9,7 @@ import LoadingImageAnimation from '@/components/loading-image-animation'
 import StoryStepper, { type Step } from '@/components/story-stepper'
 import { useRouter } from 'next/navigation'
 import { useCredits } from '@/context/CreditsContext'
+import { useEditContext } from '@/context/EditContext'
 
 export const runtime = 'edge'
 
@@ -118,6 +119,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
   const user = useUser()
   const hasExecutedRef = useRef(false)
   const router = useRouter()
+  const { setIsEditing } = useEditContext()
 
   const [currentStep, setCurrentStep] = useState<string>('ideation')
   const [steps, setSteps] = useState<Step[]>(STORY_STEPS(t))
@@ -148,6 +150,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
     const fetchStory = async () => {
       if (!user || !supabase || hasExecutedRef.current) return
 
+      setIsEditing(true)
       try {
         const { data, error } = await supabase
           .from('stories')
@@ -467,6 +470,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
       await Promise.all(imageCreationPromises)
 
+      setIsEditing(false)
       console.log('All pages generated. Redirecting...')
       router.push(`/story/${params.id}`)
     } catch (error) {

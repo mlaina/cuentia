@@ -198,6 +198,11 @@
   "payment_success": "Seu pagamento foi processado com sucesso.",
   "error_fetching_session": "Erro ao obter a sessão:",
 
+  "CHANGES_NOT_SAVED": "Alterações não salvas",
+  "CHANGES_ARE_YOU_SURE": "Você pode perder alguns dados se continuar. Deseja sair mesmo assim?",
+  "YES": "Sair",
+  "NO": "Cancelar",
+
   "creating_story": "Criando história...",
   "loading_step_1_action": "Acordando",
   "loading_step_1_object": "os dragões",
@@ -264,7 +269,7 @@
   "characters_available": "Seus protagonistas",
   "story_length": "Comprimento da história",
   "min_pages": "6 páginas",
-  "max_pages": "26 páginas",
+  "max_pages": "20 páginas",
   "creating": "Criando...",
   "create_story": "Criar história",
   "inspirational_title_line1": "Comece",

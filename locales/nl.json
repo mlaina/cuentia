@@ -198,7 +198,13 @@
   "payment_success": "Je betaling is succesvol verwerkt.",
   "error_fetching_session": "Fout bij het ophalen van de sessie:",
 
-  "creating_story": "Verhaal wordt gemaakt...",
+  "CHANGES_NOT_SAVED": "Niet opgeslagen wijzigingen",
+  "CHANGES_ARE_YOU_SURE": "Je kunt gegevens verliezen als je doorgaat. Weet je zeker dat je wilt verlaten?",
+  "YES": "Verlaten",
+  "NO": "Annuleren",
+
+
+"creating_story": "Verhaal wordt gemaakt...",
   "loading_step_1_action": "Wekken",
   "loading_step_1_object": "de draken",
   "loading_step_1_color": "secondary",
@@ -266,7 +272,7 @@
   "characters_available": "Je hoofdpersonen",
   "story_length": "Lengte van het verhaal",
   "min_pages": "6 pagina's",
-  "max_pages": "26 pagina's",
+  "max_pages": "20 pagina's",
   "creating": "Aanmaken...",
   "create_story": "Verhaal aanmaken",
 
