@@ -160,7 +160,7 @@ export default function LoadingText ({ finalText = null }: { finalText?: string 
   const containerHeight = `${lineHeight * totalLines}em`
 
   return (
-        <div className='min-h-screen flex flex-col  justify-center'>
+        <div className=' flex flex-col  justify-center'>
             <p className='w-full justify-start font-bold text-transparent bg-clip-text animate-gradient'>
                 Tejiendo sueños...
             </p>
@@ -202,9 +202,9 @@ export default function LoadingText ({ finalText = null }: { finalText?: string 
                                 <span
                                   key={wordIndex}
                                   className={`transition-all duration-500 ease-in-out
-                        ${isHighlighted ? 'text-secondary scale-110' : ''}
-                        ${isFinal ? 'text-black' : ''}
-                        ${!isHighlighted && !isFinal ? 'text-gray-300' : ''}`}
+                                    ${isHighlighted ? 'text-secondary scale-110' : ''}
+                                    ${isFinal ? 'text-black' : ''}
+                                    ${!isHighlighted && !isFinal ? 'text-gray-300' : ''}`}
                                   style={{
                                     marginRight: '0.4em',
                                     transform: `translateY(${isHighlighted ? '-2px' : '0'})`,

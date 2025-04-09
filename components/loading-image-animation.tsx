@@ -157,10 +157,10 @@ export default function LoadingImageAnimation ({ images, maxVisibleImages = 5 }:
   }
 
   return (
-    <div className='flex flex-col items-center justify-center w-full min-h-[300px]'>
+    <div className='flex flex-col items-center justify-center w-full'>
         <div
           ref={containerRef}
-          className='relative w-full max-w-[700px] h-[100px] md:h-[300px] flex flex-col justify-center items-center overflow-hidden mx-auto'
+          className='relative w-full max-w-[700px] h-[500px] flex flex-col justify-center items-center overflow-hidden mx-auto'
         >
             {visibleImages.map((image) => {
               const maxWidth = calculateMaxWidth(image.scale, visibleImages.length)

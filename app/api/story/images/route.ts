@@ -38,7 +38,6 @@ export async function POST (req) {
       }
     }
 
-    console.log('Input:', input)
     try {
       // @ts-ignore
       output = await replicate.run(process.env.IMAGE_MODEL, {

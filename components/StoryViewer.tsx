@@ -116,7 +116,7 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
     if (!text) return null
 
     const cleanText = text.replace(/\\"/g, '"').replace(/\\n/g, '\n')
-    const paragraphs = cleanText.split('\n\n')
+    const paragraphs = cleanText.split('\n')
 
     return paragraphs.map((paragraph, index) => (
         <p key={index} className='text-justify leading-relaxed mb-4'>

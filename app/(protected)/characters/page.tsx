@@ -86,6 +86,15 @@ export default function Characters () {
         .eq('author_id', user.id)
         .order('id', { ascending: true })
 
+      if (data.length === 0) {
+        const newProtagonist: Protagonist = {
+          author_id: user.id,
+          name: ''
+        }
+        const { data: newP } = await supabase.from('protagonists').insert([newProtagonist]).select().single()
+        router.push(`/character/${newP.id}`)
+      }
+
       if (error) throw error
 
       // Para cada protagonista, se obtienen sus historias (sin duplicados)

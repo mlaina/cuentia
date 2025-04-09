@@ -186,6 +186,7 @@ export default function CrearCuentoPage () {
                   onChange={setDescripcion}
                   selectedProtagonists={seletedProtagonists}
                   onSelectedProtagonistsChange={setSeletedProtagonists}
+                  protagonists={protagonists}
                 />
 
                 {/* Ideas aleatorias y botón de varita mágica */}

@@ -42,7 +42,7 @@ export default function LanguageSelector () {
   return (
         <div className='flex gap-5 items-center'>
             {/* Versión de escritorio: visible desde sm en adelante */}
-            <div className='relative hidden sm:block' ref={dropdownRef}>
+            <div className='relative block' ref={dropdownRef}>
                 <button
                   type='button'
                   onClick={() => setIsOpen(!isOpen)}
@@ -73,46 +73,6 @@ export default function LanguageSelector () {
                 )}
             </div>
 
-            <div className='block sm:hidden'>
-                <Button
-                  variant='outline'
-                  className='w-full justify-start z-50'
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setIsOpen(!isOpen)
-                  }}
-                >
-                    <Globe className='mr-2 h-4 w-4' />
-                    {t('profile_language')}
-                </Button>
-                {isOpen && (
-                    <ul className='absolute z-50 mt-1 w-full min-w-[180px] max-w-[200px] bg-white border rounded-md shadow-lg py-1 max-h-60 overflow-auto'>
-                        {languages.map((language) => (
-                            <li
-                              key={language.value}
-                              className={`px-3 py-2 cursor-pointer hover:bg-gray-100 ${locale === language.value ? 'bg-gray-50' : ''}`}
-                              onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
-                                handleLocaleChange(language.value)
-                                setIsOpen(false)
-                              }}
-                              onTouchEnd={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
-                                handleLocaleChange(language.value)
-                                setIsOpen(false)
-                              }}
-                            >
-                                <div className='flex items-center justify-between'>
-                                    {language.label}
-                                    {locale === language.value && <Check className='h-4 w-4 ml-2' />}
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </div>
         </div>
   )
 }

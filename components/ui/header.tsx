@@ -131,10 +131,6 @@ export default function Header () {
                       {user.user_metadata?.name || user.email}
                     </div>
 
-                    <div className='block md:hidden'>
-                      <LanguageSelector />
-                    </div>
-
                     {!isComingSoon && (
                         <div className='gap-4 flex flex-col md:hidden'>
                           <Link href='/characters' className='text-md hover:text-secondary'>

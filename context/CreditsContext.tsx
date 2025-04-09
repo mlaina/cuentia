@@ -92,7 +92,6 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
       if (error) throw error
 
       if (data < 0 || cost > credits) {
-        router.push('/pricing')
         return
       }
 
@@ -115,7 +114,6 @@ export const CreditsProvider = ({ children }: { children: React.ReactNode }) => 
         cancelLabel: t('insufficient_credits_cancel_label'),
         onConfirm: () => {
           setModal({ open: false })
-          router.push('/pricing')
         },
         onCancel: () => setModal({ open: false })
       })

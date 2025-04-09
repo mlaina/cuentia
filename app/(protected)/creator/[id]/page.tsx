@@ -554,7 +554,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
                     </section>
                 ))}
               </div>
-              <div>
+              <div className='min-h-[500px]'>
                 <LoadingImageAnimation images={IMAGES} maxVisibleImages={5} />
               </div>
             </div>
