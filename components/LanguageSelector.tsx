@@ -4,7 +4,6 @@ import { Globe, Check } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
 import { useLanguage } from '@/context/LanguageContext'
 
 export default function LanguageSelector () {
