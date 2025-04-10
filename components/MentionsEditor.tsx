@@ -35,6 +35,59 @@ export function MentionsEditor ({
     })
     return html
   }
+  function saveSelection (containerEl: HTMLElement) {
+    const selection = window.getSelection()
+    if (!selection || selection.rangeCount === 0) return null
+
+    const range = selection.getRangeAt(0)
+    const preSelectionRange = range.cloneRange()
+    preSelectionRange.selectNodeContents(containerEl)
+    preSelectionRange.setEnd(range.startContainer, range.startOffset)
+    const start = preSelectionRange.toString().length
+
+    return {
+      start,
+      end: start + range.toString().length
+    }
+  }
+
+  function restoreSelection (containerEl: HTMLElement, savedSel: { start: number; end: number } | null) {
+    if (!savedSel) return
+
+    const charIndex = { index: 0 }
+    const range = document.createRange()
+    range.setStart(containerEl, 0)
+    range.collapse(true)
+
+    const nodeStack = [containerEl]
+    let node: Node | undefined
+    let foundStart = false
+    let stop = false
+
+    while (!stop && (node = nodeStack.pop())) {
+      if (node.nodeType === 3) {
+        const nextCharIndex = charIndex.index + node.textContent!.length
+        if (!foundStart && savedSel.start >= charIndex.index && savedSel.start <= nextCharIndex) {
+          range.setStart(node, savedSel.start - charIndex.index)
+          foundStart = true
+        }
+        if (foundStart && savedSel.end >= charIndex.index && savedSel.end <= nextCharIndex) {
+          range.setEnd(node, savedSel.end - charIndex.index)
+          stop = true
+        }
+        charIndex.index = nextCharIndex
+      } else {
+        let i = node.childNodes.length
+        while (i--) {
+          nodeStack.push(node.childNodes[i])
+        }
+      }
+    }
+
+    const sel = window.getSelection()
+    sel?.removeAllRanges()
+    sel?.addRange(range)
+  }
 
   function handleInput (e: React.FormEvent<HTMLDivElement>) {
     const plainText = e.currentTarget.innerText
@@ -61,14 +114,13 @@ export function MentionsEditor ({
 
   // Coloca el cursor al final tras actualizar el contenido HTML
   useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current.innerHTML = parseToHTML(value)
-      const selection = window.getSelection()
-      const range = document.createRange()
-      range.selectNodeContents(editorRef.current)
-      range.collapse(false)
-      selection?.removeAllRanges()
-      selection?.addRange(range)
+    const editor = editorRef.current
+    if (editor) {
+      const savedSelection = saveSelection(editor)
+
+      editor.innerHTML = parseToHTML(value)
+
+      restoreSelection(editor, savedSelection)
     }
   }, [value, selectedProtagonists])
 

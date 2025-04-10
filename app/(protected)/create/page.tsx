@@ -68,7 +68,7 @@ export default function CrearCuentoPage () {
           throw error
         }
         setLd(true)
-        setProtagonists(data || [])
+        setProtagonists(data?.filter(p => p.name && p.name !== '') || [])
       } catch (error) {
         console.error(t('error_loading_protagonists'), error)
       }
