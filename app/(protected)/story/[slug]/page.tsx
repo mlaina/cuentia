@@ -53,18 +53,18 @@ const MyDocument = ({ story }) => {
                   {/* eslint-disable-next-line multiline-ternary */}
                   {isBackCover // Contraportada: se pinta la imagen en la izquierda
                     ? page.imageUrl && (
-                          <Image
-                            alt='Contraportada'
-                            src={page.imageUrl || '/placeholder.svg'}
-                            style={{
-                              left: '5%',
-                              width: '110%',
-                              height: '100%',
-                              objectFit: 'cover',
-                              objectPosition: 'center',
-                              display: 'block'
-                            }}
-                          />
+                      <Image
+                        alt='Contraportada'
+                        src={page.imageUrl || '/placeholder.svg'}
+                        style={{
+                          left: '5%',
+                          width: '110%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          objectPosition: 'center',
+                          display: 'block'
+                        }}
+                      />
                     ) // Páginas intermedias: se pinta el texto en la izquierda
                     : !isCover &&
                       page.content && (
@@ -96,16 +96,16 @@ const MyDocument = ({ story }) => {
                   {/* eslint-disable-next-line multiline-ternary */}
                   {isCover // Portada: se pinta la imagen en la derecha
                     ? page.imageUrl && (
-                          <Image
-                            alt='Portada'
-                            src={page.imageUrl || '/placeholder.svg'}
-                            style={{
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover',
-                              display: 'block'
-                            }}
-                          />
+                      <Image
+                        alt='Portada'
+                        src={page.imageUrl || '/placeholder.svg'}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block'
+                        }}
+                      />
                     ) // Páginas intermedias: se pinta la imagen en la derecha
                     : !isBackCover &&
                       page.imageUrl && (
@@ -140,6 +140,7 @@ export default function StoryPage ({ params }) {
   // Nuevos estados para los modales de confirmación
   const [showSaveConfirmModal, setShowSaveConfirmModal] = useState(false)
   const [showCancelConfirmModal, setShowCancelConfirmModal] = useState(false)
+  const [showPrintRequestModal, setShowPrintRequestModal] = useState(false)
 
   const router = useRouter()
   const user = useUser()
@@ -170,9 +171,7 @@ export default function StoryPage ({ params }) {
     }
 
     // Validar el contenido de la historia
-    const content = typeof loadedStory.content === 'string'
-      ? JSON.parse(loadedStory.content)
-      : loadedStory.content
+    const content = typeof loadedStory.content === 'string' ? JSON.parse(loadedStory.content) : loadedStory.content
 
     // Verificar si hay páginas incompletas (excluyendo la portada)
     const hasIncompletePages = content.some((page, index) => {
@@ -288,6 +287,14 @@ export default function StoryPage ({ params }) {
     return Buffer.from(String(id), 'utf8').toString('base64')
   }
 
+  const handleRequest = async () => {
+    await supabase.insert({
+      story_id: story.id,
+      user_id: user.id,
+      email: user.email
+    })
+  }
+
   const handleShare = async () => {
     const encodedId = encodeId(story.id)
     const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/my-story/${encodedId}`
@@ -318,175 +325,227 @@ export default function StoryPage ({ params }) {
     }
   }
 
+  const handlePrintRequest = async () => {
+    try {
+      // Here you would add the actual logic to store the print request in your database
+      await supabase.from('requests').insert({
+        story_id: story.id,
+        user_id: user.id,
+        email: user.email
+      })
+
+      // Show confirmation modal
+      setShowPrintRequestModal(true)
+
+      // Automatically hide the modal after 3 seconds
+      setTimeout(() => {
+        setShowPrintRequestModal(false)
+      }, 3000)
+    } catch (error) {
+      console.error('Error submitting print request:', error)
+    }
+  }
+
   return (
       <>
-      <div className='background-section-4 h-full relative pt-6'>
-        {/* Botonera superior (cuando NO estás editando) */}
-        {!editing && (
-            <div className='mb-4 max-w-6xl mx-auto hidden md:flex justify-end gap-4 pr-4'>
-              <button
-                onClick={handleEditClick}
-                className='flex items-center justify-center w-10 h-10 border border-gray-600 text-gray-600 rounded-full hover:bg-gray-200 transition-colors'
-              >
-                <Pencil className='w-5 h-5' />
-              </button>
-              <button
-                onClick={handleShare}
-                className='flex items-center justify-center w-10 h-10 border border-gray-600 text-gray-600 rounded-full hover:bg-gray-200 transition-colors'
-              >
-                <Share2 className='w-5 h-5' />
-              </button>
-              <DownloadMenu
-                onConvertToEpub={convertToEpub}
-                onConvertToPdf={convertToPdf}
-                isLoadingEpub={isLoadingEpub}
-                isLoadingPdf={isLoadingPdf}
-                t={t}
-              />
-            </div>
-        )}
-
-        {/* Botonera superior (cuando SÍ estás editando) */}
-        {editing && (
-            <div className='mb-4 max-w-6xl mx-auto hidden md:flex justify-end gap-4 pr-4'>
-              <button
-                onClick={handleCancelClick}
-                className='flex items-center justify-center w-10 h-10 border border-gray-600 text-gray-600 rounded-full hover:bg-gray-200 transition-colors'
-              >
-                <X className='w-5 h-5' />
-              </button>
-              <button
-                onClick={handleSaveClick}
-                className='flex items-center justify-center w-10 h-10 text-white rounded-full bg-secondary transition-colors'
-              >
-                <Save className='w-5 h-5' />
-              </button>
-            </div>
-        )}
-
-        {/* Vista normal (StoryViewer) */}
-        {!editing && (
-            <div className='container max-w-5xl mx-auto'>
-              <StoryViewer pages={story.content} />
-            </div>
-        )}
-
-        {/* Vista edición (StoryEditViewer) */}
-        {editing && (
-            <div className='max-w-6xl mx-auto'>
-              <StoryEditViewer
-                storyId={story.id}
-                pages={story.content}
-                handleImageChanges={handleImageChanges}
-                handleChanges={handleChanges}
-              />
-            </div>
-        )}
-
-        {!editing && (
-            <div className='mb-4 max-w-6xl mx-auto md:hidden flex justify-start gap-4 pl-4'>
-              <DownloadMenu
-                onConvertToEpub={convertToEpub}
-                onConvertToPdf={convertToPdf}
-                isLoadingEpub={isLoadingEpub}
-                isLoadingPdf={isLoadingPdf}
-                t={t}
-                bot
-              />
-              <button
-                onClick={handleShare}
-                className='flex items-center justify-center w-10 h-10 border border-gray-600 text-gray-600 rounded-full hover:bg-gray-200 transition-colors'
-              >
-                <Share2 className='w-5 h-5' />
-              </button>
-            </div>
-        )}
-
-        {/* Modal (popup) para personalizar/editar */}
-        {showModal && (
-            <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
-              {/* Contenedor del popup */}
-              <div className='bg-white p-6 rounded-lg shadow-md max-w-5xl w-full'>
-                <h2 className='text-xl font-semibold mb-10'>{t('customize_story_title')}</h2>
-                <div className='flex gap-4'>
-                  {/* Columna izquierda */}
-                  <div className='flex-1 text-secondary p-4 rounded flex justify-center items-center'>
-                    <p className='font-medium mb-2'>{t('customize_story_edit_text')}</p>
-                  </div>
-                  <div className='flex justify-center items-center'>
-                    <img src='/popup-edit.svg' alt={t('ai_alt') || 'Inteligencia Artificial'} className='w-full' />
-                  </div>
-                  {/* Columna derecha */}
-                  <div className='flex-1 text-accent-700 p-4 rounded flex justify-center items-center'>
-                    <p className='font-medium mb-2'>{t('customize_story_replace_images')}</p>
-                  </div>
-                </div>
-                <div className='mt-4 flex justify-end gap-2'>
-                  <button onClick={handleCancelModal} className='border border-gray-300 px-4 py-2 rounded'>
-                    {t('cancel')}
-                  </button>
-                  <button onClick={handleNextModal} className='bg-secondary text-white px-4 py-2 rounded'>
-                    {t('next')}
-                  </button>
-                </div>
+        <div className='background-section-4 h-full relative pt-6'>
+          {/* Botonera superior (cuando NO estás editando) */}
+          {!editing && (
+              <div className='mb-4 max-w-6xl mx-auto hidden md:flex justify-end gap-4 pr-4'>
+                <button
+                  onClick={handleEditClick}
+                  className='flex items-center justify-center w-10 h-10 border border-gray-600 text-gray-600 rounded-full hover:bg-gray-200 transition-colors'
+                >
+                  <Pencil className='w-5 h-5' />
+                </button>
+                <button
+                  onClick={handleShare}
+                  className='flex items-center justify-center w-10 h-10 border border-gray-600 text-gray-600 rounded-full hover:bg-gray-200 transition-colors'
+                >
+                  <Share2 className='w-5 h-5' />
+                </button>
+                <DownloadMenu
+                  onConvertToEpub={convertToEpub}
+                  onConvertToPdf={convertToPdf}
+                  isLoadingEpub={isLoadingEpub}
+                  isLoadingPdf={isLoadingPdf}
+                  t={t}
+                />
               </div>
-            </div>
-        )}
+          )}
 
-        {/* Modal de confirmación para guardar */}
-        {showSaveConfirmModal && (
-            <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
-              <div className='bg-white p-6 rounded-lg shadow-md max-w-md w-full'>
-                <div className='flex items-center gap-3 mb-4'>
-                  <Save className='w-6 h-6 text-secondary' />
-                  <h2 className='text-xl font-semibold'>{t('confirm_save_title') || 'Save Changes'}</h2>
-                </div>
-                <p className='mb-6'>
-                  {t('confirm_save_message') ||
-                      '¿Estás seguro de que quieres guardar los cambios realizados en tu historia?'}
-                </p>
-                <div className='flex justify-end gap-2'>
+          {/* Botonera superior (cuando SÍ estás editando) */}
+          {editing && (
+              <div className='mb-4 max-w-6xl mx-auto hidden md:flex justify-end gap-4 pr-4'>
+                <button
+                  onClick={handleCancelClick}
+                  className='flex items-center justify-center w-10 h-10 border border-gray-600 text-gray-600 rounded-full hover:bg-gray-200 transition-colors'
+                >
+                  <X className='w-5 h-5' />
+                </button>
+                <button
+                  onClick={handleSaveClick}
+                  className='flex items-center justify-center w-10 h-10 text-white rounded-full bg-secondary transition-colors'
+                >
+                  <Save className='w-5 h-5' />
+                </button>
+              </div>
+          )}
+
+          {/* Vista normal (StoryViewer) */}
+          {!editing && (
+              <div className='container max-w-5xl mx-auto'>
+                <StoryViewer pages={story.content} />
+                <div className='flex justify-center mt-8 mb-8'>
                   <button
-                    onClick={() => setShowSaveConfirmModal(false)}
-                    className='border border-gray-300 px-4 py-2 rounded'
+                    onClick={handlePrintRequest}
+                    className='bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors'
                   >
-                    {t('cancel')}
-                  </button>
-                  <button onClick={handleSaveConfirm} className='bg-secondary text-white px-4 py-2 rounded'>
-                    {t('save') || 'Guardar'}
+                    {t('request_print')}
                   </button>
                 </div>
               </div>
-            </div>
-        )}
+          )}
 
-        {/* Modal de confirmación para cancelar */}
-        {showCancelConfirmModal && (
-            <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
-              <div className='bg-white p-6 rounded-lg shadow-md max-w-md w-full'>
-                <div className='flex items-center gap-3 mb-4'>
-                  <AlertTriangle className='w-6 h-6 text-orange-500' />
-                  <h2 className='text-xl font-semibold'>{t('confirm_cancel_title') || 'Descartar Cambios'}</h2>
-                </div>
-                <p className='mb-6'>
-                  {t('confirm_cancel_message') ||
-                      '¿Estás seguro de que quieres cancelar? Se perderán todos los cambios no guardados.'}
-                </p>
-                <div className='flex justify-end gap-2'>
-                  <button
-                    onClick={() => setShowCancelConfirmModal(false)}
-                    className='border border-gray-300 px-4 py-2 rounded'
-                  >
-                    {t('continue_editing') || 'Seguir editando'}
-                  </button>
-                  <button onClick={handleCancelConfirm} className='bg-orange-500 text-white px-4 py-2 rounded'>
-                    {t('discard_changes') || 'Descartar cambios'}
-                  </button>
+          {/* Vista edición (StoryEditViewer) */}
+          {editing && (
+              <div className='max-w-6xl mx-auto'>
+                <StoryEditViewer
+                  storyId={story.id}
+                  pages={story.content}
+                  handleImageChanges={handleImageChanges}
+                  handleChanges={handleChanges}
+                />
+              </div>
+          )}
+
+          {!editing && (
+              <div className='mb-4 max-w-6xl mx-auto md:hidden flex justify-start gap-4 pl-4'>
+                <DownloadMenu
+                  onConvertToEpub={convertToEpub}
+                  onConvertToPdf={convertToPdf}
+                  isLoadingEpub={isLoadingEpub}
+                  isLoadingPdf={isLoadingPdf}
+                  t={t}
+                  bot
+                />
+                <button
+                  onClick={handleShare}
+                  className='flex items-center justify-center w-10 h-10 border border-gray-600 text-gray-600 rounded-full hover:bg-gray-200 transition-colors'
+                >
+                  <Share2 className='w-5 h-5' />
+                </button>
+              </div>
+          )}
+
+          {/* Modal (popup) para personalizar/editar */}
+          {showModal && (
+              <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
+                {/* Contenedor del popup */}
+                <div className='bg-white p-6 rounded-lg shadow-md max-w-5xl w-full'>
+                  <h2 className='text-xl font-semibold mb-10'>{t('customize_story_title')}</h2>
+                  <div className='flex gap-4'>
+                    {/* Columna izquierda */}
+                    <div className='flex-1 text-secondary p-4 rounded flex justify-center items-center'>
+                      <p className='font-medium mb-2'>{t('customize_story_edit_text')}</p>
+                    </div>
+                    <div className='flex justify-center items-center'>
+                      <img src='/popup-edit.svg' alt={t('ai_alt') || 'Inteligencia Artificial'} className='w-full' />
+                    </div>
+                    {/* Columna derecha */}
+                    <div className='flex-1 text-accent-700 p-4 rounded flex justify-center items-center'>
+                      <p className='font-medium mb-2'>{t('customize_story_replace_images')}</p>
+                    </div>
+                  </div>
+                  <div className='mt-4 flex justify-end gap-2'>
+                    <button onClick={handleCancelModal} className='border border-gray-300 px-4 py-2 rounded'>
+                      {t('cancel')}
+                    </button>
+                    <button onClick={handleNextModal} className='bg-secondary text-white px-4 py-2 rounded'>
+                      {t('next')}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-        )}
-      </div>
+          )}
+
+          {/* Modal de confirmación para guardar */}
+          {showSaveConfirmModal && (
+              <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
+                <div className='bg-white p-6 rounded-lg shadow-md max-w-md w-full'>
+                  <div className='flex items-center gap-3 mb-4'>
+                    <Save className='w-6 h-6 text-secondary' />
+                    <h2 className='text-xl font-semibold'>{t('confirm_save_title') || 'Save Changes'}</h2>
+                  </div>
+                  <p className='mb-6'>
+                    {t('confirm_save_message') ||
+                        '¿Estás seguro de que quieres guardar los cambios realizados en tu historia?'}
+                  </p>
+                  <div className='flex justify-end gap-2'>
+                    <button
+                      onClick={() => setShowSaveConfirmModal(false)}
+                      className='border border-gray-300 px-4 py-2 rounded'
+                    >
+                      {t('cancel')}
+                    </button>
+                    <button onClick={handleSaveConfirm} className='bg-secondary text-white px-4 py-2 rounded'>
+                      {t('save') || 'Guardar'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+          )}
+
+          {/* Modal de confirmación para cancelar */}
+          {showCancelConfirmModal && (
+              <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
+                <div className='bg-white p-6 rounded-lg shadow-md max-w-md w-full'>
+                  <div className='flex items-center gap-3 mb-4'>
+                    <AlertTriangle className='w-6 h-6 text-orange-500' />
+                    <h2 className='text-xl font-semibold'>{t('confirm_cancel_title') || 'Descartar Cambios'}</h2>
+                  </div>
+                  <p className='mb-6'>
+                    {t('confirm_cancel_message') ||
+                        '¿Estás seguro de que quieres cancelar? Se perderán todos los cambios no guardados.'}
+                  </p>
+                  <div className='flex justify-end gap-2'>
+                    <button
+                      onClick={() => setShowCancelConfirmModal(false)}
+                      className='border border-gray-300 px-4 py-2 rounded'
+                    >
+                      {t('continue_editing') || 'Seguir editando'}
+                    </button>
+                    <button onClick={handleCancelConfirm} className='bg-orange-500 text-white px-4 py-2 rounded'>
+                      {t('discard_changes') || 'Descartar cambios'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+          )}
+
+          {/* Print Request Confirmation Modal */}
+          {showPrintRequestModal && (
+              <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70'>
+                <div className='bg-white p-6 rounded-lg shadow-md max-w-md w-full'>
+                  <div className='flex items-center justify-center mb-4'>
+                    <div className='w-16 h-16 bg-green-100 rounded-full flex items-center justify-center'>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        className='h-8 w-8 text-green-600'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        stroke='currentColor'
+                      >
+                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
+                      </svg>
+                    </div>
+                  </div>
+                  <h2 className='text-xl font-semibold text-center mb-2'>{t('print_request_received')}</h2>
+                  <p className='text-center text-gray-600 mb-4'>{t('print_request_notification')}</p>
+                </div>
+              </div>
+          )}
+        </div>
       </>
   )
 }

@@ -235,6 +235,10 @@
   "loading_step_5_emoji": "🐺",
   "loading_step_5_emoji_label": "addestrando",
 
+  "request_print": "Richiedi stampa",
+  "print_request_received": "Richiesta ricevuta",
+  "print_request_notification": "La tua richiesta di stampa è stata ricevuta. Ti avviseremo quando sarà disponibile per l'ordine.",
+
   "coming_soon_title": "In arrivo!",
   "coming_soon_description": "Ti faremo sapere presto quando imagins sarà pronto per creare le tue storie. Nel frattempo, goditi quelle degli altri.",
 

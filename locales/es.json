@@ -234,6 +234,10 @@
   "loading_step_5_emoji": "🐺",
   "loading_step_5_emoji_label": "entrenando",
 
+  "request_print": "Solicitar Impresión",
+  "print_request_received": "Solicitud Recibida",
+  "print_request_notification": "Tu solicitud de impresión ha sido recibida. Te notificaremos cuando esté disponible para realizar el pedido.",
+
   "coming_soon_title": "¡Próximamente!",
   "coming_soon_description": "Te avisaremos pronto cuando puedas crear tus propias historias. Mientras tanto, disfruta estas historias.",
 

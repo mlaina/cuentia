@@ -233,6 +233,10 @@
   "loading_step_5_emoji": "🐺",
   "loading_step_5_emoji_label": "training",
 
+  "request_print": "Request Print",
+  "print_request_received": "Request Received",
+  "print_request_notification": "Your print request has been received. We'll notify you when it's available to order.",
+
   "coming_soon_title": "Coming Soon!",
   "coming_soon_description": "We'll let you know soon when imagins is ready for you to create your own stories. In the meantime, enjoy this stories.",
 

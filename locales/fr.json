@@ -234,6 +234,10 @@
   "loading_step_5_emoji": "🐺",
   "loading_step_5_emoji_label": "entraîner",
 
+  "request_print": "Demander l'impression",
+  "print_request_received": "Demande reçue",
+  "print_request_notification": "Votre demande d'impression a été reçue. Nous vous informerons dès qu'elle sera disponible pour commander.",
+
   "coming_soon_title": "Bientôt disponible !",
   "coming_soon_description": "Nous vous informerons bientôt lorsque imagins sera prêt pour que vous puissiez créer vos propres histoires. En attendant, profitez de celles des autres.",
 
