@@ -160,7 +160,7 @@ export default function LoadingImageAnimation ({ images, maxVisibleImages = 5 }:
     <div className='flex flex-col items-center justify-center w-full'>
         <div
           ref={containerRef}
-          className='relative w-full max-w-[700px] h-[500px] md:h-[700px] flex flex-col justify-center items-center overflow-hidden mx-auto'
+          className='relative w-full max-w-[700px] h-[350px] md:[500px] flex flex-col justify-center items-center overflow-hidden mx-auto'
         >
             {visibleImages.map((image) => {
               const maxWidth = calculateMaxWidth(image.scale, visibleImages.length)
@@ -172,9 +172,9 @@ export default function LoadingImageAnimation ({ images, maxVisibleImages = 5 }:
                       className='absolute transition-all duration-300 ease-out'
                       style={{
                         width: `${maxWidth}%`,
-                        height: `${image.scale * 45}%`,
+                        height: `${image.scale * 60}%`,
                         left: `${image.position}%`,
-                        top: '50%',
+                        top: '35%',
                         transform: 'translate(-50%, -50%)',
                         opacity
                       }}

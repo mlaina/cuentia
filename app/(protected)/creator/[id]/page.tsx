@@ -539,6 +539,9 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
 
         {indice.length <= 0 && (
             <div className='flex flex-col w-full '>
+              <div>
+                <LoadingImageAnimation images={IMAGES} maxVisibleImages={5} />
+              </div>
               <div className='flex flex-col justify-center items-center w-full mt-16 text-gray-500 relative'>
                 {[1, 2, 3, 4, 5].map((step) => (
                     <section
@@ -558,15 +561,12 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
                     </section>
                 ))}
               </div>
-              <div className='min-h-[500px]'>
-                <LoadingImageAnimation images={IMAGES} maxVisibleImages={5} />
-              </div>
             </div>
         )}
 
         {showErrorPopup && (
             <div className='fixed inset-0 flex items-center justify-center bg-black/50 z-50'>
-              <div className='bg-white p-6 rounded shadow-md max-w-md w-full'>
+            <div className='bg-white p-6 rounded shadow-md max-w-md w-full'>
                 <h2 className='text-xl font-bold mb-4 text-red-600'>
                   {t('error_popup_title')}
                 </h2>
