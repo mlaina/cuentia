@@ -287,14 +287,6 @@ export default function StoryPage ({ params }) {
     return Buffer.from(String(id), 'utf8').toString('base64')
   }
 
-  const handleRequest = async () => {
-    await supabase.insert({
-      story_id: story.id,
-      user_id: user.id,
-      email: user.email
-    })
-  }
-
   const handleShare = async () => {
     const encodedId = encodeId(story.id)
     const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/my-story/${encodedId}`
