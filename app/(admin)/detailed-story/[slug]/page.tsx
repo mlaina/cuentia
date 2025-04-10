@@ -76,26 +76,43 @@ function CoversPDF ({ frontPage, backPage }) {
   )
 }
 
-/*
-  SEGUNDO PDF: CONTENIDO A5
-  Ejemplo: Para cada página del contenido:
-  - Generamos 2 páginas:
-      1) Texto en la primera
-      2) Imagen en la segunda
-*/
-function ContentPDF ({ contentPages }) {
+function ContentPDF ({ contentPages, storyTitle, t }) {
   return (
       <Document>
+        <Page
+          size='A5'
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 30
+          }}
+        >
+            <Image
+              alt='logo' src='/logo.png'
+              style={{
+                width: '10%'
+              }}
+            />
+          <Text
+            style={{
+              marginTop: 22,
+              fontWeight: 'bold',
+              fontSize: 26,
+              color: '#B4187F',
+              textAlign: 'center',
+              fontFamily: 'Roboto'
+            }}
+          >
+            {storyTitle}
+          </Text>
+        </Page>
+
         {contentPages.map((page, index) => {
-          // Texto (decodificamos HTML a texto plano)
-          const textContent = he
-            .decode(marked(page.content || '').replace(/<[^>]*>/g, ''))
-            .trim()
+          const textContent = he.decode(marked(page.content || '').replace(/<[^>]*>/g, '')).trim()
 
           return (
-              // Usamos React.Fragment con key para el bloque de 2 páginas.
               <React.Fragment key={index}>
-                {/* Página de TEXTO */}
                 <Page
                   size='A5'
                   style={{
@@ -106,22 +123,21 @@ function ContentPDF ({ contentPages }) {
                     alignItems: 'center'
                   }}
                 >
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      lineHeight: 1.5,
-                      fontFamily: 'Roboto'
-                    }}
-                  >
-                    {textContent}
-                  </Text>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          lineHeight: 1.5,
+                          fontFamily: 'Roboto'
+                        }}
+                      >
+                        {textContent}
+                      </Text>
                 </Page>
 
-                {/* Página de IMAGEN (solo si existe) */}
                 {page.imageUrl && (
                     <Page key={`img-${index}`} size='A5'>
                       <Image
-                        src={page.imageUrl}
+                        src={page.imageUrl || '/placeholder.svg'}
                         alt={`Imagen de la página ${index + 1}`}
                         style={{
                           width: '100%',
@@ -134,6 +150,56 @@ function ContentPDF ({ contentPages }) {
               </React.Fragment>
           )
         })}
+        <Page
+          size='A5'
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 30
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 24,
+              color: '#B4187F',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              fontFamily: 'Roboto'
+            }}
+          >
+            {t('the_end') || 'The End'}
+          </Text>
+        </Page>
+        <Page
+          size='A5'
+          style={{
+            paddingLeft: 25,
+            paddingRight: 25,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+         <Image
+           alt='qr' src='/qr.png'
+           style={{
+             width: '50%'
+           }}
+         />
+          <Text
+            style={{
+              marginTop: 22,
+              fontSize: 16,
+              lineHeight: 1.5,
+              color: '#B4187F',
+              fontFamily: 'Roboto',
+              textAlign: 'center'
+            }}
+          >
+            {t('back_imagins') || 'Created with Imagins - Stories that inspire imagination'}
+          </Text>
+        </Page>
       </Document>
   )
 }
@@ -232,7 +298,7 @@ export default function StoryPage ({ params }) {
 
       // 2) Generar PDF de contenido en A5
       const contentBlob = await pdf(
-          <ContentPDF contentPages={contentPages} />
+          <ContentPDF contentPages={contentPages} storyTitle={story.title} t={t} />
       ).toBlob()
       saveAs(contentBlob, 'lulu-content.pdf')
     } catch (error) {
