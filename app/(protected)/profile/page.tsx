@@ -6,7 +6,6 @@ import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 export default function ProfilePage () {
@@ -15,7 +14,7 @@ export default function ProfilePage () {
   const supabase = useSupabaseClient()
   const user = useUser()
 
-  const [loading, setLoading] = useState(false)
+  const [saveStatus, setSaveStatus] = useState<string | null>(null)
   const [name, setName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | '' }>({ text: '', type: '' })
@@ -34,7 +33,7 @@ export default function ProfilePage () {
     if (!user) return
     try {
       setError(null)
-      setLoading(true)
+      setSaveStatus(t('saving'))
       const { error } = await supabase.auth.updateUser({
         data: { name }
       })
@@ -45,16 +44,11 @@ export default function ProfilePage () {
       console.error('Error al actualizar el nombre:', error)
       setMessage({ text: t('profile_name_update_error'), type: 'error' })
     } finally {
-      setLoading(false)
+      setSaveStatus(t('saved'))
+      setTimeout(() => {
+        setSaveStatus(null)
+      }, 1000)
     }
-  }
-
-  if (loading) {
-    return (
-        <div className='flex justify-center items-center h-screen'>
-          <Loader2 className='h-8 w-8 animate-spin' />
-        </div>
-    )
   }
 
   if (!user) {
@@ -69,16 +63,6 @@ export default function ProfilePage () {
       <div className='w-full h-full background-section-4 px-8 md:px-0'>
         <div className='max-w-5xl mx-auto mt-10'>
           <h2 className='text-2xl text-secondary font-bold mb-6'>{t('profile_user_data')}</h2>
-
-          {message.text && (
-              <div
-                className={`mb-4 p-4 rounded ${
-                      message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                  }`}
-              >
-                {message.text}
-              </div>
-          )}
 
           <div>
             <Label htmlFor='email'>{t('profile_email')}</Label>
@@ -101,6 +85,10 @@ export default function ProfilePage () {
               {t('profile_manage_subscription')}
             </button>
           </a>
+
+          <div className='h-3 mb-4'>
+            {saveStatus && <p className='float-right text-sm text-secondary animate-pulse'>{saveStatus}</p>}
+          </div>
         </div>
       </div>
   )
