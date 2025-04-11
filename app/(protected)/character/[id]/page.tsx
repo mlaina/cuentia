@@ -155,6 +155,7 @@ export default function EditProtagonistPage () {
   }
 
   const handleOptionSelect = (category: keyof Protagonist, value: string) => {
+    if (!value) return
     setProtagonist((prev) => ({ ...prev, [category]: value }))
   }
 

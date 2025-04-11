@@ -241,7 +241,7 @@ export default function Characters () {
           {protagonists?.length <= 10 && (
               <button
                 onClick={addProtagonist}
-                className='fixed bottom-2 right-2 md:bottom-8 md:right-8 z-50 w-12 h-12 sm:w-14 sm:h-14 drop-shadow-lg bg-secondary hover:bg-secondary-600 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300'
+                className='fixed bottom-12 md:right-4 right-2 z-50 w-12 h-12 sm:w-14 sm:h-14 drop-shadow-lg bg-secondary hover:bg-secondary-600 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300'
                 aria-label={t('add_protagonist')}
               >
                 <Plus className='w-6 h-6 sm:w-7 sm:h-7' />
