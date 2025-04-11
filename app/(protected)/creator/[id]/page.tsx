@@ -542,7 +542,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
               <div>
                 <LoadingImageAnimation images={IMAGES} maxVisibleImages={5} />
               </div>
-              <div className='flex flex-col justify-center items-center w-full mt-16 text-gray-500 relative'>
+              <div className='flex flex-col justify-center items-center w-full md:mt-[-200px] text-gray-500 relative'>
                 {[1, 2, 3, 4, 5].map((step) => (
                     <section
                       key={step}
@@ -551,7 +551,7 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
                         } flex justify-center items-center`}
                     >
                       <p className='text-2xl md:text-5xl flex items-center'>
-                        <span className={`underline decoration-${t(`loading_step_${step}_color`)}`}>
+                        <span className='text-secondary'>
                           {t(`loading_step_${step}_action`)}
                         </span>
                         <span className='ml-2'>
@@ -560,32 +560,32 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
                       </p>
                     </section>
                 ))}
+                </div>
               </div>
-            </div>
         )}
 
-        {showErrorPopup && (
-            <div className='fixed inset-0 flex items-center justify-center bg-black/50 z-50'>
-            <div className='bg-white p-6 rounded shadow-md max-w-md w-full'>
-                <h2 className='text-xl font-bold mb-4 text-red-600'>
-                  {t('error_popup_title')}
-                </h2>
-                <p className='mb-4'>
-                  {t('error_popup_message')}
-                </p>
-                <button
-                  className='bg-secondary text-white px-4 py-2 rounded'
-                  onClick={() => {
-                    setShowErrorPopup(false)
-                    router.push('/create')
-                  }}
-                >
-                  {t('error_popup_close')}
-                </button>
+          {showErrorPopup && (
+              <div className='fixed inset-0 flex items-center justify-center bg-black/50 z-50'>
+                <div className='bg-white p-6 rounded shadow-md max-w-md w-full'>
+                  <h2 className='text-xl font-bold mb-4 text-red-600'>
+                    {t('error_popup_title')}
+                  </h2>
+                  <p className='mb-4'>
+                    {t('error_popup_message')}
+                  </p>
+                  <button
+                    className='bg-secondary text-white px-4 py-2 rounded'
+                    onClick={() => {
+                      setShowErrorPopup(false)
+                      router.push('/create')
+                    }}
+                  >
+                    {t('error_popup_close')}
+                  </button>
+                </div>
               </div>
-            </div>
-        )}
+          )}
 
-      </div>
+        </div>
   )
 }
