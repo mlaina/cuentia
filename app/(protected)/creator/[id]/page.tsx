@@ -9,7 +9,6 @@ import LoadingImageAnimation from '@/components/loading-image-animation'
 import StoryStepper, { type Step } from '@/components/story-stepper'
 import { useRouter } from 'next/navigation'
 import { useCredits } from '@/context/CreditsContext'
-import { useEditContext } from '@/context/EditContext'
 
 export const runtime = 'edge'
 

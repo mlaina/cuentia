@@ -17,7 +17,6 @@ export default function ProfilePage () {
   const [saveStatus, setSaveStatus] = useState<string | null>(null)
   const [name, setName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
-  const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | '' }>({ text: '', type: '' })
   const [, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -39,10 +38,8 @@ export default function ProfilePage () {
       })
 
       if (error) throw error
-      setMessage({ text: t('profile_name_updated'), type: 'success' })
     } catch (error) {
       console.error('Error al actualizar el nombre:', error)
-      setMessage({ text: t('profile_name_update_error'), type: 'error' })
     } finally {
       setSaveStatus(t('saved'))
       setTimeout(() => {

@@ -155,6 +155,7 @@ export default function EditProtagonistPage () {
         }
       }
 
+      // eslint-disable-next-line
       let timeout: NodeJS.Timeout
       return (data: Protagonist) => {
         clearTimeout(timeout)
