@@ -25,7 +25,8 @@ const pricingPlans = [
       'plan_perrault_feature_3',
       'plan_perrault_feature_4'
     ],
-    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_5_STORIES_ID || 'price_basic_default',
+    priceIdMensual: process.env.NEXT_PUBLIC_STRIPE_MENSUAL_PERRAULT || '',
+    priceIdAnual: process.env.NEXT_PUBLIC_STRIPE_ANNUAL_PERRAULT || '',
     color: '#FFFFFF',
     textColor: '#1F2937',
     borderColor: '#B4187F',
@@ -45,7 +46,9 @@ const pricingPlans = [
       'plan_andersen_feature_3',
       'plan_andersen_feature_4'
     ],
-    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_20_STORIES_ID || 'price_medium_default',
+
+    priceIdMensual: process.env.NEXT_PUBLIC_STRIPE_MENSUAL_ANDERSEN || '',
+    priceIdAnual: process.env.NEXT_PUBLIC_STRIPE_ANNUAL_ANDERSEN || '',
     color: '#B4187F',
     textColor: '#FFFFFF',
     borderColor: '#B4187F',
@@ -65,7 +68,9 @@ const pricingPlans = [
       'plan_grimm_feature_3',
       'plan_grimm_feature_4'
     ],
-    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_UNLIMITED_STORIES_ID || 'price_unlimited_default',
+
+    priceIdMensual: process.env.NEXT_PUBLIC_STRIPE_MENSUAL_GRIMM || '',
+    priceIdAnual: process.env.NEXT_PUBLIC_STRIPE_ANNUAL_GRIMM || '',
     color: '#FFFFFF',
     textColor: '#1F2937',
     borderColor: '#B4187F',
@@ -406,7 +411,9 @@ export default function PricingTable ({
                                         type='button'
                                         onClick={(e) => {
                                           e.stopPropagation()
-                                          handlePurchaseAttempt(plan.stripePriceId)
+                                          const selectedPriceId =
+                                              planPeriod === 'Anual' ? plan.priceIdAnual : plan.priceIdMensual
+                                          handlePurchaseAttempt(selectedPriceId)
                                         }}
                                         className='flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full transition-opacity duration-200 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2'
                                         style={{
