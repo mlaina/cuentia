@@ -16,8 +16,8 @@ const pricingPlans = [
     id: 'basic',
     subtitle: 'basic_plan',
     name: 'plan_perrault',
-    price: 10,
-    annual: 100,
+    price: 9,
+    annual: 90,
     description: 'plan_perrault_description',
     features: [
       'plan_perrault_feature_1',
@@ -36,8 +36,8 @@ const pricingPlans = [
     id: 'medium',
     subtitle: 'medium_plan',
     name: 'plan_andersen',
-    price: 35,
-    annual: 300,
+    price: 20,
+    annual: 200,
     description: 'plan_andersen_description',
     features: [
       'plan_andersen_feature_1',
@@ -56,8 +56,8 @@ const pricingPlans = [
     id: 'unlimited',
     subtitle: 'unlimited_plan',
     name: 'plan_grimm',
-    price: 80,
-    annual: 600,
+    price: 40,
+    annual: 400,
     description: 'plan_grimm_description',
     features: [
       'plan_grimm_feature_1',
@@ -359,9 +359,9 @@ export default function PricingTable ({
                                   }`}
                               >
                                 {plan.features.map((feature, fIndex) => (
-                                    <li key={fIndex} className='flex items-center'>
+                                    <li key={fIndex} className='flex items-start justify-center'>
                                       <CheckCircle
-                                        className={`mr-2 w-4 h-4 ${
+                                        className={`mr-2 mt-1 w-4 h-4 ${
                                               isDarkText ? 'text-gray-600' : plan.textColor
                                           } flex-shrink-0`}
                                       />
@@ -480,8 +480,8 @@ export default function PricingTable ({
                     <p className='mb-6'>{t(plan.description)}</p>
                     <ul className='mb-6 space-y-2'>
                       {plan.features.map((feature, fIndex) => (
-                          <li key={fIndex} className='flex items-center'>
-                            <CheckCircle className='mr-2 w-5 h-5 flex-shrink-0' />
+                          <li key={fIndex} className='flex items-start'>
+                            <CheckCircle className='mr-2 mt-1 w-5 h-5 flex-shrink-0' />
                             {t(feature)}
                           </li>
                       ))}
