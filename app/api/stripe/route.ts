@@ -13,6 +13,7 @@ export async function POST (request: Request) {
       payment_method_types: ['card'],
       mode: 'subscription',
       customer_email: email,
+      automatic_tax: { enabled: true },
       line_items: [
         {
           price: priceId,
