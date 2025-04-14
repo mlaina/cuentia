@@ -12,7 +12,8 @@ async function deepseekStream (promptText: any) {
   let outputBuffer = ''
 
   // Itera sobre los eventos del stream
-  for await (const event of replicate.stream('deepseek-ai/deepseek-r1', { input: inputData })) {
+  // @ts-ignore
+  for await (const event of replicate.stream(process.env.PROMPT_MODEL, { input: inputData })) {
     const eventText = event.data !== undefined ? event.data : String(event)
     outputBuffer += eventText
   }
