@@ -12,7 +12,7 @@ const fallbackImage = 'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f
 function StoryCard ({ story }) {
   const t = useTranslations()
   const [imgSrc, setImgSrc] = useState(
-    story.images && story.images[0] !== '' ? story.images[0] : fallbackImage
+    story.images && story.images[0] && story.images[0] !== '' ? story.images[0] : fallbackImage
   )
 
   return (

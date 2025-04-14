@@ -427,7 +427,7 @@ export default function StoryEditViewer ({
                     <div className='w-full h-full flex justify-end items-center p-6'>
                       <img
                         src={current.imageUrl || '/placeholder.svg'}
-                        alt='Portada'
+                        alt='Cover'
                         className='max-h-full max-w-full object-cover rounded-md'
                       />
                       {/* NO overlay de edición para portada */}
@@ -444,7 +444,7 @@ export default function StoryEditViewer ({
                     <div className='w-full h-full flex justify-end items-center p-6'>
                       <img
                         src={current.imageUrl || '/placeholder.svg'}
-                        alt='Contraportada'
+                        alt='Cover'
                         className='max-h-full max-w-full object-cover rounded-md'
                       />
                       {/* NO overlay de edición para contraportada */}

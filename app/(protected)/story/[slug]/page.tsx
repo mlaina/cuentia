@@ -54,7 +54,7 @@ const MyDocument = ({ story }) => {
                   {isBackCover // Contraportada: se pinta la imagen en la izquierda
                     ? page.imageUrl && (
                       <Image
-                        alt='Contraportada'
+                        alt='Cover'
                         src={page.imageUrl || '/placeholder.svg'}
                         style={{
                           left: '5%',
@@ -97,7 +97,7 @@ const MyDocument = ({ story }) => {
                   {isCover // Portada: se pinta la imagen en la derecha
                     ? page.imageUrl && (
                       <Image
-                        alt='Portada'
+                        alt='Cover'
                         src={page.imageUrl || '/placeholder.svg'}
                         style={{
                           width: '100%',

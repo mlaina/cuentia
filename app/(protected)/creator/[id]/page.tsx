@@ -100,6 +100,8 @@ function formatProtagonistDescription (protagonist: any, t: (key: string) => str
   if (protagonist.skin_color) parts.push(`${t('protagonist_skin_color_label')}: ${t(protagonist.skin_color)}`)
   if (protagonist.hair_color) parts.push(`${t('protagonist_hair_color_label')}: ${t(protagonist.hair_color)}`)
   if (protagonist.hair_type) parts.push(`${t('protagonist_hair_type_label')}: ${t(protagonist.hair_type)}`)
+  if (protagonist.extra_appearance) parts.push(`${t('protagonist_extra_appearance_label')}: ${protagonist.extra_appearance}`)
+  if (protagonist.extra_personality) parts.push(`${t('protagonist_extra_personality_label')}: ${protagonist.extra_personality}`)
   if (protagonist.accessories && protagonist.accessories.length > 0) {
     const accessories = protagonist.accessories?.map((accessory: string) => t(accessory))
     parts.push(`${t('protagonist_accessories_label')}: ${accessories.join(', ')}`)
@@ -236,7 +238,16 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
       }, 'Create Story Index')
     } catch (error) {
       console.error('Error creating story index:', error)
-      alert(t('error_create_index_failed'))
+      await supabase.from('errors').insert({
+        user_id: user?.id,
+        email: user?.email,
+        trace: 'Error creating story index:' + error?.message || error.toString(),
+        context: '/creator/' + params.id,
+        additional_data: {
+          error,
+          prompt: description
+        }
+      })
       throw error
     }
   }
@@ -261,7 +272,16 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
       }, 'Create Front Page')
     } catch (error) {
       console.error('Error creating front page:', error)
-      alert(t('error_create_front_cover_failed'))
+      await supabase.from('errors').insert({
+        user_id: user?.id,
+        email: user?.email,
+        trace: 'Error creating front page:' + error?.message || error.toString(),
+        context: '/creator/' + params.id,
+        additional_data: {
+          error,
+          prompt: description
+        }
+      })
       throw error
     }
   }
@@ -288,7 +308,16 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
       }, 'Create Back Page')
     } catch (error) {
       console.error('Error creating back page:', error)
-      alert(t('error_create_back_cover_failed'))
+      await supabase.from('errors').insert({
+        user_id: user?.id,
+        email: user?.email,
+        trace: 'Error creating back page:' + error?.message || error.toString(),
+        context: '/creator/' + params.id,
+        additional_data: {
+          error,
+          prompt: { description, idea, length, storyId: params.id }
+        }
+      })
       throw error
     }
   }
@@ -312,7 +341,16 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
       }, 'Create Image Page')
     } catch (error) {
       console.error('Error creating image page:', error)
-      alert(t('error_create_image_failed'))
+      await supabase.from('errors').insert({
+        user_id: user?.id,
+        email: user?.email,
+        trace: 'Error creating image page:' + error?.message || error.toString(),
+        context: '/creator/' + params.id,
+        additional_data: {
+          error,
+          prompt: description
+        }
+      })
       throw error
     }
   }
@@ -332,7 +370,16 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
       }, 'Build Prompt Cover')
     } catch (error) {
       console.error('Error building cover prompt:', error)
-      alert(t('error_build_cover_prompt_failed'))
+      await supabase.from('errors').insert({
+        user_id: user?.id,
+        email: user?.email,
+        trace: 'Error building cover prompt:' + error?.message || error.toString(),
+        context: '/creator/' + params.id,
+        additional_data: {
+          error,
+          prompt: { text, mainElements, characters }
+        }
+      })
       throw error
     }
   }
@@ -352,7 +399,16 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
       }, 'Build Prompt Image')
     } catch (error) {
       console.error('Error building image prompt:', error)
-      alert(t('error_build_image_prompt_failed'))
+      await supabase.from('errors').insert({
+        user_id: user?.id,
+        email: user?.email,
+        trace: 'Error building image prompt:' + error?.message || error.toString(),
+        context: '/creator/' + params.id,
+        additional_data: {
+          error,
+          prompt: { text, characters }
+        }
+      })
       throw error
     }
   }
@@ -373,7 +429,16 @@ export default function CrearCuentoPage ({ params }: { params: { id: string } })
       }, 'Develop Idea')
     } catch (error) {
       console.error('Error developing idea:', error)
-      alert(t('error_develop_idea_failed'))
+      await supabase.from('errors').insert({
+        user_id: user?.id,
+        email: user?.email,
+        trace: 'Error developing idea:' + error?.message || error.toString(),
+        context: '/creator/' + params.id,
+        additional_data: {
+          error,
+          prompt: { length, idea, characters, storyId: params.id }
+        }
+      })
       throw error
     }
   }
