@@ -271,7 +271,7 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
                       <button
                         key={index}
                         onClick={() => goToPage(index)}
-                        className={`shadow-md shadow-inner bg-gray-100 border border-secondary-100 relative flex-shrink-0 w-10 h-14 md:w-20 md:h-28 rounded-md overflow-hidden transition-all duration-200 ${
+                        className={`shadow-md shadow-inner bg-gray-100 border border-secondary-100 relative flex-shrink-0 ${(pages <= 18 ? ' w-10 h-14 md:w-20 md:h-28 ' : ' w-10 h-14  md:w-14 md:h-20 ')} rounded-md overflow-hidden transition-all duration-200 ${
                               index === (currentPage === 0 ? 0 : Math.floor(currentPage / 2) + 1)
                                   ? 'ring-2 ring-secondary-100 ring-offset-1 border-none'
                                   : 'hover:ring-2 hover:ring-secondary hover:ring-offset-1'
@@ -282,14 +282,14 @@ export default function Component ({ pages = [], stream = false }: StoryViewerPr
                           ? (
                             <Image
                               src={page.imageUrl}
-                              alt={index === 0 ? 'Portada' : index === pages.length - 1 ? 'Contraportada' : `Miniatura ${(index - 1) * 2 + 1}-${(index - 1) * 2 + 2}`}
+                              alt={index === 0 ? 'Portada' : index === pages.length - 1 ? 'Cover' : `Miniatura ${(index - 1) * 2 + 1}-${(index - 1) * 2 + 2}`}
                               fill
                               className='object-cover opacity-80'
                             />
                             )
                           : (
                             <div className='flex items-center justify-center w-full h-full border-secondary-100 text-secondary text-sm font-medium'>
-                              {index === 0 ? 'Portada' : index === pages.length - 1 ? 'Contra' : `${(index - 1) * 2 + 1}-${(index - 1) * 2 + 2}`}
+                              {index === 0 ? 'Portada' : index === pages.length - 1 ? 'Cover' : `${(index - 1) * 2 + 1}-${(index - 1) * 2 + 2}`}
                             </div>
                             )}
                       </button>
