@@ -26,6 +26,7 @@ export default function Home () {
   const router = useRouter()
   const [favoriteStories, setFavoriteStories] = useState([])
   const supabase = createClientComponentClient()
+  const [autoFlipPaused, setAutoFlipPaused] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -49,20 +50,24 @@ export default function Home () {
   }, [supabase])
 
   useEffect(() => {
+    if (autoFlipPaused) return
     // Auto-flip pages every 4 seconds if not manually changed
     const interval = setInterval(() => {
       if (bookRef.current) {
         const totalPages = frontpages.length * 2
         const nextPage = currentPage >= totalPages - 2 ? 0 : currentPage + 2
         setCurrentPage(nextPage)
-        bookRef.current.pageFlip().turnToPage(nextPage)
+        if (currentPage < totalPages - 2) {
+          bookRef.current.pageFlip().flipNext()
+        } else {
+          bookRef.current.pageFlip().turnToPage(nextPage)
+        }
       }
     }, 4000)
 
     return () => clearInterval(interval)
   }, [currentPage, frontpages.length])
 
-  // Auto-rotate story pages every 4 seconds
   useEffect(() => {
     if (favoriteStories.length <= 4) return
 
@@ -132,8 +137,10 @@ export default function Home () {
                                   mobileScrollSupport
                                   onFlip={(e: any) => {
                                     setCurrentPage(Math.floor(e.data))
-                                    // The timer will reset automatically since we're using currentPage in the dependency array
+                                    setAutoFlipPaused(true) // Pause auto-flipping when user manually flips
                                   }}
+                                  onTouchStart={() => setAutoFlipPaused(true)} // Pause on touch
+                                  onMouseDown={() => setAutoFlipPaused(true)} // Pause on mouse down
                                   ref={bookRef}
                                   className='mx-auto rounded-md shadow-md '
                                   style={
@@ -216,9 +223,10 @@ export default function Home () {
                                               type='button'
                                               onClick={() => {
                                                 setCurrentPage(index * 2)
+                                                setAutoFlipPaused(true)
                                                 bookRef.current.pageFlip().turnToPage(index * 2)
                                               }}
-                                              className={`w-3 h-3 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${index === currentPage / 2 ? 'bg-secondary scale-125 w-3 sm:w-6' : 'bg-secondary-300 hover:bg-secondary-400'}`}
+                                              className={`w-3 h-3 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${index === currentPage / 2 ? 'bg-secondary scale-x-125 w-3 sm:w-6' : 'bg-secondary-300 hover:bg-secondary-400'}`}
                                               aria-label={`Ir al plan ${index + 1}`}
                                             />
                                         ))}
