@@ -508,7 +508,11 @@ export default function PricingTable ({
                           <div className='px-1'>
                             <button
                               type='button'
-                              onClick={() => handlePurchaseAttempt(plan.stripePriceId)}
+                              onClick={() => {
+                                const selectedPriceId =
+                                    planPeriod === 'Anual' ? plan.priceIdAnual : plan.priceIdMensual
+                                handlePurchaseAttempt(selectedPriceId)
+                              }}
                               className='flex items-center justify-center w-12 h-12 rounded-full transition-opacity duration-200 hover:opacity-80 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2'
                               style={{ backgroundColor: plan.buttonBgColor, color: plan.buttonTextColor }}
                               aria-label={t('buy') || 'Comprar plan'}
