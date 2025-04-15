@@ -17,20 +17,29 @@ async function titleGenerator (image: string | object, title: any, user: string)
     const formData = new FormData()
 
     const responseA = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-4.1',
       messages: [
-        { role: 'system', content: 'You are an assistant that analyzes images.' },
         {
           role: 'system',
-          content:
-              "Return a JSON with 'position' and 'color'. Provide only the JSON output, without code blocks. The 'position' can be 'top', 'center', or 'bottom'. The 'color' should be the HEX value of the title text to maximize readability and avoid covering key elements in the image."
+          content: 'You are an assistant that analyzes images.'
+        },
+        {
+          role: 'system',
+          content: `Return a JSON with 'position' and 'color'. 
+                    Provide only the JSON output, without code blocks. 
+                    The 'position' can be 'top', 'center', or 'bottom'. 
+                    The 'color' should be a HEX value to ensure good contrast 
+                    and avoid covering key elements of the image.`
         },
         {
           role: 'user',
           content: [
             {
               type: 'text',
-              text: `Decide where to place this title and what color to use: "${title}". Focus on readability and avoiding covering important elements. Place the title in the least interesting third of the image. No necesarilly white.`
+              text: `Decide where to place this title and what color to use: "${title}". 
+                     Focus on readability and avoiding covering important elements. 
+                     Place the title in the least interesting third of the image. 
+                     It does not necessarily have to be white.`
             },
             {
               type: 'image_url',
