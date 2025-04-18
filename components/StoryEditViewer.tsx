@@ -622,7 +622,7 @@ export default function StoryEditViewer ({
               className='p-2 rounded-full bg-black/80 text-white disabled:opacity-50 transition-opacity hover:bg-black/90'
               aria-label='Página anterior'
             >
-              <ChevronLeft className='w-5 h-5' />
+              <ChevronLeft className='w-3 h-3 md:w-6 md:h-6' />
             </button>
 
             <div className='flex-1 overflow-x-auto'>
@@ -631,26 +631,26 @@ export default function StoryEditViewer ({
                     <button
                       key={index}
                       onClick={() => goToPage(index)}
-                      className={`shadow-md shadow-inner bg-gray-100 border border-secondary-100 relative flex-shrink-0 w-10 h-14 md:w-20 md:h-28 rounded-md overflow-hidden transition-all duration-200 ${
-                            index === currentPage
+                      className={`shadow-md shadow-inner bg-gray-100 border border-secondary-100 relative flex-shrink-0 ${(pages <= 18 ? ' w-10 h-14 md:w-20 md:h-28 ' : ' w-10 h-14  md:w-14 md:h-20 ')} rounded-md overflow-hidden transition-all duration-200 ${
+                            index === (currentPage === 0 ? 0 : Math.floor(currentPage / 2) + 1)
                                 ? 'ring-2 ring-secondary-100 ring-offset-1 border-none'
                                 : 'hover:ring-2 hover:ring-secondary hover:ring-offset-1'
                         }`}
-                      aria-label={`Ir a la página ${index + 1}`}
+                      aria-label={index === 0 || index === pages.length - 1 ? `Ir a la ${index === 0 ? 'portada' : 'contraportada'}` : `Ir a la página ${(index - 1) * 2 + 1}-${(index - 1) * 2 + 2}`}
                     >
                       {page.imageUrl
                         ? (
-                          <Image
-                            src={page.imageUrl || '/placeholder.svg'}
-                            alt={`Miniatura ${index + 1}`}
-                            fill
-                            className='object-cover opacity-80'
-                          />
+                              <Image
+                                src={page.imageUrl}
+                                alt={index === 0 ? 'Portada' : index === pages.length - 1 ? 'Cover' : `Miniatura ${(index - 1) * 2 + 1}-${(index - 1) * 2 + 2}`}
+                                fill
+                                className='object-cover opacity-80'
+                              />
                           )
                         : (
-                          <div className='flex items-center justify-center w-full h-full border-secondary-100 text-secondary text-sm font-medium'>
-                            {index + 1}
-                          </div>
+                              <div className='flex items-center justify-center w-full h-full border-secondary-100 text-secondary text-sm font-medium'>
+                                {index === 0 ? 'Portada' : index === pages.length - 1 ? 'Cover' : `${(index - 1) * 2 + 1}-${(index - 1) * 2 + 2}`}
+                              </div>
                           )}
                     </button>
                 ))}
@@ -659,11 +659,11 @@ export default function StoryEditViewer ({
 
             <button
               onClick={nextPage}
-              disabled={currentPage === pages.length - 1}
+              disabled={(currentPage === 0 ? 0 : Math.floor(currentPage / 2) + 1) === pages.length - 1}
               className='p-2 rounded-full bg-black/80 text-white disabled:opacity-50 transition-opacity hover:bg-black/90'
               aria-label='Página siguiente'
             >
-              <ChevronRight className='w-5 h-5' />
+              <ChevronRight className='w-3 h-3 md:w-6 md:h-6' />
             </button>
           </div>
         </div>
