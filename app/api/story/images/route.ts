@@ -15,10 +15,14 @@ export async function POST (req) {
   }
 
   // eslint-disable-next-line camelcase
-  const { description, image_prompt, seed } = await req.json()
+  const { description, image_prompt, seed, edit = false } = await req.json()
 
   const prompt = `Vivid animation style modern animation. ${description} Vibrant colors, expansive storyworlds, stylized characters, flowing motion.`
 
+  let model = process.env.IMAGE_MODEL
+  if (edit) {
+    model = process.env.EDIT_MODEL
+  }
   try {
     let output
     const input = {
@@ -34,19 +38,19 @@ export async function POST (req) {
       input.image_prompt = image_prompt
       input.prompt = description
       if (seed) {
-        input.image_prompt_strength = 0.6
+        input.image_prompt_strength = 0.8
       }
     }
 
     try {
       // @ts-ignore
-      output = await replicate.run(process.env.IMAGE_MODEL, {
+      output = await replicate.run(model, {
         input
       })
     } catch (err) {
       // Retry once if it fails
       // @ts-ignore
-      output = await replicate.run(process.env.IMAGE_MODEL, {
+      output = await replicate.run(model, {
         input
       })
     }
