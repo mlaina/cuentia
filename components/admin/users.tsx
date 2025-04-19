@@ -35,9 +35,11 @@ export default function UsersTab () {
     <div className='p-6'>
       <h1 className='text-2xl font-bold mb-4'>Usuarios</h1>
 
-      {loading ? (
+      {loading
+        ? (
         <p>Cargando usuarios...</p>
-      ) : (
+          )
+        : (
         <table className='w-full border border-gray-300 text-left text-sm'>
           <thead className='bg-gray-100'>
             <tr>
@@ -61,23 +63,21 @@ export default function UsersTab () {
                 <td className='p-2 border'>{u.stripe_id}</td>
                 <td className='p-2 border'>{u.lang}</td>
                 <td className='p-2 border'>{u.last_payment}</td>
-                <td className="p-2 border">
+                <td className='p-2 border'>
                 {u.created_at
-                    ? new Date(u.created_at).toLocaleDateString('es-ES', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                    })
-                    : '—'}
+                  ? new Date(u.created_at).toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                  })
+                  : '—'}
                 </td>
-
- 
 
               </tr>
             ))}
           </tbody>
         </table>
-      )}
+          )}
     </div>
   )
 }

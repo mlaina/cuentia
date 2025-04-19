@@ -14,23 +14,23 @@ export default function DashboardComponent () {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'users':
-        return <UsersTab/>
+        return <UsersTab />
       case 'stories':
-        return <StoriesTab/>
+        return <StoriesTab />
       case 'feedback':
-        return <FeedbackTab/>
+        return <FeedbackTab />
       case 'errors':
-        return <ErrorsTab/>
+        return <ErrorsTab />
       case 'requests':
-        return <RequestsTab/>
+        return <RequestsTab />
       default:
         return null
     }
   }
 
   return (
-    <div className="flex background-section-3 min-h-screen pt-20 md:pt-28">
-      <main className="flex-1 w-full px-6">
+    <div className='flex background-section-3 min-h-screen pt-20 md:pt-28'>
+      <main className='flex-1 w-full px-6'>
         <h1 className='text-3xl font-bold mb-6'>Dashboard de los Dioses</h1>
         <InvitationForm />
         <div className='flex space-x-4 mb-2'>
@@ -73,4 +73,3 @@ export default function DashboardComponent () {
     </div>
   )
 }
-

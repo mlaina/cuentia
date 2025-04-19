@@ -63,14 +63,15 @@ export default function StoriesTab () {
 
   /* ---------- UI ---------- */
   return (
-    <div className="p-6">
-     
+    <div className='p-6'>
+
+        {/* eslint-disable-next-line multiline-ternary */}
       {stories.length === 0 && !loading ? (
-        <p className="text-gray-600 text-center">Aún no hay cuentos</p>
+        <p className='text-gray-600 text-center'>Aún no hay cuentos</p>
       ) : (
         <>
           {/* grid desktop */}
-          <div className="hidden md:grid grid-cols-4 lg:grid-cols-8 gap-6">
+          <div className='hidden md:grid grid-cols-4 lg:grid-cols-8 gap-6'>
             {stories.map(story => (
               <Link key={story.id} href={`/detailed-story/${story.id}`}>
                 <img
@@ -79,14 +80,14 @@ export default function StoriesTab () {
                     'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'
                   }
                   alt={story.title}
-                  className="w-full aspect-[3/4] object-cover rounded shadow"
+                  className='w-full aspect-[3/4] object-cover rounded shadow'
                 />
               </Link>
             ))}
           </div>
 
           {/* grid móvil */}
-          <div className="grid md:hidden gap-4 grid-cols-3">
+          <div className='grid md:hidden gap-4 grid-cols-3'>
             {stories.map(story => (
               <Link key={story.id} href={`/detailed-story/${story.id}`}>
                 <img
@@ -95,7 +96,7 @@ export default function StoriesTab () {
                     'https://imagedelivery.net/bd-REhjuVN4XS2LBK3J8gg/fd4aec4f-c805-43d7-ad00-4c7bde9f6c00/public'
                   }
                   alt={story.title}
-                  className="w-full aspect-[3/4] object-cover rounded shadow"
+                  className='w-full aspect-[3/4] object-cover rounded shadow'
                 />
               </Link>
             ))}
@@ -104,19 +105,23 @@ export default function StoriesTab () {
       )}
 
       {/* loader / trigger */}
-      <div ref={loadingRef} className="w-full flex justify-center py-8">
-        {loading ? (
-          <div className="flex items-center gap-2">
-            <Loader2 className="h-5 w-5 animate-spin" />
+      <div ref={loadingRef} className='w-full flex justify-center py-8'>
+        {loading
+          ? (
+          <div className='flex items-center gap-2'>
+            <Loader2 className='h-5 w-5 animate-spin' />
             <span>Cargando…</span>
           </div>
-        ) : hasMore ? (
-          <div className="h-10" />
-        ) : (
-          stories.length > 0 && (
-            <p className="text-gray-500 text-sm">No hay más cuentos</p>
-          )
-        )}
+            )
+          : hasMore
+            ? (
+          <div className='h-10' />
+              )
+            : (
+                stories.length > 0 && (
+            <p className='text-gray-500 text-sm'>No hay más cuentos</p>
+                )
+              )}
       </div>
     </div>
   )
