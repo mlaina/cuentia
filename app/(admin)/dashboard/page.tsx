@@ -4,7 +4,9 @@ import React, { useState } from 'react'
 import UsersTab from '@/components/admin/users'
 import StoriesTab from '@/components/admin/stories'
 import InvitationForm from '@/components/admin/invitationform'
-
+import FeedbackTab from '@/components/admin/feedback'
+import ErrorsTab from '@/components/admin/errors'
+import RequestsTab from '@/components/admin/requests'
 
 export default function DashboardComponent () {
   const [activeTab, setActiveTab] = useState('users')
@@ -16,11 +18,11 @@ export default function DashboardComponent () {
       case 'stories':
         return <StoriesTab/>
       case 'feedback':
-        return <p>Contenido de los Feedbacks</p>
+        return <FeedbackTab/>
       case 'errors':
-        return <p>Contenido de los errores</p>
+        return <ErrorsTab/>
       case 'requests':
-        return <p>Contenido de las solicitudes</p>
+        return <RequestsTab/>
       default:
         return null
     }

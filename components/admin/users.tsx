@@ -14,7 +14,8 @@ export default function UsersTab () {
       setLoading(true)
       const { data, error } = await supabase
         .from('users')
-        .select('user_id, email, credits, plan, stripe_id, lang, last_payment')
+        .select('user_id, email, credits, plan, stripe_id, lang, last_payment, created_at')
+        .order('created_at', { ascending: false })
 
       if (error) {
         console.error('Error al cargar los usuarios:', error)
@@ -47,6 +48,7 @@ export default function UsersTab () {
               <th className='p-2 border'>Stripe ID</th>
               <th className='p-2 border'>Idioma</th>
               <th className='p-2 border'>Último pago</th>
+              <th className='p-2 border'>Creado</th>
             </tr>
           </thead>
           <tbody>
@@ -59,6 +61,18 @@ export default function UsersTab () {
                 <td className='p-2 border'>{u.stripe_id}</td>
                 <td className='p-2 border'>{u.lang}</td>
                 <td className='p-2 border'>{u.last_payment}</td>
+                <td className="p-2 border">
+                {u.created_at
+                    ? new Date(u.created_at).toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    })
+                    : '—'}
+                </td>
+
+ 
+
               </tr>
             ))}
           </tbody>
