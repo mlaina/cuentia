@@ -5,7 +5,6 @@ import { cookies } from 'next/headers'
 import axios from 'axios'
 import Replicate from 'replicate'
 import { uploadImage } from '@/lib/cloudflare'
-import { supabase } from '@/lib/supabase/client'
 
 const replicate = new Replicate()
 

@@ -504,6 +504,7 @@ export default function StoryEditViewer ({
                       )}
                 </div>
               </div>
+              // eslint-disable-next-line multiline-ternary
           ) : currentPage === pages.length - 1 ? (
               <div className='w-full h-full flex'>
 
