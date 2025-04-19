@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { ChevronLeft, ChevronRight, Edit, Upload, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useCredits } from '@/context/CreditsContext'
+import { useUser } from '@supabase/auth-helpers-react'
 
 export default function StoryEditViewer ({
   story,
@@ -27,7 +28,6 @@ export default function StoryEditViewer ({
   const [aiPrompt, setAIPrompt] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [coverTitle, setCoverTitle] = useState(story.title ?? '')
-  const [coverAuthor, setCoverAuthor] = useState(story.author_cover ?? '')
   const [coverPos, setCoverPos] = useState(story.position_title?.position ?? 'bottom')
   const [coverColor, setCoverColor] = useState(story.position_title?.color ?? '#ffffff')
   const [ideaText, setIdeaText] = useState(story.idea ?? '')
@@ -40,6 +40,8 @@ export default function StoryEditViewer ({
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isModifyingCurrentImage, setIsModifyingCurrentImage] = useState(false)
   const [keepEssence, setKeepEssence] = useState(true)
+  const user = useUser()
+  const [coverAuthor, setCoverAuthor] = useState(story.author_cover ?? user?.name ?? user?.email)
 
   // Créditos
   const { decreaseCredits, checkCreditsBeforeOperation } = useCredits()
