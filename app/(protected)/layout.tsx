@@ -33,6 +33,7 @@ export default function ProtectedLayout ({
         comment: formData.get('comment')?.toString() || '',
         rating: formData.get('rating')?.toString() || 'neutral',
         user_id: user?.id,
+        email: user?.email,
         path: window.location.pathname
       }
 
