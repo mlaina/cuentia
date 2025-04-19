@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import axios from 'axios'
 import Replicate from 'replicate'
 import { uploadImage } from '@/lib/cloudflare'
+import { supabase } from '@/lib/supabase/client'
 
 const replicate = new Replicate()
 
@@ -12,7 +13,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 })
 
-async function titleGenerator (image: string | object, title: any, user: string) {
+async function titleGenerator (image: string | object, title: any, user: string, storyId : any, userId, supabase) {
   try {
     const formData = new FormData()
 
@@ -66,6 +67,15 @@ async function titleGenerator (image: string | object, title: any, user: string)
       info.position = 'bottom'
       info.color = 'white'
     }
+    await supabase
+      .from('stories')
+      .update({
+        position_title: info,
+        author_cover: user
+      })
+      .eq('id', storyId)
+      .eq('author_id', userId)
+
     formData.append('info', JSON.stringify(info))
 
     formData.append('user', String(user))
@@ -115,8 +125,8 @@ async function updateCleanCovers (supabase, user, storyId, image, prompt) {
     .eq('id', storyId)
 }
 
-async function modifiedImageGen (image, title, user) {
-  const modifiedImage = await titleGenerator(image, title, user.user_metadata.full_name || user.email)
+async function modifiedImageGen (image, title, user, storyId :any, userId, supabase) {
+  const modifiedImage = await titleGenerator(image, title, user.user_metadata.full_name || user.email, storyId, userId, supabase)
 
   if (!modifiedImage) {
     throw new Error('Error al generar la imagen con título')
@@ -160,7 +170,7 @@ export async function POST (req) {
 
     const [, cfImageUrl] = await Promise.all([
       updateCleanCovers(supabase, user, storyId, image, promptFront),
-      modifiedImageGen(image, title, user)
+      modifiedImageGen(image, title, user, storyId, user.id, supabase)
     ])
 
     return NextResponse.json({ image: cfImageUrl })

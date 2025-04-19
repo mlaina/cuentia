@@ -403,6 +403,7 @@ export default function StoryPage ({ params }) {
           {editing && (
               <div className='max-w-6xl mx-auto'>
                 <StoryEditViewer
+                  story={story}
                   storyId={story.id}
                   pages={story.content}
                   handleImageChanges={handleImageChanges}

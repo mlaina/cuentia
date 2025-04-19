@@ -7,11 +7,13 @@ import { useTranslations } from 'next-intl'
 import { useCredits } from '@/context/CreditsContext'
 
 export default function StoryEditViewer ({
+  story,
   pages = [],
   storyId,
   handleChanges,
   handleImageChanges
 }: {
+  story: any
   pages: any[]
   storyId: string
   handleChanges: (index: number, newContent: string) => void
@@ -24,7 +26,11 @@ export default function StoryEditViewer ({
   const [showAIPrompt, setShowAIPrompt] = useState(false)
   const [aiPrompt, setAIPrompt] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-
+  const [coverTitle, setCoverTitle] = useState(story.title ?? '')
+  const [coverAuthor, setCoverAuthor] = useState(story.author_cover ?? '')
+  const [coverPos, setCoverPos] = useState(story.position_title?.position ?? 'bottom')
+  const [coverColor, setCoverColor] = useState(story.position_title?.color ?? '#ffffff')
+  const [ideaText, setIdeaText] = useState(story.idea ?? '')
   // Estados para prompt de imagen
   const [showImagePrompt, setShowImagePrompt] = useState(false)
   const [imagePrompt, setImagePrompt] = useState('')
@@ -419,37 +425,142 @@ export default function StoryEditViewer ({
         <div className='relative bg-white shadow-md w-[1120px] h-[700px] flex justify-center items-center'>
           {/* eslint-disable-next-line multiline-ternary */}
           {currentPage === 0 ? (
-              // ================
-              // PÁGINA 0 (PORTADA) => SIN EDICIÓN
-              // ================
-              <div className='w-full h-full flex justify-end items-center'>
-                {current.imageUrl && (
-                    <div className='w-full h-full flex justify-end items-center p-6'>
-                      <img
-                        src={current.imageUrl || '/placeholder.svg'}
-                        alt='Cover'
-                        className='max-h-full max-w-full object-cover rounded-md'
-                      />
-                      {/* NO overlay de edición para portada */}
-                    </div>
-                )}
+              /* ---------------------- PORTADA ---------------------- */
+              <div className='w-full h-full flex'>
+                {/* === Columna IZQ: formulario de metadatos === */}
+                <div className='w-1/2 flex flex-col gap-4 p-6 overflow-y-auto'>
+                  <label className='text-sm font-medium'>{t('title')}</label>
+                  <input
+                    className='border p-2 rounded-md'
+                    value={coverTitle}
+                    onChange={(e) => setCoverTitle(e.target.value)}
+                  />
+
+                  <label className='text-sm font-medium mt-2'>{t('author')}</label>
+                  <input
+                    className='border p-2 rounded-md'
+                    value={coverAuthor}
+                    onChange={(e) => setCoverAuthor(e.target.value)}
+                  />
+
+                  <label className='text-sm font-medium mt-2'>{t('title_position')}</label>
+                  <select
+                    className='border p-2 rounded-md'
+                    value={coverPos}
+                    onChange={(e) => setCoverPos(e.target.value as 'top' | 'center' | 'bottom')}
+                  >
+                    <option value='top'>{t('top')}</option>
+                    <option value='center'>{t('center')}</option>
+                    <option value='bottom'>{t('bottom')}</option>
+                  </select>
+
+                  <label className='text-sm font-medium mt-2'>{t('title_color')}</label>
+                  <input
+                    type='color'
+                    className='h-10 w-16 p-1 border rounded-md'
+                    value={coverColor}
+                    onChange={(e) => setCoverColor(e.target.value)}
+                  />
+                </div>
+
+                {/* === Columna DER: imagen con overlay de edición === */}
+                <div className='w-1/2 relative group p-6 flex items-center justify-center'>
+                  <img
+                    src={story.clean_covers?.front || '/placeholder.svg'}
+                    alt='Cover'
+                    className='max-h-full max-w-full object-cover rounded-md'
+                  />
+
+                  {/* reutilizamos el overlay que ya tienes */}
+                  {showImagePrompt
+                    ? renderImagePromptUI()
+                    : (
+                          <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-md'>
+                            <button
+                              onClick={uploadImage}
+                              className='bg-white w-[300px] text-black px-4 py-2 rounded-md mb-4'
+                            >
+                              {t('upload_image')}
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                setIsModifyingCurrentImage(true)
+                                setShowImagePrompt(true)
+                              }}
+                              className='bg-blue-600 w-[300px] text-white px-4 py-2 rounded-md mb-4 flex items-center justify-center gap-2'
+                            >
+                              <Edit className='h-5 w-5' />
+                              {t('modify_current_image')}
+                            </button>
+
+                            <button
+                              onClick={() => setShowImagePrompt(true)}
+                              className='bg-pink-600 w-[300px] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2'
+                            >
+                              {t('generate_ai_image')}
+                            </button>
+                          </div>
+                      )}
+                </div>
               </div>
-              // eslint-disable-next-line multiline-ternary
           ) : currentPage === pages.length - 1 ? (
-              // ====================
-              // ÚLTIMA PÁGINA (CONTRAPORTADA) => SIN EDICIÓN
-              // ====================
-              <div className='w-full h-full flex justify-start items-center p-4'>
-                {current.imageUrl && (
-                    <div className='w-full h-full flex justify-end items-center p-6'>
-                      <img
-                        src={current.imageUrl || '/placeholder.svg'}
-                        alt='Cover'
-                        className='max-h-full max-w-full object-cover rounded-md'
-                      />
-                      {/* NO overlay de edición para contraportada */}
-                    </div>
-                )}
+              <div className='w-full h-full flex'>
+
+                {/* Izquierda → imagen back con overlay */}
+                <div className='w-1/2 h-full relative group p-6 flex items-center justify-end'>
+
+                  {/* Imagen */}
+                  <img
+                    src={story.clean_covers?.back || '/placeholder.svg'}
+                    alt='Back cover'
+                    className='max-h-full max-w-full object-cover rounded-md'
+                  />
+
+                  {/* Overlay de edición (reutiliza tu UI) */}
+                  {showImagePrompt
+                    ? renderImagePromptUI(/* si necesitas otro UI ponlo aquí */)
+                    : (
+                          <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-md'>
+
+                            <button
+                              onClick={uploadImage /* o tu handler específico para back */}
+                              className='bg-white w-[300px] text-black px-4 py-2 rounded-md mb-4'
+                            >
+                              {t('upload_image')}
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                setIsModifyingCurrentImage(true)
+                                setShowImagePrompt(true) // o setShowBackImagePrompt
+                              }}
+                              className='bg-blue-600 w-[300px] text-white px-4 py-2 rounded-md mb-4 flex items-center justify-center gap-2'
+                            >
+                              <Edit className='h-5 w-5' />
+                              {t('modify_current_image')}
+                            </button>
+
+                            <button
+                              onClick={() => setShowImagePrompt(true)} // o setShowBackImagePrompt
+                              className='bg-pink-600 w-[300px] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2'
+                            >
+                              {t('generate_ai_image')}
+                            </button>
+                          </div>
+                      )}
+                </div>
+
+                {/* Derecha → textarea con la idea */}
+                <div className='w-1/2 h-full p-6 flex items-center'>
+                  <textarea
+                    className='w-full h-full border-2 border-secondary rounded-md p-4 resize-none'
+                    value={ideaText}
+                    onChange={(e) => setIdeaText(e.target.value)}
+                    placeholder={t('story_idea_placeholder')}
+                  />
+                </div>
+
               </div>
           ) : (
               // =====================
