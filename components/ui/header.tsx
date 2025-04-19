@@ -88,7 +88,7 @@ export default function Header () {
                     {t('library')}
                   </Link>
                   {isSuperAdmin && (
-                      <Link href='/all-stories' className='text-primary text-md hover:text-secondary'>
+                      <Link href='/dashboard' className='text-primary text-md hover:text-secondary'>
                         Admin
                       </Link>
                   )}
